@@ -1,10 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
-Route::prefix('painel')->group(function () {
-    Route::get('/', function () {
-        return view('livewire.auth');
-    });
-
+Route::get('/', function () {
+    return Inertia::render('Wellcome');
 });
