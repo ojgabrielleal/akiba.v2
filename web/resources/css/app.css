@@ -1,11 +1,35 @@
-@import 'tailwindcss';
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+/**
+    Define the fonts used in the application.
+*/
+@theme fonts {
+    --font-noto-sans: "Noto Sans", sans-serif;
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/**
+    This root layer is written of that way to be changing the colors
+    in the themes via javascript.
+*/
+@layer colors_root {
+    :root {
+        --color-neutral-aurora: #fffaf3;
+        --color-neutral-sandstone: #e6ded1;
+        --color-neutral-honeycream: #ffe8bf;
+
+        --color-red-crimson: #ed3237;
+
+        --color-orange-sunset: #ffa919;
+        --color-orange-amber: #f69700;
+        --color-orange-copper: #cc6633;
+
+        --color-blue-midnight: #00061a;
+        --color-blue-ocean: #002080;
+        --color-blue-indigo: #000036;
+        --color-blue-skywave: #0091ff;
+
+        --color-purple-mystic: #b82bff;
+        --color-green-forest: #00a859;
+    }
 }

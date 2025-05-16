@@ -1,8 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Wellcome');
+use App\Http\Controllers\Web\Admin\Authenticate;
+
+Route::prefix('painel')->group(function () {
+    Route::prefix('/')->group(function(){
+        Route::get('/', [Authenticate::class, 'render']);
+        Route::post('/auth', [Authenticate::class, 'auth']);
+    });
 });
