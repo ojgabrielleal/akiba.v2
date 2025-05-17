@@ -6,42 +6,54 @@ use Illuminate\Console\Command;
 
 class dbRestore extends Command
 {
-    protected $signature = 'db-restore';
-    protected $description = 'This command will restore the database from a backup file';
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'app:db-restore';
 
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Restores the database from the latest SQL backup';
+
+    /**
+     * Execute the console command.
+     */
     public function handle()
     {
-        $host = env('DB_HOST');
-        $user = env('DB_USERNAME');
-        $password = env('DB_PASSWORD');
-        $database = env('DB_DATABASE');
+        $dbHost = env('DB_HOST');
+        $dbPort = env('DB_PORT');
+        $dbUser = env('DB_USERNAME');
+        $dbPass = env('DB_PASSWORD');
+        $dbName = env('DB_DATABASE');
 
-        // Prompt the user for the backup file path
-        $backupFolder = storage_path('app/backup');
-        $files = glob($backupFolder . '/*.sql');
+        $backupDir = storage_path("app/backups");
+        $backupFiles = glob("{$backupDir}/*.sql");
 
-        if (empty($files)) {
-            $this->error('No backup files found in the backup folder.');
+        if (empty($backupFiles)) {
+            $this->error("No backup file found in: {$backupDir}");
             return;
         }
 
-        // Get the most recent backup file
-        $backupFile = array_reduce($files, function ($latest, $file) {
-            return filemtime($file) > filemtime($latest) ? $file : $latest;
-        }, $files[0]);
+        // Assume there's only one backup file (by nosso padrão atual)
+        $backupFile = $backupFiles[0];
 
-        $this->info('Using backup file: ' . $backupFile);
+        $this->info("Restoring database from: {$backupFile}");
 
-        $command = "mysql --host={$host} --user={$user} --password={$password} {$database} < {$backupFile}";
+        $command = "mysql --user={$dbUser} --password={$dbPass} --host={$dbHost} --port={$dbPort} {$dbName} < {$backupFile}";
+
+        $result = null;
         $output = null;
-        $returnVar = null;
-        exec($command, $output, $returnVar);
+        exec($command, $output, $result);
 
-        // Check if the command was successful
-        if ($returnVar === 0) {
-            $this->info('Database restored successfully from ' . $backupFile);
+        if ($result === 0) {
+            $this->info("Database restored successfully!");
         } else {
-            $this->error('Failed to restore database. Error: ' . implode("\n", $output));
+            $this->error("Failed to restore database. Make sure 'mysql' is installed and accessible.");
         }
     }
 }

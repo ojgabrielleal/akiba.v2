@@ -3,41 +3,64 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Carbon\Carbon;
 
 class dbBackup extends Command
 {
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'app:db-backup';
 
-    protected $signature = 'db-backup';
-    protected $description = 'This command will create a backup of the database';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Creates a SQL dump backup of the database using environment credentials';
 
+    /**
+     * Execute the console command.
+     */
     public function handle()
     {
-        $host = env('DB_HOST');
-        $user = env('DB_USERNAME');
-        $password = env('DB_PASSWORD');
-        $database = env('DB_DATABASE');
+        $dbHost = env('DB_HOST');
+        $dbPort = env('DB_PORT');
+        $dbUser = env('DB_USERNAME');
+        $dbPass = env('DB_PASSWORD');
+        $dbName = env('DB_DATABASE');
 
-        $backupFile = storage_path('app/backup/' . date('Y-m-d_H-i-s') . '_backup.sql');
-        $command = "mysqldump --host={$host} --user={$user} --password={$password} {$database} > {$backupFile}";
+        $timestamp = Carbon::now()->format('Ymd_His');
+        $filename = "backup_{$dbName}_{$timestamp}.sql";
+        $backupDir = storage_path("app/backups");
+        $path = "{$backupDir}/{$filename}";
+
+        // Ensure the backup directory exists
+        if (!file_exists($backupDir)) {
+            mkdir($backupDir, 0755, true);
+        }
+
+        // Delete previous .sql backups in the folder
+        $existingBackups = glob("{$backupDir}/*.sql");
+        foreach ($existingBackups as $file) {
+            unlink($file);
+        }
+
+        $command = "mysqldump --user={$dbUser} --password={$dbPass} --host={$dbHost} --port={$dbPort} {$dbName} > {$path}";
+
+        $this->info("Starting database backup...");
+
+        $result = null;
         $output = null;
-        $returnVar = null;
-        exec($command, $output, $returnVar);
+        exec($command, $output, $result);
 
-        // Verify if the directory exists
-        if (!file_exists(storage_path('app/backup'))) {
-            mkdir(storage_path('app/backup'), 0755, true);
-        }
-
-        // Delete the existing backup file if it exists
-        if (file_exists($backupFile)) {
-            unlink($backupFile);
-        }
-
-        // Check if the command was successful
-        if ($returnVar === 0) {
-            $this->info('Database backup created successfully at ' . $backupFile);
+        if ($result === 0) {
+            $this->info("Database backup completed successfully!");
+            $this->line("Saved to: {$path}");
         } else {
-            $this->error('Failed to create database backup. Error: ' . implode("\n", $output));
+            $this->error("Database backup failed. Make sure 'mysqldump' is installed and accessible from the shell.");
         }
     }
 }
