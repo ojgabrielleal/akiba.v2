@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Log;
 
 class Authenticate extends Controller
 {
@@ -27,8 +26,8 @@ class Authenticate extends Controller
         }
 
         return response()->json([
-            'message' => 'As credenciais informadas não são válidas.',
-        ], 401);
+            'error' => 'As credenciais informadas estão incorretas.',
+        ], 422);
     }
 
     public function render()

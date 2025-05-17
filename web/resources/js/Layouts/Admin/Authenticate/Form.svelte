@@ -1,18 +1,27 @@
 <script>
-    import Icon from "@iconify/svelte";
-    import { page, router } from "@inertiajs/svelte";
-    import { Input } from "@/Components/Forms";
     export let submitTo;
 
-    // Define a function to handle form submission
+    import Icon from "@iconify/svelte";
+    import axios from "axios";
+    import { router } from "@inertiajs/svelte";
+
+    import { toast } from "@/Utils/Toasts";
+    import { Input } from "@/Components/Forms";
+
+    
     let username = "";
     let password = "";
 
     function handleSubmit() {
-       router.post(submitTo, {
-            _token: $page.props.csrfToken,
-            username,
-            password,
+       axios.post(submitTo, { username, password })
+        .then((response) => {
+            router.visit(response.data.redirect);
+        })
+        .catch((error) => {
+            toast({
+                message: error.response.data.error,
+                type: "error",
+            });
         });
     }
 </script>

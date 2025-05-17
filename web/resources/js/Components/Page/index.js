@@ -1,0 +1,1 @@
+export { default as TitlePage } from './TitlePage.svelte';
