@@ -1,9 +1,9 @@
 <script>
     export let userdata = {};
-    
+    export let menuitems = [];
     import { Link } from '@inertiajs/svelte'
-    
-    let menuitems = [
+
+    $: menuitems = menuitems?.length ? menuitems : [
         { name: "Dashboard", icon: "/icons/dashboard.svg", permissions: ["administrator", "all"], address: "/painel/dashboard"},
         { name: "Materias", icon: "/icons/materials.svg", permissions: ["administrator", "writer"], address: "/painel/materials"},
         { name: "Locução", icon: "/icons/broadcast.svg", permissions: ["administrator", "broadcaster"], address: "/painel/broadcast"},
@@ -15,7 +15,7 @@
         { name: "Logs", icon: "/icons/logs.svg", permissions: ["administrator"], address: "/painel/logs"},
         { name: "Avisos", icon: "/icons/alerts.svg", permissions: ["administrator", "all"], address: "/painel/alerts"}
     ];
-
+    
     $: permissions = userdata.permissions?.length ? userdata.permissions : ["all"];
     $: avatar = {
         src: userdata.avatar ?? "/images/default-avatar.png",
