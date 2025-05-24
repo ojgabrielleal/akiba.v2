@@ -37,6 +37,6 @@
 
 @layer components {
     .container {
-        @apply w-7xl mx-auto sm:max-w-7xl;
+        @apply w-7xl px-10 mx-auto sm:max-w-7xl lg:px-0;
     }
 }

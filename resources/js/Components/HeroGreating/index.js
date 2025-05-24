@@ -1,0 +1,1 @@
+export { default as HeroGreating } from './HeroGreating.svelte';	

@@ -8,7 +8,7 @@
 </script>
 
 <Meta meta={{metatags}} />
-<div class="relative flex min-h-screen items-center justify-center bg-cover bg-center" style="background-image: url('/img/login_bg.jpg')">
+<div class="relative flex min-h-screen items-center justify-center bg-cover bg-center" style="background-image: url('/img/loginBackground.jpg')">
     <!-- Overlay escura -->
     <div class="absolute inset-0 bg-black opacity-50"></div>
 

@@ -53,7 +53,7 @@
 
 
 <!-- Mobile Navbar -->
-<nav class="w-full h-[4rem] bg-[var(--color-neutral-aurora)] flex items-center justify-between px-6 lg:hidden">
+<nav class="w-full h-[4rem] bg-[var(--color-neutral-aurora)] flex items-center justify-between px-10 lg:hidden">
     <button on:click={() => (isOpen = !isOpen)} aria-label="Abrir menu">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" />
