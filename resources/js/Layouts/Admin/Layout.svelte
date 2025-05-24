@@ -24,7 +24,7 @@
   </header>
 
   <!-- Conteúdo principal -->
-  <main>
+  <main class="container">
     <slot />
   </main>
 </div>

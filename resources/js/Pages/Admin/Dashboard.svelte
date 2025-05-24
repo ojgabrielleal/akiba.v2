@@ -11,4 +11,7 @@
 
 <Meta meta={metatags} />
 <Layout userdata={userdata}>
+    <section class="w-1/2 mx-auto">
+        teste
+    </section>
 </Layout>
