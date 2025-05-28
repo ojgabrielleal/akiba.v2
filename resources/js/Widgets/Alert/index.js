@@ -1,0 +1,1 @@
+export { default as AlertCarrousel } from "./AlertCarrousel.svelte"

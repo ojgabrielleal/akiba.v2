@@ -1,7 +1,7 @@
 <script> 
     export let userdata;
 
-    import { Navbar } from '@/Components/Navbar/Admin';
+    import { NavAdmin } from '@/Widgets/Navbar';
 
     let menuitems = [
         { name: "Dashboard", icon: "/icons/dashboard.svg", permissions: ["administrator", "all"], address: "/painel/dashboard"},
@@ -19,7 +19,7 @@
 
 <div class="w-screen h-screen bg-[var(--color-blue-indigo)]">
   <header class="lg:pt-10">
-    <Navbar menuitems={menuitems} userdata={userdata} />
+    <NavAdmin menuitems={menuitems} userdata={userdata} />
     <slot name="header" />
   </header>
 

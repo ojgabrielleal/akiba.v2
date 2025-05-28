@@ -12,7 +12,7 @@
         {#if icon}
             <img src={icon} alt="Avatar da Frase" class="w-[6.7rem] absolute bottom-0 hidden lg:block"/>
         {/if}
-        <span class="w-3/5 h-full flex items-center justify-center mx-auto font-noto-sans font-black italic text-xl text-[var(--color-neutral-aurora)] xl:text-2xl">
+        <span class="w-3/5 h-full flex items-center justify-center mx-auto font-noto-sans font-black italic text-sm text-[var(--color-neutral-aurora)] xl:text-2xl">
             {phrase}
         </span>
     </div>

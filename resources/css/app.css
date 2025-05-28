@@ -40,3 +40,29 @@
         @apply w-7xl px-10 mx-auto sm:max-w-7xl lg:px-0;
     }
 }
+
+@layer titles {
+    .titleblock {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .titleblock h1 {
+        color: var(--color-orange-amber);
+        text-transform: uppercase;
+        font-family: "Noto Sans", sans-serif;
+        font-weight: 900;
+        font-style: italic;
+        font-size: 1.3rem;
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    .titleblock::after {
+        content: "";
+        flex: 1;
+        height: 0.1rem;
+        background-color: var(--color-orange-amber);
+    }
+}

@@ -2,8 +2,9 @@
     export let userdata;
 
     import { Meta } from "@/Meta";
-    import { Layout } from "@/Layouts/Admin";
-    import { HeroGreating } from "@/Components/HeroGreating";
+    import { LayoutAdmin } from "@/Layouts";
+    import { HeroGreating } from "@/Widgets/Hero";
+    import { AlertCarrousel } from "@/Widgets/Alert"
 
     const metatags = {
         title: "Dashboard",
@@ -33,6 +34,10 @@
 </script>
 
 <Meta meta={metatags} />
-<Layout {userdata}>
-    <HeroGreating phrase={heroGreating("Neko Kirame")} icon="/img/heroGreatingAvatar.png"/>
-</Layout>
+<LayoutAdmin {userdata}>
+    <HeroGreating
+        phrase={heroGreating("Neko Kirame")}
+        icon="/img/heroGreatingAvatar.png"
+    />
+    <AlertCarrousel/>
+</LayoutAdmin>
