@@ -1,16 +1,13 @@
 <script>
-    export let userdata;
+    export let PropsUser;
 
     import { Meta } from "@/Meta";
     import { LayoutAdmin } from "@/Layouts";
     import { HeroGreating } from "@/Widgets/Hero";
-    import { AlertCarrousel } from "@/Widgets/Alert"
+    import { AlertCarrousel } from "@/Widgets/Alert";
 
-    const metatags = {
-        title: "Dashboard",
-    };
-
-    function heroGreating(apelido) {
+    // Selector phrase in render to hero
+    function phraseSwitchHero(apelido) {
         const phrases = [
             `Oi, ${apelido}!`,
             `E aí, ${apelido}?`,
@@ -31,13 +28,20 @@
         const index = Math.floor(Math.random() * phrases.length);
         return phrases[index];
     }
+
+    // Props to components
+    let metatags = {
+        title: "Dashboard",
+    };
+
+    const heroGreating = {
+        phrase: phraseSwitchHero(PropsUser.nickname),
+        icon: "/img/heroGreatingAvatar.png",
+    };
 </script>
 
 <Meta meta={metatags} />
-<LayoutAdmin {userdata}>
-    <HeroGreating
-        phrase={heroGreating("Neko Kirame")}
-        icon="/img/heroGreatingAvatar.png"
-    />
-    <AlertCarrousel/>
+<LayoutAdmin {PropsUser}>
+    <HeroGreating data={heroGreating} />
+    <AlertCarrousel />
 </LayoutAdmin>

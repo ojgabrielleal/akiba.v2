@@ -18,6 +18,7 @@
     },
     "dependencies": {
         "@inertiajs/svelte": "^2.0.9",
-        "@sveltejs/vite-plugin-svelte": "^5.0.3"
+        "@sveltejs/vite-plugin-svelte": "^5.0.3",
+        "svelte-hot-french-toast": "^2.0.0"
     }
 }

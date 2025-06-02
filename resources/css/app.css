@@ -41,11 +41,26 @@
     }
 }
 
+@layer scroll {
+    .scroll-x {
+        -ms-overflow-style: none;
+        /* IE e Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    .scroll-x::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari e Opera */
+    }
+}
+
 @layer titles {
     .titleblock {
         display: flex;
         align-items: center;
         gap: 1rem;
+        margin-bottom: 0.5rem;
     }
 
     .titleblock h1 {

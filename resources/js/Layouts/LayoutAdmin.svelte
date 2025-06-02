@@ -1,9 +1,13 @@
 <script> 
-    export let userdata;
+    export let PropsUser;
 
+    import { Toaster } from "svelte-hot-french-toast";    
     import { NavAdmin } from '@/Widgets/Navbar';
 
-    let menuitems = [
+    // Props to components
+    let navbar = { 
+      user: PropsUser,
+      items: [
         { name: "Dashboard", icon: "/icons/dashboard.svg", permissions: ["administrator", "all"], address: "/painel/dashboard"},
         { name: "Materias", icon: "/icons/materials.svg", permissions: ["administrator", "writer"], address: "/painel/materials"},
         { name: "Locução", icon: "/icons/broadcast.svg", permissions: ["administrator", "broadcaster"], address: "/painel/broadcast"},
@@ -14,12 +18,14 @@
         { name: "Administração", icon: "/icons/adms.svg", permissions: ["administrator"], address: "/painel/administrator"},
         { name: "Logs", icon: "/icons/logs.svg", permissions: ["administrator"], address: "/painel/logs"},
         { name: "Avisos", icon: "/icons/alerts.svg", permissions: ["administrator", "all"], address: "/painel/alerts"}
-    ];
+      ]
+    }
 </script>
 
-<div class="w-screen h-screen bg-[var(--color-blue-indigo)]">
+<Toaster/>
+<div class="w-screen bg-[var(--color-blue-indigo)]">
   <header class="lg:pt-10">
-    <NavAdmin menuitems={menuitems} userdata={userdata} />
+    <NavAdmin data={navbar} />
     <slot name="header" />
   </header>
 

@@ -1,19 +1,27 @@
 <script>
-    export let type = "text";
-    export let id;
-    export let value;
-    export let styles =
-        "w-full h-[3.5rem] bg-[var(--color-neutral-aurora)] font-noto-sans rounded-lg outline-none pl-4";
-    export let placeholder;
-    export let ariaLabel = "input";
+    export let data = {};
+
+    let permantent = { 
+        type: "text",
+        class: "w-full h-[3.5rem] bg-[var(--color-neutral-aurora)] font-noto-sans rounded-lg outline-none pl-4"
+    }
+
+    $: merge = { 
+        type: data.type ?? permantent.type,
+        name: data.id,
+        id: data.id,
+        placeholder: data.placeholder,
+        class: data.class ?? permantent.class
+    }
+
 </script>
 
 <input
-    bind:value
-    {type}
-    name={id}
-    {id}
-    class={styles}
-    {placeholder}
-    aria-label={ariaLabel}
+    bind:value={merge.value}
+    type={merge.type}
+    name={merge.id}
+    id={merge.id}
+    class={merge.styles}
+    placeholder={merge.placeholder}
+    aria-label={merge.id}
 />
