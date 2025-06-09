@@ -20,15 +20,9 @@
             })
         }
     }
-
-    //Props to components
-    let layoutSection = {
-        title: "Avisos para a equipe", 
-        top: "mt-8 lg:mt-20"
-    }
 </script>
 
-<LayoutSection data={layoutSection}>
+<LayoutSection title="Avisos para a equipe" styles="mt-8 lg:mt-20 mb-4">
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={scrollx} on:mouseenter={notify} role="group">
         <Card type="alert"/>
         <Card type="alert" />

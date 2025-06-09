@@ -24,7 +24,7 @@ class AuthMiddleware
 
         // Share the authenticated user with Inertia
         Inertia::share(
-            'PropsUser',
+            'user',
             fn() => auth()->check()
                 ? auth()->user()->load('permissions') // <- carrega junto
                 : null

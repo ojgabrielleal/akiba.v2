@@ -1,10 +1,13 @@
 <script>
-    export let PropsUser;
+
+    import { page } from "@inertiajs/svelte"
 
     import { Meta } from "@/Meta";
     import { LayoutAdmin } from "@/Layouts";
     import { HeroGreating } from "@/Widgets/Hero";
     import { AlertCarrousel } from "@/Widgets/Alert";
+
+    let { user } = $page.props;
 
     // Selector phrase in render to hero
     function phraseSwitchHero(apelido) {
@@ -28,20 +31,10 @@
         const index = Math.floor(Math.random() * phrases.length);
         return phrases[index];
     }
-
-    // Props to components
-    let metatags = {
-        title: "Dashboard",
-    };
-
-    const heroGreating = {
-        phrase: phraseSwitchHero(PropsUser.nickname),
-        icon: "/img/heroGreatingAvatar.png",
-    };
 </script>
 
-<Meta meta={metatags} />
-<LayoutAdmin {PropsUser}>
-    <HeroGreating data={heroGreating} />
+<Meta meta={{title: "Dashboard"}} />
+<LayoutAdmin>
+    <HeroGreating phrase={phraseSwitchHero(user.nickname)} icon="/img/heroGreatingAvatar.png"/>
     <AlertCarrousel />
 </LayoutAdmin>

@@ -1,36 +1,8 @@
 <script>
-    export let data = {};
-    
-    import { Link } from '@inertiajs/svelte';
-    
-    let permanent = { 
-        user: {
-            "name": "Não Identificado",
-            "nickname": "Não Identificado San",
-            "avatar": ""
-        },
-        permissions: ["all"],
-        items: [
-            { name: "Dashboard", icon: "/icons/dashboard.svg", permissions: ["administrator", "all"], address: "/painel/dashboard" },
-            { name: "Materias", icon: "/icons/materials.svg", permissions: ["administrator", "writer"], address: "/painel/materials" },
-            { name: "Locução", icon: "/icons/broadcast.svg", permissions: ["administrator", "broadcaster"], address: "/painel/broadcast" },
-            { name: "Rádio", icon: "/icons/radio.svg", permissions: ["administrator"], address: "/painel/radio" },
-            { name: "Podcasts", icon: "/icons/podcasts.svg", permissions: ["administrator"], address: "/painel/podcasts" },
-            { name: "Marketing", icon: "/icons/marketing.svg", permissions: ["administrator", "marketing"], address: "/painel/marketing" },
-            { name: "Mídias", icon: "/icons/media.svg", permissions: ["administrator", "marketing"], address: "/painel/media" },
-            { name: "Administração", icon: "/icons/adms.svg", permissions: ["administrator"], address: "/painel/administrator" },
-            { name: "Logs", icon: "/icons/logs.svg", permissions: ["administrator"], address: "/painel/logs" },
-            { name: "Avisos", icon: "/icons/alerts.svg", permissions: ["administrator", "all"], address: "/painel/alerts" }
-        ]
-    };
+    export let items;
+    import { page, Link } from '@inertiajs/svelte';
 
-    $: merge = { 
-        user: data.user ?? permanent.user,
-        permissions: data.user.permissions.lenght > 0 ? data.user.permissions : permanent.permissions,
-        items: data.items ?? permanent.items
-    }
-
-    // Open the navbar in mobile
+    let { user } = $page.props;
     let mobilenavbar = false;
 </script>
 
@@ -38,8 +10,8 @@
 <nav class="w-full h-[3rem] bg-[var(--color-neutral-aurora)] hidden items-center justify-center lg:flex">
     <div class="container relative">
         <ul class="flex justify-center items-center gap-10">
-        {#each merge.items as item}
-            {#if item.permissions?.some(p => merge.permissions?.includes(p))}
+        {#each items as item}
+            {#if item.permissions?.includes('all') || item.permissions?.some(p => user.permissions?.includes(p))}
                 <li>
                     <Link href={item.address} title={item.name} class="flex items-center gap-2 text-[var(--color-neutral-aurora)] hover:text-[var(--color-neutral-aurora-dark)]">
                         <img src={item.icon} alt={item.name} class="w-5 h-5" />
@@ -49,10 +21,10 @@
         {/each}
         </ul>
         <div class="absolute -bottom-[1.45rem] right-0 flex items-center gap-2">
-            <Link href={`/profile/${merge.user.slug}`} title={merge.user.nickname}>
+            <Link href={`/profile/${user.slug}`} title={user.nickname}>
                 <img
-                    src={merge.user.avatar}
-                    alt={merge.user.nickname}
+                    src={user.avatar}
+                    alt={user.nickname}
                     class="w-16 h-16 rounded-full border-8 border-[var(--color-neutral-aurora)]"
                 />
             </Link>
@@ -69,7 +41,7 @@
         </svg>
     </button>
 
-    <img src={merge.user.avatar} alt={merge.user.nickname} class="w-10 h-10 rounded-full"/>
+    <img src={user.avatar} alt={user.nickname} class="w-10 h-10 rounded-full"/>
 </nav>
 
 <!-- Sidebar Menu -->
@@ -84,8 +56,8 @@
     </div>
 
     <ul class="p-5 pt-3 space-y-4">
-        {#each merge.items as item}
-            {#if item.permissions?.some(p => merge.permissions.includes(p))}
+        {#each items as item}
+            {#if item.permissions?.includes('all') || item.permissions?.some(p => user.permissions?.includes(p))}
                 <li>
                     <a href={item.address} class="flex items-center gap-3 text-gray-800 hover:text-blue-600">
                         <img src={item.icon} alt={item.name} class="w-5 h-5" />

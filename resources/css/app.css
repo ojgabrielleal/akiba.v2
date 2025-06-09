@@ -56,14 +56,14 @@
 }
 
 @layer titles {
-    .titleblock {
+    .title-section {
         display: flex;
         align-items: center;
         gap: 1rem;
         margin-bottom: 0.5rem;
     }
 
-    .titleblock h1 {
+    .title-section h1 {
         color: var(--color-orange-amber);
         text-transform: uppercase;
         font-family: "Noto Sans", sans-serif;
@@ -74,7 +74,7 @@
         white-space: nowrap;
     }
 
-    .titleblock::after {
+    .title-section::after {
         content: "";
         flex: 1;
         height: 0.1rem;

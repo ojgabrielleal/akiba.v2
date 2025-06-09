@@ -15,7 +15,7 @@ Route::prefix('painel')->group(function () {
 
     Route::middleware(AuthMiddleware::class)->group(function () {
         Route::controller(DashboardController::class)->group(function () {
-            Route::get('/dashboard', 'render');
+            Route::get('/dashboard', 'render')->name('dashboard.render.painel');
         });
     });
 });

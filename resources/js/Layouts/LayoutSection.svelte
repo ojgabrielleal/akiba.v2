@@ -1,22 +1,14 @@
 <script>
-    export let data = {};
+    export let title; 
+    export let styles = "mb-4"
 
-    let permantent = {
-        bottom: "mb-4"
-    }
-
-    $: merge = { 
-        title: data.title,
-        top: data.top,
-        bottom: data.bottom ?? permantent.bottom
-    }
 </script>
 
-<section class={`${merge.top} ${merge.bottom}`}>
-    {#if merge.title} 
-        <div class="titleblock">
+<section class={styles}>
+    {#if title} 
+        <div class="title-session">
             <h1>
-                {merge.title}
+                {title}
             </h1>
         </div>
     {/if}
