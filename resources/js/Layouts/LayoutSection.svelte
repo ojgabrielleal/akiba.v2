@@ -6,7 +6,7 @@
 
 <section class={styles}>
     {#if title} 
-        <div class="title-session">
+        <div class="title-section">
             <h1>
                 {title}
             </h1>

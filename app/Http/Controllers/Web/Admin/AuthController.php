@@ -20,12 +20,18 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-          return redirect()->intended(route('dashboard.render.painel'));
+          return redirect()->intended(route('dashboard.render.painel'))->with('flash', [
+                'type' => 'success',
+                'message' => 'Login realizado com sucesso',
+            ]);
         }
 
         return back()->withErrors([
             'username' => 'As credenciais informadas estão incorretas.',
-        ])->onlyInput('username');
+        ])->with('flash', [
+            'type' => 'error',
+            'message' => 'As credenciais informadas estão incorretas.',
+        ]);
     }
 
     public function render()
