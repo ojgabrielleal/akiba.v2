@@ -1,2 +1,2 @@
-export { default as LayoutAdmin } from './LayoutAdmin.svelte';
-export { default as LayoutSection } from './LayoutSection.svelte'
+export { default as Layout } from './Layout.svelte';
+export { default as Section } from './Section.svelte'

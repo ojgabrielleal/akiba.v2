@@ -30,7 +30,7 @@ class AuthController extends Controller
             'username' => 'As credenciais informadas estão incorretas.',
         ])->with('flash', [
             'type' => 'error',
-            'message' => 'As credenciais informadas estão incorretas.',
+            'message' => 'Credenciais inválidas',
         ]);
     }
 

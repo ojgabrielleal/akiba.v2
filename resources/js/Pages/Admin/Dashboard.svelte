@@ -3,7 +3,7 @@
     import { page } from "@inertiajs/svelte"
 
     import { Meta } from "@/Meta";
-    import { LayoutAdmin } from "@/Layouts";
+    import { Layout } from "@/Layouts";
     import { HeroGreating } from "@/Widgets/Hero";
     import { AlertCarrousel } from "@/Widgets/Alert";
 
@@ -34,7 +34,7 @@
 </script>
 
 <Meta meta={{title: "Dashboard"}} />
-<LayoutAdmin>
+<Layout type="admin">
     <HeroGreating phrase={phraseSwitchHero(user.nickname)} icon="/img/heroGreatingAvatar.png"/>
     <AlertCarrousel />
-</LayoutAdmin>
+</Layout>
