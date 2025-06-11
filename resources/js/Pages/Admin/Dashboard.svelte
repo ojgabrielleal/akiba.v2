@@ -1,11 +1,10 @@
 <script>
-
-    import { page } from "@inertiajs/svelte"
+    import { page } from "@inertiajs/svelte";
 
     import { Meta } from "@/Meta";
     import { Layout } from "@/Layouts";
     import { HeroGreating } from "@/Widgets/Hero";
-    import { AlertCarrousel } from "@/Widgets/Alert";
+    import { CarrouselAlert } from "@/Widgets/Alert";
 
     let { user } = $page.props;
 
@@ -33,8 +32,11 @@
     }
 </script>
 
-<Meta meta={{title: "Dashboard"}} />
+<Meta meta={{ title: "Dashboard" }} />
 <Layout type="admin">
-    <HeroGreating phrase={phraseSwitchHero(user.nickname)} icon="/img/heroGreatingAvatar.png"/>
-    <AlertCarrousel />
+    <HeroGreating
+        phrase={phraseSwitchHero(user.nickname)}
+        icon="/img/heroGreatingAvatar.png"
+    />
+    <CarrouselAlert />
 </Layout>
