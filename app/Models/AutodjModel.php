@@ -21,13 +21,13 @@ class AutodjModel extends Model
     {
         return $this->hasMany(AutodjPhrasesModel::class);
     }
-    
+
     /**
      * Relationship from model 'Users'
      */
     public function users()
     {
-        return $this->belongsTo(UsersModel::class);
+        return $this->belongsTo(UserModel::class);
     }
 
     /**
@@ -37,5 +37,4 @@ class AutodjModel extends Model
     {
         return $this->hasMany(OnairModel::class);
     }
-    
 }

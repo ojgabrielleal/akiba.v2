@@ -24,6 +24,6 @@ class PodcastsModel extends Model
      */
     public function users()
     {
-        return $this->belongsTo(UsersModel::class, 'user_id');
+        return $this->belongsTo(UserModel::class, 'user_id');
     }
 }

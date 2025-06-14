@@ -4,22 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UsersExternalsLinksModel extends Model
+class UserPermissionModel extends Model
 {
-    protected $table = 'users_externals_links';
+    protected $table = 'users_permissions';
 
     protected $fillable = [
         'user_id',
-        'name',
-        'url',
+        'permission',
     ];
-
 
     /**
      * Relationship from model 'Users'
      */
     public function users()
     {
-        return $this->belongsTo(UsersModel::class);
+        return $this->belongsTo(UserModel::class);
     }
 }

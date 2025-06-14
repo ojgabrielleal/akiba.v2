@@ -10,12 +10,15 @@ use App\Http\Controllers\Web\Admin\DashboardController;
 Route::prefix('painel')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::get('/', 'render')->name('auth.render.painel');
-        Route::post('/', 'auth');
+        Route::post('/', 'authenticate');
     });
 
     Route::middleware(AuthMiddleware::class)->group(function () {
-        Route::controller(DashboardController::class)->group(function () {
-            Route::get('/dashboard', 'render')->name('dashboard.render.painel');
+        Route::prefix('dashboard')->group(function() {
+            Route::controller(DashboardController::class)->group(function () {
+                Route::get('/', 'render')->name('dashboard.render.painel');
+                Route::post('/alerts/signature/{alertIdentifier}', 'createSignature');
+            });
         });
     });
 });

@@ -23,7 +23,7 @@ class PostsModel extends Model
      */
     public function users()
     {
-        return $this->belongsTo(UsersModel::class, 'user_id');
+        return $this->belongsTo(UserModel::class, 'user_id');
     }
 
     /**
@@ -49,5 +49,4 @@ class PostsModel extends Model
     {
         return $this->hasMany(PostsCategoriesModel::class, 'post_id');
     }
-
 }

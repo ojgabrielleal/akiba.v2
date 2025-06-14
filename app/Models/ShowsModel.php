@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ShowsModel extends Model
 {
     protected $table = 'shows';
-    
+
     protected $fillable = [
         'user_id',
         'slug',
@@ -21,7 +21,7 @@ class ShowsModel extends Model
      */
     public function users()
     {
-        return $this->belongsTo(UsersModel::class);
+        return $this->belongsTo(UserModel::class);
     }
 
     /**

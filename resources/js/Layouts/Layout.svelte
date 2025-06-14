@@ -7,11 +7,11 @@
     import Navbar from "@/Data/Navbar";
     import { Admin } from "@/Widgets/Navbar";
 
-    $page.subscribe((flash) => {
-        if (flash.type && flash.message) {
-            toast[flash.type](flash.message);
-        }
-    });
+    $: flash = $page.props.flash;
+
+    $: if(flash){
+        toast[flash.type](flash.message);
+    }
 </script>
 
 <Toaster position="bottom-end" />
@@ -21,7 +21,6 @@
             <Admin items={Navbar.admin} />
             <slot name="header" />
         </header>
-
         <main class="container">
             <slot />
         </main>

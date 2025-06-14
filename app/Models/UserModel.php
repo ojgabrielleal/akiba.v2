@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class UsersModel extends Authenticatable
+class UserModel extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -43,12 +43,12 @@ class UsersModel extends Authenticatable
      */
     public function externalLinks()
     {
-        return $this->hasMany(UsersExternalsLinksModel::class, 'user_id');
+        return $this->hasMany(UserExternalLinkModel::class, 'user_id');
     }
 
     public function permissions()
     {
-        return $this->hasMany(UsersPermissionsModel::class, 'user_id');
+        return $this->hasMany(UserPermissionModel::class, 'user_id');
     }
 
     /** 

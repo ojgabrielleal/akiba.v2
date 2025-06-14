@@ -17,12 +17,12 @@ class EventsModel extends Model
         'dates',
         'address'
     ];
-    
+
     /**
      * Relationship with 'User' model
      */
     public function users()
     {
-        return $this->belongsTo(UsersModel::class, 'user_id');
+        return $this->belongsTo(UserModel::class, 'user_id');
     }
 }

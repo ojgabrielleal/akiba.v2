@@ -19,7 +19,7 @@ class ReviewsContentsModel extends Model
      */
     public function users()
     {
-        return $this->belongsTo(UsersModel::class);
+        return $this->belongsTo(UserModel::class);
     }
 
     /**
