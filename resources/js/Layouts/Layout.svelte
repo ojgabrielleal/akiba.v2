@@ -4,8 +4,8 @@
     import { page } from "@inertiajs/svelte";
     import { toast, Toaster } from "svelte-hot-french-toast";
 
-    import Navbar from "@/Data/Navbar";
-    import { Admin } from "@/Widgets/Navbar";
+    import NavbarItems from "@/Data/NavbarItems";
+    import { NavbarAdmin } from "@/Widgets/Navbar";
 
     $: flash = $page.props.flash;
 
@@ -18,7 +18,7 @@
 {#if type === "admin"}
     <div class="w-screen bg-[var(--color-blue-indigo)]">
         <header class="lg:pt-10">
-            <Admin items={Navbar.admin} />
+            <NavbarAdmin items={NavbarItems.admin} />
             <slot name="header" />
         </header>
         <main class="container">

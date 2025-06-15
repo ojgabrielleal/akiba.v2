@@ -1,1 +1,1 @@
-export { default as FormAuth } from './FormAuth.svelte'
+export { default as Auth } from './Auth.svelte'

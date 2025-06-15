@@ -1,1 +1,1 @@
-export { default as Admin } from './Admin.svelte';
+export { default as NavbarAdmin } from './NavbarAdmin.svelte';

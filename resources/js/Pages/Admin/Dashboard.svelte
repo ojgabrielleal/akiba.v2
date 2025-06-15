@@ -3,8 +3,8 @@
 
     import { Meta } from "@/Meta";
     import { Layout } from "@/Layouts";
-    import { HeroGreating } from "@/Widgets/Hero";
-    import { CarrouselAlert } from "@/Widgets/Alert";
+    import { Greating } from "@/Widgets/Hero";
+    import { Alerts} from "@/Widgets/Carrousel";
 
     let { user } = $page.props;
 
@@ -34,9 +34,9 @@
 
 <Meta meta={{ title: "Dashboard" }} />
 <Layout type="admin">
-    <HeroGreating
+    <Greating
         phrase={phraseSwitchHero(user.nickname)}
         icon="/img/heroGreatingAvatar.png"
     />
-    <CarrouselAlert />
+    <Alerts />
 </Layout>
