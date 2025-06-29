@@ -7,44 +7,51 @@ use Illuminate\Http\Request;
 
 use Inertia\Inertia;
 
-use App\Models\AlertModel;
-use App\Models\AlertSignatureModel;
+use App\Traits\HandlesLaravelExceptions;
+use App\Traits\HandleLaravelSuccess;
+
+use App\Models\Alert;
+use App\Models\AlertSignature;
+use App\Models\Task;
 
 class DashboardController extends Controller
 {
+    use HandlesLaravelExceptions;
+    use HandleLaravelSuccess;
+
     public function getAlerts()
     {
         try {
-            return AlertModel::all()->load([
+            return Alert::all()->load([
                 'author',
                 'signatures.user',
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable  $e) {
             return redirect()->back()->with('flash', [
                 'type' => 'error',
-                'message' => 'Erro ao carregar os avisos para a equipe',
+                'message' => $this->handleLaravelException($e),
             ]);
         }
     }
 
-    public function createSignature(Request $request, $alertIdentifier)
+    public function createAlertSignature(Request $request, $alertIdentifier)
     {
         try {
-            $alert = AlertModel::findOrFail($alertIdentifier);
+            $alert = Alert::findOrFail($alertIdentifier);
 
-            AlertSignatureModel::create([
+            AlertSignature::create([
                 'user_id' => $request->user()->id,
                 'alert_id' => $alert->id,
             ]);
 
             return redirect()->back()->with('flash', [
                 'type' => 'success',
-                'message' => 'Você confirmou que leu o aviso',
+                'message' => $this->HandleLaravelSuccess('create'),
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable  $e) {
             return redirect()->back()->with('flash', [
                 'type' => 'error',
-                'message' => 'Erro ao confirmar leitura do aviso',
+                'message' => $this->handleLaravelException($e),
             ]);
         }
     }

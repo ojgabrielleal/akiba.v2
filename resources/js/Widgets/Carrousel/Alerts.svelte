@@ -1,13 +1,14 @@
 <script>
-    import { page, router } from "@inertiajs/svelte";
+    export let title;
+    export let data = {};
 
+    import { router } from "@inertiajs/svelte";
     import { Section } from "@/Layouts";
-    import { Card } from "@/Components/Card";
-
-    $: ({ alerts } = $page.props);
+    import { Alert } from "@/Components/Card";
 
     // Submit user to signature card 
     function createSignature(alertIdentifier) {
+        console.log("cheguei aqui")
         router.post("/painel/dashboard/alerts/signature/" + alertIdentifier);
     }
 
@@ -21,11 +22,11 @@
     }
 </script>
 
-{#if alerts.length > 0}
-    <Section title="Avisos para a equipe">
+{#if data.length > 0}
+    <Section title={title}>
         <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={scrollx} role="group">
-            {#each alerts as item}
-                <Card type="alert" colors="bg-[var(--color-blue-skywave)]" data={item} action={() => { createSignature(item.id) }}/>
+            {#each data as item}
+                <Alert type="alert" colors="bg-[var(--color-blue-skywave)]" data={item} action={() => { createSignature(item.id) }}/>
             {/each}
         </div>
     </Section>

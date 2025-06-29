@@ -3,7 +3,6 @@
 
     import Icon from "@iconify/svelte";
     import { router } from "@inertiajs/svelte";
-
     import { Input } from "@/Components/Form";
 
     // Submit the form to backend

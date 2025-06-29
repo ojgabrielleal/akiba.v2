@@ -22,16 +22,14 @@ class AuthController extends Controller
 
           return redirect()->intended(route('dashboard.render.painel'))->with('flash', [
                 'type' => 'success',
-                'message' => 'Login realizado com sucesso',
+                'message' => 'Hajimemashite~! Bem-vindo~ (☆ω☆)',
             ]);
         }
 
-        return back()->withErrors([
-            'username' => 'As credenciais informadas estão incorretas.',
-        ])->with('flash', [
-            'type' => 'error',
-            'message' => 'Credenciais inválidas',
-        ]);
+            return redirect()->back()->with('flash', [
+                'type' => 'error',
+                'message' => "Nani?! Errou o acesso, senpai~ (＞人＜;)",
+            ]);
     }
 
     public function render()

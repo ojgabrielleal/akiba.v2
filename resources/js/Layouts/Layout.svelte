@@ -3,7 +3,6 @@
 
     import { page } from "@inertiajs/svelte";
     import { toast, Toaster } from "svelte-hot-french-toast";
-
     import NavbarItems from "@/Data/NavbarItems";
     import { NavbarAdmin } from "@/Widgets/Navbar";
 

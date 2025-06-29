@@ -9,7 +9,7 @@ use App\Http\Controllers\Web\Admin\DashboardController;
 
 Route::prefix('painel')->group(function () {
     Route::controller(AuthController::class)->group(function () {
-        Route::get('/', 'render')->name('auth.render.painel');
+        Route::get('/', 'render');
         Route::post('/', 'authenticate');
     });
 
@@ -17,7 +17,7 @@ Route::prefix('painel')->group(function () {
         Route::prefix('dashboard')->group(function() {
             Route::controller(DashboardController::class)->group(function () {
                 Route::get('/', 'render')->name('dashboard.render.painel');
-                Route::post('/alerts/signature/{alertIdentifier}', 'createSignature');
+                Route::post('/alerts/signature/{alertIdentifier}', 'createAlertSignature');
             });
         });
     });

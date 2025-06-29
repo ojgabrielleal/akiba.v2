@@ -1,7 +1,6 @@
 <script>
     export let title; 
-    export let styles = "mb-4"
-
+    export let styles = "mb-10"
 </script>
 
 <section class={styles}>
