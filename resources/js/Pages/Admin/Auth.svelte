@@ -21,7 +21,7 @@
             >
                 Faça login para acessar o sistema
             </strong>
-            <Auth submit="/painel" />
+            <Auth submit="/action/authenticate" />
         </div>
     </div>
 </Layout>

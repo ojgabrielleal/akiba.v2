@@ -12,7 +12,7 @@
 
 <div class={`${colors} w-[29rem] h-50 flex-shrink-0 rounded-lg p-4 relative`}>
     <h1 class="font-noto-sans font-black italic uppercase text-[var(--color-neutral-aurora)] text-xl">
-        {data.author.nickname}
+        {data.user.nickname}
     </h1>
     <p class="font-noto-sans text-sm text-[var(--color-neutral-aurora)] line-clamp-5 mt-1">
         {data.content} 

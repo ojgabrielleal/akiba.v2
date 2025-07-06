@@ -8,8 +8,7 @@
 
     // Submit user to signature card 
     function createSignature(alertIdentifier) {
-        console.log("cheguei aqui")
-        router.post("/painel/dashboard/alerts/signature/" + alertIdentifier);
+        router.post("/action/alerts/signature/" + alertIdentifier);
     }
 
     // Scroll X to cards

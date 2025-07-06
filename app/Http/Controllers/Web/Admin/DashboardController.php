@@ -13,6 +13,7 @@ use App\Traits\HandleLaravelSuccess;
 use App\Models\Alert;
 use App\Models\AlertSignature;
 use App\Models\Task;
+use Illuminate\Container\Attributes\Log;
 
 class DashboardController extends Controller
 {
@@ -23,7 +24,7 @@ class DashboardController extends Controller
     {
         try {
             return Alert::all()->load([
-                'author',
+                'user',
                 'signatures.user',
             ]);
         } catch (\Throwable  $e) {
@@ -46,9 +47,44 @@ class DashboardController extends Controller
 
             return redirect()->back()->with('flash', [
                 'type' => 'success',
-                'message' => $this->HandleLaravelSuccess('create'),
+                'message' => $this->HandleLaravelSuccess('save'),
             ]);
         } catch (\Throwable  $e) {
+            return redirect()->back()->with('flash', [
+                'type' => 'error',
+                'message' => $this->handleLaravelException($e),
+            ]);
+        }
+    }
+
+    public function getTasks()
+    {
+        try {
+            return Task::all()->load([
+                'user'
+            ]);
+        }catch( \Throwable $e) {
+            return redirect()->back()->with('flash', [
+                'type' => 'error',
+                'message' => $this->handleLaravelException($e),
+            ]);
+        }
+    }
+
+    public function finishingTask(Request $request, $taskIdentifier)
+    {
+       try{
+            $task = Task::findOrFail($taskIdentifier);
+
+            $task->update([
+                'completed' => true,
+            ]);
+
+            return redirect()->back()->with('flash', [
+                'type' => 'success',
+                'message' => $this->HandleLaravelSuccess('save'),
+            ]);
+       }catch(\Throwable $e) {
             return redirect()->back()->with('flash', [
                 'type' => 'error',
                 'message' => $this->handleLaravelException($e),
@@ -60,6 +96,7 @@ class DashboardController extends Controller
     {
         return Inertia::render('Admin/Dashboard', [
             'alerts' => $this->getAlerts(),
+            'tasks' => $this->getTasks(),
         ]);
     }
 }

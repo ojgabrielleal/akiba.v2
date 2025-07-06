@@ -6,7 +6,8 @@
     import { Greating } from "@/Widgets/Hero";
     import { Alerts, Tasks } from "@/Widgets/Carrousel";
 
-    $:({ user, alerts } = $page.props);
+    $:({ user, alerts, tasks } = $page.props); 
+
 
     // Selector phrase in render to hero
     function phraseSwitchHero(apelido) {
@@ -34,5 +35,5 @@
 <Layout type="admin">
     <Greating phrase={phraseSwitchHero(user.nickname)}  icon="/img/heroGreatingAvatar.png"/>
     <Alerts title="Avisos para a equipe" data={alerts}/>
-    <Tasks title="Minhas Tarefas"/>
+    <Tasks title="Minhas Tarefas" data={tasks}/>
 </Layout>

@@ -20,16 +20,16 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-          return redirect()->intended(route('dashboard.render.painel'))->with('flash', [
+          return redirect()->intended("/painel/dashboard")->with('flash', [
                 'type' => 'success',
                 'message' => 'Hajimemashite~! Bem-vindo~ (☆ω☆)',
             ]);
         }
 
-            return redirect()->back()->with('flash', [
-                'type' => 'error',
-                'message' => "Nani?! Errou o acesso, senpai~ (＞人＜;)",
-            ]);
+        return redirect()->back()->with('flash', [
+            'type' => 'error',
+            'message' => "Nani?! Errou o acesso, senpai~ (＞人＜;)",
+        ]);
     }
 
     public function render()
