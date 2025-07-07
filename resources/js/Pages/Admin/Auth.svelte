@@ -21,7 +21,7 @@
             >
                 Faça login para acessar o sistema
             </strong>
-            <Auth submit="/action/authenticate" />
+            <Auth/>
         </div>
     </div>
 </Layout>

@@ -19,17 +19,14 @@ class AuthMiddleware
     {
         // Check if the user is authenticated if not redirect to the login page
         if (!Auth::check()) {
-            return redirect()->route('auth.render.painel');
+            return redirect()->route('render.painel.auth')->with('flash', [
+                'type' => 'error',
+                'message' => 'Você precisa estar logado para acessar esta página.',
+            ]);
         }
 
         // Share the authenticated user with Inertia
-        Inertia::share(
-            'user',
-            fn() => auth()->check()
-                ? auth()->user()->load('permissions') // <- carrega junto
-                : null
-        );
-
+        Inertia::share('user', fn() => Auth::check() ? Auth::user() : null);
 
         return $next($request);
     }

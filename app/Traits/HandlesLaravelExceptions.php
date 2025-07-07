@@ -15,70 +15,39 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use RuntimeException;
 use LogicException;
 
 trait HandlesLaravelExceptions
 {
-    public function handleLaravelException(Throwable $e): string
+    public function handleLaravelException(Throwable $e): Response|RedirectResponse
     {
-        Log::error('[LaravelException] '.get_class($e).': '.$e->getMessage(), [
+        Log::error('[LaravelException] ' . get_class($e) . ': ' . $e->getMessage(), [
             'exception' => $e,
             'trace' => $e->getTraceAsString(),
         ]);
 
-        if ($e instanceof ModelNotFoundException) {
-            return 'Nani?! Nada por aqui~ (＠_＠;)';
-        }
+        $message = match (true) {
+            $e instanceof ModelNotFoundException => 'Nani?! Nada por aqui~ (＠_＠;)',
+            $e instanceof ValidationException => 'Campos errados, senpai! (＞︿＜)',
+            $e instanceof QueryException => 'Uwaa~ deu bug nos bastidores! (×_×;)',
+            $e instanceof AuthenticationException => 'Faz login primeiro, onegai~ ( •̀ ω •́ )✧',
+            $e instanceof AuthorizationException => 'Yamete! Acesso negado~ (￣ヘ￣;)',
+            $e instanceof NotFoundHttpException => 'Eeeh? Página sumiu! (；・∀・)',
+            $e instanceof MethodNotAllowedHttpException => 'Técnica errada, senpai~ (╬ Ò﹏Ó)',
+            $e instanceof HttpException => 'Rede bugou... tenta dps~ (´･ω･`)',
+            $e instanceof ThrottleRequestsException => 'Calma aí! Rápido demais~ (≧д≦ヾ)',
+            $e instanceof FileNotFoundException => 'Item não achado... (´・д・`)',
+            $e instanceof BindingResolutionException => 'Poketto no sistema... (≡^∇^≡)',
+            $e instanceof RuntimeException,  $e instanceof LogicException => 'Yabai! Bugou tudo~ (╯°□°）╯︵ ┻━┻',
+            default => app()->environment('production') ? 'Erro estranho... tenta dps~ (＞人＜;)' : $e->getMessage(),
+        };
 
-        if ($e instanceof ValidationException) {
-            return 'Campos errados, senpai! (＞︿＜)';
-        }
-
-        if ($e instanceof QueryException) {
-            return 'Uwaa~ deu bug nos bastidores! (×_×;)';
-        }
-
-        if ($e instanceof AuthenticationException) {
-            return 'Faz login primeiro, onegai~ ( •̀ ω •́ )✧';
-        }
-
-        if ($e instanceof AuthorizationException) {
-            return 'Yamete! Acesso negado~ (￣ヘ￣;)';
-        }
-
-        if ($e instanceof NotFoundHttpException) {
-            return 'Eeeh? Página sumiu! (；・∀・)';
-        }
-
-        if ($e instanceof MethodNotAllowedHttpException) {
-            return 'Técnica errada, senpai~ (╬ Ò﹏Ó)';
-        }
-
-        if ($e instanceof HttpException) {
-            return 'Rede bugou... tenta dps~ (´･ω･`)';
-        }
-
-        if ($e instanceof ThrottleRequestsException) {
-            return 'Calma aí! Rápido demais~ (≧д≦ヾ)';
-        }
-
-        if ($e instanceof FileNotFoundException) {
-            return 'Item não achado... (´・д・`)';
-        }
-
-        if ($e instanceof BindingResolutionException) {
-            return 'Poketto no sistema... (≡^∇^≡)';
-        }
-
-        if ($e instanceof RuntimeException || $e instanceof LogicException) {
-            return 'Yabai! Bugou tudo~ (╯°□°）╯︵ ┻━┻';
-        }
-
-        // Fallback genérico
-        return app()->environment('production')
-            ? 'Erro estranho... tenta dps~ (＞人＜;)'
-            : $e->getMessage();
-        }
-
+        return back(303)->with('flash', [
+            'type' => 'error',
+            'message' => $message,
+        ]);
+    }
 }

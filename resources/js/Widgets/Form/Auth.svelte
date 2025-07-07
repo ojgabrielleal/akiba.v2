@@ -1,6 +1,4 @@
 <script>
-    export let submit;
-
     import Icon from "@iconify/svelte";
     import { router } from "@inertiajs/svelte";
     import { Input } from "@/Components/Form";
@@ -10,7 +8,7 @@
     let password = "";
 
     function handleSubmit() {
-       router.post(submit, {username: username, password: password})
+       router.post("/painel/authenticate", {username: username, password: password})
     }
 </script>
 

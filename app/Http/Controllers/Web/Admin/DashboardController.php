@@ -13,7 +13,6 @@ use App\Traits\HandleLaravelSuccess;
 use App\Models\Alert;
 use App\Models\AlertSignature;
 use App\Models\Task;
-use Illuminate\Container\Attributes\Log;
 
 class DashboardController extends Controller
 {
@@ -28,10 +27,7 @@ class DashboardController extends Controller
                 'signatures.user',
             ]);
         } catch (\Throwable  $e) {
-            return redirect()->back()->with('flash', [
-                'type' => 'error',
-                'message' => $this->handleLaravelException($e),
-            ]);
+            return $this->handleLaravelException($e);
         }
     }
 
@@ -45,15 +41,10 @@ class DashboardController extends Controller
                 'alert_id' => $alert->id,
             ]);
 
-            return redirect()->back()->with('flash', [
-                'type' => 'success',
-                'message' => $this->HandleLaravelSuccess('save'),
-            ]);
+            return $this->HandleLaravelSuccess('save');
+
         } catch (\Throwable  $e) {
-            return redirect()->back()->with('flash', [
-                'type' => 'error',
-                'message' => $this->handleLaravelException($e),
-            ]);
+           
         }
     }
 
@@ -64,10 +55,7 @@ class DashboardController extends Controller
                 'user'
             ]);
         }catch( \Throwable $e) {
-            return redirect()->back()->with('flash', [
-                'type' => 'error',
-                'message' => $this->handleLaravelException($e),
-            ]);
+            return $this->handleLaravelException($e);
         }
     }
 
@@ -80,15 +68,9 @@ class DashboardController extends Controller
                 'completed' => true,
             ]);
 
-            return redirect()->back()->with('flash', [
-                'type' => 'success',
-                'message' => $this->HandleLaravelSuccess('save'),
-            ]);
+            return $this->HandleLaravelSuccess('save');
        }catch(\Throwable $e) {
-            return redirect()->back()->with('flash', [
-                'type' => 'error',
-                'message' => $this->handleLaravelException($e),
-            ]);
+            return $this->handleLaravelException($e);
         }
     }
 
