@@ -20,10 +20,13 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended("/painel/dashboard");
+            return redirect()->route('render.painel.dashboard')->with('flash', [
+                'type' => 'success',
+                'message' => 'Bem-vindo, senpai! ( •̀ ω •́ )✧',
+            ]);
         }
 
-        return response()->json([
+        return back(303)->with('flash', [
             'type' => 'error',
             'message' => "Nani?! Errou o acesso, senpai~ (＞人＜;)",
         ]);

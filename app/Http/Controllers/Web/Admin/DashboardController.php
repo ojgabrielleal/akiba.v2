@@ -13,6 +13,7 @@ use App\Traits\HandleLaravelSuccess;
 use App\Models\Alert;
 use App\Models\AlertSignature;
 use App\Models\Task;
+use App\Models\Post;
 
 class DashboardController extends Controller
 {
@@ -44,7 +45,7 @@ class DashboardController extends Controller
             return $this->HandleLaravelSuccess('save');
 
         } catch (\Throwable  $e) {
-           
+            return $this->handleLaravelException($e);
         }
     }
 
@@ -74,11 +75,23 @@ class DashboardController extends Controller
         }
     }
 
+    public function getLastsPosts()
+    {
+        try {
+            return Post::orderBy('created_at', 'desc')->take(5)->get()->load([
+                'user',
+            ]);
+        } catch (\Throwable $e) {
+            return $this->handleLaravelException($e);
+        }
+    }
+
     public function render()
     {
         return Inertia::render('Admin/Dashboard', [
             'alerts' => $this->getAlerts(),
             'tasks' => $this->getTasks(),
+            'posts' => $this->getLastsPosts(),
         ]);
     }
 }

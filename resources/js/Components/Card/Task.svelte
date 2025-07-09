@@ -14,10 +14,10 @@
         <h1 class="uppercase font-noto-sans text-[var(--color-neutral-aurora)] italic font-bold text-2xl">
             Assistir Animes
         </h1>
-        <p class="w-90 font-noto-sans text-sm text-[var(--color-neutral-aurora)] line-clamp-5 mt-1">
+        <span class="w-90 font-noto-sans text-sm text-[var(--color-neutral-aurora)] line-clamp-5 mt-1">
             Senpai~ você tá de boas por agora (￣︶￣)v Nenhuma tarefa na lista, então aproveita 
             pra ver uns animes e colocar a cabeça no lugar, tá? Quando pintar algo, eu te aviso. Mata ne~ (＾▽＾)/
-        </p>
+        </span>
         <div class="absolute top-5 right-5 bg-[var(--color-neutral-aurora)]/30 rounded-xl shadow-lg w-[7rem] text-center overflow-hidden opacity-60">
             <div class="bg-[var(--color-blue-indigo)]/40 text-[var(--color-neutral-aurora)] font-noto-sans italic font-bold text-sm py-1 tracking-wide uppercase">
                 Data Limite
@@ -32,9 +32,9 @@
         <h1 class="uppercase font-noto-sans text-[var(--color-neutral-aurora)] italic font-bold text-2xl">
             {data.title}
         </h1>
-        <p class="w-90 ont-noto-sans text-sm text-[var(--color-neutral-aurora)] line-clamp-5 mt-1">
+        <span class="w-90 ont-noto-sans text-sm text-[var(--color-neutral-aurora)] line-clamp-5 mt-1">
             {data.content}
-        </p>
+        </span>
         <div class="absolute top-5 right-5 bg-[var(--color-blue-indigo)] rounded-xl shadow-lg w-[7rem] text-center overflow-hidden">
             <div class="bg-[var(--color-red-crimson)] text-[var(--color-neutral-aurora)] font-noto-sans italic font-bold text-sm py-1 tracking-wide uppercase">
                 Data Limite
@@ -52,9 +52,9 @@
         <h1 class="uppercase font-noto-sans text-[var(--color-neutral-aurora)] italic font-bold text-2xl">
             {data.title}
         </h1>
-        <p class="w-90 ont-noto-sans text-sm text-[var(--color-neutral-aurora)] line-clamp-5 mt-1">
+        <span class="w-90 ont-noto-sans text-sm text-[var(--color-neutral-aurora)] line-clamp-5 mt-1">
             {data.content}
-        </p>
+        </span>
         <div class="absolute top-5 right-5 bg-[var(--color-neutral-aurora)] rounded-xl shadow-lg w-[7rem] text-center overflow-hidden">
             <div class="bg-[var(--color-blue-indigo)] text-[var(--color-neutral-aurora)] font-noto-sans italic font-bold text-sm py-1 tracking-wide uppercase">
                 Data Limite

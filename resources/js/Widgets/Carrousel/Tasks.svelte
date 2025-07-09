@@ -6,7 +6,7 @@
     import { Section } from "@/Layouts";
     import { Task } from "@/Components/Card";
 
-    $:({ user, tasks } = $page.props); 
+    $:({ tasks } = $page.props); 
 
     // Scroll X to cards
     let container;

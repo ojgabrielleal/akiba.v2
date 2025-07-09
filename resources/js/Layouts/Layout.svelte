@@ -15,7 +15,7 @@
 
 <Toaster position="bottom-end" />
 {#if type === "admin"}
-    <div class="w-screen bg-[var(--color-blue-indigo)]">
+    <div class="w-full bg-[var(--color-blue-indigo)]">
         <header class="lg:pt-10">
             <NavbarAdmin items={NavbarItems.admin} />
             <slot name="header" />

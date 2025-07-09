@@ -81,3 +81,9 @@
         background-color: var(--color-orange-amber);
     }
 }
+
+@layer color_filter {
+    .color-filter-aurora {
+        filter: invert(100%) sepia(75%) saturate(292%) hue-rotate(322deg) brightness(106%) contrast(102%);
+    }
+}

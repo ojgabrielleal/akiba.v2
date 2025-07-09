@@ -2,7 +2,9 @@
     import { Meta } from "@/Meta";
     import { Layout } from "@/Layouts";
     import { Greating } from "@/Widgets/Hero";
-    import { Alerts, Tasks, LastPosts } from "@/Widgets/Carrousel";
+    import { Alerts, Tasks } from "@/Widgets/Carrousel";
+    import { Posts } from "@/Widgets/Grid";
+    import { Calendar } from "@/Widgets/Calendar";
 </script>
 
 <Meta meta={{ title: "Dashboard" }} />
@@ -10,5 +12,6 @@
     <Greating/>
     <Alerts title="Avisos para a equipe"/>
     <Tasks title="Minhas Tarefas"/>
-    <LastPosts title="Últimas Matérias"/>
+    <Posts title="Últimas Matérias"/>
+    <Calendar title="Calendário"/>
 </Layout>

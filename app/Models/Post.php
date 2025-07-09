@@ -18,10 +18,14 @@ class Post extends Model
         'status',
     ];
 
+    protected $hidden = [
+        'user_id',
+    ];
+
     /**
      * Relationship with the 'Users' model.
      */
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -29,7 +33,7 @@ class Post extends Model
     /**
      * Relationship with the 'PostsReferences' model.
      */
-    public function postsReferences()
+    public function references()
     {
         return $this->hasMany(PostReference::class, 'post_id');
     }
@@ -37,7 +41,7 @@ class Post extends Model
     /**
      * Relationship with the 'PostsReactions' model.
      */
-    public function postsReactions()
+    public function reactions()
     {
         return $this->hasMany(PostReaction::class, 'post_id');
     }
@@ -45,7 +49,7 @@ class Post extends Model
     /**
      * Relationship with the 'PostsCategories' model.
      */
-    public function postsCategories()
+    public function categories()
     {
         return $this->hasMany(PostCategory::class, 'post_id');
     }

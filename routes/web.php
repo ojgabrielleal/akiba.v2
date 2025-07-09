@@ -8,13 +8,12 @@ use App\Http\Controllers\Web\Admin\AuthController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 
 Route::prefix('painel')->group(function(){
-    Route::get('/', [AuthController::class, 'render'])->name('render.painel.auth');
+    Route::controller(AuthController::class)->group(function () {
+        Route::get('/', 'render')->name('render.painel.auth');
+        Route::post('/authenticate', 'authenticate');
+    });
 
     Route::middleware([AuthMiddleware::class])->group(function () {
-        Route::controller(AuthController::class)->group(function () {
-            Route::post('/authenticate', [AuthController::class, 'authenticate']);
-        });
-
         Route::controller(DashboardController::class)->group(function () {
             Route::get('/dashboard', 'render')->name('render.painel.dashboard');
             Route::post('/alerts/signature/{alertIdentifier}', 'createAlertSignature');
