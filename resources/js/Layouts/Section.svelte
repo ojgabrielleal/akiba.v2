@@ -1,5 +1,5 @@
 <script>
-    export let title; 
+    export let title = null; 
     export let styles = "mb-10"
 </script>
 

@@ -1,4 +1,6 @@
 <script>
+    export let submit = "/painel/authenticate";
+
     import Icon from "@iconify/svelte";
     import { router } from "@inertiajs/svelte";
     import { Input } from "@/Components/Form";
@@ -8,11 +10,11 @@
     let password = "";
 
     function handleSubmit() {
-       router.post("/painel/authenticate", {username: username, password: password})
+       router.post(submit, {username: username, password: password})
     }
 </script>
 
-<form on:submit|preventDefault={handleSubmit} class="w-full">
+<form onsubmit={handleSubmit} class="w-full">
     <Input 
         bind:value={username}
         type="text"

@@ -1,37 +1,36 @@
 <script>
-    export let title;
+    export let title = null;
+    export let global = false;
     
-    import { page } from "@inertiajs/svelte";
-
-    import { router } from "@inertiajs/svelte";
+    import { router, page } from "@inertiajs/svelte";
     import { Section } from "@/Layouts";
     import { Alert } from "@/Components/Card";
 
+    import { scrollx } from "@/Utils";
+
     $:({ user, alerts } = $page.props); 
 
-    // Submit user to signature card 
-    function createSignature(alertIdentifier) {
-        router.post("/painel/alerts/signature/" + alertIdentifier);
-    }
-
-    // Scroll X to cards
+    // Reference to component
     let container;
-    function scrollx(event) {
-        if (container && container.scrollWidth > container.clientWidth) {
-            container.scrollLeft += event.deltaY;
-            event.preventDefault();
-        }
+
+    // Submit user to signature card 
+    function createSignature(id) {
+        router.post(`/painel/alerts/signature/${id}`);
     }
 </script>
 
 <Section title={title}>
-    <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={scrollx} role="group">
+    <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={(e)=> scrollx(e, container)} role="group">
         {#if alerts.every(item => item.signatures.some(signature => signature.user.id === user.id))}
-            <Alert desactivate={true}/>
+            <Alert/>
         {:else}
             {#each alerts as item}
-                {#if !item.signatures.some(signature => signature.user.id === user.id)}
-                    <Alert data={item} action={() => createSignature(item.id)}/>
+                {#if global}
+                    <Alert item={item} action={() => createSignature(item.id)}/>
+                {:else}
+                    {#if !item.signatures.some(signature => signature.user.id === user.id)}
+                        <Alert item={item} action={() => createSignature(item.id)}/>
+                    {/if}
                 {/if}
             {/each}
         {/if}

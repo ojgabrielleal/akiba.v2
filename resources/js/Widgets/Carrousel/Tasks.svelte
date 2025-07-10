@@ -1,40 +1,31 @@
 <script>
-    export let title;
+    export let title = null;
 
     import { router, page } from "@inertiajs/svelte";
 
     import { Section } from "@/Layouts";
     import { Task } from "@/Components/Card";
 
+    import { scrollx } from "@/Utils";
+
     $:({ tasks } = $page.props); 
 
-    // Scroll X to cards
+    // Reference to component
     let container;
-    function scrollx(event) {
-        if (container && container.scrollWidth > container.clientWidth) {
-            container.scrollLeft += event.deltaY;
-            event.preventDefault();
-        }
-    }
 
-    // Finishing task 
-    function finishingTask(taskIdentifier) {
-        router.patch("/painel/tasks/completed/" + taskIdentifier);
+    // Submit user to finishing task
+    function finishingTask(id) {
+        router.patch(`/painel/tasks/completed/${id}`);
     }
-
 </script>
 
 <Section title={title}>
-    <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={scrollx} role="group">
+    <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={(e) => scrollx(e, container)} role="group">
         {#if tasks.every(item => item.completed === true)}
-            <Task desactivate={true} />
+            <Task />
         {:else}
             {#each tasks as item}
-                {#if item.deadline_status === "due_soon"}
-                    <Task due={true} data={item} action={() => { finishingTask(item.id) }} />
-                {:else}
-                    <Task data={item} action={() => { finishingTask(item.id) }} />
-                {/if}
+                <Task due={item.deadline_status === "due_soon"} item={item} action={() => { finishingTask(item.id) }} />
             {/each}
         {/if}
     </div>

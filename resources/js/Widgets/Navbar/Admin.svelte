@@ -23,11 +23,7 @@
         </ul>
         <div class="absolute -bottom-[1.45rem] right-0 flex items-center gap-2">
             <Link href={`/profile/${user.slug}`} title={user.nickname}>
-                <img
-                    src={user.avatar}
-                    alt={user.nickname}
-                    class="w-16 h-16 rounded-full border-8 border-[var(--color-neutral-aurora)]"
-                />
+                <img src={user.avatar} alt={user.nickname} class="w-16 h-16 rounded-full border-8 border-[var(--color-neutral-aurora)]"/>
             </Link>
         </div>
     </div>

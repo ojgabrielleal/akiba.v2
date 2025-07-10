@@ -1,30 +1,35 @@
 <script>
-    export let action;
-    export let data = {};
-    export let desactivate = false;
+    export let item = null;
+    export let action = null;
+    export let styles = "w-100 h-50 bg-[var(--color-blue-skywave)] lg:w-[29rem]";
+    export let confirm = true;
     
-    import { Confirm } from "@/Components/Button";
+    import { Button } from "@/Components/Button";
 </script>
 
-{#if !desactivate}
-    <div class="bg-[var(--color-blue-skywave)] w-[29rem] h-50 flex-shrink-0 rounded-lg p-4 relative">
+{#if item}
+    <div class={`${styles} flex-shrink-0 rounded-lg p-4 relative`}>
         <h1 class="font-noto-sans font-black italic uppercase text-[var(--color-neutral-aurora)] text-xl">
-            {data.user.nickname}
+            {item.user.nickname}
         </h1>
         <span class="font-noto-sans text-sm text-[var(--color-neutral-aurora)] line-clamp-5 mt-1">
-            {data.content} 
+            {item.content} 
         </span>
         <div class="flex gap-2 absolute bottom-3 left-4">
-            {#if data.signatures.length > 0}
-                {#each data.signatures.slice(0, 4) as signature}
+            {#if item.signatures.length > 0}
+                {#each item.signatures as signature}
                     <img src={signature.user.avatar} alt={signature.user.nickname} class="w-9 h-9 rounded-full bg-[var(--color-neutral-aurora)]"/>
                 {/each}
             {/if}
         </div>
-        <Confirm action={action} styles="absolute bottom-3 right-4"/>    
+        {#if confirm}
+            <Button styles="w-[2rem] h-[2rem] bg-[var(--color-neutral-aurora)] absolute bottom-3 right-4 rounded-md" action={action}>
+                <img src="/icons/verify.svg" alt="verify icon" class="w-5"/>
+            </Button>   
+        {/if} 
     </div>
 {:else}
-    <div class="bg-gray-600/20 w-[29rem] h-50 flex-shrink-0 rounded-lg p-4 relative">
+    <div class="bg-gray-600/20 w-full h-50 flex-shrink-0 rounded-lg p-4 relative lg:w-2/5 xl:w-[28rem]">
         <h1 class="font-noto-sans font-black italic uppercase text-[var(--color-neutral-aurora)] text-xl opacity-70">
             Aki-chan
         </h1>
