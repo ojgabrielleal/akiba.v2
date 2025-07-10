@@ -23,11 +23,13 @@ class DashboardController extends Controller
     public function getAlerts()
     {
         try {
-            return Alert::all()->load([
+            return Alert::with([
                 'user',
-                'signatures.user',
-            ]);
-        } catch (\Throwable  $e) {
+                'signatures' => function ($query) {
+                    $query->limit(4)->with('user');
+                },
+            ])->get();
+        } catch (\Throwable $e) {
             return $this->handleLaravelException($e);
         }
     }

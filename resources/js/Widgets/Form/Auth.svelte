@@ -14,7 +14,7 @@
     }
 </script>
 
-<form onsubmit={handleSubmit} class="w-full">
+<form on:submit|preventDefault={handleSubmit} class="w-full">
     <Input 
         bind:value={username}
         type="text"
