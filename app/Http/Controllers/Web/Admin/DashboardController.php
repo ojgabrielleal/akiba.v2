@@ -14,6 +14,7 @@ use App\Models\Alert;
 use App\Models\AlertSignature;
 use App\Models\Task;
 use App\Models\Post;
+use App\Models\Calendar;
 
 class DashboardController extends Controller
 {
@@ -88,12 +89,21 @@ class DashboardController extends Controller
         }
     }
 
+    public function getCalendar()
+    {
+        $calendar = Calendar::with('user')->orderBy('hour')->get();
+        $grouped = $calendar->groupBy('day');
+
+        return $grouped;
+    }
+
     public function render()
     {
         return Inertia::render('Admin/Dashboard', [
             'alerts' => $this->getAlerts(),
             'tasks' => $this->getTasks(),
             'posts' => $this->getLastsPosts(),
+            'calendar' => $this->getCalendar(),
         ]);
     }
 }
