@@ -22,8 +22,6 @@
     // Weekdays labels and items
     let week = [];
     $: if(calendar){
-        console.log(calendar)
-
         const labels = {
             sun: "Dom",
             mon: "Seg",
@@ -51,15 +49,15 @@
                 {/each}
             </div>
             <div class="w-full grid gap-5 mt-5 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
-            {#each week as dayBlock}
-                <div class="flex flex-col gap-3 w-full" id={dayBlock.id}>
+            {#each week as day}
+                <div class="flex flex-col gap-3 w-full" id={day.id}>
                     <span class="text-[var(--color-neutral-aurora)] text-lg font-noto-sans text-center font-bold uppercase italic">
-                        {dayBlock.day}
+                        {day.day}
                     </span>
-                    {#if dayBlock.items.length === 0}
+                    {#if day.items.length === 0}
                         <Calendar />
                     {:else}
-                        {#each dayBlock.items as item}
+                        {#each day.items as item}
                             <Calendar item={item} category={item.category} />
                         {/each}
                     {/if}
