@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Calendar extends Model
 {
@@ -16,14 +17,26 @@ class Calendar extends Model
         'content',
     ];
 
-    protected $casts = [
-        'hour' => 'time',
+    protected $hidden = [
+        'user_id',
     ];
+
+    protected $casts = [
+        'hour' => 'datetime',
+    ];
+
+    /**
+     * Mutator for content
+    */
+    public function getHourAttribute($value)
+    {
+        return Carbon::parse($value)->format('H:i');
+    }
 
     /**
      * Relationship with the 'Users' model.
      */
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
