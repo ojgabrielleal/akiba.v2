@@ -3,8 +3,8 @@
     export let global = false;
     
     import { router, page } from "@inertiajs/svelte";
-    import { Section } from "@/Layouts";
-    import { Alert } from "@/Components/Card";
+    import { Section } from "@/Layouts/Admin/";
+    import { Alert } from "@/Components/Admin/Card";
 
     import { scrollx } from "@/Utils";
 

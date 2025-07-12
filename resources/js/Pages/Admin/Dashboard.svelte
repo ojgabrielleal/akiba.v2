@@ -2,11 +2,11 @@
     import { page } from "@inertiajs/svelte";
     
     import { Meta } from "@/Meta";
-    import { Layout } from "@/Layouts";
-    import { Greating } from "@/Widgets/Hero";
-    import { Alerts, Tasks } from "@/Widgets/Carrousel";
-    import { Posts } from "@/Widgets/Grid";
-    import { Calendar } from "@/Widgets/Calendar";
+    import { Layout } from "@/Layouts/Admin/";
+    import { Greating } from "@/Widgets/Admin/Hero";
+    import { Alerts, Tasks } from "@/Widgets/Admin/Carrousel";
+    import { Posts } from "@/Widgets/Admin/Grid";
+    import { Calendar } from "@/Widgets/Admin/Calendar";
 
     $:({ user } = $page.props); 
 

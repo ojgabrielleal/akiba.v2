@@ -4,7 +4,7 @@
     export let editable = false;
 
     import { Link } from "@inertiajs/svelte";
-    import { Button } from "@/Components/Button";
+    import { Button } from "@/Components/Admin/Button";
 </script>
 
 {#if item}

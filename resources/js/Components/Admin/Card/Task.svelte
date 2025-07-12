@@ -5,7 +5,7 @@
     export let styles = "w-100 h-50 lg:w-[40rem] lg:h-43";
     export let background = "bg-[var(--color-blue-skywave)]";
 
-    import { Button } from "@/Components/Button"
+    import { Button } from "@/Components/Admin/Button"
 
     $: bg = due ? "bg-[var(--color-orange-amber)]" : background;
     $: calendar = due ? "bg-[var(--color-red-crimson)]" : "bg-[var(--color-blue-indigo)]";

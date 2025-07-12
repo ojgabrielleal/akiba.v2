@@ -3,8 +3,8 @@
 
     import { router, page } from "@inertiajs/svelte";
 
-    import { Section } from "@/Layouts";
-    import { Task } from "@/Components/Card";
+    import { Section } from "@/Layouts/Admin/";
+    import { Task } from "@/Components/Admin/Card";
 
     import { scrollx } from "@/Utils";
 

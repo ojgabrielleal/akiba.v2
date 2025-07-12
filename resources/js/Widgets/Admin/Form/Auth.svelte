@@ -3,7 +3,7 @@
 
     import Icon from "@iconify/svelte";
     import { router } from "@inertiajs/svelte";
-    import { Input } from "@/Components/Form";
+    import { Input } from "@/Components/Admin/Form";
 
     // Submit the form to backend
     let username = "";

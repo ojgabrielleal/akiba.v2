@@ -3,8 +3,8 @@
 
     import { page } from "@inertiajs/svelte";
 
-    import { Section } from "@/Layouts";
-    import { Post } from "@/Components/Card"
+    import { Section } from "@/Layouts/Admin/";
+    import { Post } from "@/Components/Admin/Card"
 
     $:({ user, posts } = $page.props); 
 </script>
