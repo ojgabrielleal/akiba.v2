@@ -11,7 +11,7 @@ trait HandleLaravelSuccess
     {
         $messages = [
             'save'=> ['type' => 'success', 'message' => 'Yatta~! Salvo! (≧◡≦)/'],
-            'read'=> ['type' => 'info', 'message' => 'Carregado, senpai~ (＾▽＾)'],
+            'load'=> ['type' => 'info', 'message' => 'Carregado, senpai~ (＾▽＾)'],
             'update' => ['type' => 'success', 'message' => 'Editado com carinho~ (๑˃ᴗ˂)'],
             'delete' => ['type' => 'warning', 'message' => 'Shineeee~! Deletado! (╯✧▽✧)╯'],
         ];
