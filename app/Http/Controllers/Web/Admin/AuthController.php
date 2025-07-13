@@ -34,7 +34,6 @@ class AuthController extends Controller
 
     public function render()
     {
-        return Inertia::render('Admin/Auth');
+        return Inertia::render('admin/Auth');
     }
-
 }
