@@ -99,7 +99,7 @@ class DashboardController extends Controller
 
     public function render()
     {
-        return Inertia::render('Admin/Dashboard', [
+        return Inertia::render('admin/Dashboard', [
             'alerts' => $this->getAlerts(),
             'tasks' => $this->getTasks(),
             'posts' => $this->getLastsPosts(),
