@@ -14,7 +14,7 @@ class StreamingController extends Controller
         $response = file_get_contents($url); // simples e direto
 
         if (!$response) {
-            return response()->json(['error' => 'Sem resposta da API'], 500);
+            return response()->json(['error' => 'No response from streaming audio api'], 500);
         }
 
         return response($response, 200)
