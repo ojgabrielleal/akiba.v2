@@ -7,11 +7,12 @@
 </script>
 
 <input
-    bind:value
-    type={type}
-    name={name}
-    id={name}
-    class={styles}
-    placeholder={placeholder}
-    aria-label={name}
+  value={value}
+  on:input={(e) => value = e.target.value}
+  type={type}
+  name={name}
+  id={name}
+  class={styles}
+  placeholder={placeholder}
+  aria-label={name}
 />

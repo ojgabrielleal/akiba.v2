@@ -45,7 +45,7 @@
 <div class={`fixed top-0 left-0 h-full w-64 bg-[var(--color-neutral-aurora)] z-50 shadow-md transform transition-transform duration-300 ${mobilenavbar ? 'translate-x-0' : '-translate-x-full'}`}>
     <div class="p-5 flex items-center justify-between">
         <img src="/favicon.ico" alt="Logo" class="w-8 h-8"/>
-        <button on:click={() => (openmobile = false)} aria-label="Fechar menu">
+        <button on:click={() => (mobilenavbar = false)} aria-label="Fechar menu">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
