@@ -86,4 +86,8 @@
     .color-filter-aurora {
         filter: invert(100%) sepia(75%) saturate(292%) hue-rotate(322deg) brightness(106%) contrast(102%);
     }
+
+    .color-filter-blue-skywave {
+        filter: invert(53%) sepia(84%) saturate(4530%) hue-rotate(185deg) brightness(99%) contrast(112%);
+    }
 }
