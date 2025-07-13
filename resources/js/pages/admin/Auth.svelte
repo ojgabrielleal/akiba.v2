@@ -1,7 +1,7 @@
 <script>
-    import { Meta } from "@/Meta";
-    import { Layout } from "@/Layouts/Admin/";
-    import { Auth } from "@/Widgets/Admin/Form";
+    import { Meta } from "@/meta";
+    import { Layout } from "@/layouts/admin/";
+    import { Auth } from "@/widgets/admin/form";
 </script>
 
 <Meta meta={{ title: "Realize o Login" }} />

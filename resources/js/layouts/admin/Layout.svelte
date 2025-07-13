@@ -2,8 +2,8 @@
     import { page } from "@inertiajs/svelte";
     import { toast, Toaster } from "svelte-hot-french-toast";
 
-    import { Navbar } from "@/Widgets/Admin/Navbar";
-    import NavbarItems from "@/Data/Admin/Navbar";
+    import { Navbar } from "@/widgets/admin/navbar";
+    import NavbarItems from "@/data/admin/Navbar";
 
     $: ({ user } = $page.props);
 

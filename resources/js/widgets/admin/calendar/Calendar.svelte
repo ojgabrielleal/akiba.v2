@@ -3,8 +3,8 @@
 
     import { router, page } from "@inertiajs/svelte";
 
-    import { Section } from "@/Layouts/Admin/";
-    import { Calendar } from "@/Components/Admin/Card"
+    import { Section } from "@/layouts/admin/";
+    import { Calendar } from "@/components/admin/card"
 
     $:({ calendar } = $page.props);
 

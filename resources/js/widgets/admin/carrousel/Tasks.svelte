@@ -3,10 +3,10 @@
 
     import { router, page } from "@inertiajs/svelte";
 
-    import { Section } from "@/Layouts/Admin/";
-    import { Task } from "@/Components/Admin/Card";
+    import { Section } from "@/layouts/admin/";
+    import { Task } from "@/components/admin/card";
 
-    import { scrollx } from "@/Utils";
+    import { scrollx } from "@/utils";
 
     $:({ tasks } = $page.props); 
 

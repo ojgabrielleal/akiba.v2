@@ -3,10 +3,10 @@
     export let global = false;
     
     import { router, page } from "@inertiajs/svelte";
-    import { Section } from "@/Layouts/Admin/";
-    import { Alert } from "@/Components/Admin/Card";
+    import { Section } from "@/layouts/admin/";
+    import { Alert } from "@/components/admin/card";
 
-    import { scrollx } from "@/Utils";
+    import { scrollx } from "@/utils";
 
     $:({ user, alerts } = $page.props); 
 

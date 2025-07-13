@@ -4,7 +4,7 @@
     export let styles = "w-100 h-50 bg-[var(--color-blue-skywave)] lg:w-[29rem]";
     export let confirm = true;
     
-    import { Button } from "@/Components/Admin/Button";
+    import { Button } from "@/components/admin/button";
 </script>
 
 {#if item}
