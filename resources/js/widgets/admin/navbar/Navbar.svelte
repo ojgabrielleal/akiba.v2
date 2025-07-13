@@ -13,7 +13,7 @@
     <div class="container relative">
         <ul class="flex justify-center items-center gap-10">
         {#each items as item}
-            {#if item.permissions?.includes('all') || item.permissions.some(p => user.permissions?.includes(p))}
+            {#if item.permissions.includes('all') || item.permissions.some(p => user.permissions.includes(p))}
                 <li>
                     <Link href={item.address} title={item.name} class="flex items-center gap-2 text-[var(--color-neutral-aurora)] hover:text-[var(--color-neutral-aurora-dark)]">
                         <img src={item.icon} alt={item.name} class="w-5 h-5" />
@@ -54,7 +54,7 @@
 
     <ul class="p-5 pt-3 space-y-4">
         {#each items as item}
-            {#if item.permissions?.includes('all') || item.permissions.some(p => user.permissions?.includes(p))}
+            {#if item.permissions.includes('all') || item.permissions.some(p => user.permissions.includes(p))}
                 <li>
                     <a href={item.address} class="flex items-center gap-3 text-gray-800 hover:text-blue-600">
                         <img src={item.icon} alt={item.name} class="w-5 h-5" />

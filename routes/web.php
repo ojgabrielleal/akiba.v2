@@ -6,6 +6,7 @@ use App\Http\Middleware\AuthMiddleware;
 
 use App\Http\Controllers\Web\Admin\AuthController;
 use App\Http\Controllers\Web\Admin\DashboardController;
+use App\Http\Controllers\Web\Admin\PostsController;
 
 Route::prefix('painel')->group(function(){
     Route::controller(AuthController::class)->group(function () {
@@ -18,6 +19,9 @@ Route::prefix('painel')->group(function(){
             Route::get('/dashboard', 'render')->name('render.painel.dashboard');
             Route::post('/alerts/signature/{alertIdentifier}', 'createAlertSignature');
             Route::patch('/tasks/completed/{taskIdentifier}', 'finishingTask');
+        });
+        Route::controller(PostsController::class)->group(function () {
+            Route::get('/posts', 'render')->name('render.painel.posts');
         });
     });
 });

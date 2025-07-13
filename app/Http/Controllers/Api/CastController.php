@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class StreamingController extends Controller
+class CastController extends Controller
 {
-    public function index(Request $request)
+    public function data(Request $request)
     {
         $url = 'http://cast.radioamc.com.br/api-json/Vkc1d2FrMHdNVUpRVkRBOStS';
 

@@ -1,2 +1,2 @@
 export { scrollx } from "./scroll";
-export { streaming } from "./streaming";
+export { cast } from "./cast";

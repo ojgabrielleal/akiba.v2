@@ -42,12 +42,12 @@
         <h1 class="uppercase font-noto-sans text-[var(--color-neutral-aurora)] italic font-bold text-2xl">
             Assistir Animes
         </h1>
-        <span class="w-90 font-noto-sans text-sm text-[var(--color-neutral-aurora)] line-clamp-5 mt-1">
+        <span class="w-full font-noto-sans text-sm text-[var(--color-neutral-aurora)] line-clamp-5 mt-1 lg:w-90">
             Senpai~ você tá de boas por agora (；・∀・)💦 Nenhuma tarefa na lista 📝, então aproveita 
             pra ver uns animes 🎌📺 e colocar a cabeça no lugar 🍵. Quando pintar algo, eu te 
             aviso rapidinho 💌💨. Mata ne~ (＾▽＾)/🌸
         </span>
-        <div class="absolute top-5 right-5 bg-[var(--color-neutral-aurora)]/30 rounded-xl shadow-lg w-[7rem] text-center overflow-hidden opacity-60">
+        <div class="hidden absolute top-5 right-5 bg-[var(--color-neutral-aurora)]/30 rounded-xl shadow-lg w-[7rem] text-center overflow-hidden opacity-60 lg:block">
             <div class="bg-[var(--color-blue-indigo)]/40 text-[var(--color-neutral-aurora)] font-noto-sans italic font-bold text-sm py-1 tracking-wide uppercase">
                 Data Limite
             </div>

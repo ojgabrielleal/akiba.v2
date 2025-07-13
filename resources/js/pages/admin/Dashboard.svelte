@@ -33,7 +33,7 @@
 </script>
 
 <Meta meta={{ title: "Dashboard" }} />
-<Layout type="admin">
+<Layout>
     <Greating phrase={phraseSwitchHero(user.nickname)} icon="/img/heroGreatingAvatar.png"/>
     <Alerts title="Avisos para a equipe"/>
     <Tasks title="Minhas Tarefas"/>

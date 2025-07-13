@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
+use App\Models\User;
+
 class AuthMiddleware
 {
     /**
@@ -26,8 +28,18 @@ class AuthMiddleware
         }
 
         // Share the authenticated user with Inertia
-        Inertia::share('user', fn() => Auth::check() ? Auth::user() : null);
+        Inertia::share('user', function () {
+            if (!Auth::check()) {
+                return null;
+            }
 
+            $user = User::with('permissions')->find(Auth::id());
+
+            // Sobrescreve a collection para apenas os nomes das permissões
+            $user->setRelation('permissions', $user->permissions->pluck('permission'));
+
+            return $user;
+        });
         return $next($request);
     }
 }
