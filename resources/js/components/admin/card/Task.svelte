@@ -28,11 +28,11 @@
             </div>
         </div>
         {#if due}
-            <Button styles="bg-[var(--color-red-crimson)] py-2 px-6 rounded-xl font-noto-sans font-bold text-[var(--color-neutral-aurora)] italic uppercase absolute right-5 bottom-3" action={action}>
+            <Button styles="bg-[var(--color-red-crimson)] rounded-xl text-[var(--color-neutral-aurora)] uppercase absolute right-5 bottom-3 py-2 px-6" action={action}>
                 Solicitar Conclusão
             </Button>
         {:else}
-            <Button styles="absolute right-5 bottom-3" action={action}>
+            <Button styles="absolute right-5 bottom-3 py-2 px-6" action={action}>
                 <img src="/icons/verify.svg" alt="verify icon" class="w-5"/>
             </Button>
         {/if}

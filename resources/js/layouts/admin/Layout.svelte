@@ -20,7 +20,7 @@
 </script>
 
 <Toaster position="bottom-end" />
-<header class="lg:pt-10">
+<header class="mb-15 lg:pt-10">
     <Navbar items={NavbarItems} user={user}/>
     <slot name="header" />
 </header>
