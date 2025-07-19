@@ -2,7 +2,7 @@
     export let type = "text";
     export let name; 
     export let placeholder;
-    export let styles = "w-full h-[3.5rem] bg-[var(--color-neutral-aurora)] font-noto-sans rounded-lg outline-none pl-4";
+    export let styles = "w-full h-[3rem] bg-[var(--color-neutral-aurora)] font-noto-sans rounded-lg outline-none pl-4";
     export let value; 
 </script>
 
