@@ -1,4 +1,5 @@
 export { default as Label } from './Label.svelte'
 export { default as Input } from './Input.svelte'
 export { default as Preview } from './Preview.svelte'
-
+export { default as Wysiwyg } from './Wysiwyg.svelte'
+export { default as Select } from './Select.svelte'

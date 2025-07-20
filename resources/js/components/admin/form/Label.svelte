@@ -1,7 +1,8 @@
 <script>
     export let name;
+    export let styles = "text-[var(--color-orange-amber)] font-bold italic";
 </script>
 
-<label class="text-[var(--color-orange-amber)] text-lg uppercase italic font-bold font-noto-sans block mb-2" for={name}>
+<label class={`${styles} text-lg uppercase font-noto-sans block mb-1`} for={name}>
     <slot/>
 </label>

@@ -1,0 +1,36 @@
+{
+    "postsCategories": [
+        {
+            "label": "Matéria",
+            "styles": "border-4 border-solid border-[var(--color-blue-skywave)] rounded-xl text-[var(--color-blue-skywave)] text-xl uppercase",
+            "redirect": "/painel/materias/criar"
+        },
+        {
+            "label": "Review",
+            "styles": "border-4 border-solid border-[var(--color-purple-mystic)] rounded-xl text-[var(--color-purple-mystic)] text-xl uppercase",
+            "redirect": "/painel/materias/criar"
+        },
+        {
+            "label": "Eventos",
+            "styles": "border-4 border-solid border-[var(--color-orange-copper)] rounded-xl text-[var(--color-orange-copper)] text-xl uppercase",
+            "redirect": "/painel/materias/criar"
+        }
+    ],
+    "postsControls": [
+        {
+            "label": "Salvar Rascunho",
+            "styles": "border-4 border-solid border-[var(--color-green-forest)] rounded-xl text-[var(--color-green-forest)] text-xl uppercase",
+            "action": null
+        },
+        {
+            "label": "Mandar para Revisão",
+            "styles": "border-4 border-solid border-[var(--color-orange-amber)] rounded-xl text-[var(--color-orange-amber)] text-xl uppercase",
+            "action": null
+        },
+        {
+            "label": "Publicar",
+            "styles": "border-4 border-solid border-[var(--color-blue-skywave)] rounded-xl text-[var(--color-blue-skywave)] text-xl uppercase",
+            "action": null
+        }
+    ]
+}

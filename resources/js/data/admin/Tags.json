@@ -1,0 +1,12 @@
+[
+  { "value": "novidades", "label": "Novidades" },
+  { "value": "anime", "label": "Anime" },
+  { "value": "eventos", "label": "Eventos" },
+  { "value": "manga", "label": "Mangá" },
+  { "value": "light-novel", "label": "Light Novel" },
+  { "value": "listas", "label": "Listas" },
+  { "value": "curiosidades", "label": "Curiosidades" },
+  { "value": "tops", "label": "Top’s" },
+  { "value": "primeira-impressao", "label": "1ª Impressão" },
+  { "value": "reviews", "label": "Reviews" }
+]
