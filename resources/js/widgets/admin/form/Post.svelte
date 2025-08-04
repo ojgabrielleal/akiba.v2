@@ -29,8 +29,8 @@
             </div>
         </div>
     </div>
-    <div class="w-[85rem] ml-auto mb-10">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+    <div class="w-full lg:w-[85rem] ml-auto mb-10">
+        <div class="gap-5 grid grid-cols-1 lg:grid-cols-2 lg:gap-10">
             <div class="mb-8">
                 <Label name="first_tag" styles="text-[var(--color-blue-skywave)] text-center font-bold italic">Primeira Tag</Label>
                 <Select options={Tags} />
@@ -40,7 +40,7 @@
                 <Select options={Tags} />
             </div>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div class="gap-5 grid grid-cols-1 lg:grid-cols-2 lg:gap-10">
             <div class="mb-8">
                 <span class="text-center text-[var(--color-orange-amber)] font-bold italic text-lg uppercase font-noto-sans block mb-1">
                     Primeira fonte de pesquisa

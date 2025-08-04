@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\Logged;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;

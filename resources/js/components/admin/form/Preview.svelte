@@ -1,7 +1,7 @@
 <script>
     export let name = null;
     export let width = "w-full";
-    export let height = "h-[23rem]";
+    export let height = "h-[15rem] lg:h-[23rem]";
     export let previewHeight = "h-full";
 
     let preview = null;

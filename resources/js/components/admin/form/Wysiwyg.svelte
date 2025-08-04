@@ -33,7 +33,7 @@
 
 <!-- Editor wrapper -->
 <div class="bg-white rounded-xl overflow-hidden">
-  <div bind:this={editor} class="min-h-[40rem] p-3" />
+  <div bind:this={editor} class="min-h-[30rem] lg:min-h-[40rem] p-3" />
 </div>
 
 <!-- Campo hidden que será lido pelo FormData -->

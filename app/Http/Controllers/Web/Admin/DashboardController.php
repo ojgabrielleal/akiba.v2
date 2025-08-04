@@ -18,8 +18,7 @@ use App\Models\Calendar;
 
 class DashboardController extends Controller
 {
-    use ProvideException;
-    use ProvideSuccess;
+    use ProvideException, ProvideSuccess;
 
     public function getAlerts()
     {

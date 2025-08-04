@@ -1,6 +1,4 @@
-<script>
-    import { page } from "@inertiajs/svelte";
-    
+<script>    
     import { Meta } from "@/meta";
     import { Layout, Section } from "@/layouts/admin";
     import { Tabs } from "@/components/admin/tabs";
@@ -14,11 +12,11 @@
 <Layout>
     <Section title="Criar matérias">
         <Tabs items={TabsData.postsCategories}/>
-        <div class="mt-25">
+        <div class="mt-10 lg:mt-25">
             <FormPost/>
         </div>
         <div class="mt-15">
-            <ListPosts title="Todas as postagens" editable={true}/>
+            <ListPosts title="Todas as matérias"/>
         </div>
     </Section>
 </Layout>

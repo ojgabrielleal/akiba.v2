@@ -1,14 +1,13 @@
 <script>
     export let item = null;
-    export let styles = "w-full h-[14rem] bg-[var(--color-blue-skywave)] lg:w-[18.2rem]";
-    export let editable = false;
+    export let styles = "w-full h-[14rem] lg:w-[18.2rem]";
 
     import { Link } from "@inertiajs/svelte";
     import { Button } from "@/components/admin/button";
 </script>
 
 {#if item}
-    <div class={`${styles} flex-shrink-0 rounded-lg p-4 relative`}>
+    <div class={`${styles} flex-shrink-0 rounded-lg p-4 relative`} style="background-color: {item.status_color}">
         <span class="font-noto-sans text-lg text-[var(--color-neutral-aurora)] line-clamp-5 uppercase">
             {item.title}
         </span>
@@ -16,16 +15,16 @@
             <span class="font-noto-sans font-bold italic uppercase text-lg text-[var(--color-neutral-aurora)]">
                 {item.user.nickname}
             </span>
-            <div class="flex gap-1">
+            <div class="flex gap-3">
                 <Link href={`https://akiba.com.br/materias/${item.slug}`}>
                     <Button styles="p-0">
                         <img src="/icons/eye.svg" alt="eye icon" class="w-5 color-filter-aurora"/>
                     </Button>
                 </Link>
-                {#if editable}
+                {#if item.editable}
                     <Link href={`/painel/materias/${item.slug}`}>
                         <Button styles="p-0">
-                            <img src="/icons/edit.svg" alt="edit icon" class="w-5 color-filter-aurora"/>
+                            <img src="/icons/edit.svg" alt="edit icon" class="w-4 color-filter-aurora"/>
                         </Button>
                     </Link>
                 {/if}
