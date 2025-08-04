@@ -7,11 +7,9 @@
 
     import NavbarItems from "@/data/admin/Navbar";
 
-    $: ({ user } = $page.props);
+    $: ({ user, flash } = $page.props);
 
-    // Flash messages global
-    $: flash = $page.props.flash;
-    $: if(flash){
+    $: if(flash && flash.type && flash.message){
         toast[flash.type](flash.message);
     }
 

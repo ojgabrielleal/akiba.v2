@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\Response;
 
 use Throwable;
 use Illuminate\Support\Facades\Log;
@@ -20,9 +20,9 @@ use Illuminate\Http\Response;
 use RuntimeException;
 use LogicException;
 
-trait HandlesLaravelExceptions
+trait ProvideException
 {
-    public function handleLaravelException(Throwable $e): Response|RedirectResponse
+    public function ProvideException(Throwable $e): Response|RedirectResponse
     {
         Log::error('[LaravelException] ' . get_class($e) . ': ' . $e->getMessage(), [
             'exception' => $e,

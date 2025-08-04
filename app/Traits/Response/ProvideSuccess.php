@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\Response;
+
 use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 
-trait HandleLaravelSuccess
+trait ProvideSuccess
 {
-    public function HandleLaravelSuccess(string $action): Response|RedirectResponse
+    public function ProvideSuccess(string $action): Response|RedirectResponse
     {
         $messages = [
             'save'=> ['type' => 'success', 'message' => 'Yatta~! Salvo! (≧◡≦)/'],

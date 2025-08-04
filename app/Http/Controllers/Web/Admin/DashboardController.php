@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 use Inertia\Inertia;
 
-use App\Traits\HandlesLaravelExceptions;
-use App\Traits\HandleLaravelSuccess;
+use App\Traits\Response\ProvideException;
+use App\Traits\Response\ProvideSuccess;
 
 use App\Models\Alert;
 use App\Models\AlertSignature;
@@ -18,8 +18,8 @@ use App\Models\Calendar;
 
 class DashboardController extends Controller
 {
-    use HandlesLaravelExceptions;
-    use HandleLaravelSuccess;
+    use ProvideException;
+    use ProvideSuccess;
 
     public function getAlerts()
     {
@@ -31,7 +31,7 @@ class DashboardController extends Controller
                 },
             ])->get();
         } catch (\Throwable $e) {
-            return $this->handleLaravelException($e);
+            return $this->ProvideException($e);
         }
     }
 
@@ -45,10 +45,10 @@ class DashboardController extends Controller
                 'alert_id' => $alert->id,
             ]);
 
-            return $this->HandleLaravelSuccess('save');
+            return $this->ProvideSuccess('save');
 
         } catch (\Throwable  $e) {
-            return $this->handleLaravelException($e);
+            return $this->ProvideException($e);
         }
     }
 
@@ -59,7 +59,7 @@ class DashboardController extends Controller
                 'user'
             ]);
         }catch( \Throwable $e) {
-            return $this->handleLaravelException($e);
+            return $this->ProvideException($e);
         }
     }
 
@@ -72,9 +72,9 @@ class DashboardController extends Controller
                 'completed' => true,
             ]);
 
-            return $this->HandleLaravelSuccess('save');
+            return $this->ProvideSuccess('save');
        }catch(\Throwable $e) {
-            return $this->handleLaravelException($e);
+            return $this->ProvideException($e);
         }
     }
 
@@ -85,7 +85,7 @@ class DashboardController extends Controller
                 'user',
             ]);
         } catch (\Throwable $e) {
-            return $this->handleLaravelException($e);
+            return $this->ProvideException($e);
         }
     }
 

@@ -4,13 +4,14 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Illuminate\Support\Facades\Auth;
+
+use App\Models\User;
 
 class HandleInertiaRequests extends Middleware
 {
     /**
-     * The root template that's loaded on the first page visit.
-     *
-     * @see https://inertiajs.com/server-side-setup#root-template
+     * The root template that is loaded on the first page visit.
      *
      * @var string
      */
@@ -18,8 +19,6 @@ class HandleInertiaRequests extends Middleware
 
     /**
      * Determines the current asset version.
-     *
-     * @see https://inertiajs.com/asset-versioning
      */
     public function version(Request $request): ?string
     {
@@ -28,16 +27,26 @@ class HandleInertiaRequests extends Middleware
 
     /**
      * Define the props that are shared by default.
-     *
-     * @see https://inertiajs.com/shared-data
-     *
-     * @return array<string, mixed>
      */
     public function share(Request $request): array
     {
-        return [
-            ...parent::share($request),
-            //
-        ];
+        return array_merge(parent::share($request), [
+            'user' => function () {
+                if (!Auth::check()) {
+                    return null;
+                }
+
+                $user = User::with('permissions')->find(Auth::id());
+                $user->setRelation('permissions', $user->permissions->pluck('permission'));
+
+                return $user;
+            },
+
+            // Flash messages
+            'flash' => [
+                'type' => fn () => session('flash.type'),
+                'message' => fn () => session('flash.message'),
+            ],
+        ]);
     }
 }
