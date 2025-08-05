@@ -2,10 +2,12 @@
     export let item = null;
     export let action = null;
     export let styles = "w-100 h-50 bg-[var(--color-blue-skywave)] lg:w-[29rem]";
-    export let confirm = true;
     
     import { Button } from "@/components/admin/button";
+
+    console.log(item)
 </script>
+
 
 {#if item}
     <div class={`${styles} flex-shrink-0 rounded-lg p-4 relative`}>
@@ -22,7 +24,7 @@
                 {/each}
             {/if}
         </div>
-        {#if confirm}
+        {#if item.enable_confirm}
             <Button styles="w-[2rem] h-[2rem] bg-[var(--color-neutral-aurora)] absolute bottom-3 right-4 rounded-md" action={action}>
                 <img src="/icons/verify.svg" alt="verify icon" class="w-5"/>
             </Button>   
