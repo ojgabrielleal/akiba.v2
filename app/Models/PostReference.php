@@ -14,6 +14,10 @@ class PostReference extends Model
         'url',
     ];
 
+    protected $hidden = [
+        'post_id'
+    ];
+
     /**
      * Relationship with the 'Posts' model.
      */

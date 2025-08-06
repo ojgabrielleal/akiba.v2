@@ -1,4 +1,5 @@
 [
+  { "value": "#", "label": "Selecione uma tag" },
   { "value": "novidades", "label": "Novidades" },
   { "value": "anime", "label": "Anime" },
   { "value": "eventos", "label": "Eventos" },

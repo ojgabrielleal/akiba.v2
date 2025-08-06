@@ -13,6 +13,10 @@ class PostCategory extends Model
         'category_name',
     ];
 
+    protected $hidden = [
+        'post_id'
+    ];
+
     /**
      * Relationship with the 'Posts' model.
      */

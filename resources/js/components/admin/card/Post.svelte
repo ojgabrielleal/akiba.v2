@@ -4,8 +4,6 @@
 
     import { Link } from "@inertiajs/svelte";
     import { Button } from "@/components/admin/button";
-
-    console.log(item)
 </script>
 
 {#if item}

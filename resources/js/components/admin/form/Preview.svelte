@@ -3,9 +3,12 @@
     export let width = "w-full";
     export let height = "h-[15rem] lg:h-[23rem]";
     export let previewHeight = "h-full";
+    export let src = null;
+
+    $: imageToShow = preview ?? (src && src !== '#' ? src : null);
 
     let preview = null;
-
+    
     function previewImage(event) {
         const file = event.target.files[0];
         if (file) {
@@ -21,8 +24,8 @@
 </script>
 
 <label class="cursor-pointer">
-    {#if preview}
-        <img src={preview} alt="Preview" class={`w-full ${previewHeight} rounded-lg object-cover object-top`} />
+    {#if imageToShow}
+        <img src={imageToShow} alt="Preview" class={`w-full ${previewHeight} rounded-lg object-cover object-top`} />
     {:else}
         <div class={`${width} ${height} bg-[var(--color-neutral-aurora)] rounded-lg flex items-center justify-center overflow-hidden font-noto-sans text-[var(--color-blue-skywave)] text-7xl font-bold italic uppercase`}>
             +

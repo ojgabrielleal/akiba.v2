@@ -21,7 +21,7 @@ Route::prefix('painel')->group(function(){
             Route::patch('/tasks/completed/{taskId}', 'finishingTask');
         });
         Route::controller(PostsController::class)->group(function () {
-            Route::get('/posts', 'render')->name('render.painel.posts');
+            Route::get('/materias/{postSlug?}', 'render')->name('render.painel.materias');
         });
     });
 });

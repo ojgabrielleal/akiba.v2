@@ -9,7 +9,7 @@
         "name": "Materias",
         "icon": "/icons/materials.svg",
         "permissions_keys": ["administrator", "writer"],
-        "address": "/painel/posts"
+        "address": "/painel/materias"
     },
     {
         "name": "Locução",

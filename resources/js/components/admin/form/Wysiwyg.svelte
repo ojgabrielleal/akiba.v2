@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import Quill from 'quill';
 
+  export let value = '';
+
   let quill;
   let editor;
   let textarea;
@@ -24,19 +26,29 @@
       }
     });
 
+    // define conteúdo inicial
+    if (value) {
+      quill.root.innerHTML = value;
+      textarea.value = value;
+    }
+
     // Atualiza o campo hidden quando o conteúdo muda
     quill.on('text-change', () => {
       textarea.value = quill.root.innerHTML;
     });
   });
+
+  // Atualiza o editor se a prop `value` mudar
+  $: if (quill && value !== quill.root.innerHTML) {
+    quill.root.innerHTML = value;
+    textarea.value = value;
+  }
 </script>
 
-<!-- Editor wrapper -->
 <div class="bg-white rounded-xl overflow-hidden">
   <div bind:this={editor} class="min-h-[30rem] lg:min-h-[40rem] p-3" />
 </div>
 
-<!-- Campo hidden que será lido pelo FormData -->
 <textarea name="content" class="hidden" bind:this={textarea}></textarea>
 
 <style>

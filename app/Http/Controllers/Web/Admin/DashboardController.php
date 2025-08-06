@@ -42,7 +42,7 @@ class DashboardController extends Controller
     public function createAlertSignature(Request $request, $alertId)
     {
         try {
-            $alert = Alert::find($alertId);
+            $alert = Alert::firstOrFail($alertId);
             $user = $request->user();
 
             AlertSignature::create([

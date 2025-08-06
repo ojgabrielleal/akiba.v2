@@ -34,11 +34,20 @@ class PostsController extends Controller
         }
     }
 
+    public function getPost($postSlug)
+    {
+        try {
+            return optional(Post::where('slug', $postSlug)->with(['references', 'categories'])->first())->makeHidden(['styles']);
+        } catch (\Throwable $e) {
+            return $this->ProvideException($e);
+        }
+    }
 
-    public function render()
+    public function render($postSlug = null)
     {
         return inertia('admin/Posts', [
-            "posts" => $this->getPosts()
+            "posts" => $this->getPosts(),
+            "post" => $this->getPost($postSlug)
         ]);
     }
 }
