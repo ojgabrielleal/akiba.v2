@@ -58,7 +58,7 @@
                         <Calendar />
                     {:else}
                         {#each day.items as item}
-                            <Calendar item={item} category={item.category} />
+                            <Calendar item={item}/>
                         {/each}
                     {/if}
                 </div>

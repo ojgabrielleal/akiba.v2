@@ -24,36 +24,29 @@ class DashboardController extends Controller
     public function getAlerts()
     {
         try {
-            $authenticateUser = $this->ProvideAuthenticateUser();
+            $user = request()->user();
 
-            $alerts = Alert::orderBy('created_at', 'desc')
-                ->limit(6)
-                ->whereDoesntHave('signatures', function ($query) use ($authenticateUser) {
-                    $query->where('user_id', $authenticateUser->id);
+            return Alert::limit(6)
+                ->whereDoesntHave('signatures', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
                 })
                 ->with(['user', 'signatures' => function ($query) {
                     $query->limit(4)->with('user');
                 }])
                 ->get();
-
-            $alerts->transform(function($alert){
-                $alert->enable_confirm = true;
-                return $alert;
-            });
-
-            return $alerts;
         } catch (\Throwable $e) {
             return $this->ProvideException($e);
         }
     }
     
-    public function createAlertSignature(Request $request, $alertIdentifier)
+    public function createAlertSignature(Request $request, $alertId)
     {
         try {
-            $alert = Alert::findOrFail($alertIdentifier);
+            $alert = Alert::find($alertId);
+            $user = $request->user();
 
             AlertSignature::create([
-                'user_id' => $request->user()->id,
+                'user_id' => $user->id,
                 'alert_id' => $alert->id,
             ]);
 
@@ -66,18 +59,21 @@ class DashboardController extends Controller
     public function getTasks()
     {
         try {
-            return Task::all()->load([
-                'user'
-            ]);
+            $user = request()->user();
+
+            return Task::where('user_id', $user->id)
+                ->where('completed', false)
+                ->with('user')
+                ->get();
         }catch( \Throwable $e) {
             return $this->ProvideException($e);
         }
     }
 
-    public function finishingTask(Request $request, $taskIdentifier)
+    public function finishingTask($taskId)
     {
        try{
-            $task = Task::findOrFail($taskIdentifier);
+            $task = Task::findOrFail($taskId);
 
             $task->update([
                 'completed' => true,
@@ -92,17 +88,12 @@ class DashboardController extends Controller
     public function getLastsPosts()
     {
         try {
-            $authenticateUser = $this->ProvideAuthenticateUser();
-            $posts = Post::orderBy('created_at', 'desc')->take(5)->with('user')->get();
+            $user = request()->user();
 
-            // Insert personalized keys before return;
-            $posts->transform(function($post) use ($authenticateUser){
-                $post->editable = $post->user_id == $authenticateUser->id ? true : false;
-                return $post;
-            });
-
-            return $posts;
-
+            return Post::limit(5)
+                ->with('user')
+                ->where('status', 'published')
+                ->get();
         } catch (\Throwable $e) {
             return $this->ProvideException($e);
         }
@@ -110,10 +101,11 @@ class DashboardController extends Controller
 
     public function getCalendar()
     {
-        $calendar = Calendar::with('user')->orderBy('hour')->get();
-        $grouped = $calendar->groupBy('day');
+        $calendar = Calendar::with('user')
+            ->orderBy('hour')
+            ->get();
 
-        return $grouped;
+        return $calendar->groupBy('day');
     }
 
     public function render()

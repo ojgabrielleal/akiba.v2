@@ -25,6 +25,25 @@ class Calendar extends Model
         'hour' => 'datetime',
     ];
 
+    protected $appends = ['styles'];
+
+    /**
+     * Set accessor 'styles' in response
+    */
+    public function getStylesAttribute()
+    {
+        $colors = [
+            'live' => 'var(--color-purple-mystic)',
+            'video' => 'var(--color-red-crimson)',
+            'podcast' => 'var(--color-green-forest)',
+            'show' => 'var(--color-blue-skywave)',
+        ];
+
+        return [
+            'bg' => $colors[$this->category] ?? 'var(--color-blue-skywave)',
+        ];
+    }
+
     /**
      * Mutator for content
     */

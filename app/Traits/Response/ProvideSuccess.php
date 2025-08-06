@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 trait ProvideSuccess
 {
-    public function ProvideSuccess(string $action): Response|RedirectResponse
+    public function provideSuccess(string $action): Response|RedirectResponse
     {
         $messages = [
             'save'=> ['type' => 'success', 'message' => 'Yatta~! Salvo! (≧◡≦)/'],

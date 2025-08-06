@@ -7,14 +7,14 @@ use App\Models\User;
 
 trait ProvideAuthenticateUser
 {
-    public function ProvideAuthenticateUser()
+    public function provideAuthenticateUser()
     {
         if (!Auth::check()) {
             return null;
         }
 
         $user = User::with('permissions')->find(Auth::id());
-        $user->setRelation('permissions', $user->permissions->pluck('permission'));
+        $user->setRelation('permissions', $user->permissions_keys->pluck('permission'));
 
         return $user;
     }

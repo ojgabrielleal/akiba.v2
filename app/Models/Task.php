@@ -25,18 +25,56 @@ class Task extends Model
         'user_id',
     ];
 
-    protected $appends = ["deadline_status"];
+    protected $appends = ["due_soon", "styles"];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('orderByCreated', function ($query) {
+            $query->orderBy('created_at', 'desc');
+        });
+    }
 
     /**
-     * Accessor for deadline status
+     * Set accessor 'deadline_status' in response
+    */
+    public function getDueSoonAttribute()
+    {
+        $deadline = Carbon::parse($this->attributes['deadline']);
+        $now = Carbon::now();
+
+        if ($deadline->diffInDays($now) <= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Set accessor 'styles' in response
      */
-    public function getDeadlineStatusAttribute()
+    public function getStylesAttribute()
     {
         $deadline = Carbon::parse($this->attributes['deadline']);
         $now = Carbon::now();
 
         if($deadline->diffInDays($now) <= 1){
-            return 'due_soon';
+            return [
+                "bg" => "var(--color-orange-amber)",
+                "bg_date" => [
+                    "title" => "var(--color-red-crimson)",
+                    "date" => "var(--color-blue-indigo)"
+                ]
+            ];
+        }else{
+            return [
+                "bg" => "var(--color-blue-skywave)",
+                "bg_date" => [
+                    "title" => "var(--color-blue-indigo)",
+                    "title_text_color" => "var(--color-neutral-aurora)",
+                    "date" => "var(--color-neutral-aurora)",
+                    "date_text_color" => "var(--color-blue-indigo)"
+                ]
+            ];
         }
     }
 

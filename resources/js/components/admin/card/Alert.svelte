@@ -1,16 +1,14 @@
 <script>
     export let item = null;
     export let action = null;
-    export let styles = "w-100 h-50 bg-[var(--color-blue-skywave)] lg:w-[29rem]";
+    export let styles = "w-100 h-50 lg:w-[29rem]";
     
     import { Button } from "@/components/admin/button";
-
-    console.log(item)
 </script>
 
 
 {#if item}
-    <div class={`${styles} flex-shrink-0 rounded-lg p-4 relative`}>
+    <div class={`${styles} bg-[var(--color-blue-skywave)] flex-shrink-0 rounded-lg p-4 relative`}>
         <h1 class="font-noto-sans font-black italic uppercase text-[var(--color-neutral-aurora)] text-xl">
             {item.user.nickname}
         </h1>

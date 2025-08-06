@@ -30,6 +30,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'permissions',
     ];
 
     protected $casts = [
@@ -37,6 +38,24 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected $with = [
+        'permissions', 
+        'externalLinks'
+    ];
+
+    protected $appends = ['permissions_keys'];
+    
+    /**
+    * Set accessor 'permissions_keys' in response
+    */
+    public function getPermissionsKeysAttribute()
+    {
+        $permissions = $this->getRelationValue('permissions');
+
+        return $permissions
+            ? $permissions->pluck('permission')
+            : collect();
+    }
 
     /**
      * Relationships from models 'UsersExternalLink' and 'UsersPermissions'

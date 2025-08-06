@@ -12,12 +12,12 @@
 
 <Section title={title}>
     <div class="flex gap-5 overflow-x-auto flex-wrap">
-        {#if posts?.length === 0}
-            <Post />
-        {:else}
+        {#if posts.length > 0}
             {#each posts as item}
                 <Post item={item}/>
             {/each}
+        {:else}
+            <Post />
         {/if}
     </div>        
 </Section>

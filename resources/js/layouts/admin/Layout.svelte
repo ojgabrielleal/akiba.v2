@@ -5,9 +5,7 @@
     import { Navbar } from "@/widgets/admin/navbar";
     import { Analytics } from "@/widgets/admin/analytics";
 
-    import NavbarItems from "@/data/admin/Navbar";
-
-    $: ({ user, flash } = $page.props);
+    $: ({ flash } = $page.props);
 
     $: if(flash && flash.type && flash.message){
         toast[flash.type](flash.message);
@@ -19,7 +17,7 @@
 
 <Toaster position="bottom-end" />
 <header class="mb-15 lg:pt-10">
-    <Navbar items={NavbarItems} user={user}/>
+    <Navbar/>
     <slot name="header" />
 </header>
 <main class="container">

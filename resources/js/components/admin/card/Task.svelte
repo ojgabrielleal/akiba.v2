@@ -1,38 +1,39 @@
 <script>
     export let item = null;
     export let action = null;
-    export let due = false;
     export let styles = "w-100 h-50 lg:w-[40rem] lg:h-43";
-    export let background = "bg-[var(--color-blue-skywave)]";
 
     import { Button } from "@/components/admin/button"
-
-    $: bg = due ? "bg-[var(--color-orange-amber)]" : background;
-    $: calendar = due ? "bg-[var(--color-red-crimson)]" : "bg-[var(--color-blue-indigo)]";
 </script>
 
 {#if item}
-    <div class={`${bg} ${styles} flex-shrink-0 rounded-lg p-4 relative`}>
+    <div class={`${styles} flex-shrink-0 rounded-lg p-4 relative`} style="background-color: {item.styles.bg};">        
         <h1 class="uppercase font-noto-sans text-[var(--color-neutral-aurora)] italic font-bold text-2xl">
             {item.title}
         </h1>
         <span class="w-90 ont-noto-sans text-sm text-[var(--color-neutral-aurora)] line-clamp-5 mt-1">
             {item.content}
         </span>
-        <div class="absolute top-5 right-5 bg-[var(--color-blue-indigo)] rounded-xl shadow-lg w-[7rem] text-center overflow-hidden">
-            <div class={`${calendar} text-[var(--color-neutral-aurora)] font-noto-sans italic font-bold text-sm py-1 tracking-wide uppercase`}>
-                item Limite
+        <div class="absolute top-5 right-5 rounded-xl shadow-lg w-[7rem] text-center overflow-hidden">
+            <div 
+                class="font-noto-sans italic font-bold text-sm py-1 tracking-wide uppercase" 
+                style="background-color: {item.styles.bg_date.title}; color: {item.styles.bg_date.title_text_color}"
+            >
+                Data Limite
             </div>
-            <div class="text-[var(--color-neutral-aurora)] font-noto-sans italic font-extrabold text-2xl py-1 tracking-widest">
+            <div 
+                class="text-[var(--color-neutral-aurora)] font-noto-sans italic font-extrabold text-2xl py-1 tracking-widest" 
+                style="background-color: {item.styles.bg_date.date}; color: {item.styles.bg_date.date_text_color}"
+            >
                 {item.deadline}
             </div>
         </div>
-        {#if due}
+        {#if item.due_soon}
             <Button styles="bg-[var(--color-red-crimson)] rounded-xl text-[var(--color-neutral-aurora)] uppercase absolute right-5 bottom-3 py-2 px-6" action={action}>
                 Solicitar Conclusão
             </Button>
         {:else}
-            <Button styles="absolute right-5 bottom-3 py-2 px-6" action={action}>
+            <Button styles="bg-[var(--color-neutral-aurora)] absolute right-5 bottom-3 py-2 px-2 rounded-md" action={action}>
                 <img src="/icons/verify.svg" alt="verify icon" class="w-5"/>
             </Button>
         {/if}

@@ -5,9 +5,6 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Illuminate\Support\Facades\Auth;
-
-use App\Models\User;
-
 class HandleInertiaRequests extends Middleware
 {
     /**
@@ -32,14 +29,7 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'user' => function () {
-                if (!Auth::check()) {
-                    return null;
-                }
-
-                $user = User::with('permissions')->find(Auth::id());
-                $user->setRelation('permissions', $user->permissions->pluck('permission'));
-
-                return $user;
+                return Auth::check() ? Auth::user() : null;
             },
 
             // Flash messages

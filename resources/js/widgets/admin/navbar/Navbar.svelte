@@ -1,8 +1,9 @@
 <script>
-    export let items = null;
-    export let user = null;
-
+    import { page } from "@inertiajs/svelte";
     import { Link } from '@inertiajs/svelte';
+    import Items from "@/data/admin/Navbar";
+
+    $: ({ user } = $page.props);
 
     // State to manage mobile navbar visibility
     let mobilenavbar = false;
@@ -12,8 +13,8 @@
 <nav class="w-full h-[3rem] bg-[var(--color-neutral-aurora)] hidden items-center justify-center lg:flex">
     <div class="container relative">
         <ul class="flex justify-center items-center gap-10">
-        {#each items as item}
-            {#if item.permissions.includes('all') || item.permissions.some(p => user.permissions.includes(p))}
+        {#each Items as item}
+            {#if item.permissions_keys.includes('all') || item.permissions_keys.some(p => user.permissions_keys.includes(p))}
                 <li>
                     <Link href={item.address} title={item.name} class="flex items-center gap-2 text-[var(--color-neutral-aurora)] hover:text-[var(--color-neutral-aurora-dark)]">
                         <img src={item.icon} alt={item.name} class="w-5 h-5" />
@@ -53,8 +54,8 @@
     </div>
 
     <ul class="p-5 pt-3 space-y-4">
-        {#each items as item}
-            {#if item.permissions.includes('all') || item.permissions.some(p => user.permissions.includes(p))}
+        {#each Items as item}
+            {#if item.permissions_keys.includes('all') || item.permissions_keys.some(p => user.permissions_keys.includes(p))}
                 <li>
                     <a href={item.address} class="flex items-center gap-3 text-gray-800 hover:text-blue-600">
                         <img src={item.icon} alt={item.name} class="w-5 h-5" />
