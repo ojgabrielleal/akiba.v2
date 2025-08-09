@@ -10,23 +10,19 @@
         {#if item.redirect}
             {#if item.out_spa}
                 <a href={item.redirect} aria-label={item.label}>
-                    <Button styles={`${item.styles ?? ""} w-full lg:w-auto py-2 px-6`} action={item.action ?? null}>
+                    <Button type={item.type ?? "button"} styles={`${item.styles ?? ""} w-full lg:w-auto py-2 px-6`} action={item.action ?? null}>
                         {item.label}
                     </Button>
                 </a>
             {:else}
                 <Link href={item.redirect} aria-label={item.label}>
-                    <Button styles={`${item.styles ?? ""} w-full lg:w-auto py-2 px-6`} action={item.action ?? null}>
+                    <Button type={item.type ?? "button"} styles={`${item.styles ?? ""} w-full lg:w-auto py-2 px-6`} action={item.action ?? null}>
                         {item.label}
                     </Button>
                 </Link>
             {/if}
-        {:else if item.action}
-            <Button styles={`${item.styles ?? ""} w-full lg:w-auto py-2 px-6`} action={item.action}>
-                {item.label}
-            </Button>
         {:else}
-            <Button styles={`${item.styles ?? ""} w-full lg:w-auto py-2 px-6`}>
+            <Button type={item.type ?? "button"} styles={`${item.styles ?? ""} w-full lg:w-auto py-2 px-6`} action={item.action ?? null}>
                 {item.label}
             </Button>
         {/if}

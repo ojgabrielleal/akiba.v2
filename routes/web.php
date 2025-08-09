@@ -15,13 +15,20 @@ Route::prefix('painel')->group(function(){
     });
 
     Route::middleware(['auth', 'inertia'])->group(function () {
-        Route::controller(DashboardController::class)->group(function () {
-            Route::get('/dashboard', 'render')->name('render.painel.dashboard');
-            Route::post('/alerts/signature/{alertId}', 'createAlertSignature');
-            Route::patch('/tasks/completed/{taskId}', 'finishingTask');
+        
+        Route::prefix('/dashboard')->group(function(){
+            Route::controller(DashboardController::class)->group(function () {
+                Route::get('/', 'render')->name('render.painel.dashboard');
+                Route::post('/alerts/{alertId}', 'createAlertSignature');
+                Route::patch('/tasks/{taskId}', 'completeTask');
+            });
         });
-        Route::controller(PostsController::class)->group(function () {
-            Route::get('/materias/{postSlug?}', 'render')->name('render.painel.materias');
+
+        Route::prefix('/materias')->group(function(){
+            Route::controller(PostsController::class)->group(function () {
+                Route::get('/{postSlug?}', 'render')->name('render.painel.materias');
+                Route::post('/update/{postSlug}', 'updatePost');
+            });
         });
     });
 });

@@ -38,7 +38,7 @@ class Post extends Model
     {
         $status = [
             "published"=> "var(--color-blue-skywave)",
-            "review"=> "var(--color-green-forest)",
+            "sketch"=> "var(--color-green-forest)",
             "revision"=> "var(--color-orange-amber)"
         ];
 

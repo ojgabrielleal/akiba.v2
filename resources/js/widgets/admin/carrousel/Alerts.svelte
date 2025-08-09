@@ -14,7 +14,7 @@
 
     // Submit user to signature card 
     function createSignature(id) {
-        router.post(`/painel/alerts/signature/${id}`);
+        router.post(`/painel/dashboard/alerts/${id}`);
     }
 </script>
 

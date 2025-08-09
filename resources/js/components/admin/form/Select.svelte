@@ -1,5 +1,6 @@
 <script>
     export let options = [];
+    export let name = "";
     export let selected = null;
 
     $: if (selected === null || selected === undefined) {
@@ -10,6 +11,7 @@
 <div class="relative w-full">
     <select
         bind:value={selected}
+        name={name}
         class="w-full h-[3rem] bg-[var(--color-neutral-aurora)] font-noto-sans rounded-lg outline-none pl-4 pr-10 appearance-none"
     >
         {#each options as option}

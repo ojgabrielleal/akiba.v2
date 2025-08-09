@@ -42,11 +42,7 @@ class Task extends Model
         $deadline = Carbon::parse($this->attributes['deadline']);
         $now = Carbon::now();
 
-        if ($deadline->diffInDays($now) <= 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return $deadline->diffInDays($now) <= 1 ? true : false;
     }
 
     /**

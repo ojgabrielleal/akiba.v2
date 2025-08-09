@@ -18,22 +18,5 @@
             "redirect": "/painel/materias",
             "out_spa": true
         }
-    ],
-    "postsControls": [
-        {
-            "label": "Salvar Rascunho",
-            "styles": "border-4 border-solid border-[var(--color-green-forest)] rounded-xl text-[var(--color-green-forest)] text-xl uppercase",
-            "action": null
-        },
-        {
-            "label": "Mandar para Revisão",
-            "styles": "border-4 border-solid border-[var(--color-orange-amber)] rounded-xl text-[var(--color-orange-amber)] text-xl uppercase",
-            "action": null
-        },
-        {
-            "label": "Publicar",
-            "styles": "border-4 border-solid border-[var(--color-blue-skywave)] rounded-xl text-[var(--color-blue-skywave)] text-xl uppercase",
-            "action": null
-        }
     ]
 }

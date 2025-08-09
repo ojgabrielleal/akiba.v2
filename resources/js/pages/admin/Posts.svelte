@@ -12,7 +12,7 @@
 <Layout>
     <Section title="Criar matérias">
         <Tabs items={TabsData.postsCategories}/>
-        <div class="mt-10 lg:mt-25">
+        <div class="mt-10 xl:mt-25">
             <FormPost/>
         </div>
         <div class="mt-15">

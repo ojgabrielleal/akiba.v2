@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 use Inertia\Inertia;
 
-use App\Traits\Logged\ProvideAuthenticateUser;
 use App\Traits\Response\ProvideException;
 use App\Traits\Response\ProvideSuccess;
 
@@ -19,7 +18,7 @@ use App\Models\Calendar;
 
 class DashboardController extends Controller
 {
-    use ProvideAuthenticateUser, ProvideException, ProvideSuccess;
+    use ProvideException, ProvideSuccess;
 
     public function getAlerts()
     {
@@ -35,14 +34,14 @@ class DashboardController extends Controller
                 }])
                 ->get();
         } catch (\Throwable $e) {
-            return $this->ProvideException($e);
+            return $this->provideException($e);
         }
     }
     
     public function createAlertSignature(Request $request, $alertId)
     {
         try {
-            $alert = Alert::firstOrFail($alertId);
+            $alert = Alert::first($alertId);
             $user = $request->user();
 
             AlertSignature::create([
@@ -50,9 +49,9 @@ class DashboardController extends Controller
                 'alert_id' => $alert->id,
             ]);
 
-            return $this->ProvideSuccess('save');
+            return $this->provideSuccess('save');
         } catch (\Throwable  $e) {
-            return $this->ProvideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -66,22 +65,22 @@ class DashboardController extends Controller
                 ->with('user')
                 ->get();
         }catch( \Throwable $e) {
-            return $this->ProvideException($e);
+            return $this->provideException($e);
         }
     }
 
-    public function finishingTask($taskId)
+    public function completeTask($taskId)
     {
        try{
-            $task = Task::findOrFail($taskId);
+            $task = Task::first($taskId);
 
             $task->update([
                 'completed' => true,
             ]);
 
-            return $this->ProvideSuccess('save');
+            return $this->provideSuccess('save');
        }catch(\Throwable $e) {
-            return $this->ProvideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -95,7 +94,7 @@ class DashboardController extends Controller
                 ->where('status', 'published')
                 ->get();
         } catch (\Throwable $e) {
-            return $this->ProvideException($e);
+            return $this->provideException($e);
         }
     }
 

@@ -1,5 +1,6 @@
 [
   { "value": "#", "label": "Selecione uma tag" },
+  { "value": "noticias", "label": "Notícias" },
   { "value": "novidades", "label": "Novidades" },
   { "value": "anime", "label": "Anime" },
   { "value": "eventos", "label": "Eventos" },
@@ -8,6 +9,5 @@
   { "value": "listas", "label": "Listas" },
   { "value": "curiosidades", "label": "Curiosidades" },
   { "value": "tops", "label": "Top’s" },
-  { "value": "primeira-impressao", "label": "1ª Impressão" },
-  { "value": "reviews", "label": "Reviews" }
+  { "value": "primeira-impressao", "label": "1ª Impressão" }
 ]

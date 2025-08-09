@@ -51,10 +51,7 @@ class User extends Authenticatable
     public function getPermissionsKeysAttribute()
     {
         $permissions = $this->getRelationValue('permissions');
-
-        return $permissions
-            ? $permissions->pluck('permission')
-            : collect();
+        return $permissions ? $permissions->pluck('permission') : collect();
     }
 
     /**
