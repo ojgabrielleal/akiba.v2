@@ -8,15 +8,22 @@
     $:({ user, post } = $page.props);
 
     // Submit the post from controller backend
-    $:status = post?.status;
     function onSubmit(event) {
         event.preventDefault();
 
         const form = event.target;
         const formData = new FormData(form);
-        formData.append('status', status)
 
-        router.post(`/painel/materias/update/${post.slug}`, formData);
+        // pega o botão que submeteu o form
+        const submitter = event.submitter;
+        console.log(submitter.value)
+        formData.set('status', submitter.value);
+
+        if (post) {
+            router.post(`/painel/materias/update/${post.slug}`, formData);
+        } else {
+            router.post(`/painel/materias/create`, formData);
+        }
     }
 </script>
 
@@ -92,19 +99,19 @@
         </div>
     </div>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
-        {#if status === "published"}
-            <Button type="submit" action={()=>{status = "published"}} styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-blue-skywave)] rounded-xl text-[var(--color-blue-skywave)] text-xl uppercase">
-                Atualizar matéria publicada
+        {#if post?.status === "published"}
+            <Button type="submit" name="status" value="published" styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-blue-skywave)] rounded-xl text-[var(--color-blue-skywave)] text-xl uppercase">
+                Atualizar matéria
             </Button>
         {:else}
-            <Button type="submit" action={()=>{status = "sketch"}} styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-green-forest)] rounded-xl text-[var(--color-green-forest)] text-xl uppercase">
+            <Button type="submit" name="status" value="sketch" styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-green-forest)] rounded-xl text-[var(--color-green-forest)] text-xl uppercase">
                 Salvar como Rascunho
             </Button>
-            <Button type="submit" action={()=>{status = "revision"}} styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-orange-amber)] rounded-xl text-[var(--color-orange-amber)] text-xl uppercase">
+            <Button type="submit" name="status" value="revision" styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-orange-amber)] rounded-xl text-[var(--color-orange-amber)] text-xl uppercase">
                 Mandar para revisão
             </Button>
             {#if user.permissions_keys?.includes("administrator")}
-                <Button type="submit" action={()=>{status = "published"}} styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-blue-skywave)] rounded-xl text-[var(--color-blue-skywave)] text-xl uppercase">
+                <Button type="submit" name="status" value="published" styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-blue-skywave)] rounded-xl text-[var(--color-blue-skywave)] text-xl uppercase">
                     Publicar
                 </Button>
             {/if}

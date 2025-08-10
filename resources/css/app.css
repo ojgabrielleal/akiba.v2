@@ -34,13 +34,28 @@
     }
 }
 
+/**
+    This is a configuration from Quill JS
+*/
+@layer quill {
+    .ql-editor {
+        font-family: var(--font-noto-sans);
+    }
+}
 
+
+/**
+    This is a configuration from container site
+*/
 @layer components {
     .container {
         @apply w-7xl px-10 mx-auto sm:max-w-7xl lg:px-0;
     }
 }
 
+/**
+    This is a configuration from scroll x carrousels
+*/
 @layer scroll {
     .scroll-x {
         -ms-overflow-style: none;
@@ -55,15 +70,19 @@
     }
 }
 
-@layer titles {
-    .title-section {
+/**
+    This is a configuration from title layout
+
+*/
+@layer titles_layout {
+    .title-layout {
         display: flex;
         align-items: center;
         gap: 1rem;
         margin-bottom: 0.5rem;
     }
 
-    .title-section h1 {
+    .title-layout h1 {
         color: var(--color-orange-amber);
         text-transform: uppercase;
         font-family: "Noto Sans", sans-serif;
@@ -74,7 +93,7 @@
         white-space: nowrap;
     }
 
-    .title-section::after {
+    .title-layout::after {
         content: "";
         flex: 1;
         height: 0.1rem;
@@ -82,6 +101,10 @@
     }
 }
 
+
+/**
+    This is a configuration from filers from svgs
+*/
 @layer color_filter {
     .color-filter-aurora {
         filter: invert(100%) sepia(75%) saturate(292%) hue-rotate(322deg) brightness(106%) contrast(102%);

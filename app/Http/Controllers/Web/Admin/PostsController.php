@@ -109,6 +109,61 @@ public function getPosts()
         }
     }
 
+    public function publishPost(Request $request)
+    {
+        try{
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'content' => 'required|string',
+                'status' => 'required|in:sketch,revision,published',
+                'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+                'cover' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+                'first_category' => 'required|string|not_in:#|max:100',
+                'second_category' => 'required|string|not_in:#|max:100',
+                'first_reference_name' => 'required|string|max:255',
+                'first_reference_url' => 'required|url|max:2048',
+                'second_reference_name'=> 'required|string|max:255',
+                'second_reference_url' => 'required|url|max:2048',
+            ]);
+
+            $post = Post::create([
+                'user_id' => $request->user()->id,
+                'slug' => Str::slug($request->input('title')),
+                'title' => $request->input('title'),
+                'content'=> $request->input('content'),
+                'status' => $request->input('status'),
+                'image' => $this->uploadImage('posts', $request->file('image')),
+                'cover' => $this->uploadImage('posts', $request->file('cover')),
+            ]);
+
+            PostReference::create([
+                'post_id' => $post->id,
+                'name' => $request->input('first_reference_name'),
+                'url' => $request->input('first_reference_url'),
+            ]);
+
+            PostReference::create([
+                'post_id' => $post->id,
+                'name' => $request->input('second_reference_name'),
+                'url' => $request->input('second_reference_url'),
+            ]);
+
+            PostCategory::create([
+                'post_id' => $post->id,
+                'category_name' => $request->input('first_category') 
+            ]);
+
+            PostCategory::create([
+                'post_id' => $post->id,
+                'category_name' => $request->input('second_category') 
+            ]);
+
+            $this->ProvideSuccess('save');
+        }catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
     public function render($postSlug = null)
     {
         return inertia('admin/Posts', [

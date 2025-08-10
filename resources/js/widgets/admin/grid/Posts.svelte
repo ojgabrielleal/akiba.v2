@@ -9,6 +9,10 @@
 
     $:({ posts } = $page.props); 
 
+    $:if(posts){
+        console.log(posts)
+    }
+
     function pagination(page){
         router.get('', {page: page}, {
             preserveScroll: true
@@ -18,20 +22,20 @@
 
 <Section title={title}>
     <div class="flex gap-5 overflow-x-auto flex-wrap">
-        {#if posts.data.length > 0}
+        {#if (posts.data && posts.data.length > 0)}
             {#each posts.data as item}
-                <Post item={item}/>
+                <Post item={item} />
             {/each}
-        {:else if posts.lenght > 0}
+        {:else if (posts && posts.length > 0)}
             {#each posts as item}
-                <Post item={item}/>
+                <Post item={item} />
             {/each}
         {:else}
             <Post />
         {/if}
     </div>        
 
-    <div class="flex gap-5 mt-10">
+    <div class="flex gap-5 mt-6">
     {#if posts.current_page}
         {#if posts.current_page === posts.last_page}
             <Button action={()=>{pagination(posts.current_page - 1 )}} styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-orange-amber)] rounded-xl text-[var(--color-orange-amber)] text-xl uppercase">

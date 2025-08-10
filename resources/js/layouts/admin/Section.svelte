@@ -5,7 +5,7 @@
 
 <section class={styles}>
     {#if title} 
-        <div class="title-section">
+        <div class="title-layout">
             <h1>
                 {title}
             </h1>

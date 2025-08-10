@@ -28,6 +28,7 @@ Route::prefix('painel')->group(function(){
             Route::controller(PostsController::class)->group(function () {
                 Route::get('/{postSlug?}', 'render')->name('render.painel.materias');
                 Route::post('/update/{postSlug}', 'updatePost');
+                Route::post('/create', 'publishPost');
             });
         });
     });
