@@ -27,7 +27,7 @@
     {#if imageToShow}
         <img src={imageToShow} alt="Preview" class={`w-full ${previewHeight} rounded-lg object-cover object-top`} />
     {:else}
-        <div class={`${width} ${height} bg-[var(--color-neutral-aurora)] rounded-lg flex items-center justify-center overflow-hidden font-noto-sans text-[var(--color-blue-skywave)] text-7xl font-bold italic uppercase`}>
+        <div class={`${width} ${height} bg-neutral-aurora rounded-lg flex items-center justify-center overflow-hidden font-noto-sans text-blue-skywave text-7xl font-bold italic uppercase`}>
             +
         </div>
     {/if}

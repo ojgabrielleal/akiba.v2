@@ -30,7 +30,7 @@
 <form on:submit={onSubmit}>
     <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
         <div class="mb-3">
-            <span class="text-[var(--color-orange-amber)] font-bold italic text-lg uppercase font-noto-sans block mb-1">
+            <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
                 Imagem em destaque
             </span>
             <Preview name="image" src={post?.image}/>
@@ -53,44 +53,44 @@
     <div class="w-full xl:w-[85rem] ml-auto mb-10">
         <div class="gap-5 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
             <div class="mb-8">
-                <Label name="first_category" styles="text-[var(--color-blue-skywave)] text-center font-bold italic">Primeira Tag</Label>
+                <Label name="first_category" styles="text-blue-skywave text-center font-bold italic">Primeira Tag</Label>
                 <Select name="first_category" options={Tags} selected={post?.categories[0]?.category_name}/>
             </div>
             <div class="mb-8">
-                <Label name="second_category" styles="text-[var(--color-blue-skywave)] text-center font-bold italic">Segunda Tag</Label>
+                <Label name="second_category" styles="text-blue-skywave text-center font-bold italic">Segunda Tag</Label>
                 <Select name="second_category" options={Tags} selected={post?.categories[1]?.category_name}/>
             </div>
         </div>
         <div class="gap-5 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
             <div class="mb-8">
-                <span class="text-center text-[var(--color-orange-amber)] font-bold italic text-lg uppercase font-noto-sans block mb-1">
+                <span class="text-center text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
                     Primeira fonte de pesquisa
                 </span>
                 <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] flex items-center mb-3">
-                    <Label name="first_reference_name" styles="text-[var(--color-orange-amber)]">
+                    <Label name="first_reference_name" styles="text-orange-amber">
                         Nome:
                     </Label>
                     <Input name="first_reference_name" value={post?.references[0]?.name}/>
                 </div>
                 <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] flex items-center">
-                    <Label name="first_reference_url" styles="text-[var(--color-orange-amber)]">
+                    <Label name="first_reference_url" styles="text-orange-amber">
                         Link:
                     </Label>
                     <Input name="first_reference_url"  value={post?.references[0]?.url}/>
                 </div>
             </div>
             <div class="mb-8">
-                <span class="text-center text-[var(--color-orange-amber)] font-bold italic text-lg uppercase font-noto-sans block mb-1">
+                <span class="text-center text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
                     Segunda fonte de pesquisa
                 </span>
                 <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] flex items-center mb-3">
-                    <Label name="second_reference_name" styles="text-[var(--color-orange-amber)]">
+                    <Label name="second_reference_name" styles="text-orange-amber">
                         Nome:
                     </Label>
                     <Input name="second_reference_name" value={post?.references[1]?.name}/>
                 </div>
                 <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] flex items-center">
-                    <Label name="second_reference_url" styles="text-[var(--color-orange-amber)]">
+                    <Label name="second_reference_url" styles="text-orange-amber">
                         Link:
                     </Label>
                     <Input name="second_reference_url" value={post?.references[1]?.url}/>
@@ -100,18 +100,18 @@
     </div>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         {#if post?.status === "published"}
-            <Button type="submit" name="status" value="published" styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-blue-skywave)] rounded-xl text-[var(--color-blue-skywave)] text-xl uppercase">
+            <Button type="submit" name="status" value="published" styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl uppercase">
                 Atualizar matéria
             </Button>
         {:else}
-            <Button type="submit" name="status" value="sketch" styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-green-forest)] rounded-xl text-[var(--color-green-forest)] text-xl uppercase">
+            <Button type="submit" name="status" value="sketch" styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl uppercase">
                 Salvar como Rascunho
             </Button>
-            <Button type="submit" name="status" value="revision" styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-orange-amber)] rounded-xl text-[var(--color-orange-amber)] text-xl uppercase">
+            <Button type="submit" name="status" value="revision" styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl uppercase">
                 Mandar para revisão
             </Button>
             {#if user.permissions_keys?.includes("administrator")}
-                <Button type="submit" name="status" value="published" styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-[var(--color-blue-skywave)] rounded-xl text-[var(--color-blue-skywave)] text-xl uppercase">
+                <Button type="submit" name="status" value="published" styles="w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl uppercase">
                     Publicar
                 </Button>
             {/if}

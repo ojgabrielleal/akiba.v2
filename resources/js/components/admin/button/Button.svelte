@@ -1,6 +1,6 @@
 <script>
     export let action = null;
-    export let styles = "bg-[var(--color-neutral-aurora)] py-2 px-6 rounded-md";
+    export let styles = "bg-neutral-aurora py-2 px-6 rounded-md";
     export let type = "button";
     export let name = null;
     export let value = null;

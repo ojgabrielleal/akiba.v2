@@ -12,7 +12,7 @@
     <select
         bind:value={selected}
         name={name}
-        class="w-full h-[3rem] bg-[var(--color-neutral-aurora)] font-noto-sans rounded-lg outline-none pl-4 pr-10 appearance-none"
+        class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4 pr-10 appearance-none"
     >
         {#each options as option}
             <option value={option.value}>{option.label}</option>
@@ -20,7 +20,7 @@
     </select>
 
     <svg
-        class="w-[1.5rem] h-[1.5rem] absolute right-4 top-2/4 transform -translate-y-1/2 pointer-events-none text-[var(--color-blue-skywave)]"
+        class="w-[1.5rem] h-[1.5rem] absolute right-4 top-2/4 transform -translate-y-1/2 pointer-events-none text-blue-skywave"
         fill="currentColor"
         viewBox="0 0 20 20"
     >

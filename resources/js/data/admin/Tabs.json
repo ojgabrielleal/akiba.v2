@@ -2,19 +2,19 @@
     "postsCategories": [
         {
             "label": "Matéria",
-            "styles": "border-4 border-solid border-[var(--color-blue-skywave)] rounded-xl text-[var(--color-blue-skywave)] text-xl uppercase",
+            "styles": "border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl uppercase",
             "redirect": "/painel/materias",
             "out_spa": true
         },
         {
             "label": "Review",
-            "styles": "border-4 border-solid border-[var(--color-purple-mystic)] rounded-xl text-[var(--color-purple-mystic)] text-xl uppercase",
+            "styles": "border-4 border-solid border-purple-mystic rounded-xl text-purple-mystic text-xl uppercase",
             "redirect": "/painel/materias",
             "out_spa": true
         },
         {
             "label": "Eventos",
-            "styles": "border-4 border-solid border-[var(--color-orange-copper)] rounded-xl text-[var(--color-orange-copper)] text-xl uppercase",
+            "styles": "border-4 border-solid border-orange-copper rounded-xl text-orange-copper text-xl uppercase",
             "redirect": "/painel/materias",
             "out_spa": true
         }

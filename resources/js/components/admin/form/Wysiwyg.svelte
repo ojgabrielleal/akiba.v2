@@ -45,7 +45,7 @@
   }
 </script>
 
-<div class="bg-[var(--color-neutral-aurora)] rounded-xl overflow-hidden">
+<div class="bg-neutral-aurora rounded-xl overflow-hidden">
   <div bind:this={editor} class="min-h-[30rem] lg:min-h-[40rem] p-3" />
 </div>
 

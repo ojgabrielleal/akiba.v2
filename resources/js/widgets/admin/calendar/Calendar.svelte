@@ -43,7 +43,7 @@
     <Section title={title}>
         <div class="w-full grid gap-5 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
                 {#each tags as tag}
-                    <span class="h-10 text-[var(--color-neutral-aurora)] text-lg font-noto-sans font-bold uppercase italic rounded-lg flex justify-center items-center" style="background-color: {tag.color}">
+                    <span class="h-10 text-neutral-aurora text-lg font-noto-sans font-bold uppercase italic rounded-lg flex justify-center items-center" style="background-color: {tag.color}">
                         {tag.label}
                     </span>
                 {/each}
@@ -51,7 +51,7 @@
             <div class="w-full grid gap-5 mt-5 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
             {#each week as day}
                 <div class="flex flex-col gap-3 w-full" id={day.id}>
-                    <span class="text-[var(--color-neutral-aurora)] text-lg font-noto-sans text-center font-bold uppercase italic">
+                    <span class="text-neutral-aurora text-lg font-noto-sans text-center font-bold uppercase italic">
                         {day.day}
                     </span>
                     {#if day.items.length === 0}

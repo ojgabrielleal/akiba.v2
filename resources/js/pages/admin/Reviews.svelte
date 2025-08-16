@@ -2,21 +2,17 @@
     import { Meta } from "@/meta";
     import { Layout, Section } from "@/layouts/admin";
     import { Tabs } from "@/components/admin/tabs";
-    import { Post } from "@/widgets/admin/form";
-    import { Posts } from "@/widgets/admin/grid"
+    import { Post as FormPost } from "@/widgets/admin/form";
 
     import TabsData from "@/data/admin/Tabs";
 
 </script>
-<Meta meta={{ title: "Matérias" }} />
+<Meta meta={{ title: "Reviews" }} />
 <Layout>
-    <Section title="Criar matérias">
+    <Section title="Criar review">
         <Tabs items={TabsData.postsCategories}/>
         <div class="mt-10 xl:mt-25">
-            <Post/>
-        </div>
-        <div class="mt-15">
-            <Posts title="Todas as matérias"/>
+            <FormPost/>
         </div>
     </Section>
 </Layout>
