@@ -2,8 +2,10 @@
     import { Meta } from "@/meta";
     import { Layout, Section } from "@/layouts/admin";
     import { Tabs } from "@/components/admin/tabs";
-    import { Post as PostForm } from "@/widgets/admin/form";
-    import { Posts as PostsGrid } from "@/widgets/admin/grid";
+    import { Post } from "@/widgets/admin/form";
+    import { Posts } from "@/widgets/admin/grid";
+
+    import TabsData from "@/data/admin/tabs";
 </script>
 
 <Meta meta={{ title: "Matérias" }} />
@@ -11,10 +13,10 @@
     <Section title="Criar matérias">
         <Tabs items={TabsData.postsCategories}/>
         <div class="mt-10 xl:mt-25">
-            <PostForm/>
+            <Post/>
         </div>
         <div class="mt-15">
-            <PostsGrid title="Todas as matérias"/>
+            <Posts title="Todas as matérias"/>
         </div>
     </Section>
 </Layout>

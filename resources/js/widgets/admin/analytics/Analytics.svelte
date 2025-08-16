@@ -1,8 +1,7 @@
 <script>
     import { onMount } from 'svelte';
-
     import { cast } from "@/utils";
-
+    
     // Resolve promisse to get cast data
     let data = null;
     onMount(async () => {
