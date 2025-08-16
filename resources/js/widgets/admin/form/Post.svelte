@@ -14,9 +14,7 @@
         const form = event.target;
         const formData = new FormData(form);
 
-        // pega o botão que submeteu o form
         const submitter = event.submitter;
-        console.log(submitter.value)
         formData.set('status', submitter.value);
 
         if (post) {

@@ -8,11 +8,7 @@
     import { Button } from "@/components/admin/button";
 
     $:({ posts } = $page.props); 
-
-    $:if(posts){
-        console.log(posts)
-    }
-
+    
     function pagination(page){
         router.get('', {page: page}, {
             preserveScroll: true
