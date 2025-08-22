@@ -43,8 +43,8 @@
                 <Preview name="cover" previewHeight="max-h-[30rem]" src={post?.cover}/>
             </div>
             <div class="mb-8">
-                <Label name="cover">Escreva sua matéria</Label>
-                <Wysiwyg value={post?.content}/>
+                <Label name="content">Escreva sua matéria</Label>
+                <Wysiwyg value={post?.content} name="content"/>
             </div>
         </div>
     </div>

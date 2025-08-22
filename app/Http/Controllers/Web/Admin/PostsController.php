@@ -19,23 +19,23 @@ class PostsController extends Controller
 {
     use HandlesImageUpload, ProvideSuccess, ProvideException;
 
-public function getPosts()
-{
-    try {
-        $user = request()->user();
-        $query = Post::with('user');
+    public function getPosts()
+    {
+        try {
+            $user = request()->user();
+            $query = Post::with('user');
 
-        if (!$user->permissions_keys->contains('administrator')) {
-            $query->where('user_id', $user->id);
+            if (!$user->permissions_keys->contains('administrator')) {
+                $query->where('user_id', $user->id);
+            }
+
+            $posts = $query->paginate(10);
+
+            return $posts;
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
         }
-
-        $posts = $query->paginate(10);
-
-        return $posts;
-    } catch (\Throwable $e) {
-        return $this->provideException($e);
     }
-}
 
     public function getPost($postSlug)
     {
@@ -55,16 +55,16 @@ public function getPosts()
             ]);
 
             $post = Post::where('slug', $postSlug)->with(['references', 'categories'])->first();
-            
-            if($request->filled('first_category') && $request->filled('second_category')){
+
+            if ($request->filled('first_category') && $request->filled('second_category')) {
                 $first_category_id = $post->categories[0]->id;
                 $second_category_id = $post->categories[1]->id;
-                
+
                 $first_category = PostCategory::where('id', $first_category_id)->first();
                 $second_category = PostCategory::where('id', $second_category_id)->first();
-                
+
                 $first_category->update([
-                    'category_name' => $request->input('first_category') 
+                    'category_name' => $request->input('first_category')
                 ]);
 
                 $second_category->update([
@@ -72,7 +72,7 @@ public function getPosts()
                 ]);
             }
 
-            if($request->filled('first_reference_name') && $request->filled('first_reference_url') && $request->filled('second_reference_name') && $request->filled('second_font_url')){
+            if ($request->filled('first_reference_name') && $request->filled('first_reference_url') && $request->filled('second_reference_name') && $request->filled('second_font_url')) {
                 $fist_reference_id = $post->references[0]->id;
                 $second_reference_id = $post->references[1]->id;
 
@@ -89,15 +89,15 @@ public function getPosts()
                     'url' => $request->input('second_reference_url'),
                 ]);
             }
-                
+
             $slug = Str::slug($request->input('title'));
             $image = $request->hasFile('image') ? $this->uploadImage('posts', $request->file('image')) : $post->image;
-            $cover= $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover')) : $post->cover;
+            $cover = $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover')) : $post->cover;
 
             $post->update([
                 'slug' => $slug,
                 'title' => $request->filled('title') ? $request->input('title') : $post->title,
-                'content'=> $request->filled('content') ? $request->input('content') : $post->content,
+                'content' => $request->filled('content') ? $request->input('content') : $post->content,
                 'image' => $image,
                 'cover' => $cover,
             ]);
@@ -111,7 +111,7 @@ public function getPosts()
 
     public function publishPost(Request $request)
     {
-        try{
+        try {
             $request->validate([
                 'title' => 'required|string|max:255',
                 'content' => 'required|string',
@@ -122,7 +122,7 @@ public function getPosts()
                 'second_category' => 'required|string|not_in:#|max:100',
                 'first_reference_name' => 'required|string|max:255',
                 'first_reference_url' => 'required|url|max:2048',
-                'second_reference_name'=> 'required|string|max:255',
+                'second_reference_name' => 'required|string|max:255',
                 'second_reference_url' => 'required|url|max:2048',
             ]);
 
@@ -130,7 +130,7 @@ public function getPosts()
                 'user_id' => $request->user()->id,
                 'slug' => Str::slug($request->input('title')),
                 'title' => $request->input('title'),
-                'content'=> $request->input('content'),
+                'content' => $request->input('content'),
                 'status' => $request->input('status'),
                 'image' => $this->uploadImage('posts', $request->file('image')),
                 'cover' => $this->uploadImage('posts', $request->file('cover')),
@@ -150,16 +150,16 @@ public function getPosts()
 
             PostCategory::create([
                 'post_id' => $post->id,
-                'category_name' => $request->input('first_category') 
+                'category_name' => $request->input('first_category')
             ]);
 
             PostCategory::create([
                 'post_id' => $post->id,
-                'category_name' => $request->input('second_category') 
+                'category_name' => $request->input('second_category')
             ]);
 
             $this->ProvideSuccess('save');
-        }catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             return $this->provideException($e);
         }
     }

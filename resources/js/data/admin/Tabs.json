@@ -9,7 +9,7 @@
         {
             "label": "Review",
             "styles": "border-4 border-solid border-purple-mystic rounded-xl text-purple-mystic text-xl uppercase",
-            "redirect": "/painel/materias",
+            "redirect": "/painel/reviews",
             "out_spa": true
         },
         {

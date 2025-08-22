@@ -14,10 +14,15 @@ class ReviewContent extends Model
         'content',
     ];
 
+    protected $hidden = [
+        'user_id',
+        'review_id'
+    ];
+
     /**
      * Relationship with the 'Users' model.
      */
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

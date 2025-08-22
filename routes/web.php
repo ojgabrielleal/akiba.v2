@@ -7,6 +7,7 @@ use App\Http\Middleware\HandleLaravelAuth;
 use App\Http\Controllers\Web\Admin\AuthController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\PostsController;
+use App\Http\Controllers\Web\Admin\ReviewsController;
 
 Route::prefix('painel')->group(function(){
     Route::controller(AuthController::class)->group(function () {
@@ -29,6 +30,12 @@ Route::prefix('painel')->group(function(){
                 Route::get('/{postSlug?}', 'render')->name('render.painel.materias');
                 Route::post('/update/{postSlug}', 'updatePost');
                 Route::post('/create', 'publishPost');
+            });
+        });
+
+        Route::prefix('/reviews')->group(function(){
+            Route::controller(ReviewsController::class)->group(function () {
+                Route::get('/{reviewSlug?}/{userId?}', 'render')->name('render.painel.reviews');
             });
         });
     });
