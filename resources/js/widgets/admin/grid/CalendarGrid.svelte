@@ -1,10 +1,8 @@
 <script>
     export let title; 
 
-    import { router, page } from "@inertiajs/svelte";
-
+    import { page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
-    import { Calendar } from "@/components/admin/card"
 
     $:({ calendar } = $page.props);
 
@@ -54,13 +52,19 @@
                     <span class="text-neutral-aurora text-lg font-noto-sans text-center font-bold uppercase italic">
                         {day.day}
                     </span>
-                    {#if day.items.length === 0}
-                        <Calendar />
-                    {:else}
-                        {#each day.items as item}
-                            <Calendar item={item}/>
-                        {/each}
-                    {/if}
+                    {#each day.items as item}
+                        <div class="w-full rounded-lg pt-4 pl-4 pr-4 pb-3 mb-5 2xl:w-[12.7rem]" style="background-color: {item.styles.bg}">
+                            <span class="w-full font-noto-sans text-2xl text-center text-neutral-aurora uppercase block">
+                                {item.hour}H
+                            </span>
+                            <h1 class="w-full font-noto-sans font-bold text-2xl text-center text-neutral-aurora italic mt-3 mb-3">
+                                {item.content}
+                            </h1>
+                            <span class="w-full font-noto-sans text-md text-end text-neutral-aurora block">
+                                {item.user.nickname}
+                            </span>
+                        </div>
+                    {/each}
                 </div>
             {/each}
         </div>

@@ -1,1 +1,1 @@
-export { default as Greating } from './Greating.svelte';	
+export { default as GreatingHero } from './GreatingHero.svelte';	

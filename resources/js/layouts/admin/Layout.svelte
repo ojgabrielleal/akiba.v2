@@ -3,7 +3,7 @@
     import { toast, Toaster } from "svelte-hot-french-toast";
 
     import { Navbar } from "@/widgets/admin/navbar";
-    import { Analytics } from "@/widgets/admin/analytics";
+    import { Status } from "@/widgets/admin/status";
 
     $: ({ flash } = $page.props);
 
@@ -26,6 +26,6 @@
 <footer>
     <div class="h-[5rem]"></div>
     <div class="w-full fixed bottom-0">
-        <Analytics/>
+        <Status/>
     </div>
 </footer>

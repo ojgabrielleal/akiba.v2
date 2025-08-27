@@ -1,2 +1,2 @@
-export { default as Posts } from "./Posts.svelte"
-export { default as Reviews } from "./Reviews.svelte"
+export { default as PublicationsGrid } from "./PublicationsGrid.svelte"
+export { default as CalendarGrid } from "./CalendarGrid.svelte"

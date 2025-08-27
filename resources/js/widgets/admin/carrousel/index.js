@@ -1,2 +1,2 @@
-export { default as Alerts } from "./Alerts.svelte"
-export { default as Tasks } from "./Tasks.svelte"
+export { default as AlertsCarrousel } from "./AlertsCarrousel.svelte"
+export { default as TasksCarrousel } from "./TasksCarrousel.svelte"

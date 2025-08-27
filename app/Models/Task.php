@@ -36,13 +36,13 @@ class Task extends Model
 
     /**
      * Set accessor 'deadline_status' in response
-    */
+     */
     public function getDueSoonAttribute()
     {
         $deadline = Carbon::parse($this->attributes['deadline']);
         $now = Carbon::now();
 
-        return $deadline->diffInDays($now) <= 1 ? true : false;
+        return $deadline->greaterThan($now) && $deadline->lessThanOrEqualTo($now->copy()->addDays(7));
     }
 
     /**
@@ -53,7 +53,8 @@ class Task extends Model
         $deadline = Carbon::parse($this->attributes['deadline']);
         $now = Carbon::now();
 
-        if($deadline->diffInDays($now) <= 1){
+        // Use diffInDays and check if it's 7 or less
+        if ($deadline->greaterThan($now) && $deadline->lessThanOrEqualTo($now->copy()->addDays(7))) {
             return [
                 "bg" => "var(--color-orange-amber)",
                 "bg_date" => [
@@ -61,7 +62,7 @@ class Task extends Model
                     "date" => "var(--color-blue-indigo)"
                 ]
             ];
-        }else{
+        } else {
             return [
                 "bg" => "var(--color-blue-skywave)",
                 "bg_date" => [

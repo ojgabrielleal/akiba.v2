@@ -43,7 +43,7 @@ class ReviewsController extends Controller
     public function render($reviewSlug = null, $userId = null)
     {
         return inertia('admin/Reviews', [
-            "reviews" => $this->getReviews(),
+            "publications" => $this->getReviews(),
             "review" => $this->getReview($reviewSlug, $userId),
         ]);
     }

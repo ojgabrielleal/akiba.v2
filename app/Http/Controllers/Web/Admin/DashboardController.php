@@ -37,11 +37,11 @@ class DashboardController extends Controller
             return $this->provideException($e);
         }
     }
-    
+
     public function createAlertSignature(Request $request, $alertId)
     {
         try {
-            $alert = Alert::first($alertId);
+            $alert = Alert::find($alertId);
             $user = $request->user();
 
             AlertSignature::create([
@@ -61,25 +61,26 @@ class DashboardController extends Controller
             $user = request()->user();
 
             return Task::where('user_id', $user->id)
-                ->where('completed', false)
                 ->with('user')
+                ->where('completed', 0)
+                ->where('user_id', $user->id)
                 ->get();
-        }catch( \Throwable $e) {
+        } catch (\Throwable $e) {
             return $this->provideException($e);
         }
     }
 
     public function completeTask($taskId)
     {
-       try{
-            $task = Task::first($taskId);
+        try {
+            $task = Task::find($taskId);
 
             $task->update([
                 'completed' => true,
             ]);
 
             return $this->provideSuccess('save');
-       }catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             return $this->provideException($e);
         }
     }
@@ -87,12 +88,9 @@ class DashboardController extends Controller
     public function getLastsPosts()
     {
         try {
-            $user = request()->user();
-
-            return Post::limit(5)
+            return Post::where('status', 'published')
                 ->with('user')
-                ->where('status', 'published')
-                ->get();
+                ->paginate(5);
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -112,7 +110,7 @@ class DashboardController extends Controller
         return Inertia::render('admin/Dashboard', [
             'alerts' => $this->getAlerts(),
             'tasks' => $this->getTasks(),
-            'posts' => $this->getLastsPosts(),
+            'publications' => $this->getLastsPosts(),
             'calendar' => $this->getCalendar(),
         ]);
     }

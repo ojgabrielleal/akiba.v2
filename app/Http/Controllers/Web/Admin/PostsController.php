@@ -73,11 +73,11 @@ class PostsController extends Controller
             }
 
             if ($request->filled('first_reference_name') && $request->filled('first_reference_url') && $request->filled('second_reference_name') && $request->filled('second_font_url')) {
-                $fist_reference_id = $post->references[0]->id;
+                $first_reference_id = $post->references[0]->id;
                 $second_reference_id = $post->references[1]->id;
 
-                $first_reference = PostReference::where('id', $fist_reference_id)->first();
-                $second_reference = PostReference::where('id', $fist_reference_id)->first();
+                $first_reference = PostReference::where('id', $first_reference_id)->first();
+                $second_reference = PostReference::where('id', $second_reference_id)->first();
 
                 $first_reference->update([
                     'name' => $request->input('first_reference_name'),
@@ -167,7 +167,7 @@ class PostsController extends Controller
     public function render($postSlug = null)
     {
         return inertia('admin/Posts', [
-            "posts" => $this->getPosts(),
+            "publications" => $this->getPosts(),
             "post" => $this->getPost($postSlug)
         ]);
     }

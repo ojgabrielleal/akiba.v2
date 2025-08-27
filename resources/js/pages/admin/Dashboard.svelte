@@ -3,10 +3,9 @@
     
     import { Meta } from "@/meta";
     import { Layout } from "@/layouts/admin/";
-    import { Greating } from "@/widgets/admin/hero";
-    import { Alerts, Tasks } from "@/widgets/admin/carrousel";
-    import { Posts } from "@/widgets/admin/grid";
-    import { Calendar } from "@/widgets/admin/calendar";
+    import { GreatingHero } from "@/widgets/admin/hero";
+    import { AlertsCarrousel, TasksCarrousel } from "@/widgets/admin/carrousel";
+    import { PublicationsGrid, CalendarGrid } from "@/widgets/admin/grid";
 
     $:({ user } = $page.props); 
 
@@ -34,9 +33,9 @@
 
 <Meta meta={{ title: "Dashboard" }} />
 <Layout>
-    <Greating phrase={phraseSwitchHero(user.nickname)} icon="/img/heroGreatingAvatar.png"/>
-    <Alerts title="Avisos para a equipe"/>
-    <Tasks title="Minhas Tarefas"/>
-    <Posts title="Últimas Matérias"/>
-    <Calendar title="Calendário"/>
+    <GreatingHero phrase={phraseSwitchHero(user.nickname)} icon="/img/heroGreatingAvatar.png"/>
+    <AlertsCarrousel title="Avisos para a equipe"/>
+    <TasksCarrousel title="Minhas Tarefas"/>
+    <PublicationsGrid title="Últimas Matérias" view="https://akiba.com.br/materias/" edit="/painel/materias/"/>
+    <CalendarGrid title="Calendário"/>
 </Layout>

@@ -1,7 +1,6 @@
 <script>
     import { Meta } from "@/meta";
-    import { Layout } from "@/layouts/admin/";
-    import { Auth } from "@/widgets/admin/form";
+    import { AuthForm } from "@/widgets/admin/form";
 </script>
 
 <Meta meta={{ title: "Realize o Login" }} />
@@ -15,6 +14,6 @@
         <strong class="font-noto-sans mb-4 mt-10 text-lg font-light text-neutral-aurora">
             Faça login para acessar o sistema
         </strong>
-        <Auth/>
+        <AuthForm/>
     </div>
 </div>
