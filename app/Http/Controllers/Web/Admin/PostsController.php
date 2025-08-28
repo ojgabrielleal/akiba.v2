@@ -40,7 +40,10 @@ class PostsController extends Controller
     public function getPost($postSlug)
     {
         try {
-            return optional(Post::where('slug', $postSlug)->with(['references', 'categories'])->first())->makeHidden(['styles']);
+            if($postSlug){
+                $post = Post::where('slug', $postSlug)->with(['references', 'categories'])->first();
+                return $post->makeHidden(['styles']);
+            }
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -116,8 +119,8 @@ class PostsController extends Controller
                 'title' => 'required|string|max:255',
                 'content' => 'required|string',
                 'status' => 'required|in:sketch,revision,published',
-                'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
-                'cover' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+                'image' => 'required|image|mimes:jpg,jpeg,png,webp',
+                'cover' => 'required|image|mimes:jpg,jpeg,png,webp',
                 'first_category' => 'required|string|not_in:#|max:100',
                 'second_category' => 'required|string|not_in:#|max:100',
                 'first_reference_name' => 'required|string|max:255',
@@ -168,7 +171,7 @@ class PostsController extends Controller
     {
         return inertia('admin/Posts', [
             "publications" => $this->getPosts(),
-            "post" => $this->getPost($postSlug)
+            "publication" => $this->getPost($postSlug)
         ]);
     }
 }

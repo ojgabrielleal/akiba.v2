@@ -29,12 +29,14 @@ class ReviewsController extends Controller
     public function getReview($reviewSlug, $userId)
     {
         try{
-            $review = Review::where('slug', $reviewSlug)->first();
-            $content = ReviewContent::where('user_id', $userId)->pluck('content')->implode(' ');
+            if($reviewSlug){
+                $review = Review::where('slug', $reviewSlug)->first();
+                $content = ReviewContent::where('user_id', $userId)->pluck('content')->implode(' ');
 
-            return array_merge($review->toArray(), [
-                'content' => $content
-            ]);
+                return array_merge($review->toArray(), [
+                    'content' => $content
+                ]);
+            }
         }catch(\Throwable $e){
             return $this->provideException($e);
         }
@@ -44,7 +46,7 @@ class ReviewsController extends Controller
     {
         return inertia('admin/Reviews', [
             "publications" => $this->getReviews(),
-            "review" => $this->getReview($reviewSlug, $userId),
+            "publication" => $this->getReview($reviewSlug, $userId),
         ]);
     }
 }

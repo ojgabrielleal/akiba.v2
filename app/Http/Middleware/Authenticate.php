@@ -14,7 +14,7 @@ class Authenticate extends Middleware
             return route('render.painel.auth')
                 ->with('flash', [
                     'type' => 'error',
-                    'message' => 'Você precisa estar logado para acessar esta página.',
+                    'message' => 'Você precisa estar logado para acessar.',
                 ]);
         }
 

@@ -4,23 +4,30 @@
 
     import Tags from "@/data/admin/Tags";
 
-    $: ({ user, post } = $page.props);
+    $: ({ user, publication } = $page.props);
 
     // Submit the post from controller backend
+    $: formData = {
+        image: publication?.image,
+        title: publication?.title,
+        cover: publication?.cover,
+        content: publication?.content,
+        first_category: publication?.categories[0]?.category_name,
+        second_category: publication?.categories[1]?.category_name,
+        first_reference_name: publication?.references[0]?.name,
+        first_reference_url: publication?.references[0]?.url,
+        second_reference_name: publication?.references[1]?.name,
+        second_reference_url: publication?.references[1]?.url,
+    }
+
     function onSubmit(event) {
         event.preventDefault();
 
-        const form = event.target;
-        const formData = new FormData(form);
-
         const submitter = event.submitter;
-        formData.set("status", submitter.value);
+        formData.status = submitter.value;
 
-        if (post) {
-            router.post(`/painel/materias/update/${post.slug}`, formData);
-        } else {
-            router.post(`/painel/materias/create`, formData);
-        }
+        const url = publication ? `/painel/materias/update/${publication.slug}` : `/painel/materias/create`;
+        router.post(url, formData);
     }
 </script>
 
@@ -30,7 +37,7 @@
             <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
                 Imagem em destaque
             </span>
-            <Preview name="image" src={post?.image} />
+            <Preview name="image" src={formData.image} />
         </div>
         <div class="mb-3">
             <div class="mb-8">
@@ -42,7 +49,7 @@
                     id="title"
                     name="title"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                    value={post?.title}
+                    bind:value={formData.title}
                 />
             </div>
             <div class="mb-8">
@@ -52,14 +59,14 @@
                 <Preview
                     name="cover"
                     previewHeight="max-h-[30rem]"
-                    src={post?.cover}
+                    src={formData.cover}
                 />
             </div>
             <div class="mb-8">
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="content">
                     Escreva sua matéria
                 </label>
-                <Wysiwyg value={post?.content} name="content" />
+                <Wysiwyg value={formData.content} name="content" />
             </div>
         </div>
     </div>
@@ -74,7 +81,7 @@
                     name="first_category"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
                     options={Tags}
-                    value={post?.categories[0]?.category_name}
+                    bind:value={formData.first_category}
                 >
                     {#each Tags as tag}
                         <option value={tag.value}>{tag.label}</option>
@@ -89,7 +96,7 @@
                     id="second_category"
                     name="second_category"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
-                    value={post?.categories[1]?.category_name}
+                    bind:value={formData.second_category}
                 >
                     {#each Tags as tag}
                         <option value={tag.value}>{tag.label}</option>
@@ -111,7 +118,7 @@
                         id="first_reference_name"
                         name="first_reference_name"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                        value={post?.references[0]?.name}
+                        bind:value={formData.first_reference_name}
                     />
                 </div>
                 <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
@@ -123,7 +130,7 @@
                         id="first_reference_url"
                         name="first_reference_url"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                        value={post?.references[0]?.url}
+                        bind:value={formData.first_reference_url}
                     />
                 </div>
             </div>
@@ -140,7 +147,7 @@
                         id="second_reference_name"
                         name="second_reference_name"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                        value={post?.references[1]?.name}
+                        bind:value={formData.second_reference_name}
                     />
                 </div>
                 <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
@@ -152,14 +159,14 @@
                         id="second_reference_url"
                         name="second_reference_url"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                        value={post?.references[1]?.url}
+                        bind:value={formData.second_reference_url}
                     />
                 </div>
             </div>
         </div>
     </div>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
-        {#if post?.status === "published"}
+        {#if publication?.status === "published"}
             <button type="submit" aria-label="status" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
                 Atualizar matéria
             </button>

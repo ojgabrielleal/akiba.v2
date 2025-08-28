@@ -16,7 +16,7 @@ class Review extends Model
         'sinopse',
     ];
 
-    protected $appends = ['authors'];
+    protected $appends = ['authors', 'styles', 'editable'];
 
     /**
      * Get the authors for the review.
@@ -32,6 +32,24 @@ class Review extends Model
                     'nickname' => $user->nickname,
                 ];
             });
+    }
+
+    /**
+     * Set accessor 'styles' in response
+     */
+    public function getStylesAttribute()
+    {
+        return [
+            "bg" => 'var(--color-blue-skywave)'
+        ];
+    }
+
+    /**
+     * Set accessor 'editable' in response
+     */
+    public function getEditableAttribute()
+    {
+        return true;
     }
 
     /**

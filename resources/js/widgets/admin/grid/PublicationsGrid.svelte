@@ -25,7 +25,7 @@
                     </span>
                     <div class="flex justify-between gap-5 absolute bottom-2 left-4 w-[calc(100%-2rem)]">
                         <span class="font-noto-sans font-bold italic uppercase text-lg text-neutral-aurora">
-                            {item.user.nickname}
+                            {item?.user?.nickname}
                         </span>
                         <div class="flex gap-3">
                             <a href={`${view}${item.slug}`} aria-label="Visualizar" class="cursor-pointer">
@@ -41,20 +41,22 @@
                 </div>
             {/each}
         </div>        
-        
-       {#if publications.last_page > 1}
-            <div class="flex gap-5 mt-6">
-                {#if publications.current_page > 1}
-                    <button on:click={() => pagination(publications.current_page - 1)} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl italic uppercase font-noto-sans font-bold">
-                        Voltar
-                    </button>
-                {/if}
-                {#if publications.current_page < publications.last_page}
-                    <button on:click={() => pagination(publications.current_page + 1)} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl italic uppercase font-noto-sans font-bold">
-                        Próximo
-                    </button>
-                {/if}
-            </div>
+       
+        {#if publications.data >= 10}
+            {#if publications.last_page > 1}
+                <div class="flex gap-5 mt-6">
+                    {#if publications.current_page > 1}
+                        <button on:click={() => pagination(publications.current_page - 1)} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl italic uppercase font-noto-sans font-bold">
+                            Voltar
+                        </button>
+                    {/if}
+                    {#if publications.current_page < publications.last_page}
+                        <button on:click={() => pagination(publications.current_page + 1)} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl italic uppercase font-noto-sans font-bold">
+                            Próximo
+                        </button>
+                    {/if}
+                </div>
+            {/if}
         {/if}
     </Section>
 {/if}
