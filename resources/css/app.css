@@ -16,6 +16,7 @@
     --color-blue-ocean: #002080;
     --color-blue-indigo: #000036;
     --color-blue-skywave: #0091ff;
+    --color-blue-cerulean: #060652;
 
     --color-purple-mystic: #b82bff;
     --color-green-forest: #00a859;
@@ -40,6 +41,7 @@
     --color-blue-ocean: var(--color-blue-ocean);
     --color-blue-indigo: var(--color-blue-indigo);
     --color-blue-skywave: var(--color-blue-skywave);
+    --color-blue-cerulean: var(--color-blue-cerulean);
 
     /* Purple */
     --color-purple-mystic: var(--color-purple-mystic);

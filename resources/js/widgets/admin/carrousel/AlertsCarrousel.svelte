@@ -17,9 +17,9 @@
     }
 </script>
 
-{#if alerts.length > 0}
-    <Section title={title}>
-        <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={(e)=> scrollx(e, container)} role="group">      
+<Section title={title}>
+    <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={(e)=> scrollx(e, container)} role="group">      
+        {#if alerts.length > 0}
             {#each alerts as item}
                 <div class="w-100 h-50 lg:w-[29rem] bg-blue-skywave flex-shrink-0 rounded-lg p-4 relative">
                     <h1 class="font-noto-sans font-black italic uppercase text-neutral-aurora text-xl">
@@ -42,6 +42,16 @@
                     {/if} 
                 </div>
             {/each}
-        </div>
-    </Section>
-{/if}
+         {:else}
+            <div class="w-100 h-50 lg:w-[29rem] bg-blue-cerulean opacity-50 flex-shrink-0 rounded-lg p-4 relative">
+                <h1 class="font-noto-sans font-black italic uppercase text-neutral-aurora text-xl">
+                    Aki-chan
+                </h1>
+                <span class="font-noto-sans text-sm text-neutral-aurora line-clamp-5 mt-1">
+                        Kun, ninguém pensou em você… mas não fique triste ne~ nonbiri shiyou yo~ (｡♥‿♥｡) 🌸🍵  
+                        Vou ficar aqui pertinho pra te acompanhar e ajudar em tudo~ Quando aparecer algo, te aviso ٩(◕‿◕｡)۶
+                </span>
+            </div>
+         {/if}
+    </div>
+</Section>
