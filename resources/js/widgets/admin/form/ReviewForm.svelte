@@ -3,7 +3,12 @@
     import { Preview, Wysiwyg } from "@/components/admin";
 
     $:({ user, publication } = $page.props);
-
+    
+    $:if(publication){
+        console.log(publication);
+    }
+    
+    $: authorSelected = user.nickname
 </script>
 
 <form on:submit={onSubmit}>
@@ -43,17 +48,22 @@
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="content">
                     Escreva o review
                 </label>
-                {#if publication?.authors}
-                    <div class="flex mb-3 mt-2">
-                        {#each publication?.authors as author}
-                            <button aria-label={author.nickname} class="bg-neutral-aurora py-2 px-6 rounded-sm text-orange-amber uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
-                                {author.nickname}
-                            </button>
-                        {/each}
+                <div class="flex mb-3 mt-2 gap-2">
+                    <div class="relative inline-block mb-2">
+                        <button aria-label="teste" class="bg-neutral-aurora py-2 px-6 rounded-md text-orange-amber uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer relative">
+                            teste
+                        </button>
+                        <span class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px] border-t-neutral-aurora">
+                        </span>
                     </div>
-                {/if}
+                    <div class="relative inline-block mb-2">
+                        <button aria-label="teste" class="bg-neutral-aurora py-2 px-6 rounded-md text-orange-amber uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer relative">
+                            teste
+                        </button>
+                    </div>
+                </div>
                 <Wysiwyg name="content"/>
-            </div>
+            </div>  
         </div>
     </div>
 </form>

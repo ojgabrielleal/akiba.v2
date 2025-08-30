@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
 
@@ -25,14 +27,25 @@ class DashboardController extends Controller
         try {
             $user = request()->user();
 
-            return Alert::limit(6)
-                ->whereDoesntHave('signatures', function ($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->with(['user', 'signatures' => function ($query) {
-                    $query->limit(4)->with('user');
-                }])
-                ->get();
+            $query = Alert::limit(6);
+            $query->orderBy('created_at', 'desc');
+            $query->whereDoesntHave('signatures', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            });
+            $query->with(['user', 'signatures' => function ($query) {
+                $query->limit(4)->with('user');
+            }]);
+            $alerts = $query->get();
+
+            $alerts = $alerts->map(function ($alert) use ($user) {
+                $data = $alert->toArray();
+                $data['actions'] = [
+                    'confirm' => $user->id === $alert->user->id
+                ];
+                return $data;
+            });
+
+            return $alerts;
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -41,8 +54,10 @@ class DashboardController extends Controller
     public function createAlertSignature(Request $request, $alertId)
     {
         try {
-            $alert = Alert::find($alertId);
             $user = $request->user();
+
+            $query = Alert::find($alertId);
+            $alert = $query->get();
 
             AlertSignature::create([
                 'user_id' => $user->id,
@@ -60,11 +75,59 @@ class DashboardController extends Controller
         try {
             $user = request()->user();
 
-            return Task::where('user_id', $user->id)
-                ->with('user')
-                ->where('completed', 0)
-                ->where('user_id', $user->id)
-                ->get();
+            $query = Task::orderBy('created_at', 'desc');
+            $query->where('user_id', $user->id);
+            $query->with('user');
+            $query->where('completed', 0);
+            $query->where('user_id', $user->id);
+            $tasks = $query->get();
+
+            function resolveTaskAppearance($task)
+            {
+                $deadline = Carbon::parse($task->deadline);
+                $now = Carbon::now();
+
+                $style = [
+                    "bg" => "var(--color-blue-skywave)",
+                    "bg_date" => [
+                        "title" => "var(--color-blue-indigo)",
+                        "title_text_color" => "var(--color-neutral-aurora)",
+                        "date" => "var(--color-neutral-aurora)",
+                        "date_text_color" => "var(--color-blue-indigo)"
+                    ]
+                ];
+
+                if ($deadline->greaterThan($now) && $deadline->lessThanOrEqualTo($now->copy()->addDays(7))) {
+                    $style = [
+                        "bg" => "var(--color-orange-amber)",
+                        "bg_date" => [
+                            "title" => "var(--color-red-crimson)",
+                            "date" => "var(--color-blue-indigo)",
+                            "date_text_color" => "var(--color-orange-amber)"
+                        ]
+                    ];
+                }
+
+                return $style;
+            }
+
+            function resolveTaskDueSoon($task)
+            {
+                $deadline = Carbon::parse($task->deadline);
+                $now = Carbon::now();
+
+                return $deadline->greaterThan($now) && $deadline->lessThanOrEqualTo($now->copy()->addDays(7));
+            }
+
+            $tasks = $tasks->map(function ($task) {
+                $data = $task->toArray();
+                $data['styles'] = resolveTaskAppearance($task);
+                $data['due_soon'] = resolveTaskDueSoon($task);
+                $data['deadline'] = $task->deadline->format('d/m');
+                return $data;
+            });
+
+            return $tasks;
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -74,7 +137,6 @@ class DashboardController extends Controller
     {
         try {
             $task = Task::find($taskId);
-
             $task->update([
                 'completed' => true,
             ]);
@@ -88,9 +150,23 @@ class DashboardController extends Controller
     public function getLastsPosts()
     {
         try {
-            return Post::where('status', 'published')
-                ->with('user')
-                ->paginate(5);
+            $user = request()->user();
+
+            $query = Post::orderBy('created_at', 'desc');
+            $query->where('status', 'published');
+            $query->with('user');
+            $posts = $query->paginate(5);
+
+            $posts->getCollection()->transform(function ($post) use ($user) {
+                $data = $post->toArray();
+                $data['styles'] = [
+                    'bg' => 'var(--color-blue-skywave)'
+                ];
+                $data['editable'] = $user->permissions_keys->contains('administrator') || $post->user_id == $user->id;
+                return $data;
+            });
+
+            return $posts;
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -98,11 +174,15 @@ class DashboardController extends Controller
 
     public function getCalendar()
     {
-        $calendar = Calendar::with('user')
-            ->orderBy('hour')
-            ->get();
+        try {
+            $query = Calendar::with('user');
+            $query->orderBy('hour');
+            $calendar = $query->get();
 
-        return $calendar->groupBy('day');
+            return $calendar;
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
     }
 
     public function render()

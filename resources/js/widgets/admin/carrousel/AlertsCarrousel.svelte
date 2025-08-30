@@ -19,7 +19,7 @@
 
 <Section title={title}>
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={(e)=> scrollx(e, container)} role="group">      
-        {#if alerts.length > 0}
+        {#if alerts?.length > 0}
             {#each alerts as item}
                 <div class="w-100 h-50 lg:w-[29rem] bg-blue-skywave flex-shrink-0 rounded-lg p-4 relative">
                     <h1 class="font-noto-sans font-black italic uppercase text-neutral-aurora text-xl">
@@ -35,7 +35,7 @@
                             {/each}
                         {/if}
                     </div>
-                    {#if item.enable_confirm}
+                    {#if item.actions.confirm}
                         <button class="w-[2rem] h-[2rem] bg-neutral-aurora absolute bottom-3 right-4 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer" on:click={() => createSignature(item.id)}>
                             <img src="/icons/verify.svg" alt="verify icon" class="w-5"/>
                         </button>   

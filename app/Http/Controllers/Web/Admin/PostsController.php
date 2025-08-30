@@ -23,13 +23,33 @@ class PostsController extends Controller
     {
         try {
             $user = request()->user();
-            $query = Post::with('user');
 
-            if (!$user->permissions_keys->contains('administrator')) {
-                $query->where('user_id', $user->id);
+            $query = Post::orderBy('created_at', 'desc');
+            $query->with('user');
+            $query->when(!$user->permissions_keys->contains('administrator'), function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            });
+            $posts = $query->paginate(10);
+
+            function resolvePostAppareace($post)
+            {
+                $status = [
+                    "published" => "var(--color-blue-skywave)",
+                    "sketch" => "var(--color-green-forest)",
+                    "revision" => "var(--color-orange-amber)"
+                ];
+
+                return [
+                    "bg" => $status[$post->status] ?? 'var(--color-blue-skywave)'
+                ];
             }
 
-            $posts = $query->paginate(10);
+            $posts->getCollection()->transform(function($post) use ($user){
+                $data = $post->toArray();
+                $data['styles'] = resolvePostAppareace($post);
+                $data['editable'] = $user->permissions_keys->contains('administrator') || $post->user_id == $user->id;
+                return $data;
+            });
 
             return $posts;
         } catch (\Throwable $e) {
@@ -40,9 +60,10 @@ class PostsController extends Controller
     public function getPost($postSlug)
     {
         try {
-            if($postSlug){
-                $post = Post::where('slug', $postSlug)->with(['references', 'categories'])->first();
-                return $post->makeHidden(['styles']);
+            if ($postSlug) {
+                $query = Post::where('slug', $postSlug);
+                $query->with(['references', 'categories']);
+                return $query->first();
             }
         } catch (\Throwable $e) {
             return $this->provideException($e);
@@ -98,7 +119,7 @@ class PostsController extends Controller
             $cover = $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover')) : $post->cover;
 
             $post->update([
-                'slug' => $slug,
+                'slug' =>  Str::slug($request->input('title')),
                 'title' => $request->filled('title') ? $request->input('title') : $post->title,
                 'content' => $request->filled('content') ? $request->input('content') : $post->content,
                 'image' => $image,

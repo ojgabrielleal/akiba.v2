@@ -17,25 +17,6 @@ class Alert extends Model
         'user_id',
     ];
 
-    protected $appends = [
-        'enable_confirm',
-    ];
-
-    protected static function booted()
-    {
-        static::addGlobalScope('orderByCreated', function ($query) {
-            $query->orderBy('created_at', 'desc');
-        });
-    }
-
-    /**
-     * Set accessor 'enable_confirm' in response
-     */
-    function getEnableConfirmAttribute()
-    {
-        return true;
-    }
-
     /**
      * Relationship with the 'Users' model.
      */

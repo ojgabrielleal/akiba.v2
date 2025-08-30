@@ -20,33 +20,39 @@ class ReviewsController extends Controller
     public function getReviews()
     {
         try {
-            return Review::paginate(10);
+            $query = Review::orderBy('created_at', 'desc');
+            $reviews = $query->paginate(10);
+
+            $reviews->getCollection()->transform(function($post){
+                $data = $post->toArray();
+                $data['editable'] = true;
+                return $data;
+            });
+
+            return $reviews;
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
     }
 
-    public function getReview($reviewSlug, $userId)
+    public function getReview($reviewSlug)
     {
         try{
             if($reviewSlug){
-                $review = Review::where('slug', $reviewSlug)->first();
-                $content = ReviewContent::where('user_id', $userId)->pluck('content')->implode(' ');
-
-                return array_merge($review->toArray(), [
-                    'content' => $content
-                ]);
+                $query = Review::with('reviews.user');
+                $query->where('slug', $reviewSlug);
+                return $query->first();
             }
         }catch(\Throwable $e){
             return $this->provideException($e);
         }
     }
 
-    public function render($reviewSlug = null, $userId = null)
+    public function render($reviewSlug = null)
     {
         return inertia('admin/Reviews', [
             "publications" => $this->getReviews(),
-            "publication" => $this->getReview($reviewSlug, $userId),
+            "publication" => $this->getReview($reviewSlug,),
         ]);
     }
 }

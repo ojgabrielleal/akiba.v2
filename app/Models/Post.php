@@ -22,50 +22,6 @@ class Post extends Model
         'user_id',
     ];
 
-    protected $appends = ['styles', 'editable'];
-
-    protected static function booted()
-    {
-        static::addGlobalScope('orderByCreated', function ($query) {
-            $query->orderBy('created_at', 'desc');
-        });
-    }
-
-    /**
-     * Set accessor 'styles' in response
-    */
-    public function getStylesAttribute()
-    {
-        $status = [
-            "published"=> "var(--color-blue-skywave)",
-            "sketch"=> "var(--color-green-forest)",
-            "revision"=> "var(--color-orange-amber)"
-        ];
-
-        return [
-            "bg" => $status[$this->status] ?? 'var(--color-blue-skywave)'
-        ];
-    }
-
-    /**
-     * Set accessor 'editable' in response
-    */
-    public function getEditableAttribute()
-    {
-        $user = auth()->user();
-
-        if (!$user) {
-            return false;
-        }
-
-        if ($user->permissions_keys->contains('administrator')) {
-            return true;
-        }
-        
-        return $this->user_id == $user->id;
-    }
-
-
     /**
      * Relationship with the 'Users' model.
      */
