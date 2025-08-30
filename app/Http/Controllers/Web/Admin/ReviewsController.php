@@ -23,7 +23,7 @@ class ReviewsController extends Controller
             $query = Review::orderBy('created_at', 'desc');
             $reviews = $query->paginate(10);
 
-            $reviews->getCollection()->transform(function($post){
+            $reviews->getCollection()->transform(function ($post) {
                 $data = $post->toArray();
                 $data['editable'] = true;
                 return $data;
@@ -37,13 +37,19 @@ class ReviewsController extends Controller
 
     public function getReview($reviewSlug)
     {
-        try{
-            if($reviewSlug){
-                $query = Review::with('reviews.user');
+        try {
+            if ($reviewSlug) {
+                $user = request()->user();
+
+                $query = Review::with(['reviews' => function ($q) use ($user) {
+                    $q->when(!$user->permissions_keys->contains('administrator'), function($q) use ($user){
+                        $q->where('user_id', $user->id);
+                    })->with('user'); 
+                }]);
                 $query->where('slug', $reviewSlug);
                 return $query->first();
             }
-        }catch(\Throwable $e){
+        } catch (\Throwable $e) {
             return $this->provideException($e);
         }
     }

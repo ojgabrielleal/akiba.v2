@@ -4,14 +4,20 @@
 
     $:({ user, publication } = $page.props);
     
-    $:if(publication){
-        console.log(publication);
+    $: authorSelected = user.id;
+    $: contentSelected = publication?.reviews?.find((item) => item.user.id === authorSelected);
+
+    $: reviewsList = publication?.reviews;
+    $: if (reviewsList && !reviewsList.some(item => item.user.id === user.id)) {
+        const newUserReview = {
+            user: { id: user.id, nickname: user.nickname },
+            content: ""
+        };
+        reviewsList = [newUserReview, ...reviewsList];
     }
-    
-    $: authorSelected = user.nickname
 </script>
 
-<form on:submit={onSubmit}>
+<form>
     <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
         <div class="mb-3">
             <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
@@ -42,27 +48,33 @@
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="cover">
                     Capa do review
                 </label>
-                <Preview name="cover"  value={publication?.cover}/>
+                <Preview name="cover" value={publication?.cover}/>
             </div>
             <div class="mb-8">
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="content">
                     Escreva o review
                 </label>
-                <div class="flex mb-3 mt-2 gap-2">
-                    <div class="relative inline-block mb-2">
-                        <button aria-label="teste" class="bg-neutral-aurora py-2 px-6 rounded-md text-orange-amber uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer relative">
-                            teste
-                        </button>
-                        <span class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px] border-t-neutral-aurora">
-                        </span>
+                {#if user.permissions_keys.includes('administrator') && publication}
+                    <div class="flex mb-3 mt-2 gap-2">
+                        {#each reviewsList as item}
+                            <div class="relative inline-block mb-2">
+                                <button 
+                                    type="button" 
+                                    aria-label="teste"
+                                    class="py-2 px-6 rounded-md uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer relative {item.user.id === authorSelected ? 'bg-neutral-aurora text-blue-ocean' : 'bg-blue-ocean text-neutral-aurora'}"
+                                    on:click={()=>authorSelected = item.user.id}
+                                >
+                                    {item.user.nickname}
+                                </button>
+                                {#if item.user.id === authorSelected}
+                                    <span class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px] border-t-neutral-aurora">
+                                    </span>
+                                {/if}
+                            </div>
+                        {/each}
                     </div>
-                    <div class="relative inline-block mb-2">
-                        <button aria-label="teste" class="bg-neutral-aurora py-2 px-6 rounded-md text-orange-amber uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer relative">
-                            teste
-                        </button>
-                    </div>
-                </div>
-                <Wysiwyg name="content"/>
+                {/if}
+                <Wysiwyg name="content" value={contentSelected?.content}/>
             </div>  
         </div>
     </div>

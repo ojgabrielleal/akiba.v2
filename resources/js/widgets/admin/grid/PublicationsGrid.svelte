@@ -7,7 +7,6 @@
     import { Section } from "@/layouts/admin/";
 
     $:({ publications } = $page.props); 
-    $:if(publications) console.log(publications);
 
     function pagination(page){
         router.get('', {page: page}, {
@@ -20,7 +19,7 @@
     <div class="flex gap-5 overflow-x-auto flex-wrap">
         {#if (publications.data?.length > 0)}
             {#each publications.data as item}
-                <div class="w-full h-[14rem] lg:w-[18.2rem] flex-shrink-0 rounded-lg p-4 relative" style="background-color: {item.styles.bg ?? 'var(--color-blue-skywave)'}">
+                <div class="w-full h-[14rem] lg:w-[18.2rem] flex-shrink-0 rounded-lg p-4 relative" style="background-color: {item?.styles?.bg ?? 'var(--color-blue-skywave)'}">
                     <span class="font-noto-sans text-lg text-neutral-aurora line-clamp-5 uppercase">
                         {item.title}
                     </span>
