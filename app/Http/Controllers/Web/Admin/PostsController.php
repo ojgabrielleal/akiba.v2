@@ -44,7 +44,7 @@ class PostsController extends Controller
                 ];
             }
 
-            $posts->getCollection()->transform(function($post) use ($user){
+            $posts->getCollection()->transform(function ($post) use ($user) {
                 $data = $post->toArray();
                 $data['styles'] = resolvePostAppareace($post);
                 $data['editable'] = $user->permissions_keys->contains('administrator') || $post->user_id == $user->id;
@@ -133,7 +133,7 @@ class PostsController extends Controller
         }
     }
 
-    public function publishPost(Request $request)
+    public function createPost(Request $request)
     {
         try {
             $request->validate([

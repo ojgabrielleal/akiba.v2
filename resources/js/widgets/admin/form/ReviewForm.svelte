@@ -1,34 +1,36 @@
 <script>
-    import { page } from "@inertiajs/svelte";
+    import { page, router } from "@inertiajs/svelte";
     import { Preview, Wysiwyg } from "@/components/admin";
 
     $:({ user, publication } = $page.props);
-    
+
     $: authorSelected = user.id;
     $: contentSelected = publication?.reviews?.find((item) => item.user.id === authorSelected);
 
-    $: reviewsList = publication?.reviews;
-    $: if (reviewsList && !reviewsList.some(item => item.user.id === user.id)) {
-        const newUserReview = {
-            user: { id: user.id, nickname: user.nickname },
-            content: ""
-        };
-        reviewsList = [newUserReview, ...reviewsList];
+    // Submit the post from controller backend
+    function onSubmit(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const url = publication ? `/painel/reviews/update/${publication.slug}` : `/painel/reviews/create`;
+            
+        router.post(url, formData);
     }
+
 </script>
 
-<form>
+<form on:submit={onSubmit(event)}>
     <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
         <div class="mb-3">
             <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
                 Imagem em destaque
             </span>
-            <Preview name="image" value={publication?.image}/>
+            <Preview name="image" src={publication?.image} />
         </div>
         <div class="mb-3">
             <div class="mb-8">
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="title">
-                    Título
+                    Nome do anime
                 </label>
                 <input
                     type="text"
@@ -42,21 +44,29 @@
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="sinopse">
                     Sinopse do anime
                 </label>
-                <Wysiwyg height="15rem" name="sinopse" value={publication?.sinopse}/>
+                <Wysiwyg 
+                    height="15rem" 
+                    name="sinopse" 
+                    value={publication?.sinopse} 
+                />
             </div>
             <div class="mb-8">
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="cover">
-                    Capa do review
+                    Capa do anime
                 </label>
-                <Preview name="cover" value={publication?.cover}/>
+                <Preview 
+                    name="cover"                     
+                    previewHeight="max-h-[30rem]" 
+                    src={publication?.cover}
+                />
             </div>
             <div class="mb-8">
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="content">
-                    Escreva o review
+                    Escreva o seu review
                 </label>
                 {#if user.permissions_keys.includes('administrator') && publication}
                     <div class="flex mb-3 mt-2 gap-2">
-                        {#each reviewsList as item}
+                        {#each publication?.reviews as item}
                             <div class="relative inline-block mb-2">
                                 <button 
                                     type="button" 
@@ -77,5 +87,10 @@
                 <Wysiwyg name="content" value={contentSelected?.content}/>
             </div>  
         </div>
+    </div>
+    <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
+        <button type="submit" aria-label="status" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+            Publicar review
+        </button>
     </div>
 </form>

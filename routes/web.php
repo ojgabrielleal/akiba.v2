@@ -9,15 +9,15 @@ use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\PostsController;
 use App\Http\Controllers\Web\Admin\ReviewsController;
 
-Route::prefix('painel')->group(function(){
+Route::prefix('painel')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::get('/', 'render')->name('render.painel.auth');
         Route::post('/authenticate', 'authenticate');
     });
 
     Route::middleware(['auth', 'inertia'])->group(function () {
-        
-        Route::prefix('/dashboard')->group(function(){
+
+        Route::prefix('/dashboard')->group(function () {
             Route::controller(DashboardController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.dashboard');
                 Route::post('/alerts/{alertId}', 'createAlertSignature');
@@ -25,19 +25,19 @@ Route::prefix('painel')->group(function(){
             });
         });
 
-        Route::prefix('/materias')->group(function(){
+        Route::prefix('/materias')->group(function () {
             Route::controller(PostsController::class)->group(function () {
                 Route::get('/{postSlug?}', 'render')->name('render.painel.materias');
                 Route::post('/update/{postSlug}', 'updatePost');
-                Route::post('/create', 'publishPost');
+                Route::post('/create', 'createPost');
             });
         });
 
-        Route::prefix('/reviews')->group(function(){
+        Route::prefix('/reviews')->group(function () {
             Route::controller(ReviewsController::class)->group(function () {
-                Route::get('/{reviewSlug?}/{userId?}', 'render')->name('render.painel.reviews');
+                Route::get('/{reviewSlug?}', 'render')->name('render.painel.reviews');
+                Route::post('/create', 'createReview');
             });
         });
     });
 });
-
