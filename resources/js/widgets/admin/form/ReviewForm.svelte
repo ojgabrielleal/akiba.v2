@@ -13,13 +13,14 @@
 
         const formData = new FormData(event.target);
         const url = publication ? `/painel/reviews/update/${publication.slug}` : `/painel/reviews/create`;
-            
+
+        publication ? formData.append('content_id', contentSelected.id) : null;    
         router.post(url, formData);
     }
 
 </script>
 
-<form on:submit={onSubmit(event)}>
+<form on:submit={onSubmit}>
     <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
         <div class="mb-3">
             <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">

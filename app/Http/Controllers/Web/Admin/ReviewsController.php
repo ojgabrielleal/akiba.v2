@@ -86,8 +86,9 @@ class ReviewsController extends Controller
                 'cover' => 'required|image|mimes:jpg,jpeg,png,webp',
             ]);
 
+            $slug = Str::slug($request->input('title'));
             $review = Review::create([
-                'slug' => Str::slug($request->input('title')),
+                'slug' => $slug,
                 'title' => $request->input('title'),
                 'sinopse' => $request->input('sinopse'),
                 'image' => $this->uploadImage('reviews', $request->file('image')),
@@ -101,6 +102,44 @@ class ReviewsController extends Controller
             ]);
 
             $this->ProvideSuccess('save');
+            return redirect()->route('render.painel.reviews', ['reviewSlug' => $slug]);
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
+    public function updateReview(Request $request, $reviewSlug)
+    {
+        try {
+            $review = Review::where('slug', $reviewSlug)->first();
+            $content = ReviewContent::where('id', $request->content_id)->first();
+
+            $slug = Str::slug($request->input('title'));
+            $image = $request->hasFile('image') ? $this->uploadImage('posts', $request->file('image')) : $review->image;
+            $cover = $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover')) : $review->cover;
+
+            $review->update([
+                'slug' => Str::slug($request->input('title')),
+                'title' => $request->input('title') ? $request->input('title') : $review->title,
+                'sinopse' => $request->input('sinopse') ? $request->input('sinopse') : $review->sinopse,
+                'image' => $image,
+                'cover' => $cover,
+            ]);
+
+            if ($content) {
+                $content->update([
+                    'content' => $request->input('content')
+                ]);
+            } else {
+                ReviewContent::create([
+                    'user_id' => $request->user()->id,
+                    'review_id' => $review->id,
+                    'content' => $request->input('content')
+                ]);
+            }
+
+            $this->ProvideSuccess('save');
+            return redirect()->route('render.painel.reviews', ['reviewSlug' => $slug]);
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -110,7 +149,7 @@ class ReviewsController extends Controller
     {
         return inertia('admin/Reviews', [
             "publications" => $this->getReviews(),
-            "publication" => $this->getReview($reviewSlug,),
+            "publication" => $this->getReview($reviewSlug),
         ]);
     }
 }

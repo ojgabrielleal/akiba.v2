@@ -37,6 +37,7 @@ Route::prefix('painel')->group(function () {
             Route::controller(ReviewsController::class)->group(function () {
                 Route::get('/{reviewSlug?}', 'render')->name('render.painel.reviews');
                 Route::post('/create', 'createReview');
+                Route::post('/update/{reviewSlug}', 'updateReview');
             });
         });
     });
