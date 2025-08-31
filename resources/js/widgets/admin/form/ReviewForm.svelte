@@ -1,23 +1,31 @@
 <script>
-    import { page, router } from "@inertiajs/svelte";
+    import { page, useForm } from "@inertiajs/svelte";
     import { Preview, Wysiwyg } from "@/components/admin";
 
-    $:({ user, publication } = $page.props);
+    $: ({ user, publication } = $page.props);
 
     $: authorSelected = user.id;
-    $: contentSelected = publication?.reviews?.find((item) => item.user.id === authorSelected);
+    $: contentSelected = publication?.reviews?.find(
+        (item) => item.user.id === authorSelected,
+    );
 
     // Submit the post from controller backend
+    $:form = useForm({
+        image: publication?.image,
+        title: publication?.title,
+        sinopse: publication?.sinopse,
+        cover: publication?.cover,
+        content: contentSelected?.content,
+        content_id: null,
+    })
     function onSubmit(event) {
         event.preventDefault();
 
-        const formData = new FormData(event.target);
         const url = publication ? `/painel/reviews/update/${publication.slug}` : `/painel/reviews/create`;
-
-        publication ? formData.append('content_id', contentSelected.id) : null;    
-        router.post(url, formData);
+        
+        $form.content_id = contentSelected?.id;
+        $form.post(url);
     }
-
 </script>
 
 <form on:submit={onSubmit}>
@@ -26,7 +34,11 @@
             <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
                 Imagem em destaque
             </span>
-            <Preview name="image" src={publication?.image} />
+            <Preview 
+                name="image" 
+                src={$form.image} 
+                oninput={event => $form.image = event.target.files[0]} 
+            />        
         </div>
         <div class="mb-3">
             <div class="mb-8">
@@ -38,17 +50,17 @@
                     id="title"
                     name="title"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                    value={publication?.title}
+                    bind:value={$form.title}
                 />
             </div>
             <div class="mb-8">
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="sinopse">
                     Sinopse do anime
                 </label>
-                <Wysiwyg 
-                    height="15rem" 
-                    name="sinopse" 
-                    value={publication?.sinopse} 
+                <Wysiwyg
+                    height="15rem"
+                    name="sinopse"
+                    bind:value={$form.sinopse}
                 />
             </div>
             <div class="mb-8">
@@ -56,24 +68,24 @@
                     Capa do anime
                 </label>
                 <Preview 
-                    name="cover"                     
-                    previewHeight="max-h-[30rem]" 
-                    src={publication?.cover}
-                />
+                    name="cover" 
+                    src={$form.cover} 
+                    oninput={event => $form.cover = event.target.files[0]} 
+                />   
             </div>
             <div class="mb-8">
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="content">
                     Escreva o seu review
                 </label>
-                {#if user.permissions_keys.includes('administrator') && publication}
+                {#if user.permissions_keys.includes("administrator") && publication}
                     <div class="flex mb-3 mt-2 gap-2">
                         {#each publication?.reviews as item}
                             <div class="relative inline-block mb-2">
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     aria-label="teste"
                                     class="py-2 px-6 rounded-md uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer relative {item.user.id === authorSelected ? 'bg-neutral-aurora text-blue-ocean' : 'bg-blue-ocean text-neutral-aurora'}"
-                                    on:click={()=>authorSelected = item.user.id}
+                                    on:click={() => (authorSelected = item.user.id)}
                                 >
                                     {item.user.nickname}
                                 </button>
@@ -85,12 +97,17 @@
                         {/each}
                     </div>
                 {/if}
-                <Wysiwyg name="content" value={contentSelected?.content}/>
-            </div>  
+                <Wysiwyg name="content" bind:value={$form.content} />
+            </div>
         </div>
     </div>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
-        <button type="submit" aria-label="status" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+        <button
+            type="submit"
+            aria-label="status"
+            value="published"
+            class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase"
+        >
             Publicar review
         </button>
     </div>

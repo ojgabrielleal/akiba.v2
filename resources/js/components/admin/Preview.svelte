@@ -1,14 +1,14 @@
 <script>
     export let name = null;
-    export let width = "w-full";
-    export let height = "h-[15rem] lg:h-[23rem]";
-    export let previewHeight = "h-full";
+    export let size = "w-full h-[15rem] lg:h-[23rem]";
+    export let view = "h-full";
     export let src = null;
-
-    $: imageToShow = preview ?? (src && src !== '#' ? src : null);
+    export let oninput = null;
 
     let preview = null;
-    
+
+    $: imageToShow = preview ?? (src && src !== "#" ? src : null);
+
     function previewImage(event) {
         const file = event.target.files[0];
         if (file) {
@@ -25,11 +25,25 @@
 
 <label class="cursor-pointer">
     {#if imageToShow}
-        <img src={imageToShow} alt="Preview" class={`w-full ${previewHeight} rounded-lg object-cover object-top`} />
+        <img
+            src={imageToShow}
+            alt="Preview"
+            class={`w-full ${view} rounded-lg object-cover object-top`}
+        />
     {:else}
-        <div class={`${width} ${height} bg-neutral-aurora rounded-lg flex items-center justify-center overflow-hidden font-noto-sans text-blue-skywave text-7xl font-bold italic uppercase`}>
+        <div
+            class={`${size} bg-neutral-aurora rounded-lg flex items-center justify-center overflow-hidden font-noto-sans text-blue-skywave text-7xl font-bold italic uppercase`}
+        >
             +
         </div>
     {/if}
-    <input name={name} id={name} type="file" class="hidden" accept="image/*" on:change={previewImage} />
+    <input
+        name={name}
+        id={name}
+        type="file"
+        class="hidden"
+        accept="image/*"
+        on:input={oninput}
+        on:change={previewImage}
+    />
 </label>

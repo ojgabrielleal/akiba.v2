@@ -1,5 +1,5 @@
 <script>
-    import { router, page } from "@inertiajs/svelte";
+    import { useForm, router, page } from "@inertiajs/svelte";
     import { Preview, Wysiwyg } from "@/components/admin";
 
     import Tags from "@/data/admin/Tags";
@@ -7,16 +7,28 @@
     $: ({ user, publication } = $page.props);
 
     // Submit the post from controller backend
+    $: form = useForm({
+        status: null,
+        image: publication?.image,
+        title: publication?.title,
+        cover: publication?.cover,
+        content: publication?.content,
+        first_category: publication?.categories[0]?.category_name,
+        second_category: publication?.categories[1]?.category_name,
+        first_reference_name: publication?.references[0]?.name,
+        first_reference_url: publication?.references[0]?.url,
+        second_reference_name: publication?.references[1]?.name,
+        second_reference_url: publication?.references[1]?.url,
+    });
+
     function onSubmit(event) {
         event.preventDefault();
 
-        const formData = new FormData(event.target)
         const submitter = event.submitter;
-        
-        formData.append('status', submitter.value) 
-
         const url = publication ? `/painel/materias/update/${publication.slug}` : `/painel/materias/create`;
-        router.post(url, formData);
+
+        $form.status = submitter.value
+        $form.post(url);
     }
 </script>
 
@@ -26,7 +38,11 @@
             <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
                 Imagem em destaque
             </span>
-            <Preview name="image" src={publication?.image} />
+            <Preview 
+                name="image" 
+                src={$form.image} 
+                oninput={event => $form.image = event.target.files[0]} 
+            />
         </div>
         <div class="mb-3">
             <div class="mb-8">
@@ -38,24 +54,28 @@
                     id="title"
                     name="title"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                    value={publication?.title}
+                    bind:value={$form.title}
                 />
             </div>
             <div class="mb-8">
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="cover">
                     Capa da matéria
                 </label>
-                <Preview
-                    name="cover"
-                    previewHeight="max-h-[30rem]"
-                    src={publication?.cover}
+                <Preview 
+                    name="cover" 
+                    view="max-h-[30rem]" 
+                    src={$form.cover}  
+                    oninput={event => $form.cover = event.target.files[0]} 
                 />
             </div>
             <div class="mb-8">
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="content">
                     Escreva sua matéria
                 </label>
-                <Wysiwyg value={publication?.content} name="content" />
+                <Wysiwyg 
+                name="content" 
+                    bind:value={$form.content} 
+                />
             </div>
         </div>
     </div>
@@ -70,7 +90,7 @@
                     name="first_category"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
                     options={Tags}
-                    value={publication?.first_category}
+                    bind:value={$form.first_category}
                 >
                     {#each Tags as tag}
                         <option value={tag.value}>{tag.label}</option>
@@ -85,7 +105,7 @@
                     id="second_category"
                     name="second_category"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
-                    value={publication?.second_category}
+                    bind:value={$form.second_category}
                 >
                     {#each Tags as tag}
                         <option value={tag.value}>{tag.label}</option>
@@ -107,7 +127,7 @@
                         id="first_reference_name"
                         name="first_reference_name"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                        value={publication?.first_reference_name}
+                        bind:value={$form.first_reference_name}
                     />
                 </div>
                 <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
@@ -119,7 +139,7 @@
                         id="first_reference_url"
                         name="first_reference_url"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                        value={publication?.first_reference_url}
+                        bind:value={$form.first_reference_url}
                     />
                 </div>
             </div>
@@ -136,7 +156,7 @@
                         id="second_reference_name"
                         name="second_reference_name"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                        value={publication?.second_reference_name}
+                        bind:value={$form.second_reference_name}
                     />
                 </div>
                 <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
@@ -148,7 +168,7 @@
                         id="second_reference_url"
                         name="second_reference_url"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                        value={publication?.second_reference_url}
+                        bind:value={$form.second_reference_url}
                     />
                 </div>
             </div>
@@ -156,18 +176,38 @@
     </div>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         {#if publication?.status === "published"}
-            <button type="submit" aria-label="status" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+            <button
+                type="submit"
+                aria-label="status"
+                value="published"
+                class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase"
+            >
                 Atualizar matéria
             </button>
         {:else}
-            <button type="submit" aria-label="status" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
+            <button
+                type="submit"
+                aria-label="status"
+                value="sketch"
+                class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase"
+            >
                 Salvar como Rascunho
             </button>
-            <button type="submit" aria-label="status" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
+            <button
+                type="submit"
+                aria-label="status"
+                value="revision"
+                class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase"
+            >
                 Mandar para revisão
             </button>
             {#if user.permissions_keys?.includes("administrator")}
-                <button type="submit" aria-label="status" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+                <button
+                    type="submit"
+                    aria-label="status"
+                    value="published"
+                    class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase"
+                >
                     Publicar
                 </button>
             {/if}

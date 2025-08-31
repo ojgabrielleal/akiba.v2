@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import Quill from "quill";
 
-    export let value = "";
+    export let value = "";   // 👈 já pode ser usado com bind:value
     export let height = "50rem";
     export let name = "content";
 
@@ -33,19 +33,20 @@
             },
         });
 
-        // define conteúdo inicial
+        // conteúdo inicial
         if (value) {
             quill.root.innerHTML = value;
             textarea.value = value;
         }
 
-        // Atualiza o campo hidden quando o conteúdo muda
+        // Atualiza o campo hidden E o bind:value
         quill.on("text-change", () => {
-            textarea.value = quill.root.innerHTML;
+            value = quill.root.innerHTML;   // 👈 dispara reatividade
+            textarea.value = value;
         });
     });
 
-    // Atualiza o editor se a prop `value` mudar
+    // se a prop `value` mudar de fora → sincroniza com Quill
     $: if (quill && value !== quill.root.innerHTML) {
         quill.root.innerHTML = value;
         textarea.value = value;
