@@ -106,9 +106,9 @@
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         <button type="submit" aria-label="status" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
             {#if $form.content}
-                Atualizar review
+                Atualizar
             {:else}
-                Publicar review
+                Publicar
             {/if}
         </button>
     </div>

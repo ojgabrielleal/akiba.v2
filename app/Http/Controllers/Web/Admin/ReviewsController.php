@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
+use Inertia\Inertia;
+
 use App\Traits\Response\ProvideException;
 use App\Traits\Response\ProvideSuccess;
 use App\Traits\Upload\HandlesImageUpload;
@@ -146,7 +148,7 @@ class ReviewsController extends Controller
 
     public function render($reviewSlug = null)
     {
-        return inertia('admin/Reviews', [
+        return Inertia::render('admin/Reviews', [
             "publications" => $this->getReviews(),
             "publication" => $this->getReview($reviewSlug),
         ]);

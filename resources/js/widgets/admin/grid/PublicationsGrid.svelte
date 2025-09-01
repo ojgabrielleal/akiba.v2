@@ -17,7 +17,7 @@
 
 <Section title={title}>
     <div class="flex gap-5 overflow-x-auto flex-wrap">
-        {#if (publications.data?.length > 0)}
+        {#if (publications?.data?.length > 0)}
             {#each publications.data as item}
                 <div class="w-full h-[14rem] lg:w-[18.2rem] flex-shrink-0 rounded-lg p-4 relative" style="background-color: {item?.styles?.bg ?? 'var(--color-blue-skywave)'}">
                     <span class="font-noto-sans text-lg text-neutral-aurora line-clamp-5 uppercase">
@@ -54,7 +54,7 @@
         {/if}
     </div>        
        
-    {#if publications.data >= 10}
+    {#if publications?.data >= 10}
         {#if publications.last_page > 1}
             <div class="flex gap-5 mt-6">
                 {#if publications.current_page > 1}

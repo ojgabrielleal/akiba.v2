@@ -8,15 +8,14 @@ use App\Http\Controllers\Web\Admin\AuthController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\PostsController;
 use App\Http\Controllers\Web\Admin\ReviewsController;
+use App\Http\Controllers\Web\Admin\EventsController;
 
 Route::prefix('painel')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::get('/', 'render')->name('render.painel.auth');
         Route::post('/authenticate', 'authenticate');
     });
-
     Route::middleware(['auth', 'inertia'])->group(function () {
-
         Route::prefix('/dashboard')->group(function () {
             Route::controller(DashboardController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.dashboard');
@@ -24,7 +23,6 @@ Route::prefix('painel')->group(function () {
                 Route::patch('/tasks/{taskId}', 'completeTask');
             });
         });
-
         Route::prefix('/materias')->group(function () {
             Route::controller(PostsController::class)->group(function () {
                 Route::get('/{postSlug?}', 'render')->name('render.painel.materias');
@@ -32,12 +30,16 @@ Route::prefix('painel')->group(function () {
                 Route::post('/create', 'createPost');
             });
         });
-
         Route::prefix('/reviews')->group(function () {
             Route::controller(ReviewsController::class)->group(function () {
                 Route::get('/{reviewSlug?}', 'render')->name('render.painel.reviews');
                 Route::post('/create', 'createReview');
                 Route::post('/update/{reviewSlug}', 'updateReview');
+            });
+        });
+        Route::prefix('/eventos')->group(function () {
+            Route::controller(EventsController::class)->group(function () {
+                Route::get('/{eventosSlug?}', 'render')->name('render.painel.eventos');
             });
         });
     });
