@@ -9,6 +9,8 @@
         (item) => item.user.id === authorSelected,
     );
 
+    $:if(publication) console.log(publication.reviews[authorSelected])
+
     // Submit the post from controller backend
     $:form = useForm({
         image: publication?.image,
@@ -102,13 +104,12 @@
         </div>
     </div>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
-        <button
-            type="submit"
-            aria-label="status"
-            value="published"
-            class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase"
-        >
-            Publicar review
+        <button type="submit" aria-label="status" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+            {#if $form.content}
+                Atualizar review
+            {:else}
+                Publicar review
+            {/if}
         </button>
     </div>
 </form>

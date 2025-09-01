@@ -21,12 +21,18 @@ class ReviewsController extends Controller
     public function getReviews()
     {
         try {
+            $user = request()->user();
+
             $query = Review::orderBy('created_at', 'desc');
+            $query->with('reviews');
             $reviews = $query->paginate(10);
 
-            $reviews->getCollection()->transform(function ($post) {
-                $data = $post->toArray();
+            $reviews->getCollection()->transform(function ($review) use ($user) {
+                $data = $review->toArray();
                 $data['editable'] = true;
+                $data['styles'] = [
+                    'bg' => $review->reviews->contains('user_id', $user->id) ? 'var(--color-purple-mystic)' : 'var(--color-blue-skywave)',
+                ];
                 return $data;
             });
 
@@ -42,30 +48,23 @@ class ReviewsController extends Controller
             if ($reviewSlug) {
                 $user = request()->user();
 
-                $query = Review::with(['reviews' => function ($q) use ($user) {
-                    $q->when(!$user->permissions_keys->contains('administrator'), function ($q) use ($user) {
-                        $q->where('user_id', $user->id);
-                    })
-                        ->orderByRaw('CASE WHEN user_id = ? THEN 0 ELSE 1 END', [$user->id])
-                        ->with('user');
-                }]);
+                $query = Review::with('reviews.user');
                 $query->where('slug', $reviewSlug);
                 $review = $query->first();
 
-                // --- The check goes here ---
-                if ($review) {
-                    $userLoggedExists = $review->reviews->contains('user_id', $user->id);
-                    if (!$userLoggedExists) {
-                        $placeholder = (object) [
-                            'user_id' => $user->id,
-                            'user' => (object) [
-                                'id' => $user->id,
-                                'nickname' => $user->nickname,
-                            ],
-                            'content' => 'Escreva seu review...'
-                        ];
-                        $review->reviews->prepend($placeholder);
-                    }
+                $userReview  = $review->reviews->contains('user_id', $user->id);
+
+                // Add placeholder object in array reviews with user logged;
+                if (!$userReview ) {
+                    $placeholder = (object) [
+                        'user_id' => $user->id,
+                        'user' => (object) [
+                            'id' => $user->id,
+                            'nickname' => $user->nickname,
+                        ],
+                        'content' => 'Escreva seu review...'
+                    ];
+                    $review->reviews->prepend($placeholder);
                 }
 
                 return $review;
