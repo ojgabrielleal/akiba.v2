@@ -18,10 +18,14 @@ class Event extends Model
         'address'
     ];
 
+    protected $hidden = [
+        'user_id'
+    ];
+
     /**
      * Relationship with 'User' model
      */
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

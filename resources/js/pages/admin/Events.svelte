@@ -30,7 +30,7 @@
             <EventsForm/>
         </div>
         <div class="mt-15">
-            <PublicationsGrid title="Todos os Eventos" view="https://akiba.com.br/materias/" edit="/painel/materias/"/>
+            <PublicationsGrid title="Todos os Eventos" view="https://akiba.com.br/eventos/" edit="/painel/eventos/"/>
         </div>
     </Section>
 </Layout>

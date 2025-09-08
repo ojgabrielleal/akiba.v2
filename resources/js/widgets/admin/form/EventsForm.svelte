@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="w-full xl:w-[85rem] ml-auto mb-8">
-        <div class="gap-5 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
+        <div class="gap-3 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
             <div class="mb-8">
                 <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
                     <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="local">

@@ -80,7 +80,7 @@
         </div>
     </div>
     <div class="w-full xl:w-[85rem] ml-auto mb-10">
-        <div class="gap-5 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
+        <div class="gap-2 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
             <div class="mb-8">
                 <label class="text-blue-skywave font-bold italic text-lg text-center uppercase font-noto-sans block mb-1" for="first_category">
                     Primeira Tag
