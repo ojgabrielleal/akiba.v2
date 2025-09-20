@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Middleware\HandleLaravelAuth;
-
 use App\Http\Controllers\Web\Admin\AuthController;
 use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\PostsController;
@@ -15,7 +13,8 @@ Route::prefix('painel')->group(function () {
         Route::get('/', 'render')->name('render.painel.auth');
         Route::post('/authenticate', 'authenticate');
     });
-    Route::middleware(['auth', 'inertia'])->group(function () {
+
+    Route::middleware(['inertia', 'auth'])->group(function () {
         Route::prefix('/dashboard')->group(function () {
             Route::controller(DashboardController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.dashboard');
@@ -25,21 +24,23 @@ Route::prefix('painel')->group(function () {
         });
         Route::prefix('/materias')->group(function () {
             Route::controller(PostsController::class)->group(function () {
-                Route::get('/{postSlug?}', 'render')->name('render.painel.materias');
-                Route::post('/update/{postSlug}', 'updatePost');
+                Route::get('/{slug?}', 'render')->name('render.painel.materias');
+                Route::post('/update/{slug}', 'updatePost');
                 Route::post('/create', 'createPost');
             });
         });
         Route::prefix('/reviews')->group(function () {
             Route::controller(ReviewsController::class)->group(function () {
-                Route::get('/{reviewSlug?}', 'render')->name('render.painel.reviews');
+                Route::get('/{slug?}', 'render')->name('render.painel.reviews');
                 Route::post('/create', 'createReview');
-                Route::post('/update/{reviewSlug}', 'updateReview');
+                Route::post('/update/{slug}', 'updateReview');
             });
         });
         Route::prefix('/eventos')->group(function () {
             Route::controller(EventsController::class)->group(function () {
-                Route::get('/{eventosSlug?}', 'render')->name('render.painel.eventos');
+                Route::get('/{slug?}', 'render')->name('render.painel.eventos');
+                Route::post('/create', 'createEvent');
+                Route::post('/update/{slug}', 'updateEvent');
             });
         });
     });

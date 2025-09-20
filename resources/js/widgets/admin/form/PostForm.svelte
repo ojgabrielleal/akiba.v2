@@ -1,5 +1,5 @@
 <script>
-    import { useForm, router, page } from "@inertiajs/svelte";
+    import { useForm, page } from "@inertiajs/svelte";
     import { Preview, Wysiwyg } from "@/components/admin";
 
     import Tags from "@/data/admin/Tags";
@@ -73,7 +73,7 @@
                     Escreva sua matéria
                 </label>
                 <Wysiwyg 
-                name="content" 
+                    name="content" 
                     bind:value={$form.content} 
                 />
             </div>

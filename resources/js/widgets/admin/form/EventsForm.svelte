@@ -1,10 +1,28 @@
 <script>
-    import { useForm, router, page } from "@inertiajs/svelte";
+    import { useForm, page } from "@inertiajs/svelte";
     import { Preview, Wysiwyg } from "@/components/admin";
 
-    import Tags from "@/data/admin/Tags";
-
     $: ({ user, publication } = $page.props);
+
+    // Submit the eent from controller backende 
+    $: form = useForm({
+        image: publication?.image,
+        title: publication?.title,
+        cover: publication?.cover,
+        content: publication?.content,
+        dates: publication?.dates,
+        address: publication?.address,
+    });
+
+    function onSubmit(event) {
+        event.preventDefault();
+
+        const submitter = event.submitter;
+        const url = publication ? `/painel/eventos/update/${publication.slug}` : `/painel/eventos/create`;
+
+        $form.status = submitter.value
+        $form.post(url);
+    }
 
 </script>
 
@@ -16,6 +34,8 @@
             </span>
             <Preview 
                 name="image" 
+                src={$form.image} 
+                oninput={event => $form.image = event.target.files[0]} 
             />
         </div>
         <div class="mb-3">
@@ -28,6 +48,7 @@
                     id="title"
                     name="title"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
+                    bind:value={$form.title}
                 />
             </div>
             <div class="mb-8">
@@ -37,6 +58,8 @@
                 <Preview 
                     name="cover" 
                     view="max-h-[30rem]" 
+                    src={$form.cover}  
+                    oninput={event => $form.cover = event.target.files[0]} 
                 />
             </div>
             <div class="mb-8">
@@ -45,6 +68,7 @@
                 </label>
                 <Wysiwyg 
                     name="content" 
+                    bind:value={$form.content} 
                 />
             </div>
         </div>
@@ -61,6 +85,7 @@
                         id="local"
                         name="local"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
+                        bind:value={$form.address}
                     />
                 </div>
             </div>
@@ -74,19 +99,19 @@
                         id="datas"
                         name="datas"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
+                        bind:value={$form.dates}
                     />
                 </div>
             </div>
         </div>
     </div>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
-        <button
-            type="submit"
-            aria-label="publicar"
-            value="published"
-            class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase"
-        >
-            Publicar
+        <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+            {#if publication}
+                Atualizar 
+            {:else}
+                Publicar 
+            {/if}
         </button>
     </div>
 </form>

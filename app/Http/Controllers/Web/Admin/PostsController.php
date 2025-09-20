@@ -59,11 +59,11 @@ class PostsController extends Controller
         }
     }
 
-    public function getPost($postSlug)
+    public function getPost($slug)
     {
         try {
-            if ($postSlug) {
-                $query = Post::where('slug', $postSlug);
+            if ($slug) {
+                $query = Post::where('slug', $slug);
                 $query->with(['references', 'categories']);
                 return $query->first();
             }
@@ -72,15 +72,10 @@ class PostsController extends Controller
         }
     }
 
-    public function updatePost(Request $request, $postSlug)
+    public function updatePost(Request $request, $slug)
     {
         try {
-            $request->validate([
-                'first_category' => 'not_in:#',
-                'second_category' => 'not_in:#'
-            ]);
-
-            $post = Post::where('slug', $postSlug)->with(['references', 'categories'])->first();
+            $post = Post::where('slug', $slug)->with(['references', 'categories'])->first();
 
             if ($request->filled('first_category') && $request->filled('second_category')) {
                 $first_category_id = $post->categories[0]->id;
@@ -129,7 +124,7 @@ class PostsController extends Controller
             ]);
 
             $this->ProvideSuccess('update');
-            return redirect()->route('render.painel.materias', ['postSlug' => $slug]);
+            return redirect()->route('render.painel.materias', ['slug' => $slug]);
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -139,22 +134,36 @@ class PostsController extends Controller
     {
         try {
             $request->validate([
-                'title' => 'required|string|max:255',
-                'content' => 'required|string',
-                'status' => 'required|in:sketch,revision,published',
-                'image' => 'required|image|mimes:jpg,jpeg,png,webp',
-                'cover' => 'required|image|mimes:jpg,jpeg,png,webp',
-                'first_category' => 'required|string|not_in:#|max:100',
-                'second_category' => 'required|string|not_in:#|max:100',
-                'first_reference_name' => 'required|string|max:255',
-                'first_reference_url' => 'required|url|max:2048',
-                'second_reference_name' => 'required|string|max:255',
-                'second_reference_url' => 'required|url|max:2048',
+                "status" => 'required',
+                "title" => 'required',
+                "content" => 'required',
+                'image' => 'required|image|max:2048',
+                'cover' => 'required|image|max:2048',
+                'first_reference_name' => 'required',
+                'first_reference_url' => 'required',
+                'second_reference_name' => 'required',
+                'second_reference_url' => 'required',
+                'first_category' => 'required',
+                'second_category' => 'required',
+            ], [
+                "status.required" => "<b><i>Status</b></i> é obrigatório",
+                "title.required" => "<b><i>Título</b></i> é obrigatório",
+                "content.required" => "<b><i>Escreva sua matéria</b></i> é obrigatório",
+                "image.required" => "<b><i>Imagem em destaque</b></i> é obrigatório",
+                "cover.required" => "<b><i>Capa da matéria</b></i> é obrigatório",
+                "first_reference_name.required" => "<b><i>Nome</b></i> para o site da primeira fonte de pesquisa é obrigatório",
+                "first_reference_url.required" => "<b><i>URL</b></i> para o site da primeira fonte de pesquisa é obrigatório",
+                "first_category.required" => "<b><i>Primeira tag</b></i> é obrigatório",
+                "second_category.required" => "<b><i>Segunda tag</b></i> é obrigatório",
             ]);
+
+
+
+            $slug = Str::slug($request->input('title'));
 
             $post = Post::create([
                 'user_id' => $request->user()->id,
-                'slug' => Str::slug($request->input('title')),
+                'slug' => $slug,
                 'title' => $request->input('title'),
                 'content' => $request->input('content'),
                 'status' => $request->input('status'),
@@ -185,16 +194,17 @@ class PostsController extends Controller
             ]);
 
             $this->ProvideSuccess('save');
+            return redirect()->route('render.painel.materias', ['slug' => $slug]);
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
     }
 
-    public function render($postSlug = null)
+    public function render($slug = null)
     {
         return Inertia::render('admin/Posts', [
             "publications" => $this->getPosts(),
-            "publication" => $this->getPost($postSlug)
+            "publication" => $this->getPost($slug)
         ]);
     }
 }

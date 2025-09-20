@@ -44,20 +44,20 @@ class ReviewsController extends Controller
         }
     }
 
-    public function getReview($reviewSlug)
+    public function getReview($slug)
     {
         try {
-            if ($reviewSlug) {
+            if ($slug) {
                 $user = request()->user();
 
                 $query = Review::with('reviews.user');
-                $query->where('slug', $reviewSlug);
+                $query->where('slug', $slug);
                 $review = $query->first();
 
                 $userReview  = $review->reviews->contains('user_id', $user->id);
 
                 // Add placeholder object in array reviews with user logged;
-                if (!$userReview ) {
+                if (!$userReview) {
                     $placeholder = (object) [
                         'user_id' => $user->id,
                         'user' => (object) [
@@ -79,14 +79,6 @@ class ReviewsController extends Controller
     public function createReview(Request $request)
     {
         try {
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'sinopse' => 'required|string',
-                'content' => 'required|string',
-                'image' => 'required|image|mimes:jpg,jpeg,png,webp',
-                'cover' => 'required|image|mimes:jpg,jpeg,png,webp',
-            ]);
-
             $slug = Str::slug($request->input('title'));
             $review = Review::create([
                 'slug' => $slug,
@@ -103,16 +95,16 @@ class ReviewsController extends Controller
             ]);
 
             $this->ProvideSuccess('save');
-            return redirect()->route('render.painel.reviews', ['reviewSlug' => $slug]);
+            return redirect()->route('render.painel.reviews', ['slug' => $slug]);
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
     }
 
-    public function updateReview(Request $request, $reviewSlug)
+    public function updateReview(Request $request, $slug)
     {
         try {
-            $review = Review::where('slug', $reviewSlug)->first();
+            $review = Review::where('slug', $slug)->first();
             $content = ReviewContent::where('id', $request->content_id)->first();
 
             $slug = Str::slug($request->input('title'));
@@ -140,17 +132,17 @@ class ReviewsController extends Controller
             }
 
             $this->ProvideSuccess('save');
-            return redirect()->route('render.painel.reviews', ['reviewSlug' => $slug]);
+            return redirect()->route('render.painel.reviews', ['slug' => $slug]);
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
     }
 
-    public function render($reviewSlug = null)
+    public function render($slug = null)
     {
         return Inertia::render('admin/Reviews', [
             "publications" => $this->getReviews(),
-            "publication" => $this->getReview($reviewSlug),
+            "publication" => $this->getReview($slug),
         ]);
     }
 }

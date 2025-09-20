@@ -45,11 +45,71 @@ class EventsController extends Controller
         }
     }
 
+    public function getEvent($slug)
+    {
+        try {
+            if ($slug) {
+                $query = Event::where('slug', $slug);
+                return $query->first();
+            }
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
 
-    public function render()
+    public function updateEvent(Request $request, $slug)
+    {
+        try {
+            $event = Event::where('slug', $slug)->first();
+
+            $slug = Str::slug($request->input('title'));
+            $image = $request->hasFile('image') ? $this->uploadImage('posts', $request->file('image')) : $event->image;
+            $cover = $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover')) : $event->cover;
+
+            $event->update([
+                'slug' => $slug,
+                'image' => $image,
+                'cover' => $cover,
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'dates' => $request->input('dates'),
+                'address' => $request->input('address')
+            ]);
+
+            $this->ProvideSuccess('update');
+            return redirect()->route('render.painel.eventos', ['slug' => $slug]);
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
+    public function createEvent(Request $request)
+    {
+        try {
+            $slug = Str::slug($request->input('title'));
+
+            Event::create([
+                'slug' => $slug,
+                'image' => $request->file('image'),
+                'cover' => $request->file('cover'),
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'dates' => $request->input('dates'),
+                'address' => $request->input('address')
+            ]);
+
+            $this->ProvideSuccess('created');
+            return redirect()->route('render.painel.eventos', ['slug' => $slug]);
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
+    public function render($slug = null)
     {
         return Inertia::render('admin/Events', [
             "publications" => $this->getEvents(),
+            "publication" => $this->getEvent($slug)
         ]);
     }
 }

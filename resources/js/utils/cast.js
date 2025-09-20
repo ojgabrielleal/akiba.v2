@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export async function cast() {
-    
     async function fetching() {
         try {
             const response = await axios.get('/api/cast/data');

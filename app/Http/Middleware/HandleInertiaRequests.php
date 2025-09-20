@@ -31,8 +31,7 @@ class HandleInertiaRequests extends Middleware
             'user' => function () {
                 return Auth::check() ? Auth::user() : null;
             },
-
-            // Flash messages
+            
             'flash' => [
                 'type' => fn () => session('flash.type'),
                 'message' => fn () => session('flash.message'),

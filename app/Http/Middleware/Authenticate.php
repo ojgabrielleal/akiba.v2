@@ -8,10 +8,9 @@ class Authenticate extends Middleware
 {
     protected function redirectTo($request): ?string
     {
-        if (! $request->expectsJson()) {
+        if (!$request->expectsJson()) {
             session(['url.intended' => $request->url()]);
-
-            return route('render.painel.auth')
+            return redirect()->route('render.painel.auth')
                 ->with('flash', [
                     'type' => 'error',
                     'message' => 'Você precisa estar logado para acessar.',
