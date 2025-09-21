@@ -107,11 +107,12 @@ trait ProvideException
             $e instanceof RuntimeException, $e instanceof LogicException => 500,
             default => 500,
         };
+        
+        // Mensagem padrão para todas as exceções
+        $errors = $message;
 
         // Tratamento especial para ValidationException
         if ($e instanceof ValidationException) {
-            $errors = collect($e->errors());
-
             $errors = collect($e->errors())->flatMap(function ($messages, $field) {
                 return array_map(function ($msg) use ($field) {
                     return "Nyaa~ O campo {$msg}, senpai~ (＠_＠;)✨ Verifica rapidinho, onegai~ 🐾";

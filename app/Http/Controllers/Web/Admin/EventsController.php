@@ -14,6 +14,7 @@ use App\Traits\Response\ProvideSuccess;
 use App\Traits\Upload\HandlesImageUpload;
 
 use App\Models\Event;
+use Illuminate\Log\Logger;
 
 class EventsController extends Controller
 {
@@ -62,15 +63,11 @@ class EventsController extends Controller
         try {
             $request->validate([
                 'title' => 'required',
-                'image' => 'required|image|max:2048',
-                'cover' => 'required|image|max:2048',
                 'content' => 'required',
                 'dates' => 'required',
                 'address' => 'required',
             ], [
                 "title.required" => "<b><i>Nome do evento</b></i> é obrigatório",
-                "image.required" => "<b><i>Imagem em destaque</b></i> é obrigatório",
-                "cover.required" => "<b><i>Capa do evento</b></i> é obrigatório",
                 "content.required" => "<b><i>Escreva sobre o evento</b></i> é obrigatório",
                 "dates.required" => "<b><i>Datas</b></i> é obrigatório",
                 "address.required" => "<b><i>Local</b></i> é obrigatório",
@@ -79,8 +76,8 @@ class EventsController extends Controller
             $event = Event::where('slug', $slug)->first();
 
             $slug = Str::slug($request->input('title'));
-            $image = $request->hasFile('image') ? $this->uploadImage('posts', $request->file('image')) : $event->image;
-            $cover = $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover')) : $event->cover;
+            $image = $request->hasFile('image') ? $this->uploadImage('events', $request->file('image')) : $event->image;
+            $cover = $request->hasFile('cover') ? $this->uploadImage('events', $request->file('cover')) : $event->cover;
 
             $event->update([
                 'slug' => $slug,
@@ -117,20 +114,23 @@ class EventsController extends Controller
                 "dates.required" => "<b><i>Datas</b></i> é obrigatório",
                 "address.required" => "<b><i>Local</b></i> é obrigatório",
             ]);
-            
+
+            Log::info($request);
+            $user = request()->user();
             $slug = Str::slug($request->input('title'));
 
             Event::create([
+                'user_id' => $user->id,
                 'slug' => $slug,
-                'image' => $request->file('image'),
-                'cover' => $request->file('cover'),
+                'image' => $this->uploadImage('events', $request->file('image')),
+                'cover' => $this->uploadImage('events', $request->file('cover')),
                 'title' => $request->input('title'),
                 'content' => $request->input('content'),
                 'dates' => $request->input('dates'),
                 'address' => $request->input('address')
             ]);
 
-            $this->ProvideSuccess('created');
+            $this->ProvideSuccess('save');
             return redirect()->route('render.painel.eventos', ['slug' => $slug]);
         } catch (\Throwable $e) {
             return $this->provideException($e);
