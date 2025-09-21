@@ -79,6 +79,20 @@ class ReviewsController extends Controller
     public function createReview(Request $request)
     {
         try {
+            $request->validate([
+                'title' => 'required',
+                'sinopse' => 'required',
+                'image' => 'required|image|max:2048',
+                'cover' => 'required|image|max:2048',
+                'content' => 'required'
+            ], [
+                "title.required" => "<b><i>Nome do anime</b></i> é obrigatório",
+                "title.required" => "<b><i>Sinopse do anime</b></i> é obrigatório",
+                "image.required" => "<b><i>Imagem em destaque</b></i> é obrigatório",
+                "cover.required" => "<b><i>Capa do anime</b></i> é obrigatório",
+                "content.required" => "<b><i>Escreva sobre o anime</b></i> é obrigatório",
+            ]);
+            
             $slug = Str::slug($request->input('title'));
             $review = Review::create([
                 'slug' => $slug,
@@ -104,6 +118,20 @@ class ReviewsController extends Controller
     public function updateReview(Request $request, $slug)
     {
         try {
+            $request->validate([
+                'title' => 'required',
+                'sinopse' => 'required',
+                'image' => 'required|image|max:2048',
+                'cover' => 'required|image|max:2048',
+                'content' => 'required'
+            ], [
+                "title.required" => "<b><i>Nome do anime</b></i> é obrigatório",
+                "title.required" => "<b><i>Sinopse do anime</b></i> é obrigatório",
+                "image.required" => "<b><i>Imagem em destaque</b></i> é obrigatório",
+                "cover.required" => "<b><i>Capa do anime</b></i> é obrigatório",
+                "content.required" => "<b><i>Escreva sobre o anime</b></i> é obrigatório",
+            ]);
+
             $review = Review::where('slug', $slug)->first();
             $content = ReviewContent::where('id', $request->content_id)->first();
 

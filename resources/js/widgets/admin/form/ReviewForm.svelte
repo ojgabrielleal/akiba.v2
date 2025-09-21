@@ -77,7 +77,7 @@
             </div>
             <div class="mb-8">
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="content">
-                    Escreva o seu review
+                    Escreva sobre o anime
                 </label>
                 {#if user.permissions_keys.includes("administrator") && publication}
                     <div class="flex mb-3 mt-2 gap-2">

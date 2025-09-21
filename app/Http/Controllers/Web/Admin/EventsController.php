@@ -60,6 +60,22 @@ class EventsController extends Controller
     public function updateEvent(Request $request, $slug)
     {
         try {
+            $request->validate([
+                'title' => 'required',
+                'image' => 'required|image|max:2048',
+                'cover' => 'required|image|max:2048',
+                'content' => 'required',
+                'dates' => 'required',
+                'address' => 'required',
+            ], [
+                "title.required" => "<b><i>Nome do evento</b></i> é obrigatório",
+                "image.required" => "<b><i>Imagem em destaque</b></i> é obrigatório",
+                "cover.required" => "<b><i>Capa do evento</b></i> é obrigatório",
+                "content.required" => "<b><i>Escreva sobre o evento</b></i> é obrigatório",
+                "dates.required" => "<b><i>Datas</b></i> é obrigatório",
+                "address.required" => "<b><i>Local</b></i> é obrigatório",
+            ]);
+
             $event = Event::where('slug', $slug)->first();
 
             $slug = Str::slug($request->input('title'));
@@ -86,6 +102,22 @@ class EventsController extends Controller
     public function createEvent(Request $request)
     {
         try {
+            $request->validate([
+                'title' => 'required',
+                'image' => 'required|image|max:2048',
+                'cover' => 'required|image|max:2048',
+                'content' => 'required',
+                'dates' => 'required',
+                'address' => 'required',
+            ], [
+                "title.required" => "<b><i>Nome do evento</b></i> é obrigatório",
+                "image.required" => "<b><i>Imagem em destaque</b></i> é obrigatório",
+                "cover.required" => "<b><i>Capa do evento</b></i> é obrigatório",
+                "content.required" => "<b><i>Escreva sobre o evento</b></i> é obrigatório",
+                "dates.required" => "<b><i>Datas</b></i> é obrigatório",
+                "address.required" => "<b><i>Local</b></i> é obrigatório",
+            ]);
+            
             $slug = Str::slug($request->input('title'));
 
             Event::create([

@@ -75,6 +75,30 @@ class PostsController extends Controller
     public function updatePost(Request $request, $slug)
     {
         try {
+            $request->validate([
+                "status" => 'required',
+                "title" => 'required',
+                "content" => 'required',
+                'image' => 'required|image|max:2048',
+                'cover' => 'required|image|max:2048',
+                'first_reference_name' => 'required',
+                'first_reference_url' => 'required',
+                'second_reference_name' => 'required',
+                'second_reference_url' => 'required',
+                'first_category' => 'required',
+                'second_category' => 'required',
+            ], [
+                "status.required" => "<b><i>Status</b></i> é obrigatório",
+                "title.required" => "<b><i>Título</b></i> é obrigatório",
+                "content.required" => "<b><i>Escreva sua matéria</b></i> é obrigatório",
+                "image.required" => "<b><i>Imagem em destaque</b></i> é obrigatório",
+                "cover.required" => "<b><i>Capa da matéria</b></i> é obrigatório",
+                "first_reference_name.required" => "<b><i>Nome</b></i> para o site da primeira fonte de pesquisa é obrigatório",
+                "first_reference_url.required" => "<b><i>URL</b></i> para o site da primeira fonte de pesquisa é obrigatório",
+                "first_category.required" => "<b><i>Primeira tag</b></i> é obrigatório",
+                "second_category.required" => "<b><i>Segunda tag</b></i> é obrigatório",
+            ]);
+            
             $post = Post::where('slug', $slug)->with(['references', 'categories'])->first();
 
             if ($request->filled('first_category') && $request->filled('second_category')) {
@@ -156,8 +180,6 @@ class PostsController extends Controller
                 "first_category.required" => "<b><i>Primeira tag</b></i> é obrigatório",
                 "second_category.required" => "<b><i>Segunda tag</b></i> é obrigatório",
             ]);
-
-
 
             $slug = Str::slug($request->input('title'));
 
