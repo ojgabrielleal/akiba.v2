@@ -19,7 +19,7 @@ class Show extends Model
     /**
      * Relationship from model 'Users'
      */
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
@@ -29,6 +29,6 @@ class Show extends Model
      */
     public function onair()
     {
-        return $this->hasMany(Onair::class);
+        return $this->morphMany(Onair::class, 'program');
     }
 }

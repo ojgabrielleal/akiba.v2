@@ -12,7 +12,7 @@
     let container;
 
     // Submit user to finishing task
-    function completeTask(id) {
+    function setTaskCompleted(id) {
         router.patch(`/painel/dashboard/tasks/${id}`);
     }
 </script>
@@ -37,11 +37,11 @@
                             </div>
                         </div>
                         {#if item.due_soon}
-                            <button class="font-noto-sans italic font-bold bg-red-crimson rounded-xl text-neutral-aurora uppercase absolute right-5 bottom-3 py-2 px-6 cursor-pointer" on:click={() => completeTask(item.id)}>
+                            <button class="font-noto-sans italic font-bold bg-red-crimson rounded-xl text-neutral-aurora uppercase absolute right-5 bottom-3 py-2 px-6 cursor-pointer" on:click={() => setTaskCompleted(item.id)}>
                                 Solicitar Conclusão
                             </button>
                         {:else}
-                            <button class="bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer" on:click={() => completeTask(item.id)}>
+                            <button class="bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer" on:click={() => setTaskCompleted(item.id)}>
                                 <img src="/icons/verify.svg" alt="verify icon" class="w-5"/>
                             </button>
                         {/if}

@@ -133,7 +133,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function completeTask($taskId)
+    public function setTaskCompleted($taskId)
     {
         try {
             $task = Task::find($taskId);

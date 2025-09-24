@@ -39,6 +39,6 @@ class Autodj extends Model
      */
     public function onair()
     {
-        return $this->hasMany(Onair::class);
+        return $this->morphMany(Onair::class, 'program');
     }
 }

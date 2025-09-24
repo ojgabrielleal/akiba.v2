@@ -14,7 +14,6 @@ use App\Traits\Response\ProvideSuccess;
 use App\Traits\Upload\HandlesImageUpload;
 
 use App\Models\Event;
-use Illuminate\Log\Logger;
 
 class EventsController extends Controller
 {

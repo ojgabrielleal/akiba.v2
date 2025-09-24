@@ -9,33 +9,19 @@ class Onair extends Model
     protected $table = 'onair';
     
     protected $fillable = [
-        'user_id',
-        'show_id',
-        'category',
+        'program_id', 
+        'program_type',
+        'is_live',
+        'listener_request_status',
+        'listener_request_total'
     ];
 
     /**
-     * Relationship from model 'Shows'
+     * Relationship from model 'Shows' and 'AutoDJ'
      */
-    public function shows()
+    public function program()
     {
-        return $this->belongsTo(Show::class);
-    }
-
-    /**
-     * Relationship from model 'Autodj'
-     */
-    public function autodj()
-    {
-        return $this->belongsTo(Autodj::class);
-    }
-
-    /**
-     * Relationship from model 'OnairControl'
-     */
-    public function onairControl()
-    {
-        return $this->hasMany(OnairControl::class);
+        return $this->morphTo();
     }
 
     /**

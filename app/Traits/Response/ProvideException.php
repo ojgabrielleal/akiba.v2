@@ -115,7 +115,7 @@ trait ProvideException
         if ($e instanceof ValidationException) {
             $errors = collect($e->errors())->flatMap(function ($messages, $field) {
                 return array_map(function ($msg) use ($field) {
-                    return "Nyaa~ O campo {$msg}, senpai~ (＠_＠;)✨ Verifica rapidinho, onegai~ 🐾";
+                    return "Nyaa~. {$msg}, senpai~ (＠_＠;)✨";
                 }, $messages);
             })->toArray();
         }
