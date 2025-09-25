@@ -16,7 +16,7 @@ use App\Models\Music;
 use App\Models\Onair;
 use App\Models\ListenerRequest;
 
-class OnairController extends Controller
+class Stream extends Controller
 {
     use ProvideSuccess, ProvideException;
 
@@ -137,8 +137,8 @@ class OnairController extends Controller
             $user = request()->user();
             $show = Show::where('id', $show)->first();
 
-            if($show->category === 'all'){
-                if($show->user_id !== $user->id){
+            if ($show->category === 'all') {
+                if ($show->user_id !== $user->id) {
                     $show->update([
                         'user_id' => $user->id
                     ]);
@@ -178,7 +178,7 @@ class OnairController extends Controller
 
     public function render()
     {
-        return Inertia::render('admin/Posts', [
+        return Inertia::render('admin/Stream', [
             "shows" => $this->getShows(),
             "listenerRequests" => $this->getListenerRequests(),
         ]);
