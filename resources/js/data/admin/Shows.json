@@ -1,0 +1,40 @@
+{
+    "icons": [
+        {
+            "alt": "yui",
+            "url": "/storage/images/shows/icons/yui.png"
+        },
+        {
+            "alt": "yuno",
+            "url": "/storage/images/shows/icons/yuno.png"
+        },
+        {
+            "alt": "rem",
+            "url": "/storage/images/shows/icons/rem.png"
+        },
+        {
+            "alt": "darling",
+            "url": "/storage/images/shows/icons/darling.png"
+        },
+        {
+            "alt": "nezuko",
+            "url": "/storage/images/shows/icons/nezuko.png"
+        },
+        {
+            "alt": "kobayashi",
+            "url": "/storage/images/shows/icons/kobayashi.png"
+        },
+        {
+            "alt": "sonico",
+            "url": "/storage/images/shows/icons/sonico.png"
+        },
+        {
+            "alt": "nagatoro",
+            "url": "/storage/images/shows/icons/nagatoro.png"
+        },
+        {
+            "alt": "aoba",
+            "url": "/storage/images/shows/icons/aoba.png"
+        }
+    ]
+}

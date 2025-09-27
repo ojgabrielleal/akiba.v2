@@ -141,7 +141,7 @@ class BroadcastController extends Controller
                 'image' => 'required',
             ], [
                 'phrase.required' => "<b><i>Qual é a frase para esse programa</b></i> é obrigatório",
-                'image.required' => "<b><i>Escolha um avatar</b></i> é obrigatório",
+                'image.required' => "<b><i>Escolha um icone</b></i> é obrigatório",
             ]);
 
             $user = request()->user();
