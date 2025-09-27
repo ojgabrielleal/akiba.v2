@@ -15,7 +15,7 @@
         "name": "Locução",
         "icon": "/icons/broadcast.svg",
         "permissions_keys": ["administrator", "broadcaster"],
-        "address": "/painel/broadcast"
+        "address": "/painel/locucao"
     },
     {
         "name": "Rádio",

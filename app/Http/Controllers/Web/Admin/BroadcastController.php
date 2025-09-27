@@ -16,7 +16,7 @@ use App\Models\Music;
 use App\Models\Onair;
 use App\Models\ListenerRequest;
 
-class Stream extends Controller
+class BroadcastController extends Controller
 {
     use ProvideSuccess, ProvideException;
 
@@ -42,12 +42,14 @@ class Stream extends Controller
         try {
             $onair = Onair::where('is_live', true)->first();
 
-            $query = ListenerRequest::orderBy('created_at', 'desc');
-            $query->with(['onair', 'musics']);
-            $query->where('onair_id', $onair->id);
-            $requests = $query->get();
+            if ($onair) {
+                $query = ListenerRequest::orderBy('created_at', 'desc');
+                $query->with(['onair', 'musics']);
+                $query->where('onair_id', $onair->id);
+                $requests = $query->get();
 
-            return $requests;
+                return $requests;
+            }
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -131,9 +133,17 @@ class Stream extends Controller
         }
     }
 
-    public function setStartBroadcast($show)
+    public function setStartBroadcast(Request $request, $show)
     {
         try {
+            $request->validate([
+                'phrase' => 'required',
+                'image' => 'required',
+            ], [
+                'phrase.required' => "<b><i>Qual é a frase para esse programa</b></i> é obrigatório",
+                'image.required' => "<b><i>Escolha um avatar</b></i> é obrigatório",
+            ]);
+
             $user = request()->user();
             $show = Show::where('id', $show)->first();
 
@@ -151,6 +161,8 @@ class Stream extends Controller
             ]);
 
             $show->onair()->create([
+                'phrase' => $request->input('phrase'),
+                'image' => $request->input('image'),
                 'listener_request_status' => true
             ]);
 
@@ -163,14 +175,21 @@ class Stream extends Controller
     public function setEndBroadcast()
     {
         try {
-            $autodj = Autodj::where('is_default', true)->first();
+            $autodj = Autodj::where('is_default', true)->with('phrases')->first();
 
             Onair::where('is_live', true)->update([
                 'is_live' => false,
                 'listener_request_status' => false
             ]);
 
-            $autodj->onair()->create([]);
+            $randomPhrase = $autodj->phrases->random();
+
+            $autodj->onair()->create([
+                'phrase' => $randomPhrase->phrase,
+                'image' => $randomPhrase->image,
+            ]);
+
+            return response('', 200);
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -178,7 +197,7 @@ class Stream extends Controller
 
     public function render()
     {
-        return Inertia::render('admin/Stream', [
+        return Inertia::render('admin/Broadcast', [
             "shows" => $this->getShows(),
             "listenerRequests" => $this->getListenerRequests(),
         ]);

@@ -7,7 +7,7 @@ use App\Http\Controllers\Web\Admin\DashboardController;
 use App\Http\Controllers\Web\Admin\PostsController;
 use App\Http\Controllers\Web\Admin\ReviewsController;
 use App\Http\Controllers\Web\Admin\EventsController;
-use App\Http\Controllers\Web\Admin\Stream;
+use App\Http\Controllers\Web\Admin\BroadcastController;
 
 Route::prefix('painel')->group(function () {
     Route::controller(AuthController::class)->group(function () {
@@ -45,7 +45,7 @@ Route::prefix('painel')->group(function () {
             });
         });
         Route::prefix('/locucao')->group(function () {
-            Route::controller(Stream::class)->group(function () {
+            Route::controller(BroadcastController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.locucao');
                 Route::patch('/listenerrequeststatus/{status}', 'setListenerRequestsStatus');
                 Route::post('/startbroadcast/{show}', 'setStartBroadcast');

@@ -21,7 +21,7 @@ class Autodj extends Model
     /**
      * Relationship from model 'AutodjPhrases'
      */
-    public function AutodjPhrase()
+    public function phrases()
     {
         return $this->hasMany(AutodjPhrase::class);
     }
