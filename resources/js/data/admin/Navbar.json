@@ -1,62 +1,88 @@
 [
     {
         "name": "Dashboard",
-        "icon": "/icons/dashboard.svg",
-        "permissions_keys": ["administrator", "all"],
+        "icon": "/icons/default/dashboard.svg",
+        "permissions_keys": [
+            "administrator",
+            "all"
+        ],
         "address": "/painel/dashboard"
     },
     {
         "name": "Materias",
-        "icon": "/icons/materials.svg",
-        "permissions_keys": ["administrator", "writer"],
+        "icon": "/icons/default/materials.svg",
+        "permissions_keys": [
+            "administrator",
+            "writer"
+        ],
         "address": "/painel/materias"
     },
     {
         "name": "Locução",
-        "icon": "/icons/broadcast.svg",
-        "permissions_keys": ["administrator", "broadcaster"],
+        "icon": "/icons/default/broadcast.svg",
+        "permissions_keys": [
+            "administrator",
+            "broadcaster"
+        ],
         "address": "/painel/locucao"
     },
     {
         "name": "Rádio",
-        "icon": "/icons/radio.svg",
-        "permissions_keys": ["administrator"],
+        "icon": "/icons/default/radio.svg",
+        "permissions_keys": [
+            "administrator"
+        ],
         "address": "/painel/radio"
     },
     {
         "name": "Podcasts",
-        "icon": "/icons/podcasts.svg",
-        "permissions_keys": ["administrator"],
+        "icon": "/icons/default/podcasts.svg",
+        "permissions_keys": [
+            "administrator"
+        ],
         "address": "/painel/podcasts"
     },
     {
         "name": "Marketing",
-        "icon": "/icons/marketing.svg",
-        "permissions_keys": ["administrator", "marketing"],
+        "icon": "/icons/default/marketing.svg",
+        "permissions_keys": [
+            "administrator",
+            "marketing"
+        ],
         "address": "/painel/marketing"
     },
     {
         "name": "Mídias",
-        "icon": "/icons/media.svg",
-        "permissions_keys": ["administrator", "marketing"],
+        "icon": "/icons/default/media.svg",
+        "permissions_keys": [
+            "administrator",
+            "marketing"
+        ],
         "address": "/painel/media"
     },
     {
         "name": "Administração",
-        "icon": "/icons/adms.svg",
-        "permissions_keys": ["administrator"],
+        "icon": "/icons/default/adms.svg",
+        "permissions_keys": [
+            "administrator"
+        ],
         "address": "/painel/administrator"
     },
     {
         "name": "Logs",
-        "icon": "/icons/logs.svg",
-        "permissions_keys": ["administrator"],
+        "icon": "/icons/default/logs.svg",
+        "permissions_keys": [
+            "administrator"
+        ],
         "address": "/painel/logs"
     },
     {
         "name": "Avisos",
-        "icon": "/icons/alerts.svg",
-        "permissions_keys": ["administrator", "all"],
+        "icon": "/icons/default/alerts.svg",
+        "permissions_keys": [
+            "administrator",
+            "all"
+        ],
         "address": "/painel/alerts"
     }
 ]

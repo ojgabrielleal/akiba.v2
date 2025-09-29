@@ -132,8 +132,8 @@ class PostsController extends Controller
             }
 
             $slug = Str::slug($request->input('title'));
-            $image = $request->hasFile('image') ? $this->uploadImage('posts', $request->file('image')) : $post->image;
-            $cover = $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover')) : $post->cover;
+            $image = $request->hasFile('image') ? $this->uploadImage('posts', $request->file('image'), 'public', $post->image) : $post->image;
+            $cover = $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover'), 'public', $post->cover) : $post->cover;
 
             $post->update([
                 'slug' =>  Str::slug($request->input('title')),

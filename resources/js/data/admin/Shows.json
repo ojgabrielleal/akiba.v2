@@ -2,39 +2,75 @@
     "icons": [
         {
             "alt": "yui",
-            "url": "/storage/images/shows/icons/yui.png"
+            "url": "/img/onair/yui.png"
         },
         {
             "alt": "yuno",
-            "url": "/storage/images/shows/icons/yuno.png"
+            "url": "/img/onair/yuno.png"
         },
         {
             "alt": "rem",
-            "url": "/storage/images/shows/icons/rem.png"
+            "url": "/img/onair/rem.png"
         },
         {
             "alt": "darling",
-            "url": "/storage/images/shows/icons/darling.png"
+            "url": "/img/onair/darling.png"
         },
         {
             "alt": "nezuko",
-            "url": "/storage/images/shows/icons/nezuko.png"
+            "url": "/img/onair/nezuko.png"
         },
         {
             "alt": "kobayashi",
-            "url": "/storage/images/shows/icons/kobayashi.png"
+            "url": "/img/onair/kobayashi.png"
         },
         {
             "alt": "sonico",
-            "url": "/storage/images/shows/icons/sonico.png"
-        },
-        {
-            "alt": "nagatoro",
-            "url": "/storage/images/shows/icons/nagatoro.png"
+            "url": "/img/onair/sonico.png"
         },
         {
             "alt": "aoba",
-            "url": "/storage/images/shows/icons/aoba.png"
+            "url": "/img/onair/aoba.png"
+        },
+        {
+            "alt": "aladdin",
+            "url": "/img/onair/aladdin.png"
+        },
+        {
+            "alt": "anime girl ear cat",
+            "url": "/img/onair/anime-girl-ear-cat.png"
+        },
+        {
+            "alt": "anime girl",
+            "url": "/img/onair/anime-girl.png"
+        },
+        {
+            "alt": "asuza",
+            "url": "/img/onair/asuza.png"
+        },
+        {
+            "alt": "edward",
+            "url": "/img/onair/edward.png"
+        },
+        {
+            "alt": "mya nee",
+            "url": "/img/onair/mya-nee.png"
+        },
+        {
+            "alt": "rin",
+            "url": "/img/onair/rin.png"
+        },
+        {
+            "alt": "takashi komuro",
+            "url": "/img/onair/takashi-komuro.png"
+        },
+        {
+            "alt": "tales of zestria",
+            "url": "/img/onair/tales-of-zestria.png"
+        },
+        {
+            "alt": "tanjiro",
+            "url": "/img/onair/tanjiro.png"
         }
     ]
 }

@@ -1,13 +1,13 @@
 <script>
     import { page } from "@inertiajs/svelte";
-    
+
     import { Meta } from "@/meta";
     import { Layout } from "@/layouts/admin/";
     import { GreatingHero } from "@/widgets/admin/hero";
     import { AlertsCarrousel, TasksCarrousel } from "@/widgets/admin/carrousel";
     import { PublicationsGrid, CalendarGrid } from "@/widgets/admin/grid";
 
-    $:({ user } = $page.props); 
+    $: ({ user } = $page.props);
 
     // Selector phrase in render to hero
     function phraseSwitchHero(nickname) {
@@ -33,9 +33,16 @@
 
 <Meta meta={{ title: "Dashboard" }} />
 <Layout>
-    <GreatingHero phrase={phraseSwitchHero(user.nickname)} icon="/img/heroGreatingAvatar.png"/>
-    <AlertsCarrousel title="Avisos para a equipe"/>
-    <TasksCarrousel title="Minhas Tarefas"/>
-    <PublicationsGrid title="Últimas Matérias" view="https://akiba.com.br/materias/" edit="/painel/materias/"/>
-    <CalendarGrid title="Calendário"/>
+    <GreatingHero
+        phrase={phraseSwitchHero(user.nickname)}
+        icon="/img/default/heroGreatingAvatar.png"
+    />
+    <AlertsCarrousel title="Avisos para a equipe" />
+    <TasksCarrousel title="Minhas Tarefas" />
+    <PublicationsGrid
+        title="Últimas Matérias"
+        view="https://akiba.com.br/materias/"
+        edit="/painel/materias/"
+    />
+    <CalendarGrid title="Calendário" />
 </Layout>

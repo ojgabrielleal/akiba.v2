@@ -132,8 +132,8 @@ class ReviewsController extends Controller
             $content = ReviewContent::where('id', $request->content_id)->first();
 
             $slug = Str::slug($request->input('title'));
-            $image = $request->hasFile('image') ? $this->uploadImage('posts', $request->file('image')) : $review->image;
-            $cover = $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover')) : $review->cover;
+            $image = $request->hasFile('image') ? $this->uploadImage('reviews', $request->file('image'), 'public', $review->image) : $review->image;
+            $cover = $request->hasFile('cover') ? $this->uploadImage('reviews', $request->file('cover'), 'public', $review->cover) : $review->cover;
 
             $review->update([
                 'slug' => Str::slug($request->input('title')),

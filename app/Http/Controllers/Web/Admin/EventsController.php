@@ -75,8 +75,8 @@ class EventsController extends Controller
             $event = Event::where('slug', $slug)->first();
 
             $slug = Str::slug($request->input('title'));
-            $image = $request->hasFile('image') ? $this->uploadImage('events', $request->file('image')) : $event->image;
-            $cover = $request->hasFile('cover') ? $this->uploadImage('events', $request->file('cover')) : $event->cover;
+            $image = $request->hasFile('image') ? $this->uploadImage('events', $request->file('image'), 'public', $event->image) : $event->image;
+            $cover = $request->hasFile('cover') ? $this->uploadImage('events', $request->file('cover'), 'public', $event->cover) : $event->cover;
 
             $event->update([
                 'slug' => $slug,
