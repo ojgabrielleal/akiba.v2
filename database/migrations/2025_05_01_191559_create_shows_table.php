@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('phrase');
             $table->string('image');
-            $table->string('category');
+            $table->boolean('is_all');
             $table->timestamps();
         });
     }

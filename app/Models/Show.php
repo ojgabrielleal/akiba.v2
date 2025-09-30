@@ -13,7 +13,11 @@ class Show extends Model
         'slug',
         'name',
         'image',
-        'category',
+        'is_all',
+    ];
+
+    protected $hidden = [
+        'user_id',
     ];
 
     /**

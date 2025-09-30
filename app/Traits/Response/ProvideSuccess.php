@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 trait ProvideSuccess
 {
-    public function provideSuccess(string $action): Response|RedirectResponse
+    public function provideSuccess(string $action, ?string $message = null): Response|RedirectResponse
     {
         $messages = [
             'save' => [
@@ -38,10 +38,14 @@ trait ProvideSuccess
             'message' => 'Funcionou direitinho! (＠＾◡＾) Eu sabia que ia dar certo, hehe~ sugoi, né?'
         ];
 
-        $data = $messages[$action] ?? $default_message;
+        $baseData = $messages[$action] ?? $default_message;
+
+        // Se uma mensagem personalizada for passada, use-a. Caso contrário, use a mensagem padrão da ação.
+        $finalMessage = $message ?? $baseData['message'];
+
         return back(303)->with('flash', [
-            'type' => $data['type'],
-            'message' => $data['message'],
+            'type' => $baseData['type'],
+            'message' => $finalMessage,
         ]);
     }
 }

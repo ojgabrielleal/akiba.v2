@@ -50,13 +50,13 @@
     {#if alertMessage && alertColor}
         {#if Array.isArray(alertMessage)}
             {#each alertMessage as message}
-                <div class="mb-5 p-4 flex items-center gap-2 rounded-lg font-noto-sans font-light text-neutral-aurora transition-opacity duration-500 ease-in-out" style={`background-color: ${alertColor}`}>
+                <div class="mb-15 p-4 flex items-center gap-2 rounded-lg font-noto-sans font-light text-neutral-aurora transition-opacity duration-500 ease-in-out" style={`background-color: ${alertColor}`}>
                     <Icon icon={alertIcon} width="16" height="16"/>
                     {@html message}
                 </div>
             {/each}
         {:else}
-            <div class="mb-5 p-4 flex items-center gap-2 rounded-lg font-noto-sans font-light text-neutral-aurora transition-opacity duration-500 ease-in-out opacity-100" style={`background-color: ${alertColor}`}>
+            <div class="mb-15 p-4 flex items-center gap-2 rounded-lg font-noto-sans font-light text-neutral-aurora transition-opacity duration-500 ease-in-out opacity-100" style={`background-color: ${alertColor}`}>
                 <Icon icon={alertIcon} width="16" height="16"/>
                 {@html alertMessage}
             </div>

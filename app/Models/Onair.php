@@ -11,7 +11,10 @@ class Onair extends Model
     protected $fillable = [
         'program_id', 
         'program_type',
+        'category',
         'is_live',
+        'phrase',
+        'image',
         'listener_request_status',
         'listener_request_total'
     ];

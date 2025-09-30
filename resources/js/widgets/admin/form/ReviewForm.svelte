@@ -9,8 +9,6 @@
         (item) => item.user.id === authorSelected,
     );
 
-    $:if(publication) console.log(publication.reviews[authorSelected])
-
     // Submit the post from controller backend
     $:form = useForm({
         image: publication?.image,
@@ -30,7 +28,7 @@
     }
 </script>
 
-<form on:submit={onSubmit}>
+<form onsubmit={onSubmit}>
     <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
         <div class="mb-3">
             <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
@@ -87,7 +85,7 @@
                                     type="button"
                                     aria-label="teste"
                                     class="py-2 px-6 rounded-md uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer relative {item.user.id === authorSelected ? 'bg-neutral-aurora text-blue-ocean' : 'bg-blue-ocean text-neutral-aurora'}"
-                                    on:click={() => (authorSelected = item.user.id)}
+                                    onclick={() => (authorSelected = item.user.id)}
                                 >
                                     {item.user.nickname}
                                 </button>

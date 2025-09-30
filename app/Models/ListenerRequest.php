@@ -17,6 +17,11 @@ class ListenerRequest extends Model
         'status'
     ];
 
+    protected $hidden = [
+        'onair_id',
+        'music_id'
+    ];
+
     /**
      * Relationship with 'Onair' model
      */
@@ -28,7 +33,7 @@ class ListenerRequest extends Model
     /**
      * Relationship with 'Musics' model
      */
-    public function musics()
+    public function music()
     {
         return $this->belongsTo(Music::class, 'music_id');
     }

@@ -14,7 +14,7 @@
     }
 </script>
 
-<form on:submit={onSubmit} class="w-full">
+<form onsubmit={onSubmit} class="w-full">
     <input
         bind:value={$form.username}
         type="text"

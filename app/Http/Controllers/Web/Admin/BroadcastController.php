@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
 
@@ -20,6 +21,39 @@ class BroadcastController extends Controller
 {
     use ProvideSuccess, ProvideException;
 
+    public function setVerifyOnair()
+    {
+        try {
+            $user = request()->user();
+            $onair = Onair::where('is_live', true)->first();
+
+            $response = [
+                'onair' => false,
+                'streamer'  => null,
+                'listener_request' => null,
+            ];
+
+            if ($onair) {
+                $show = Show::where('id', $onair->program_id)->first();
+
+                if ($onair->program_type === "App\Models\Autodj") {
+                    $response['onair'] = false;
+                    $response['streamer'] = false;
+                }
+
+                if ($onair->program_type === "App\Models\Show") {
+                    $response['onair'] = true;
+                    $response['streamer'] = $show->user_id === $user->id;
+                    $response['listener_request'] = $onair->listener_request_status;
+                }
+            }
+
+            return $response;
+        } catch (\Throwable $e) {
+            $this->provideException($e);
+        }
+    }
+
     public function getShows()
     {
         try {
@@ -28,7 +62,7 @@ class BroadcastController extends Controller
             $query = Show::orderBy('created_at', 'desc');
             $query->with('user');
             $query->where('user_id', $user->id);
-            $query->orWhere('category', 'all');
+            $query->orWhere('is_all', true);
             $shows = $query->get();
 
             return $shows;
@@ -44,7 +78,7 @@ class BroadcastController extends Controller
 
             if ($onair) {
                 $query = ListenerRequest::orderBy('created_at', 'desc');
-                $query->with(['onair', 'musics']);
+                $query->with(['onair', 'music']);
                 $query->where('onair_id', $onair->id);
                 $requests = $query->get();
 
@@ -55,99 +89,58 @@ class BroadcastController extends Controller
         }
     }
 
-    public function createListenerRequest(Request $request)
+    public function setToMeetListenerRequest($id)
     {
         try {
-            $request->validate([
-                'onair_id' => 'required',
-                'music_id' => 'required',
-                'listener' => 'required',
-                'address' => 'required',
-                'message' => 'required',
-            ], [
-                "onair_id.required" => "<b><i>Como gostaria de ser chamado</b></i> é obrigatório",
-                "address.required" => "<b><i>Endereço</b></i> é obrigatório",
-                "message.required" => "<b><i>Mensagem</b></i> é obrigatório",
+            $request = ListenerRequest::where('id', $id)->first();
+            $request->update([
+                'status' => 'finished'
             ]);
 
-            $onair = Onair::where('is_live', true)->first();
-            $onair->increment('listener_request_total');
-
-            $music = Music::where('id', $request->input('music_id'))->first();
-            $music->increment('listener_request_total');
-
-            ListenerRequest::create([
-                'onair_id' => $onair->id,
-                'music_id' => $request->input('music_id'),
-                'listener' => $request->input('listener'),
-                'address' => $request->input('address'),
-                'message' => $request->input('message'),
-                'status' => "new"
-            ]);
-
-            return response('', 200);
+            return back(303);
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
     }
 
-    public function setListenerRequestsStatus($status)
+    public function setListenerRequestsStatus()
     {
         try {
             $onair = Onair::where('is_live', true)->first();
 
             if ($onair) {
                 $onair->update([
-                    'listener_request_status' => $status
+                    'listener_request_status' => !$onair->listener_request_status
                 ]);
             }
 
-            return response('', 200);
+            if($onair->listener_request_status){
+                $this->ProvideSuccess('save', 'Pedidos abertos~! ✨💖🎀🌸 (≧◡≦)✨💖🎀🌸');
+            } else {
+                $this->ProvideSuccess('save', 'Pedidos fechados~! 😢💖✨🎀🌸 (>_<)  ');
+            }
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
     }
 
-    public function createMusic(Request $request)
+    public function setStartBroadcast(Request $request)
     {
         try {
             $request->validate([
-                'production' => 'required',
-                'singer' => 'required',
-                'music' => 'required'
-            ], [
-                'production.required' => '<b><i>Nome do anime</b></i> é obrigatório',
-                'singer.required' => '<b><i>Nome da banda ou cantor(a)</b></i> é obrigatório',
-                'music.required' => '<b><i>Nome da música</b></i> é obrigatório',
-            ]);
-
-            $music = Music::create([
-                'production' => $request->input('production'),
-                'singer' => $request->input('singer'),
-                'music' => $request->input('music')
-            ]);
-
-            return response()->json($music, 200);
-        } catch (\Throwable $e) {
-            $this->provideException($e);
-        }
-    }
-
-    public function setStartBroadcast(Request $request, $show)
-    {
-        try {
-            $request->validate([
+                'show' => 'required',
                 'phrase' => 'required',
                 'image' => 'required',
             ], [
+                'show.required' => "Escolha um programa para começar",
                 'phrase.required' => "<b><i>Qual é a frase para esse programa</b></i> é obrigatório",
                 'image.required' => "<b><i>Escolha um icone</b></i> é obrigatório",
             ]);
 
             $user = request()->user();
-            $show = Show::where('id', $show)->first();
+            $show = Show::where('id', $request->input('show'))->first();
 
-            if ($show->category === 'all') {
+            if ($show->is_all) {
                 if ($show->user_id !== $user->id) {
                     $show->update([
                         'user_id' => $user->id
@@ -157,16 +150,17 @@ class BroadcastController extends Controller
 
             Onair::where('is_live', true)->update([
                 'is_live' => false,
-                'listener_request_status' => false
+                'listener_request_status' => false,
             ]);
 
             $show->onair()->create([
                 'phrase' => $request->input('phrase'),
                 'image' => $request->input('image'),
-                'listener_request_status' => true
+                'listener_request_status' => true,
+                'category' => 'live'
             ]);
 
-            return response('', 200);
+            $this->ProvideSuccess('save', 'Senpai~! Atenção, ne! Otaku desu yo~! Seu programa está no ar... START~! (≧◡≦)✨💖🎀🌸');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -182,6 +176,8 @@ class BroadcastController extends Controller
                 'listener_request_status' => false
             ]);
 
+            ListenerRequest::truncate();
+
             $randomPhrase = $autodj->phrases->random();
 
             $autodj->onair()->create([
@@ -189,7 +185,7 @@ class BroadcastController extends Controller
                 'image' => $randomPhrase->image,
             ]);
 
-            return response('', 200);
+            $this->ProvideSuccess('save', 'Senpai~! Atenção, ne! Otaku desu yo~! O show acabou… Hora de dar bye-bye pro programa~! (｡•́︿•̀｡)💖🎀🌸✨');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -198,8 +194,9 @@ class BroadcastController extends Controller
     public function render()
     {
         return Inertia::render('admin/Broadcast', [
+            "verify" => $this->setVerifyOnair(),
             "shows" => $this->getShows(),
-            "listenerRequests" => $this->getListenerRequests(),
+            "requests" => $this->getListenerRequests(),
         ]);
     }
 }
