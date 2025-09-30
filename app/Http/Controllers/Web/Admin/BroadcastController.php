@@ -13,7 +13,6 @@ use App\Traits\Response\ProvideSuccess;
 
 use App\Models\Show;
 use App\Models\Autodj;
-use App\Models\Music;
 use App\Models\Onair;
 use App\Models\ListenerRequest;
 
@@ -115,9 +114,9 @@ class BroadcastController extends Controller
             }
 
             if($onair->listener_request_status){
-                $this->ProvideSuccess('save', 'Pedidos abertos~! ✨💖🎀🌸 (≧◡≦)✨💖🎀🌸');
+                $this->ProvideSuccess('save', 'Opa, meu bem... já estou avisando que seus pedidos estão chegando! Se prepara!');
             } else {
-                $this->ProvideSuccess('save', 'Pedidos fechados~! 😢💖✨🎀🌸 (>_<)  ');
+                $this->ProvideSuccess('save', 'Sério!!!! Aconteceu algo? As pessoas querem fazer pedidos... Ou será que o programa tá acabando? #refletindo');
             }
         } catch (\Throwable $e) {
             $this->provideException($e);
@@ -160,7 +159,7 @@ class BroadcastController extends Controller
                 'category' => 'live'
             ]);
 
-            $this->ProvideSuccess('save', 'Senpai~! Atenção, ne! Otaku desu yo~! Seu programa está no ar... START~! (≧◡≦)✨💖🎀🌸');
+            $this->ProvideSuccess('save', 'Ei! Seu programa começou e os ouvintes querem ouvir sua voz! Se solta faz seu show!');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -181,11 +180,12 @@ class BroadcastController extends Controller
             $randomPhrase = $autodj->phrases->random();
 
             $autodj->onair()->create([
+                'category' => 'autodj',
                 'phrase' => $randomPhrase->phrase,
                 'image' => $randomPhrase->image,
             ]);
 
-            $this->ProvideSuccess('save', 'Senpai~! Atenção, ne! Otaku desu yo~! O show acabou… Hora de dar bye-bye pro programa~! (｡•́︿•̀｡)💖🎀🌸✨');
+            $this->ProvideSuccess('save', 'Um ótimo programa como sempre! Me deixou ansiosa para a próxima vez!');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }

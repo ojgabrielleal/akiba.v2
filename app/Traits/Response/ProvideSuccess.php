@@ -13,29 +13,29 @@ trait ProvideSuccess
         $messages = [
             'save' => [
                 'type' => 'success',
-                'message' => 'Yatta! (≧◡≦) Consegui salvar tudinho direitinho pra você, senpai~ pode ficar tranquilo agora ✨'
+                'message' => 'Oi… acabei de salvar tudo pra você. Tá tudo certinho agora, só entre nós'
             ],
             'load' => [
                 'type' => 'info',
-                'message' => 'Prontinho! (＾▽＾)/ Já carreguei tudo direitinho, espero que esteja do jeitinho que você queria ♪'
+                'message' => 'Tudo carregado direitinho… espero que esteja exatamente do jeitinho que você queria, só a gente sabe disso.'
             ],
             'update' => [
                 'type' => 'success',
-                'message' => 'Hehe~ (๑˃ᴗ˂)ﻭ Atualizei rapidinho e deixei tudo novinho em folha! Ficou bem melhor agora, não acha?'
+                'message' => 'Oi de novo… atualizei tudo rapidinho, agora está funcionando bem, fica tranquilo'
             ],
             'delete' => [
                 'type' => 'warning',
-                'message' => 'Shineee! (╯✧▽✧)╯✨ Deletei como você pediu, mas cuidado senpai… não vá se arrepender depois hein~'
+                'message' => 'Ei… apaguei como você pediu. Espero que não tenha sido por engano...'
             ],
             'error' => [
                 'type' => 'error',
-                'message' => 'Eeeh?! Σ(°△°|||) Alguma coisa deu errado… gomen nasai! Tenta de novo que eu prometo caprichar >_<'
+                'message' => 'Oi… deu um probleminha. Tenta de novo, a gente resolve juntos, tá?'
             ],
         ];
 
         $default_message = [
             'type' => 'info',
-            'message' => 'Funcionou direitinho! (＠＾◡＾) Eu sabia que ia dar certo, hehe~ sugoi, né?'
+            'message' => 'Oi! Tudo certo, funcionou direitinho'
         ];
 
         $baseData = $messages[$action] ?? $default_message;

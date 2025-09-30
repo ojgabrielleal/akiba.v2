@@ -12,19 +12,17 @@
     // Selector phrase in render to hero
     function phraseSwitchHero(nickname) {
         const phrases = [
-            `Konbanwa, ${nickname}!`,
-            `Yaa~ ${nickname}!`,
-            `Okaeri, ${nickname}!`,
-            `Hehe~ ${nickname} chegou!`,
-            `Hyaa~ ${nickname}!`,
-            `Ohayou, ${nickname}!`,
-            `${nickname}-senpai, notou?`,
-            `Tadaima, ${nickname}?`,
-            `Baka ${nickname}, demorou!`,
-            `Uwaa~ é você, ${nickname}!`,
-            `Yokoso, ${nickname}!`,
-            `Genki ${nickname}?`,
-            `Hora de brilhar, ${nickname}!`,
+            `Oi, ${nickname}! Que bom te ver.`,
+            `Bem-vindo(a) de volta, ${nickname}!`,
+            `Que bom que você chegou, ${nickname}!`,
+            `Ei, ${nickname}!`,
+            `Saudades, ${nickname}!`,
+            `Chegou agora, ${nickname}?`,
+            `${nickname}, demorou um pouco, hein!`,
+            `Ah, é você, ${nickname}!`,
+            `Seja bem-vindo(a), ${nickname}!`,
+            `${nickname}, como você está?`,
+            `Hora de começar, ${nickname}!`,
         ];
         const index = Math.floor(Math.random() * phrases.length);
         return phrases[index];

@@ -176,38 +176,18 @@
     </div>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         {#if publication?.status === "published"}
-            <button
-                type="submit"
-                aria-label="atualizar matéria"
-                value="published"
-                class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase"
-            >
+            <button type="submit" aria-label="atualizar matéria" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
                 Atualizar matéria
             </button>
         {:else}
-            <button
-                type="submit"
-                aria-label="salvar como rascunho"
-                value="sketch"
-                class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase"
-            >
+            <button type="submit" aria-label="salvar como rascunho" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
                 Salvar como Rascunho
             </button>
-            <button
-                type="submit"
-                aria-label="mandar para revisão"
-                value="revision"
-                class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase"
-            >
+            <button type="submit" aria-label="mandar para revisão" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
                 Mandar para revisão
             </button>
             {#if user.permissions_keys?.includes("administrator")}
-                <button
-                    type="submit"
-                    aria-label="publicar"
-                    value="published"
-                    class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase"
-                >
+                <button type="submit" aria-label="publicar" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
                     Publicar
                 </button>
             {/if}

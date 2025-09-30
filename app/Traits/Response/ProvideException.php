@@ -33,57 +33,57 @@ trait ProvideException
         // Mensagens randômicas por exceção
         $messages = [
             ModelNotFoundException::class => [
-                'Nani?! Não achei nada aqui, senpai… 😱💨 (＠_＠;)',
-                'Hmm… não tem nada por aqui, senpai! 👀🐾 (*・_・)ﾉ'
+                'Parece que não tem nada por aqui… só entre quando quiser procurar comigo.',
+                'Hmm… não achei nada. Esse cantinho é só nosso, volta depois sem ninguém por perto.'
             ],
             QueryException::class => [
-                'Uwaa~ deu um probleminha! 🤯✨ (≧д≦) Mas não se preocupe!',
-                'Ops! Algo estranho aconteceu… 👻💦 (>_<) O mascote tá cuidando disso!'
+                'Ops… algo não deu certo, mas é melhor a gente ver isso a sós.',
+                'Deu um probleminha, mas não se preocupe… deixa quietinho até podermos conferir juntos.'
             ],
             AuthenticationException::class => [
-                'Faz login primeiro, onegai~ 🔑💛 ( •̀ ω •́ )✧',
-                'Senpai, você precisa entrar! 🚪💦 (；・∀・) Vamos lá juntos!'
+                'Ei, você precisa entrar primeiro… é segredo nosso, hein.',
+                'Antes de continuar, faça login. Só assim a gente pode continuar juntos.'
             ],
             AuthorizationException::class => [
-                'Yamete! Você não pode acessar isso, senpai… 😵❌ (￣ヘ￣;)',
-                'Hmm… essa área é secreta! 🤫🔒 (・_・;) Melhor tentar outro lugar!'
+                'Hmm… você não pode acessar isso. Melhor deixar pra lá.',
+                'Essa área não é pra todo mundo… me deixa!.'
             ],
             NotFoundHttpException::class => [
-                'Eeeh?! Essa página sumiu… 🌫️💨 (；・∀・) Tenta outro caminho!',
-                'Hmm… nada encontrado aqui! 🧐🍃 (＠_＠;) Será que foi levada pelo vento?'
+                'Essa página sumiu… só volte quando ninguém estiver olhando.',
+                'Nada encontrado aqui… é melhor vir sozinho da próxima vez.'
             ],
             MethodNotAllowedHttpException::class => [
-                'Ops… não dá pra fazer assim, senpai! 🚫😳 (╬ Ò﹏Ó) Vamos tentar outro jeito!',
-                'Hmm… essa ação não funciona desse jeito! 🔄💦 (・_・;) Mas vai dar certo!'
+                'Não dá pra fazer desse jeito… vamos tentar quando estiver só nós dois.',
+                'Essa ação não funciona assim… deixa pra tentar depois em segredo.'
             ],
             HttpException::class => [
-                'Ai… deu ruim na rede! 🌐💥 (´･ω･`) Respira fundo, senpai!',
-                'Hmm… algo estranho aconteceu… 😵💦 (＞人＜;) Mas não se preocupe!'
+                'A rede deu um problema… é melhor esperar um pouco antes de tentar de novo.',
+                'Algo estranho aconteceu… vamos resolver só nós dois, sem pressa.'
             ],
             ThrottleRequestsException::class => [
-                'Calma aí, senpai! 🐢💨 (≧д≦ヾ Muito rápido não dá…',
-                'Ops! Você está indo rápido demais! 😳🌪️ (>_<) Devagarzinho que dá certo!'
+                'Devagar… você está indo rápido demais. Melhor esperar um pouco.',
+                'Muito rápido! Espera um pouco e depois continuamos juntas.'
             ],
             FileNotFoundException::class => [
-                'Hmm… não achei esse item… ❌👀 (´・д・`) Será que sumiu?',
-                'Ops! Algo sumiu, senpai! 💨🍃 (・_・;) Vamos procurar juntos!'
+                'Hmm… não achei o que você procura. Só volte quando estiver sozinho.',
+                'Algo sumiu… vamos procurar juntis quando ninguém estiver por perto.'
             ],
             BindingResolutionException::class => [
-                'Uwaa~ algo se perdeu nos bastidores! 🐾🤯 (≡^∇^≡)',
-                'Hmm… não achei, senpai! 🧩✨ (・_・;) Parece que sumiu!'
+                'Algo se perdeu nos bastidores… melhor ver isso a sós.',
+                'Não consegui encontrar isso… só a gente vai resolver, ok?'
             ],
             RuntimeException::class => [
-                'Yabai! Bugou tudo… 💥💦 (╯°□°）╯︵ ┻━┻ Mas vamos consertar!'
+                'Deu um bug… vamos consertar sem ninguém por perto.',
             ],
             LogicException::class => [
-                'Ai… algo estranho aconteceu… 😖💦 (╯°□°）╯︵ ┻━┻ Mas tudo vai ficar bem!'
+                'Algo estranho aconteceu… deixa só a gente cuidar disso por enquanto.',
             ],
         ];
 
 
         // Mensagem padrão
         $defaultMessage = app()->environment('production')
-            ? 'Erro estranho… tenta novamente depois~ (＞人＜;) Mas não desanima, senpai!'
+            ? 'Parece que deu um erro estranho… tenta de novo depois, só nós dois saberemos disso. Não desanima, tá?'
             : $e->getMessage();
 
         $exceptionClass = get_class($e);
@@ -107,7 +107,7 @@ trait ProvideException
             $e instanceof RuntimeException, $e instanceof LogicException => 500,
             default => 500,
         };
-        
+
         // Mensagem padrão para todas as exceções
         $errors = $message;
 
@@ -115,7 +115,7 @@ trait ProvideException
         if ($e instanceof ValidationException) {
             $errors = collect($e->errors())->flatMap(function ($messages, $field) {
                 return array_map(function ($msg) use ($field) {
-                    return "Nyaa~. {$msg}, senpai~ (＠_＠;)✨";
+                    return "'Hmm… eu não vou repetir! {$msg} ";
                 }, $messages);
             })->toArray();
         }
