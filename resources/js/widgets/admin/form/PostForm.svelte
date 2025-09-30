@@ -1,7 +1,6 @@
 <script>
     import { useForm, page } from "@inertiajs/svelte";
     import { Preview, Wysiwyg } from "@/components/admin";
-
     import Tags from "@/data/admin/Tags";
 
     $: ({ user, publication } = $page.props);

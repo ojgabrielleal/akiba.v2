@@ -1,6 +1,5 @@
 <script>
     import { page } from "@inertiajs/svelte";
-
     import { Meta } from "@/meta";
     import { Layout } from "@/layouts/admin/";
     import { GreatingHero } from "@/widgets/admin/hero";

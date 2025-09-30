@@ -1,10 +1,10 @@
 <script>
+    export let title = null;
+
     import { onMount, onDestroy } from "svelte";
     import { page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
     import Icon from "@iconify/svelte";
-
-    export let title = null;
 
     $: ({ verify, requests } = $page.props);
 

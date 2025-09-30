@@ -3,7 +3,6 @@
 
     import { router, page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
-
     import { scrollx } from "@/utils";
 
     $: ({ tasks } = $page.props);

@@ -1,7 +1,6 @@
 <script>
     import { page } from "@inertiajs/svelte";
     import Icon from "@iconify/svelte";
-
     import { Meta } from "@/meta";
     import { AuthForm } from "@/widgets/admin/form";
 

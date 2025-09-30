@@ -3,7 +3,6 @@
     import { Layout, Section } from "@/layouts/admin";
     import { EventsForm } from "@/widgets/admin/form";
     import { PublicationsGrid } from "@/widgets/admin/grid";
-
 </script>
 
 <Meta meta={{ title: "Eventos" }} />
