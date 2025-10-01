@@ -20,11 +20,11 @@
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={(e) => scrollx(e, container)} role="group" >
         {#if tasks.length > 0}
             {#each tasks as item}
-                <div class="w-100 h-50 lg:w-[40rem] lg:h-43 flex-shrink-0 rounded-lg p-4 relative" style="background-color: {item.styles.bg};" >
+                <div class="w-100 h-50 lg:w-[40rem] lg:h-43 shrink-0 rounded-lg p-4 relative" style="background-color: {item.styles.bg};" >
                     <h1 class="uppercase font-noto-sans text-neutral-aurora italic font-bold text-2xl">
                         {item.title}
                     </h1>
-                    <span class="w-90 ont-noto-sans text-sm text-neutral-aurora line-clamp-5 mt-1">
+                    <span class="w-60 lg:w-90 font-noto-sans text-sm text-neutral-aurora line-clamp-5 mt-1">
                         {item.content}
                     </span>
                     <div class="absolute top-5 right-5 rounded-xl shadow-lg w-[7rem] text-center overflow-hidden bg-neutral-aurora">
@@ -47,11 +47,11 @@
                 </div>
             {/each}
         {:else}
-            <div class="w-100 h-50 lg:w-[40rem] lg:h-43 flex-shrink-0 rounded-lg p-4 relative bg-blue-cerulean opacity-50">
+            <div class="w-100 h-50 lg:w-[40rem] lg:h-43 shrink-0 rounded-lg p-4 relative bg-blue-cerulean opacity-50">
                 <h1 class="uppercase font-noto-sans text-neutral-aurora italic font-bold text-2xl">
                     Assistir animes
                 </h1>
-                <span class="w-90 ont-noto-sans text-sm text-neutral-aurora line-clamp-5 mt-1">
+                <span class="w-60 lg:w-90 font-noto-sans text-sm text-neutral-aurora line-clamp-5 mt-1">
                     Não tem nenhuma tarefa... Estranho, vamos descansar um pouco e assistir uns animes só a gente no escurinho?
                     Quando uma tarefa aparecer meu celular vai avisar a gente!
                 </span>

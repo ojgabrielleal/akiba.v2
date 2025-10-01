@@ -17,15 +17,15 @@
 
 {#if verify.onair === true && verify.streamer === false}
     <section class="fixed inset-0 flex items-center justify-center z-50 bg-[#000000e5]">
-        <div class="w-1/5 p-5 rounded-lg bg-neutral-aurora">
+        <div class="w-[20.9rem] p-5 rounded-lg bg-neutral-aurora">
             <div class="flex justify-center">
                 <img src="/img/default/onair.gif" alt="onair" class="h-50 object-cover rounded-full"/>
             </div>
             <h1 class="mt-6 mb-4 bg-blue-skywave p-3 rounded-xl text-center text-neutral-aurora font-noto-sans font-bold uppercase">
                 Um locutor está no ar agora!
             </h1>
-            <p class="font-noto-sans text-justify mb-3">
-                Vou ser bem séria com você, presta atenção! Quando um locutor está no ar você não pode ver!
+            <p class="font-noto-sans  mb-3">
+                Vou ser bem direta com você presta a atenção! Quando um locutor está no ar você não pode ver!
             </p>
             <p class="font-noto-sans mb-3">
                 O que ele está fazendo é segredinho meu e dele! Volte quando não tiver ninguem...

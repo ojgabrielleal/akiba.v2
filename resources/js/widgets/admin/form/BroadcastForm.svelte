@@ -3,7 +3,7 @@
 
     import { useForm, page, router } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
-    import Shows from "@/data/admin/Shows.json";
+    import Onair from "@/data/admin/Onair.json";
 
     $: ({ shows, verify } = $page.props);
 
@@ -46,7 +46,7 @@
                     Escolha um icone
                 </span>
                 <div class="flex flex-wrap justify-center lg:justify-start gap-30 lg:gap-y-30 lg:gap-x-5 mt-[7rem]">
-                    {#each Shows.icons as icon}
+                    {#each Onair.icons as icon}
                         <button onclick={() => ($form.image = icon.url)} type="button" aria-label="teste" class={`cursor-pointer w-[9.55rem] h-[3rem] flex justify-end items-end rounded-lg bg-neutral-aurora transition duration-300 ease-in-out ${$form.image === icon.url ? "opacity-50 scale-90" : "opacity-100"} `}>
                             <img src={icon.url} alt="avatar" class="w-[8.5rem] aspect-square"/>
                         </button>

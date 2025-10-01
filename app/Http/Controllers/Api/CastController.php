@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 
 class CastController extends Controller
 {
-    public function data(Request $request)
+    public function data()
     {
         $url = 'http://cast.radioamc.com.br/api-json/Vkc1d2FrMHdNVUpRVkRBOStS';
 
-        $response = file_get_contents($url); // simples e direto
+        $response = file_get_contents($url);
 
         if (!$response) {
             return response()->json(['error' => 'No response from streaming audio api'], 500);
