@@ -56,29 +56,6 @@
     --font-noto-sans: "Noto Sans", sans-serif;
 }
 
-@theme animations {
-    --animate-fadeIn: fadeIn 0.5s linear forwards;
-    --animate-fadeOut: fadeOut 0.5s linear forwards;
-
-    @keyframes fadeIn {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-
-    @keyframes fadeOut {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-}
-
 @layer components {
     /* Container from the aplication */
     .container {

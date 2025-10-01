@@ -51,12 +51,12 @@ class DashboardController extends Controller
         }
     }
 
-    public function createAlertSignature(Request $request, $alertId)
+    public function createAlertSignature(Request $request, $id)
     {
         try {
             $user = $request->user();
 
-            $query = Alert::find($alertId);
+            $query = Alert::find($id);
             $alert = $query->get();
 
             AlertSignature::create([
@@ -133,10 +133,10 @@ class DashboardController extends Controller
         }
     }
 
-    public function setTaskCompleted($taskId)
+    public function setTaskCompleted($id)
     {
         try {
-            $task = Task::find($taskId);
+            $task = Task::find($id);
             $task->update([
                 'completed' => true,
             ]);

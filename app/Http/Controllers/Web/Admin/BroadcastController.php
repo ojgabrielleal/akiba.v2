@@ -38,6 +38,7 @@ class BroadcastController extends Controller
                 if ($onair->program_type === "App\Models\Autodj") {
                     $response['onair'] = false;
                     $response['streamer'] = false;
+                    $response['listener_request'] = false;
                 }
 
                 if ($onair->program_type === "App\Models\Show") {

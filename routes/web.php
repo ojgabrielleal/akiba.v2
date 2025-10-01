@@ -20,8 +20,8 @@ Route::prefix('painel')->group(function () {
         Route::prefix('/dashboard')->group(function () {
             Route::controller(DashboardController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.dashboard');
-                Route::post('/alerts/{alertId}', 'createAlertSignature');
-                Route::patch('/tasks/{taskId}', 'setTaskCompleted');
+                Route::post('/alerts/{id}', 'createAlertSignature');
+                Route::patch('/tasks/{id}', 'setTaskCompleted');
             });
         });
         Route::prefix('/materias')->group(function () {
@@ -48,15 +48,16 @@ Route::prefix('painel')->group(function () {
         Route::prefix('/locucao')->group(function () {
             Route::controller(BroadcastController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.locucao');
-                Route::patch('/listenerrequeststatus', 'setListenerRequestsStatus');
-                Route::patch('/listenerrequestfinished/{id}', 'setToMeetListenerRequest');
-                Route::post('/startbroadcast', 'setStartBroadcast');
-                Route::post('/endbroadcast', 'setEndBroadcast');
+                Route::patch('/requests/status', 'setListenerRequestsStatus');
+                Route::patch('/requests/finished/{id}', 'setToMeetListenerRequest');
+                Route::post('/broadcast/start', 'setStartBroadcast');
+                Route::post('/broadcast/end', 'setEndBroadcast');
             });
         });
         Route::prefix('/radio')->group(function () {
             Route::controller(RadioController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.radio');
+                Route::post('/create/show', 'createShow');
             });
         });
     });

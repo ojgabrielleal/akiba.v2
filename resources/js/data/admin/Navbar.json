@@ -3,7 +3,6 @@
         "name": "Dashboard",
         "icon": "/icons/default/dashboard.svg",
         "permissions_keys": [
-            "administrator",
             "all"
         ],
         "address": "/painel/dashboard"
@@ -12,7 +11,6 @@
         "name": "Materias",
         "icon": "/icons/default/materials.svg",
         "permissions_keys": [
-            "administrator",
             "writer"
         ],
         "address": "/painel/materias"
@@ -21,8 +19,7 @@
         "name": "Locução",
         "icon": "/icons/default/broadcast.svg",
         "permissions_keys": [
-            "administrator",
-            "broadcaster"
+            "streamer"
         ],
         "address": "/painel/locucao"
     },
@@ -38,7 +35,7 @@
         "name": "Podcasts",
         "icon": "/icons/default/podcasts.svg",
         "permissions_keys": [
-            "administrator"
+            "podcaster"
         ],
         "address": "/painel/podcasts"
     },
@@ -46,7 +43,6 @@
         "name": "Marketing",
         "icon": "/icons/default/marketing.svg",
         "permissions_keys": [
-            "administrator",
             "marketing"
         ],
         "address": "/painel/marketing"
@@ -55,7 +51,6 @@
         "name": "Mídias",
         "icon": "/icons/default/media.svg",
         "permissions_keys": [
-            "administrator",
             "marketing"
         ],
         "address": "/painel/media"
@@ -80,7 +75,6 @@
         "name": "Avisos",
         "icon": "/icons/default/alerts.svg",
         "permissions_keys": [
-            "administrator",
             "all"
         ],
         "address": "/painel/alerts"

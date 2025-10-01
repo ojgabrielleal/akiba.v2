@@ -35,4 +35,12 @@ class Show extends Model
     {
         return $this->morphMany(Onair::class, 'program');
     }
+
+    /**
+     * Relationship from model 'ProgramSchedule'
+     */
+    public function schedules()
+    {
+        return $this->hasMany(ProgramSchedule::class);
+    }
 }
