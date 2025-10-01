@@ -16,8 +16,8 @@
 </Layout>
 
 {#if verify.onair === true && verify.streamer === false}
-    <section class="fixed inset-0 flex items-center justify-center z-50 bg-[#000000e5]">
-        <div class="w-[20.9rem] p-5 rounded-lg bg-neutral-aurora">
+    <section class="fixed inset-0 flex items-center justify-center p-2 lg:p-0 z-50 bg-[#00000036] animate-fadeIn">
+        <div class="w-full lg:w-[20.9rem] p-5 rounded-lg bg-neutral-aurora">
             <div class="flex justify-center">
                 <img src="/img/default/onair.gif" alt="onair" class="h-50 object-cover rounded-full"/>
             </div>

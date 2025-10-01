@@ -8,6 +8,7 @@ use App\Http\Controllers\Web\Admin\PostsController;
 use App\Http\Controllers\Web\Admin\ReviewsController;
 use App\Http\Controllers\Web\Admin\EventsController;
 use App\Http\Controllers\Web\Admin\BroadcastController;
+use App\Http\Controllers\Web\Admin\RadioController;
 
 Route::prefix('painel')->group(function () {
     Route::controller(AuthController::class)->group(function () {
@@ -51,6 +52,11 @@ Route::prefix('painel')->group(function () {
                 Route::patch('/listenerrequestfinished/{id}', 'setToMeetListenerRequest');
                 Route::post('/startbroadcast', 'setStartBroadcast');
                 Route::post('/endbroadcast', 'setEndBroadcast');
+            });
+        });
+        Route::prefix('/radio')->group(function () {
+            Route::controller(RadioController::class)->group(function () {
+                Route::get('/', 'render')->name('render.painel.radio');
             });
         });
     });

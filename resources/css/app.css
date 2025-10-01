@@ -56,34 +56,30 @@
     --font-noto-sans: "Noto Sans", sans-serif;
 }
 
-@layer select {
-    select {
-        appearance: none;
-        /* Remove a seta nativa */
-        -webkit-appearance: none;
-        -moz-appearance: none;
+@theme animations {
+    --animate-fadeIn: fadeIn 0.5s linear forwards;
+    --animate-fadeOut: fadeOut 0.5s linear forwards;
 
-        background-color: white;
-        border: 1px solid #ccc;
-        padding: 0.5rem 2rem 0.5rem 1rem;
-        /* Espaço para a seta */
-        border-radius: 0.5rem;
-        font-size: 1rem;
-        color: #000;
-
-        background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-        background-repeat: no-repeat;
-        background-position: right 0.5rem center;
-        background-size: 1rem 1rem;
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
     }
 
-    select:focus {
-        outline: none;
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
     }
 }
 
 @layer components {
-
     /* Container from the aplication */
     .container {
         @apply w-7xl px-10 mx-auto sm:max-w-7xl lg:px-0;
@@ -133,9 +129,33 @@
         height: 0.1rem;
         background-color: var(--color-orange-amber);
     }
-}
 
-@layer filters {
+    /* Select Input*/
+    select {
+        appearance: none;
+        /* Remove a seta nativa */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 0.5rem 2rem 0.5rem 1rem;
+        /* Espaço para a seta */
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        color: #000;
+
+        background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 0.5rem center;
+        background-size: 1rem 1rem;
+    }
+
+    select:focus {
+        outline: none;
+    }
+
+    /*Color Filters*/
     .filter-neutral-aurora {
         filter: invert(100%) sepia(75%) saturate(292%) hue-rotate(322deg) brightness(106%) contrast(102%);
     }
