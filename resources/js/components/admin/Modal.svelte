@@ -31,7 +31,7 @@
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <section onclick={close} class={`fixed inset-0 flex items-center justify-center p-9 lg:p-0 z-50 bg-[#00000036] ${open ? "animate-fadeIn" : "animate-fadeOut"}`}>
         <div onclick={block} class="w-full lg:w-[25rem] rounded-t-xl rounded-b-lg bg-neutral-aurora">
-            <div class="bg-blue-skywave py-4 relative rounded-t-lg">
+            <div class="bg-blue-skywave py-4 px-5 relative rounded-t-lg">
                 <slot name="title" />
                 <button onclick={close} class="cursor-pointer w-[1.5rem] h-[1.5rem] absolute -top-7 -right-5 flex items-center justify-center bg-neutral-aurora p-1 rounded-full text-[#0000008a]">
                     <Icon icon="mingcute:close-fill" width="20" height="20" />

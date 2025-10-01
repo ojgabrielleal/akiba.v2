@@ -12,8 +12,8 @@
                 Cadastrar programa
             </span>
         </div>
-        <h1 slot="title" class="text-neutral-aurora text-center font-noto-sans font-bold italic uppercase">
-            Cadastrar programa
+        <h1 slot="title" class="text-neutral-aurora font-noto-sans font-bold italic uppercase">
+            Novo programa
         </h1>
         <div slot="content">
             teste
