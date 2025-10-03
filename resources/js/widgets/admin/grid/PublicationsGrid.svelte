@@ -16,7 +16,7 @@
 </script>
 
 <Section {title}>
-    <div class="flex gap-5 overflow-x-auto flex-wrap">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {#if publications?.data?.length > 0}
             {#each publications.data as item}
                 <div class="w-full h-[14rem] lg:w-[18.2rem] flex-shrink-0 rounded-lg p-4 relative" style="background-color: {item?.styles?.bg ?? 'var(--color-blue-skywave)'}">
@@ -41,14 +41,16 @@
                 </div>
             {/each}
         {:else}
-            <div class="w-full h-[14rem] lg:w-[18.2rem] flex-shrink-0 rounded-lg p-4 relative bg-blue-cerulean opacity-50">
-                <span class="font-noto-sans text-lg text-neutral-aurora line-clamp-5 uppercase">
-                    Meu bem esse pessoal da akiba são um bando de preguiçosos! Cade as postagens?
-                </span>
-                <div class="flex justify-between gap-5 absolute bottom-2 left-4 w-[calc(100%-2rem)]">
-                    <span class="font-noto-sans font-bold italic uppercase text-lg text-neutral-aurora">
-                        Aki-chan
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                <div class="w-full h-[14rem] lg:w-[18.2rem] flex-shrink-0 rounded-lg p-4 relative bg-blue-cerulean opacity-50">
+                    <span class="font-noto-sans text-lg text-neutral-aurora line-clamp-5 uppercase">
+                        Meu bem esse pessoal da akiba são um bando de preguiçosos! Cade as postagens?
                     </span>
+                    <div class="flex justify-between gap-5 absolute bottom-2 left-4 w-[calc(100%-2rem)]">
+                        <span class="font-noto-sans font-bold italic uppercase text-lg text-neutral-aurora">
+                            Aki-chan
+                        </span>
+                    </div>
                 </div>
             </div>
         {/if}

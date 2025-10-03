@@ -36,7 +36,7 @@
                 </button>
             {/if}
         </div>
-        <div class="flex flex-wrap gap-2 mt-10">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 mt-10">
             {#each requests as item}
                 {#key tick}
                     <div class={`w-[23.6rem] rounded-lg p-3 ${item.status === "finished" ? "bg-green-forest" : "bg-blue-skywave"}`}>

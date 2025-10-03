@@ -1,7 +1,7 @@
 <script>
     export let name = null;
     export let size = "w-full h-[15rem] lg:h-[23rem]";
-    export let view = "h-full";
+    export let view = "w-full h-full";
     export let src = null;
     export let oninput = null;
 
@@ -28,7 +28,7 @@
         <img
             src={imageToShow}
             alt="Preview"
-            class={`w-full ${view} rounded-lg object-cover object-top`}
+            class={`${view} rounded-lg object-cover object-top`}
         />
     {:else}
         <div

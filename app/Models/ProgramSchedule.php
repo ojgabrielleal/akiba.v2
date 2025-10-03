@@ -14,6 +14,10 @@ class ProgramSchedule extends Model
         'time',
     ];
 
+    protected $hidden = [
+        'show_id',
+    ];
+
     /**
      * Relationship with the 'Shows' model.
      */

@@ -57,7 +57,12 @@ Route::prefix('painel')->group(function () {
         Route::prefix('/radio')->group(function () {
             Route::controller(RadioController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.radio');
+                Route::get('/get/show/{id}', 'getShow');
                 Route::post('/create/show', 'createShow');
+                Route::post('/update/show/{id}', 'updateShow');
+                Route::patch('/deactivate/show/{id}', 'deactivateShow');
+                Route::post('/update/ranking/image/{id}', 'updateRankingMusicImage');
+                Route::post('/create/ranking', 'setRankingMusic');
             });
         });
     });

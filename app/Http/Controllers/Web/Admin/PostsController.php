@@ -131,14 +131,16 @@ class PostsController extends Controller
                 ]);
             }
 
-            $slug = Str::slug($request->input('title'));
+            $slug = $request->input('title') !== $post->title ? Str::slug($request->input('title')) : $post->slug;
             $image = $request->hasFile('image') ? $this->uploadImage('posts', $request->file('image'), 'public', $post->image) : $post->image;
             $cover = $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover'), 'public', $post->cover) : $post->cover;
+            $title = $request->input('title') !== $post->title ? $request->input('title') : $post->title;
+            $content = $request->input('content') !== $post->content ? $request->input('content') : $post->content;
 
             $post->update([
-                'slug' =>  Str::slug($request->input('title')),
-                'title' => $request->filled('title') ? $request->input('title') : $post->title,
-                'content' => $request->filled('content') ? $request->input('content') : $post->content,
+                'slug' =>  $slug,
+                'title' => $title,
+                'content' => $content,
                 'image' => $image,
                 'cover' => $cover,
             ]);

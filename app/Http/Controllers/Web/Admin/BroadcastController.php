@@ -61,8 +61,11 @@ class BroadcastController extends Controller
 
             $query = Show::orderBy('created_at', 'desc');
             $query->with('user');
-            $query->where('user_id', $user->id);
-            $query->orWhere('is_all', true);
+            $query->where('is_active', true);
+            $query->where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                    ->orWhere('is_all', true);
+            });
             $shows = $query->get();
 
             return $shows;
@@ -114,7 +117,7 @@ class BroadcastController extends Controller
                 ]);
             }
 
-            if($onair->listener_request_status){
+            if ($onair->listener_request_status) {
                 $this->ProvideSuccess('save', 'Opa, meu bem... já estou avisando que seus pedidos estão chegando! Se prepara!');
             } else {
                 $this->ProvideSuccess('save', 'Sério!!!! Aconteceu algo? As pessoas querem fazer pedidos... Ou será que o programa tá acabando? #refletindo');

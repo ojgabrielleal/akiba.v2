@@ -9,11 +9,13 @@ class Show extends Model
     protected $table = 'shows';
 
     protected $fillable = [
+        'is_active',
         'user_id',
         'slug',
         'name',
         'image',
         'is_all',
+        'has_schedule'
     ];
 
     protected $hidden = [

@@ -74,18 +74,22 @@ class EventsController extends Controller
 
             $event = Event::where('slug', $slug)->first();
 
-            $slug = Str::slug($request->input('title'));
+            $slug = $request->input('title') !== $event->title ? Str::slug($request->input('title')) : $event->slug;
             $image = $request->hasFile('image') ? $this->uploadImage('events', $request->file('image'), 'public', $event->image) : $event->image;
             $cover = $request->hasFile('cover') ? $this->uploadImage('events', $request->file('cover'), 'public', $event->cover) : $event->cover;
+            $title = $request->input('title') !== $event->title ? $request->input('title') : $event->title;
+            $content = $request->input('content') !== $event->content ? $request->input('content') : $event->content;
+            $dates = $request->input('dates') !== $event->dates ? $request->input('dates') : $event->dates;
+            $address = $request->input('address') !== $event->address ? $request->input('address') : $event->address;
 
             $event->update([
                 'slug' => $slug,
                 'image' => $image,
                 'cover' => $cover,
-                'title' => $request->input('title'),
-                'content' => $request->input('content'),
-                'dates' => $request->input('dates'),
-                'address' => $request->input('address')
+                'title' => $title,
+                'content' => $content,
+                'dates' => $dates,
+                'address' => $address
             ]);
 
             $this->ProvideSuccess('update');

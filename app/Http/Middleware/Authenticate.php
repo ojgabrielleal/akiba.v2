@@ -10,11 +10,11 @@ class Authenticate extends Middleware
     {
         if (!$request->expectsJson()) {
             session(['url.intended' => $request->url()]);
-            return redirect()->route('render.painel.auth')
-                ->with('flash', [
-                    'type' => 'error',
-                    'message' => 'Você precisa estar logado para acessar.',
-                ]);
+            session()->flash('flash', [
+                'type' => 'error',
+                'message' => 'Você precisa estar logado para acessar.',
+            ]);
+            return route('render.painel.auth');
         }
 
         return null;

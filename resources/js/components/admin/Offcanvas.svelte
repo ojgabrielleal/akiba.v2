@@ -1,9 +1,9 @@
 <script>
+    export let visible = false;
+
     import { fly, fade } from 'svelte/transition';
     import { quintOut } from 'svelte/easing';
     import Icon from "@iconify/svelte";
-
-    let visible = false;
 
     export function show() {
         visible = true;
