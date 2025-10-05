@@ -39,6 +39,7 @@
             </div>
             <Preview 
                 name="image" 
+                view="w-full max-h-[24rem]"
                 src={$form.image} 
                 oninput={event => $form.image = event.target.files[0]} 
             />
