@@ -52,7 +52,6 @@
 </script>
 
 <form onsubmit={onSubmit}>
-
     <div class="mb-4">
         <Preview
             size="w-full h-[10rem]"
@@ -66,22 +65,22 @@
             Programa
         </label>
         <input
-            type="text"
             id="name"
+            type="text"
             name="name"
             class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
             bind:value={$form.name}
         />
     </div>
-        <div class="mb-4">
-        <span class="text-md text-gray-700 font-noto-sans block mb-2">
+    <div class="mb-4">
+        <div class="text-md text-gray-700 font-noto-sans mb-2">
             Este programa está ativo?
-        </span>
+        </div>
         <div class="flex items-center gap-2 mb-1">
             <input
+                id="open"
                 type="radio"
                 name="is_active"
-                id="open"
                 value={1}
                 class="cursor-pointer w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                 bind:group={$form.is_active}
@@ -92,9 +91,9 @@
         </div>
         <div class="flex items-center gap-2">
             <input
+                id="close"
                 type="radio"
                 name="is_active"
-                id="close"
                 value={0}
                 class="cursor-pointer w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                 bind:group={$form.is_active}
@@ -105,14 +104,14 @@
         </div>
     </div>
     <div class="mb-4">
-        <span class="text-md text-gray-700 font-noto-sans block mb-2">
+        <div class="text-md text-gray-700 font-noto-sans mb-2">
             Este programa estará disponível para todos os locutores?
-        </span>
+        </div>
         <div class="flex items-center gap-2 mb-1">
             <input
+                id="open"
                 type="radio"
                 name="is_all"
-                id="open"
                 value={1}
                 class="cursor-pointer w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                 bind:group={$form.is_all}
@@ -123,9 +122,9 @@
         </div>
         <div class="flex items-center gap-2">
             <input
+                id="close"
                 type="radio"
                 name="is_all"
-                id="close"
                 value={0}
                 class="cursor-pointer w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                 bind:group={$form.is_all}
@@ -137,15 +136,14 @@
     </div>
     {#if $form.is_all === 1}
         <div class="mb-4">
-            <span class="text-md text-gray-700 font-noto-sans block mb-2">
-                Este programa deverá ter horários semanais na grade de
-                programação?
-            </span>
+            <div class="text-md text-gray-700 font-noto-sans mb-2">
+                Este programa deverá ter horários semanais na grade de programação?
+            </div>
             <div class="flex items-center gap-2 mb-1">
                 <input
+                    id="yes"
                     type="radio"
                     name="has_schedule"
-                    id="yes"
                     value={1}
                     class="cursor-pointer w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                     bind:group={$form.has_schedule}
@@ -156,9 +154,9 @@
             </div>
             <div class="flex items-center gap-2">
                 <input
+                    id="no"
                     type="radio"
                     name="has_schedule"
-                    id="no"
                     value={0}
                     class="cursor-pointer w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                     bind:group={$form.has_schedule}
@@ -196,8 +194,8 @@
                 <div class="absolute right-0 w-1/3 h-[0.1rem] bg-blue-skywave rounded-full top-1/2 -translate-y-1/2"></div>
             </div>
         </div>
-        <button onclick={addSchedule} type="button" aria-label="adicionar horário" class="cursor-pointer mb-2 flex items-center gap-[0.1rem] text-blue-skywave text-md font-noto-sans">
-            <Icon icon="mynaui:plus-solid" width="20" height="20" />
+        <button onclick={addSchedule} type="button" class="cursor-pointer mb-2 flex items-center gap-[0.1rem] text-blue-skywave text-md font-noto-sans">
+            <Icon icon="mynaui:plus-solid" width="20" height="20" aria-hidden="true"/>
             Adicionar horário
         </button>
         {#each $form.schedules as schedule, index}
@@ -226,21 +224,21 @@
                         Horário
                     </label>
                     <input
-                        type="text"
                         id="time"
+                        type="text"
                         name="time"
                         class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
                         bind:value={schedule.time}
                     />
                 </div>
-                <button onclick={() => removeSchedule(index)} type="button" aria-label="remover" class="cursor-pointer mt-4 flex items-center gap-[0.2rem] text-blue-skywave text-md font-noto-sans">
-                    <Icon icon="fa7-solid:remove" width="14" height="14" />
+                <button onclick={() => removeSchedule(index)} type="button" class="cursor-pointer mt-4 flex items-center gap-[0.2rem] text-blue-skywave text-md font-noto-sans">
+                    <Icon icon="fa7-solid:remove" width="14" height="14" aria-hidden="true"/>
                     Remover
                 </button>
             </div>
         {/each}
     {/if}
-    <button type="submit" aria-label="cadastrar" class="cursor-pointer bg-blue-skywave px-8 py-2 rounded-md text-neutral-aurora font-noto-sans font-bold italic uppercase">
+    <button type="submit" class="cursor-pointer bg-blue-skywave px-8 py-2 rounded-md text-neutral-aurora font-noto-sans font-bold italic uppercase">
         {#if show_id}
             Atualizar
         {:else}

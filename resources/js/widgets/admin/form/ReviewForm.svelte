@@ -31,9 +31,9 @@
 <form onsubmit={onSubmit}>
     <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
         <div class="mb-3">
-            <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
+            <div class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans mb-1">
                 Imagem em destaque
-            </span>
+            </div>
             <Preview 
                 name="image" 
                 src={$form.image} 
@@ -46,8 +46,8 @@
                     Nome do anime
                 </label>
                 <input
-                    type="text"
                     id="title"
+                    type="text"
                     name="title"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                     bind:value={$form.title}
@@ -81,12 +81,7 @@
                     <div class="flex mb-3 mt-2 gap-2">
                         {#each publication?.reviews as item}
                             <div class="relative inline-block mb-2">
-                                <button
-                                    type="button"
-                                    aria-label="teste"
-                                    class="py-2 px-6 rounded-md uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer relative {item.user.id === authorSelected ? 'bg-neutral-aurora text-blue-ocean' : 'bg-blue-ocean text-neutral-aurora'}"
-                                    onclick={() => (authorSelected = item.user.id)}
-                                >
+                                <button type="button" class="py-2 px-6 rounded-md uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer relative {item.user.id === authorSelected ? 'bg-neutral-aurora text-blue-ocean' : 'bg-blue-ocean text-neutral-aurora'}" onclick={() => (authorSelected = item.user.id)}>
                                     {item.user.nickname}
                                 </button>
                                 {#if item.user.id === authorSelected}
@@ -102,7 +97,7 @@
         </div>
     </div>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
-        <button type="submit" aria-label="status" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+        <button type="submit" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
             {#if $form.content}
                 Atualizar
             {:else}

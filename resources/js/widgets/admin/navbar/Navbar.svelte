@@ -1,6 +1,5 @@
 <script>
     import { page } from "@inertiajs/svelte";
-    import { Link } from '@inertiajs/svelte';
     import Items from "@/data/admin/Navbar";
 
     $: ({ user } = $page.props);
@@ -16,17 +15,17 @@
         {#each Items as item}
             {#if item.permissions_keys.includes('all') || item.permissions_keys.some(p => user.permissions_keys.includes(p))}
                 <li>
-                    <Link href={item.address} title={item.name} class="flex items-center gap-2 text-neutral-aurora hover:text-[var(--color-neutral-aurora-dark)]">
-                        <img src={item.icon} alt={item.name} class="w-5 h-5" />
-                    </Link>
+                    <a href={item.address} aria-label={item.name} class="flex items-center gap-2 text-neutral-aurora hover:text-[var(--color-neutral-aurora-dark)]">
+                        <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" />
+                    </a>
                 </li>
             {/if}
         {/each}
         </ul>
         <div class="absolute -bottom-[1.45rem] right-0 flex items-center gap-2">
-            <Link href={`/profile/${user.slug}`} title={user.nickname}>
-                <img src={user.avatar} alt={user.nickname} class="w-16 h-16 rounded-full border-8 border-neutral-aurora"/>
-            </Link>
+            <a href={`/profile/${user.slug}`} aria-label={user.nickname}>
+                <img src={user.avatar} alt={`Avatar de ${user.nickname}`} class="w-16 h-16 rounded-full border-8 border-neutral-aurora"/>
+            </a>
         </div>
     </div>
 </nav>
@@ -34,12 +33,11 @@
 <!-- Mobile Navbar -->
 <nav class="w-full h-[4rem] bg-neutral-aurora flex items-center justify-between px-10 lg:hidden">
     <button on:click={() => (mobilenavbar = !mobilenavbar)} aria-label="Abrir menu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
     </button>
-
-    <img src={user.avatar} alt={user.nickname} class="w-10 h-10 rounded-full"/>
+    <img src={user.avatar} alt={`Avatar de ${user.nickname}`} class="w-10 h-10 rounded-full"/>
 </nav>
 
 <!-- Sidebar Menu -->
@@ -47,7 +45,7 @@
     <div class="p-5 flex items-center justify-between">
         <img src="/favicon.ico" alt="Logo" class="w-8 h-8"/>
         <button on:click={() => (mobilenavbar = false)} aria-label="Fechar menu">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </button>
@@ -57,8 +55,8 @@
         {#each Items as item}
             {#if item.permissions_keys.includes('all') || item.permissions_keys.some(p => user.permissions_keys.includes(p))}
                 <li>
-                    <a href={item.address} class="flex items-center gap-3 text-gray-800 hover:text-blue-600">
-                        <img src={item.icon} alt={item.name} class="w-5 h-5" />
+                    <a href={item.address} aria-label={item.name} class="flex items-center gap-3 text-gray-800 hover:text-blue-600">
+                        <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" />
                         <span>{item.name}</span>
                     </a>
                 </li>

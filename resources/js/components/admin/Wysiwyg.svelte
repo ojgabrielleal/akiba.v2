@@ -1,6 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import Quill from "quill";
+    import "quill/dist/quill.snow.css";
 
     export let value = "";   // 👈 já pode ser usado com bind:value
     export let height = "50rem";
@@ -56,9 +57,4 @@
 <div class="bg-neutral-aurora rounded-xl overflow-hidden">
     <div bind:this={editor} class="p-3 lg:min-h-[40rem]" style={`min-height: ${height};`}></div>
 </div>
-
 <textarea name={name} class="hidden" bind:this={textarea}></textarea>
-
-<style>
-    @import "quill/dist/quill.snow.css";
-</style>

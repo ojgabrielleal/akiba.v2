@@ -178,9 +178,7 @@ class BroadcastController extends Controller
                 'is_live' => false,
                 'listener_request_status' => false
             ]);
-
-            ListenerRequest::truncate();
-
+            
             $randomPhrase = $autodj->phrases->random();
 
             $autodj->onair()->create([

@@ -15,25 +15,22 @@
 </script>
 
 <form onsubmit={onSubmit} class="w-full">
-    <input
+    <input 
+        type="text" 
+        name="username" 
+        placeholder="Usuário" 
+        class="font-noto-sans border-black-200 border-b-black-500 h-[5rem] w-full rounded-t-2xl border-b bg-neutral-aurora p-4 outline-none" 
         bind:value={$form.username}
-        type="text"
-        name="username"
-        class="font-noto-sans border-black-200 border-b-black-500 h-[5rem] w-full rounded-t-2xl border-b bg-neutral-aurora p-4 outline-none"
-        placeholder="Usuário"
     />
-    <input
+    <input 
+        type="password" 
+        name="password" 
+        placeholder="Senha" 
+        class="font-noto-sans h-[5rem] w-full rounded-b-2xl bg-neutral-aurora p-4 outline-none" 
         bind:value={$form.password}
-        type="password"
-        name="password"
-        class="font-noto-sans h-[5rem] w-full rounded-b-2xl bg-neutral-aurora p-4 outline-none"
-        placeholder="Senha"
     />
-    <button
-        type="submit"
-        class="cursor-pointer font-noto-sans mt-4 flex h-[5rem] w-full items-center justify-center gap-1 rounded-2xl bg-blue-skywave pt-1 text-lg font-light text-neutral-aurora"
-        aria-label="entrar"
-    >
-        <Icon icon="fa6-solid:arrow-right-to-bracket" />Entrar
+    <button type="submit" class="cursor-pointer font-noto-sans mt-4 flex h-[5rem] w-full items-center justify-center gap-1 rounded-2xl bg-blue-skywave pt-1 text-lg font-light text-neutral-aurora">
+        <Icon icon="fa6-solid:arrow-right-to-bracket" aria-hidde="true"/>
+        Entrar
     </button>
 </form>

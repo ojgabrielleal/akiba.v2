@@ -34,9 +34,9 @@
 <form onsubmit={onSubmit}>
     <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
         <div class="mb-3">
-            <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
+            <div class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
                 Imagem em destaque
-            </span>
+            </div>
             <Preview 
                 name="image" 
                 src={$form.image} 
@@ -49,8 +49,8 @@
                     Título
                 </label>
                 <input
-                    type="text"
                     id="title"
+                    type="text"
                     name="title"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                     bind:value={$form.title}
@@ -88,7 +88,6 @@
                     id="first_category"
                     name="first_category"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
-                    options={Tags}
                     bind:value={$form.first_category}
                 >
                     {#each Tags as tag}
@@ -114,16 +113,16 @@
         </div>
         <div class="gap-5 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
             <div class="mb-8">
-                <span class="text-center text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
+                <div class="text-center text-orange-amber font-bold italic text-lg uppercase font-noto-sans mb-1">
                     Primeira fonte de pesquisa
-                </span>
+                </div>
                 <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center mb-4">
                     <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="first_reference_name">
                         Nome:
                     </label>
                     <input
-                        type="text"
                         id="first_reference_name"
+                        type="text"
                         name="first_reference_name"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                         bind:value={$form.first_reference_name}
@@ -134,8 +133,8 @@
                         Link:
                     </label>
                     <input
-                        type="text"
                         id="first_reference_url"
+                        type="text"
                         name="first_reference_url"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                         bind:value={$form.first_reference_url}
@@ -143,16 +142,16 @@
                 </div>
             </div>
             <div class="mb-8">
-                <span class="text-center text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
+                <div class="text-center text-orange-amber font-bold italic text-lg uppercase font-noto-sans mb-1">
                     Segunda fonte de pesquisa
-                </span>
+                </div>
                 <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center mb-4">
                     <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="second_reference_name">
                         Nome:
                     </label>
                     <input
-                        type="text"
                         id="second_reference_name"
+                        type="text"
                         name="second_reference_name"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                         bind:value={$form.second_reference_name}
@@ -163,8 +162,8 @@
                         Link:
                     </label>
                     <input
-                        type="text"
                         id="second_reference_url"
+                        type="text"
                         name="second_reference_url"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                         bind:value={$form.second_reference_url}
@@ -175,18 +174,18 @@
     </div>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         {#if publication?.status === "published"}
-            <button type="submit" aria-label="atualizar matéria" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+            <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
                 Atualizar matéria
             </button>
         {:else}
-            <button type="submit" aria-label="salvar como rascunho" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
+            <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
                 Salvar como Rascunho
             </button>
-            <button type="submit" aria-label="mandar para revisão" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
+            <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
                 Mandar para revisão
             </button>
             {#if user.permissions_keys?.includes("administrator")}
-                <button type="submit" aria-label="publicar" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+                <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
                     Publicar
                 </button>
             {/if}

@@ -29,7 +29,7 @@
 <form onsubmit={onSubmit}>
     <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
         <div class="mb-3">
-            <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
+            <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans mb-1">
                 Imagem em destaque
             </span>
             <Preview 
@@ -44,8 +44,8 @@
                     Nome do evento
                 </label>
                 <input
-                    type="text"
                     id="title"
+                    type="text"
                     name="title"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                     bind:value={$form.title}
@@ -81,8 +81,8 @@
                         Local:
                     </label>
                     <input
-                        type="text"
                         id="local"
+                        type="text"
                         name="local"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                         bind:value={$form.address}
@@ -95,8 +95,8 @@
                         Datas:
                     </label>
                     <input
-                        type="text"
                         id="datas"
+                        type="text"
                         name="datas"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                         bind:value={$form.dates}

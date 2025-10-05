@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ListenerMonth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+
 
 use Inertia\Inertia;
 
@@ -17,6 +21,7 @@ use App\Models\User;
 use App\Models\Show;
 use App\Models\ProgramSchedule;
 use App\Models\Music;
+use App\Models\ListenerRequest;
 
 class RadioController extends Controller
 {
@@ -206,6 +211,66 @@ class RadioController extends Controller
             }
 
             $this->ProvideSuccess('save');
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
+    public function getListenerMonth()
+    {
+        try {
+            $startOfMonth = Carbon::now()->startOfMonth();
+            $endOfMonth = Carbon::now()->endOfMonth();
+
+            // 1️⃣ Descobrir o ouvinte mais ativo da semana
+            $listenerMoreRepeated = ListenerRequest::select('listener', 'address', DB::raw('COUNT(*) as total'))
+                ->where('status', 'finished')
+                ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                ->groupBy('listener', 'address')
+                ->orderByDesc('total')
+                ->first();
+
+            if (!$listenerMoreRepeated) {
+                return null; // nenhum pedido na semana
+            }
+
+            // 2️⃣ Descobrir o onair mais pedido desse ouvinte
+            $onairMoreRepeated = ListenerRequest::where('listener', $listenerMoreRepeated->listener)
+                ->where('address', $listenerMoreRepeated->address)
+                ->where('status', 'finished')
+                ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                ->select('onair_id', DB::raw('COUNT(*) as total'))
+                ->groupBy('onair_id')
+                ->orderByDesc('total')
+                ->first();
+
+            // 3️⃣ Carregar relacionamento onair e show corretamente
+            if ($onairMoreRepeated && $onairMoreRepeated->onair_id) {
+                $onairMoreRepeated->load('onair.program');
+                $listenerMoreRepeated->onair = $onairMoreRepeated->onair;
+            } else {
+                $listenerMoreRepeated->onair = null;
+            }
+
+            return $listenerMoreRepeated;
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
+    public function createListenerMonth(Request $request)
+    {
+        try{
+            $listenerMonth = ListenerMonth::where('id', 1)->first();
+
+            $image = $this->uploadImage('listener-month', $request->file('image'), 'public', $listenerMonth->image ?? null);
+            $listenerMonth->update([
+                'image' => $image,
+                'listener_name' => $request->input('listener_name'),
+                'address' => $request->input('address'),
+                'favorite_program' => $request->input('favorite_program'),
+                'quantity_of_requests' => $request->input('quantity_of_requests'),
+            ]);
         }catch(\Throwable $e) {
             return $this->provideException($e);
         }
@@ -218,6 +283,7 @@ class RadioController extends Controller
             "streamers" => $this->getStreamers(),
             "program_schedule" => $this->getProgramSchedule(),
             "ranking_musics" => $this->getRankingMusics(),
+            "listener_month" => $this->getListenerMonth(),
         ]);
     }
 }

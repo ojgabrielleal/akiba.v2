@@ -19,7 +19,7 @@
     }
 </script>
 
-<button type="button" on:click={show} class="w-full text-left">
+<button type="button" on:click={show} class="w-full text-left" aria-label="Abrir offcanvas">
     <slot name="action" />
 </button>
 
@@ -32,8 +32,8 @@
                 <div class="text-neutral-aurora font-noto-sans font-bold italic uppercase">
                     <slot name="title" />
                 </div>
-                <button on:click={close} class="cursor-pointer text-neutral-aurora">
-                    <Icon icon="mingcute:close-fill" width="24" height="24" />
+                <button type="button" on:click={close} class="cursor-pointer text-neutral-aurora" aria-label="Fechar offcanvas">
+                    <Icon icon="mingcute:close-fill" width="24" height="24" aria-hidden="true" />
                 </button>
             </div>
             <div class="flex-1 overflow-y-auto p-5 bg-neutral-aurora">

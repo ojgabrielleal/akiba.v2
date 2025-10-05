@@ -63,6 +63,7 @@ Route::prefix('painel')->group(function () {
                 Route::patch('/deactivate/show/{id}', 'deactivateShow');
                 Route::post('/update/ranking/image/{id}', 'updateRankingMusicImage');
                 Route::post('/create/ranking', 'setRankingMusic');
+                Route::get('/create/listener_month', 'createListenerMonth');
             });
         });
     });
