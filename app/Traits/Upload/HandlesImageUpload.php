@@ -19,13 +19,8 @@ trait HandlesImageUpload
         $name = (string) \Illuminate\Support\Str::uuid() . '.webp';
         $path = $folder . '/' . $name;
 
-        // Cria o gerenciador com o driver GD
         $manager = new ImageManager(new Driver());
-
-        // Lê e converte a imagem para WebP (qualidade 80)
-        $image = $manager->read($file)->toWebp(80);
-
-        // Salva no storage
+        $image = $manager->read($file)->toWebp(85);
         Storage::disk($disk)->put($path, (string) $image);
 
         return '/storage/' . $path;
