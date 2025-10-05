@@ -38,7 +38,7 @@
         {/each} 
     </div>
     <div class="flex justify-end mt-7">
-        <button onclick={()=>setRanking()} class="cursor-pointer bg-blue-skywave px-4 py-2 rounded-md text-neutral-aurora font-noto-sans font-bold uppercase italic">
+        <button on:click={()=>setRanking()} class="cursor-pointer bg-blue-skywave px-4 py-2 rounded-md text-neutral-aurora font-noto-sans font-bold uppercase italic">
             Atualizar ranking
         </button>
     </div>

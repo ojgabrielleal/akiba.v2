@@ -51,7 +51,7 @@
     }
 </script>
 
-<form onsubmit={onSubmit}>
+<form on:submit={onSubmit}>
     <div class="mb-4">
         <Preview
             size="w-full h-[10rem]"
@@ -194,7 +194,7 @@
                 <div class="absolute right-0 w-1/3 h-[0.1rem] bg-blue-skywave rounded-full top-1/2 -translate-y-1/2"></div>
             </div>
         </div>
-        <button onclick={addSchedule} type="button" class="cursor-pointer mb-2 flex items-center gap-[0.1rem] text-blue-skywave text-md font-noto-sans">
+        <button on:click={addSchedule} type="button" class="cursor-pointer mb-2 flex items-center gap-[0.1rem] text-blue-skywave text-md font-noto-sans">
             <Icon icon="mynaui:plus-solid" width="20" height="20" aria-hidden="true"/>
             Adicionar horário
         </button>
@@ -231,7 +231,7 @@
                         bind:value={schedule.time}
                     />
                 </div>
-                <button onclick={() => removeSchedule(index)} type="button" class="cursor-pointer mt-4 flex items-center gap-[0.2rem] text-blue-skywave text-md font-noto-sans">
+                <button on:click={() => removeSchedule(index)} type="button" class="cursor-pointer mt-4 flex items-center gap-[0.2rem] text-blue-skywave text-md font-noto-sans">
                     <Icon icon="fa7-solid:remove" width="14" height="14" aria-hidden="true"/>
                     Remover
                 </button>

@@ -35,11 +35,11 @@
     <Section {title}>
         <div class="flex justify-center">
             {#if verify.listener_request}
-                <button onclick={() => changeStatus()} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-neutral-honeycream rounded-xl text-neutral-honeycream text-xl font-bold font-noto-sans italic uppercase">
+                <button on:click={() => changeStatus()} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-neutral-honeycream rounded-xl text-neutral-honeycream text-xl font-bold font-noto-sans italic uppercase">
                     Parar de receber
                 </button>
             {:else}
-                <button onclick={() => changeStatus()} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
+                <button on:click={() => changeStatus()} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
                     Começar a receber
                 </button>
             {/if}
@@ -101,7 +101,7 @@
                                 {item.created_at.split("T")[1].split(":").slice(0, 2).join(":")}
                             </time>
                             {#if item.status === "new"}
-                                <button onclick={() => markToFinished()} aria-label="Marcar como atendido"class="cursor-pointer text-neutral-aurora">
+                                <button on:click={() => markToFinished()} aria-label="Marcar como atendido"class="cursor-pointer text-neutral-aurora">
                                     <Icon icon="material-symbols:save" width="24" height="24" aria-hidden="true"/>
                                 </button>
                             {/if}

@@ -28,7 +28,7 @@
     }
 </script>
 
-<form onsubmit={onSubmit}>
+<form on:submit={onSubmit}>
     <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
         <div class="mb-3">
             <div class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans mb-1">
@@ -81,7 +81,7 @@
                     <div class="flex mb-3 mt-2 gap-2">
                         {#each publication?.reviews as item}
                             <div class="relative inline-block mb-2">
-                                <button type="button" class="py-2 px-6 rounded-md uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer relative {item.user.id === authorSelected ? 'bg-neutral-aurora text-blue-ocean' : 'bg-blue-ocean text-neutral-aurora'}" onclick={() => (authorSelected = item.user.id)}>
+                                <button type="button" class="py-2 px-6 rounded-md uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer relative {item.user.id === authorSelected ? 'bg-neutral-aurora text-blue-ocean' : 'bg-blue-ocean text-neutral-aurora'}" on:click={() => (authorSelected = item.user.id)}>
                                     {item.user.nickname}
                                 </button>
                                 {#if item.user.id === authorSelected}

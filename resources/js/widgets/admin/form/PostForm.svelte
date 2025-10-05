@@ -31,7 +31,7 @@
     }
 </script>
 
-<form onsubmit={onSubmit}>
+<form on:submit={onSubmit}>
     <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
         <div class="mb-3">
             <div class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">

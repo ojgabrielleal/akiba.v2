@@ -44,7 +44,7 @@
                             <ShowForm {close} show_id={item.id}/>
                         </div>
                     </Offcanvas>
-                    <button class="cursor-pointer text-red-crimson" aria-label="Desativar programa" onclick={() => deactivateShow(item.id)}>
+                    <button class="cursor-pointer text-red-crimson" aria-label="Desativar programa" on:click={() => deactivateShow(item.id)}>
                         <Icon icon="iconamoon:trash-fill" width="24" height="24" aria-hidden="true" />
                     </button>
                 </div>

@@ -14,7 +14,7 @@
     }
 </script>
 
-<form onsubmit={onSubmit} class="w-full">
+<form on:submit={onSubmit} class="w-full">
     <input 
         type="text" 
         name="username" 
