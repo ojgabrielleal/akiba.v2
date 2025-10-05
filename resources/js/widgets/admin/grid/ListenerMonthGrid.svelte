@@ -11,10 +11,10 @@
     function updateListenerMonth(){
         const formData = new FormData();
         formData.append('image', image);
-        formData.append('listener_name', listener_month.listener);
-        formData.append('address', listener_month.address);
-        formData.append('favorite_program', listener_month.onair.program.name);
-        formData.append('quantity_of_requests', listener_month.total);
+        formData.append('listener_name', listener_month?.listener);
+        formData.append('address', listener_month?.address);
+        formData.append('favorite_program', listener_month?.onair.program.name);
+        formData.append('quantity_of_requests', listener_month?.total);
 
         router.post('/painel/radio/create/listener_month', formData, {
             forceFormData: true
@@ -30,7 +30,7 @@
                     Nome:
                 </dt>
                 <dd class="block text-neutral-aurora font-noto-sans uppercase">
-                    {listener_month.listener}
+                    {listener_month?.listener}
                 </dd>
             </div>
             <div class="mb-8">
@@ -38,7 +38,7 @@
                     Mora em:
                 </dt>
                 <dd class="block text-neutral-aurora font-noto-sans uppercase">
-                    {listener_month.address}
+                    {listener_month?.address}
                 </dd>
             </div>
             <div class="mb-8">
@@ -46,7 +46,7 @@
                     Número de pedidos feitos:
                 </dt>
                 <dd class="block text-neutral-aurora font-noto-sans uppercase">
-                    {listener_month.total}
+                    {listener_month?.total}
                 </dd>
             </div>
             <div class="mb-8">
@@ -54,7 +54,7 @@
                     Programa preferido
                 </dt>
                 <dd class="block text-neutral-aurora font-noto-sans uppercase">
-                    {listener_month.onair.program.name}
+                    {listener_month?.onair.program.name}
                 </dd>
             </div>
         </dl>

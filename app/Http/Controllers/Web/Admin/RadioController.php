@@ -82,7 +82,7 @@ class RadioController extends Controller
             ]);
 
             $user = request()->user();
-            $user_id = $request->input('streamer') ? $request->input('streamer') : $user->id;
+            $user_id = $request->input('user_id') ? $request->input('user_id') : $user->id;
 
             $show = Show::create([
                 'user_id' => $user_id,

@@ -4,7 +4,8 @@ namespace App\Traits\Upload;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 trait HandlesImageUpload
 {
@@ -15,9 +16,18 @@ trait HandlesImageUpload
         }
 
         $folder = 'images/' . trim($subfolder, '/');
-        $ext = $file->getClientOriginalExtension() ?: 'dat'; 
-        $name = (string) \Illuminate\Support\Str::uuid() . '.' . $ext;
-        $path = $file->storeAs($folder, $name, $disk);
+        $name = (string) \Illuminate\Support\Str::uuid() . '.webp';
+        $path = $folder . '/' . $name;
+
+        // Cria o gerenciador com o driver GD
+        $manager = new ImageManager(new Driver());
+
+        // Lê e converte a imagem para WebP (qualidade 80)
+        $image = $manager->read($file)->toWebp(80);
+
+        // Salva no storage
+        Storage::disk($disk)->put($path, (string) $image);
+
         return '/storage/' . $path;
     }
 
