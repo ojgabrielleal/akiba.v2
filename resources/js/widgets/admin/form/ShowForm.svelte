@@ -27,9 +27,7 @@
             $form.is_all = Number(response.data.is_all);
             $form.user_id = response.data.user.id;
             $form.has_schedule = response.data.has_schedule;
-            $form.schedules = response.data.schedules
-                ? response.data.schedules
-                : { time: null, day: null };
+            $form.schedules = response.data.schedules ? response.data.schedules : { time: null, day: null };
         });
     }
 

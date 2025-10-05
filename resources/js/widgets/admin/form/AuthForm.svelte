@@ -12,7 +12,7 @@
         event.preventDefault();
         $form.post("/painel/authenticate");
     }
-</script>
+</script>                   
 
 <form on:submit={onSubmit} class="w-full">
     <input 

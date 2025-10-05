@@ -4,3 +4,4 @@ export { default as ReviewForm } from './ReviewForm.svelte'
 export { default as EventsForm } from './EventsForm.svelte'
 export { default as BroadcastForm } from "./BroadcastForm.svelte"
 export { default as ShowForm } from "./ShowForm.svelte"
+export { default as ListenerMonthForm } from "./ListenerMonthForm.svelte"

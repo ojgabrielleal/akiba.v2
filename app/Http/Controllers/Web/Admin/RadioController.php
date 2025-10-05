@@ -216,43 +216,49 @@ class RadioController extends Controller
         }
     }
 
-    public function getListenerMonth()
+    public function getListenerMonthRegistered()
+    {
+        try {
+            return ListenerMonth::where('id', 1)->first();
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
+    public function getListenerMonthFound()
     {
         try {
             $startOfMonth = Carbon::now()->startOfMonth();
             $endOfMonth = Carbon::now()->endOfMonth();
 
-            // 1️⃣ Descobrir o ouvinte mais ativo da semana
-            $listenerMoreRepeated = ListenerRequest::select('listener', 'address', DB::raw('COUNT(*) as total'))
-                ->where('status', 'finished')
-                ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-                ->groupBy('listener', 'address')
-                ->orderByDesc('total')
-                ->first();
+            $listenerFound = ListenerRequest::select('listener', 'address', DB::raw('COUNT(*) as total'));
+            $listenerFound->where('status', 'finished');
+            $listenerFound->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+            $listenerFound->groupBy('listener', 'address');
+            $listenerFound->orderByDesc('total');
+            $listenerFound = $listenerFound->first();
 
-            if (!$listenerMoreRepeated) {
-                return null; // nenhum pedido na semana
+            if (!$listenerFound) {
+                return null;
             }
 
-            // 2️⃣ Descobrir o onair mais pedido desse ouvinte
-            $onairMoreRepeated = ListenerRequest::where('listener', $listenerMoreRepeated->listener)
-                ->where('address', $listenerMoreRepeated->address)
-                ->where('status', 'finished')
-                ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-                ->select('onair_id', DB::raw('COUNT(*) as total'))
-                ->groupBy('onair_id')
-                ->orderByDesc('total')
-                ->first();
+            $onairRelated = ListenerRequest::where('listener', $listenerFound->listener);
+            $onairRelated->where('address', $listenerFound->address);
+            $onairRelated->where('status', 'finished');
+            $onairRelated->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+            $onairRelated->select('onair_id', DB::raw('COUNT(*) as total'));
+            $onairRelated->groupBy('onair_id');
+            $onairRelated->orderByDesc('total');
+            $onairRelated = $onairRelated->first();
 
-            // 3️⃣ Carregar relacionamento onair e show corretamente
-            if ($onairMoreRepeated && $onairMoreRepeated->onair_id) {
-                $onairMoreRepeated->load('onair.program');
-                $listenerMoreRepeated->onair = $onairMoreRepeated->onair;
+            if ($onairRelated && $onairRelated->onair_id) {
+                $onairRelated->load('onair.program');
+                $listenerFound->onair = $onairRelated->onair;
             } else {
-                $listenerMoreRepeated->onair = null;
+                $listenerFound->onair = null;
             }
 
-            return $listenerMoreRepeated;
+            return $listenerFound;
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -260,18 +266,75 @@ class RadioController extends Controller
 
     public function createListenerMonth(Request $request)
     {
-        try{
-            $listenerMonth = ListenerMonth::where('id', 1)->first();
-
-            $image = $this->uploadImage('listener-month', $request->file('image'), 'public', $listenerMonth->image ?? null);
-            $listenerMonth->update([
-                'image' => $image,
-                'listener_name' => $request->input('listener_name'),
-                'address' => $request->input('address'),
-                'favorite_program' => $request->input('favorite_program'),
-                'quantity_of_requests' => $request->input('quantity_of_requests'),
+        try {
+            $request->validate([
+                'image' => 'required|image',
+            ], [    
+                'image.required' => '<b><i>Imagem do ranking</b></i> é obrigatório'
             ]);
-        }catch(\Throwable $e) {
+
+            $startOfMonth = Carbon::now()->startOfMonth();
+            $endOfMonth = Carbon::now()->endOfMonth();
+
+            $listenerFound = ListenerRequest::select('listener', 'address', DB::raw('COUNT(*) as total'));
+            $listenerFound->where('status', 'finished');
+            $listenerFound->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+            $listenerFound->groupBy('listener', 'address');
+            $listenerFound->orderByDesc('total');
+            $listenerFound = $listenerFound->first();
+            
+            if (!$listenerFound) {
+                return null;
+            }
+            
+            $onairRelated = ListenerRequest::where('listener', $listenerFound->listener);
+            $onairRelated->where('address', $listenerFound->address);
+            $onairRelated->where('status', 'finished');
+            $onairRelated->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+            $onairRelated->select('onair_id', DB::raw('COUNT(*) as total'));
+            $onairRelated->groupBy('onair_id');
+            $onairRelated->orderByDesc('total');
+            $onairRelated = $onairRelated->first();
+            
+            if ($onairRelated && $onairRelated->onair_id) {
+                $onairRelated->load('onair.program');
+                $listenerFound->onair = $onairRelated->onair;
+            } else {
+                $listenerFound->onair = null;
+            }
+                        
+            $verifyExist = ListenerMonth::exists();
+
+            if ($verifyExist) {
+                $listenerMonth = ListenerMonth::where('id', 1)->first();
+                $image = $this->uploadImage('listener-month', $request->file('image'), 'public', $listenerMonth->image ?? null);
+
+                $listenerMonth->update([
+                    'image' => $image,
+                    'listener' => $listenerFound->listener,
+                    'address' => $listenerFound->address,
+                    'favorite_show' => $listenerFound->onair ? $listenerFound->onair->program->name : null,
+                    'requests_total' => $listenerFound->total,
+                ]);
+
+                return $this->provideSuccess('save');
+
+            } else {
+                DB::statement('ALTER TABLE listener_month AUTO_INCREMENT = 1');
+
+                $image = $this->uploadImage('listener-month', $request->file('image'), 'public');
+                ListenerMonth::create([
+                    'image' => $image,
+                    'listener' => $listenerFound->listener,
+                    'address' => $listenerFound->address,
+                    'favorite_show' => $listenerFound->onair ? $listenerFound->onair->program->name : null,
+                    'requests_total' => $listenerFound->total,
+                ]);
+
+                return $this->provideSuccess('update');
+            }
+
+        } catch (\Throwable $e) {
             return $this->provideException($e);
         }
     }
@@ -283,7 +346,8 @@ class RadioController extends Controller
             "streamers" => $this->getStreamers(),
             "program_schedule" => $this->getProgramSchedule(),
             "ranking_musics" => $this->getRankingMusics(),
-            "listener_month" => $this->getListenerMonth(),
+            "listener_month_registered" => $this->getListenerMonthRegistered(),
+            'listener_month_found' => $this->getListenerMonthFound(),
         ]);
     }
 }

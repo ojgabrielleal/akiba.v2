@@ -15,19 +15,19 @@
 </script>
 
 <Section {title}>
-    <Offcanvas>
-        <div slot="action" class="flex justify-center mb-10">
-            <div class="cursor-pointer w-[15rem] py-2  border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-center text-lg font-bold font-noto-sans italic uppercase">
+    <div class="flex justify-center mb-10">
+        <Offcanvas>
+            <div class="cursor-pointer bg-blue-skywave px-4 py-2 rounded-md text-neutral-aurora font-noto-sans font-bold uppercase italic" slot="action" >
                 Cadastrar programa
             </div>
-        </div>
-        <div slot="title">
-            Novo programa
-        </div>
-        <div slot="content" let:close>
-            <ShowForm {close}/>
-        </div>
-    </Offcanvas>
+            <div slot="title">
+                Novo programa
+            </div>
+            <div slot="content" let:close>
+                <ShowForm {close}/>
+            </div>
+        </Offcanvas>
+    </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-20 mt-6">
         {#each shows as item}
             <article class="w-full flex justify-center lg:justify-start gap-4">

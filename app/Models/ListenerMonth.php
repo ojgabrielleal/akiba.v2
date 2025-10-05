@@ -10,9 +10,9 @@ class ListenerMonth extends Model
 
     protected $fillable = [
         'image',
-        'listener_name',
+        'listener',
         'address',
-        'favorite_program',
-        'quantity_of_requests',
+        'favorite_show',
+        'requests_total',
     ];
 }

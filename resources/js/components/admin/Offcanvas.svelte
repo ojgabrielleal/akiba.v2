@@ -19,7 +19,7 @@
     }
 </script>
 
-<button type="button" on:click={show} class="w-full text-left" aria-label="Abrir offcanvas">
+<button type="button" on:click={show} aria-label="Abrir offcanvas">
     <slot name="action" />
 </button>
 
