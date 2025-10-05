@@ -20,7 +20,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route('render.painel.dashboard');
+            return Inertia::location('/painel/dashboard');
         }
 
         return back(303)->with('flash', [
