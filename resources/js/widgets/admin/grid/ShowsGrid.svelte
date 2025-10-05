@@ -1,6 +1,4 @@
 <script>
-    export let title = null;
-
     import { page, router } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
     import { Offcanvas } from "@/components/admin";
@@ -14,7 +12,7 @@
     }
 </script>
 
-<Section {title}>
+<Section title="Programas Cadastrados">
     <div class="flex justify-center mb-10">
         <Offcanvas>
             <div class="cursor-pointer bg-blue-skywave px-4 py-2 rounded-md text-neutral-aurora font-noto-sans font-bold uppercase italic" slot="action" >

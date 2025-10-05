@@ -1,6 +1,4 @@
 <script>
-    export let title = null;
-
     import { router, page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
     import { scrollx } from "@/utils";
@@ -16,7 +14,7 @@
     }
 </script>
 
-<Section {title}>
+<Section title="Avisos para a equipe">
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={(e) => scrollx(e, container)} role="group">
         {#if alerts?.length > 0}
             {#each alerts as item}

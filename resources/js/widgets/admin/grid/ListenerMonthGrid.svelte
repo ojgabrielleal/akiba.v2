@@ -1,6 +1,4 @@
 <script>
-    export let title = null;
-
     import { page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
     import { Offcanvas } from "@/components/admin";
@@ -9,7 +7,7 @@
     $: ({ listener_month_registered } = $page.props);
 </script>
 
-<Section title={title}>
+<Section title="Ouvinte do mês">
     <div class="grid grid-cols-1 lg:grid-cols-2 pt-8">
         <dl class="grid grid-cols-2">
             <div class="mb-8">

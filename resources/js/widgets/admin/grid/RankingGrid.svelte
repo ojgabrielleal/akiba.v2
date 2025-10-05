@@ -1,6 +1,4 @@
 <script>
-    export let title = null;
-
     import { page, router } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
     import { Preview } from "@/components/admin";
@@ -21,7 +19,7 @@
     }
 </script>
 
-<Section {title}>
+<Section title="Akiba Ranking">
     <div class="flex flex-col gap-5">
         {#each ranking_musics as item, index}
             <article class="flex flex-wrap lg:flex-nowrap items-center gap-5">

@@ -1,6 +1,4 @@
 <script>
-    export let title;
-
     import { page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
 
@@ -38,7 +36,7 @@
 </script>
 
 {#if Object.keys(calendar || {}).length > 0}
-    <Section {title}>
+    <Section title="Calendário">
         <div class="w-full grid gap-5 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
             {#each tags as tag}
                 <span class={`h-10 text-neutral-aurora text-lg font-noto-sans font-bold uppercase italic rounded-lg flex justify-center items-center bg-[${tag.color}]`}>

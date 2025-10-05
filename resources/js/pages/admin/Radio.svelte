@@ -6,8 +6,8 @@
 
 <Meta meta={{ title: "Rádio" }} />
 <Layout>
-    <ShowsGrid title="Programas cadastrados"/>
-    <ProgramScheduleGrid title="Grade de programação"/>
-    <RankingGrid title="Akiba Ranking"/>
-    <ListenerMonthGrid title="Ouvinte da semana"/>
+    <ShowsGrid/>
+    <ProgramScheduleGrid/>
+    <RankingGrid/>
+    <ListenerMonthGrid/>
 </Layout>

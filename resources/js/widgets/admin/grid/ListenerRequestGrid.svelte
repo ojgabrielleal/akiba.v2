@@ -1,6 +1,4 @@
 <script>
-    export let title = null;
-
     import { onMount, onDestroy } from "svelte";
     import { page, router } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
@@ -32,7 +30,7 @@
 </script>
 
 {#if verify.onair === true && verify.streamer === true}
-    <Section {title}>
+    <Section title="Pedidos musicais">
         <div class="flex justify-center">
             {#if verify.listener_request}
                 <button on:click={() => changeStatus()} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-neutral-honeycream rounded-xl text-neutral-honeycream text-xl font-bold font-noto-sans italic uppercase">

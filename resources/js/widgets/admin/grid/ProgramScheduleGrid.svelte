@@ -1,6 +1,4 @@
 <script>
-    export let title = null;
-
     import { page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";    
 
@@ -18,7 +16,7 @@
 </script>
 
 {#if program_schedule.length > 1}
-    <Section title={title}>
+    <Section title="Grade de programação">
         <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-15 mt-6">
             {#each program_schedule as item}
                 <article class="w-full">

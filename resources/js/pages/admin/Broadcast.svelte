@@ -15,8 +15,8 @@
 
 <Meta meta={{ title: "Locução" }} />
 <Layout>
-    <BroadcastForm title="Meus Programas" />
-    <ListenerRequestGrid title="Pedidos Musicais" />
+    <BroadcastForm/>
+    <ListenerRequestGrid/>
 </Layout>
 
 {#if verify.onair === true && verify.streamer === false}

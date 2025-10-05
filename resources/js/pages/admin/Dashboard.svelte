@@ -34,12 +34,12 @@
         phrase={phraseSwitchHero(user.nickname)}
         icon="/img/default/hero.webp"
     />
-    <AlertsCarrousel title="Avisos para a equipe" />
-    <TasksCarrousel title="Minhas Tarefas" />
+    <AlertsCarrousel/>
+    <TasksCarrousel />
     <PublicationsGrid
         title="Últimas Matérias"
         view="https://akiba.com.br/materias/"
         edit="/painel/materias/"
     />
-    <CalendarGrid title="Calendário" />
+    <CalendarGrid/>
 </Layout>
