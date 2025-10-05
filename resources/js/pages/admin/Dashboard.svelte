@@ -32,7 +32,7 @@
 <Layout>
     <GreatingHero
         phrase={phraseSwitchHero(user.nickname)}
-        icon="/img/default/heroGreatingAvatar.png"
+        icon="/img/default/hero.webp"
     />
     <AlertsCarrousel title="Avisos para a equipe" />
     <TasksCarrousel title="Minhas Tarefas" />
