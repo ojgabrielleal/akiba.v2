@@ -30,13 +30,13 @@
                     <div class="flex gap-2 absolute bottom-3 left-4">
                         {#if item.signatures.length > 0}
                             {#each item.signatures as signature}
-                                <img src={signature.user.avatar} alt={signature.user.nickname} class="w-9 h-9 rounded-full bg-neutral-aurora"/>
+                                <img src={signature.user.avatar} alt={signature.user.nickname} class="w-9 h-9 rounded-full bg-neutral-aurora" loading="lazy"/>
                             {/each}
                         {/if}
                     </div>
                     {#if item.actions.confirm}
                         <button type="button" aria-label="Confirmar alerta" class="w-[2rem] h-[2rem] bg-neutral-aurora absolute bottom-3 right-4 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer" onclick={() => createSignature(item.id)}>
-                            <img src="/icons/default/verify.svg" alt="" aria-hidden="true" class="w-5"/>
+                            <img src="/icons/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                         </button>
                     {/if}
                 </article>

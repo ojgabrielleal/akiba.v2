@@ -41,7 +41,7 @@
                         </button>
                     {:else}
                         <button type="button" aria-label="Concluir tarefa" class="bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer" on:click={() => setTaskCompleted(item.id)}>
-                            <img src="/icons/default/verify.svg" alt="" aria-hidden="true" class="w-5"/>
+                            <img src="/icons/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                         </button>
                     {/if}
                 </article>

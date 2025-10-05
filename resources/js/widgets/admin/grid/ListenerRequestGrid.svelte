@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <div class="flex gap-3">
-                            <img src={item.music.image} alt="Imagem da música" class="w-15 h-15 rounded-lg object-cover object-top"/>
+                            <img src={item.music.image} alt="Imagem da música" class="w-15 h-15 rounded-lg object-cover object-top" loading="lazy"/>
                             <div>
                                 <div class="block text-neutral-aurora text-sm font-noto-sans">
                                     Anime: {item.music.production}

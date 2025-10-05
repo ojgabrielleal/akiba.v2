@@ -23,7 +23,7 @@
     <section transition:fade={{duration: 500}} class="fixed inset-0 flex items-center justify-center p-2 lg:p-0 z-50 bg-[#00000036]">
         <div class="w-full lg:w-[20.9rem] p-5 rounded-lg bg-neutral-aurora">
             <div class="flex justify-center">
-                <img src="/img/default/onair.gif" alt="Bloqueador de tela" class="h-50 object-cover rounded-full"/>
+                <img src="/img/default/onair.gif" alt="Bloqueador de tela" class="h-50 object-cover rounded-full" loading="lazy"/>
             </div>
             <div class="mt-6 mb-4 bg-blue-skywave p-3 rounded-xl text-center text-neutral-aurora font-noto-sans font-bold uppercase">
                 Um locutor está no ar agora!

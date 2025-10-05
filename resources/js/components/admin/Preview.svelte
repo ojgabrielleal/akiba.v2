@@ -25,7 +25,7 @@
 
 <label class="cursor-pointer">
     {#if imageToShow}
-        <img src={imageToShow} alt="Preview de imagem" class={`${view} rounded-lg object-cover object-top`}/>
+        <img src={imageToShow} alt="Preview de imagem" class={`${view} rounded-lg object-cover object-top`} loading="lazy"/>
     {:else}
         <div class={`${size} bg-neutral-aurora rounded-lg flex items-center justify-center overflow-hidden font-noto-sans text-blue-skywave text-7xl font-bold italic uppercase`}>
             +
