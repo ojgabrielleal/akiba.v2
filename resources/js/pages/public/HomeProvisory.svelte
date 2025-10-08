@@ -2,13 +2,12 @@
     import { Meta } from "@/meta";
     import { Core, Dock } from "@/widgets/public/player"
 
-    
     // Define background color used in the layout
     document.body.style.backgroundColor = "var(--color-blue-midnight)";
 </script>
 
 <Meta/>
-<main class="h-screen flex flex-col justify-between">
+<main class="h-auto xl:h-screen flex flex-col justify-between">
     <!-- Top maintence range -->
     <header class="w-full flex overflow-hidden">
         <div class="flex shrink-0">
