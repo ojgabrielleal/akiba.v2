@@ -42,10 +42,10 @@
                     <dt>
                         <div class="text-orange-amber font-noto-sans uppercase">
                             {#if $cast.onair.user.gender === "male"}
-                                Locutor:
+                                Com o DJ:
                             {/if}
                             {#if $cast.onair.user.gender === "female"}
-                                Locutora:
+                                Com a DJ:
                             {/if}
                         </div>
                         <div class="w-full text-neutral-aurora text-3xl font-noto-sans font-bold uppercase italic line-clamp-1">

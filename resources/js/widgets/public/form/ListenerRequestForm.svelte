@@ -94,6 +94,7 @@
                 name="listener"
                 class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
                 placeholder="Ex: Ayasumi"
+                required={true}
                 bind:value={$form.listener}
             />
             <span class="text-[0.8rem] text-gray-500 font-noto-sans mt-1 block">
@@ -112,6 +113,7 @@
                 name="address"
                 class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
                 placeholder="Ex: Salto - SP"
+                required={true}
                 bind:value={$form.address}
             />
             <span class="text-[0.8rem] text-gray-500 font-noto-sans mt-1 block">
@@ -130,6 +132,7 @@
                 name="anime"
                 class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
                 placeholder="Ex: Konosuba"
+                required={true}
                 on:input={(e) => { debouncedSearch(e.target.value); dropdown = true; }}
                 on:blur={() => setTimeout(() => dropdown = false, 150)}
             />
@@ -200,6 +203,7 @@
                 rows="4"
                 class="w-full bg-white font-noto-sans text-md rounded-lg outline-none p-4 border border-gray-400 resize-none"
                 placeholder="Deixe uma mensagem amigavel"
+                required={true}
                 bind:value={$form.message}
             ></textarea>
             <span class="text-[0.8rem] text-gray-500 font-noto-sans mt-1 block">
@@ -220,8 +224,8 @@
             Foi mal ai... Você não pode enviar um pedido agora. 😭
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            O programa não tá rolando ao vivo agora, ou o locutor resolveu dar uma pausa nos pedidos dos ouvintes por enquanto, viu? 
-            Mas fica de boa, daqui a pouco, você vai poder mandar o seu de novo! 💬🎶        
+            O programa não tá rolando ao vivo agora, ou {$cast.onair.user.gender === "m" ? "o DJ" : "a DJ"} quer dar uma pausa nos pedidos por enquanto, viu? 
+            Mas fica de boa, daqui a pouco, você vai poder mandar a sua música! 💬🎶        
         </dd>
     </dl>
 {/if}
@@ -232,7 +236,7 @@
             Prontinho! Seu pedido foi enviado com sucesso. 💌
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            O seu pedido já tá a caminho! {$cast.onair.user.gender === "m" ? "O locutor" : "A locutora"} {$cast.onair.user.nickname} vai atender você em instantes. 
+            O seu pedido já tá a caminho! {$cast.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$cast.onair.user.nickname} vai atender você em instantes. 
             Fica por aí que a programação tá demais! 🔥        
         </dd>
     </dl>

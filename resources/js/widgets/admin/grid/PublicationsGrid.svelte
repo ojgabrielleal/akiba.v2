@@ -7,7 +7,7 @@
     import { Section } from "@/layouts/admin/";
 
     $: ({ publications } = $page.props);
-
+    
     function pagination(page) {
         router.get("", { page: page },{
             preserveScroll: true,
@@ -16,10 +16,10 @@
 </script>
 
 <Section {title}>
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+    <div class="gap-6 grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5">
         {#if publications?.data?.length > 0}
             {#each publications.data as item}
-                <article class="w-full h-[14rem] lg:w-[18.2rem] flex-shrink-0 rounded-lg p-4 relative" style="background-color: {item.styles.bg ?? 'var(--color-blue-skywave)'}">
+                <article class="w-full h-[14rem] rounded-lg p-4 relative" style="background-color: {item.styles.bg ?? 'var(--color-blue-skywave)'}">
                     <div class="font-noto-sans text-lg text-neutral-aurora line-clamp-5 uppercase">
                         {item.title}
                     </div>
@@ -41,22 +41,20 @@
                 </article>
             {/each}
         {:else}
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                <article class="w-full h-[14rem] lg:w-[18.2rem] flex-shrink-0 rounded-lg p-4 relative bg-blue-cerulean opacity-50">
-                    <div class="font-noto-sans text-lg text-neutral-aurora line-clamp-5 uppercase">
-                        Meu bem esse pessoal da akiba são um bando de preguiçosos! Cade as postagens?
+            <article class="w-full h-[14rem] rounded-lg p-4 relative bg-blue-cerulean opacity-50">
+                <div class="font-noto-sans text-lg text-neutral-aurora line-clamp-5 uppercase">
+                    Meu bem esse pessoal da akiba são um bando de preguiçosos! Cade as postagens?
+                </div>
+                <div class="flex justify-between gap-5 absolute bottom-2 left-4 w-[calc(100%-2rem)]">
+                    <div class="font-noto-sans font-bold italic uppercase text-lg text-neutral-aurora">
+                        Aki-chan
                     </div>
-                    <div class="flex justify-between gap-5 absolute bottom-2 left-4 w-[calc(100%-2rem)]">
-                        <div class="font-noto-sans font-bold italic uppercase text-lg text-neutral-aurora">
-                            Aki-chan
-                        </div>
-                    </div>
-                </article>
-            </div>
+                </div>
+            </article>
         {/if}
     </div>
-    {#if publications?.data >= 10}
-        {#if publications.last_page > 1}
+    {#if publications.per_page >= 10}
+        {#if publications?.last_page > 1}
             <div class="flex gap-5 mt-6">
                 {#if publications.current_page > 1}
                     <button on:click={() => pagination(publications.current_page - 1)} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl italic uppercase font-noto-sans font-bold">
