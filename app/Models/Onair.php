@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Onair extends Model
 {
     protected $table = 'onair';
-    
+
     protected $fillable = [
-        'program_id', 
+        'program_id',
         'program_type',
         'category',
         'is_live',
@@ -19,6 +19,10 @@ class Onair extends Model
         'listener_request_total'
     ];
 
+    protected $hidden = [
+        'program_id'
+    ];
+    
     /**
      * Relationship from model 'Shows' and 'AutoDJ'
      */

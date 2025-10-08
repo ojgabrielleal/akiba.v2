@@ -182,7 +182,7 @@ class BroadcastController extends Controller
             $randomPhrase = $autodj->phrases->random();
 
             $autodj->onair()->create([
-                'category' => 'autodj',
+                'category' => 'auto',
                 'phrase' => $randomPhrase->phrase,
                 'image' => $randomPhrase->image,
             ]);

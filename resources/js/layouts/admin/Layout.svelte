@@ -1,8 +1,8 @@
 <script>
     import { page } from "@inertiajs/svelte";
-    import Icon from "@iconify/svelte";
     import { Navbar } from "@/widgets/admin/navbar";
     import { Status } from "@/widgets/admin/status";
+    import Icon from "@iconify/svelte";
 
     $: ({ flash } = $page.props);
 

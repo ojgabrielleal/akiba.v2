@@ -10,6 +10,15 @@ use App\Http\Controllers\Web\Admin\EventsController;
 use App\Http\Controllers\Web\Admin\BroadcastController;
 use App\Http\Controllers\Web\Admin\RadioController;
 
+use App\Http\Controllers\Web\Public\HomeProvisoryController;
+
+Route::prefix('/')->group(function () {
+    Route::controller(HomeProvisoryController::class)->group(function(){
+        Route::get('/', 'render')->name('render.public.home');
+        Route::post('/create/listener/request', 'createListenerRequest');
+    });
+});
+
 Route::prefix('painel')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::get('/', 'render')->name('render.painel.auth');

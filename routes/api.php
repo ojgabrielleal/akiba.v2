@@ -13,5 +13,6 @@ Route::get('/user', function (Request $request) {
 Route::group(['prefix' => 'cast'], function () {
     Route::controller(CastController::class)->group(function () {
         Route::get('/data', 'data');
+        Route::get('/stream', 'stream');
     });
 });

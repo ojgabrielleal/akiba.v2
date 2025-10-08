@@ -12,6 +12,7 @@ class ListenerRequest extends Model
         'onair_id',
         'music_id',
         'listener',
+        'listener_ip',
         'address',
         'message',
         'status'

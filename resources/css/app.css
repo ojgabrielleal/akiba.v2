@@ -59,8 +59,13 @@
 @layer components {
     /* Container from the aplication */
     .container {
-        @apply w-7xl px-10 mx-auto sm:max-w-7xl lg:px-0;
+        @apply w-full px-10 mx-auto sm:max-w-7xl lg:px-0;
     }
+
+    .container-player {
+        @apply w-full px-10 mx-auto sm:max-w-6xl xl:px-0;
+    }
+
 
     /* Quill editor */
     .ql-editor {
@@ -140,4 +145,35 @@
     .filter-blue-skywave {
         filter: invert(53%) sepia(84%) saturate(4530%) hue-rotate(185deg) brightness(99%) contrast(112%);
     }
+}
+
+@keyframes marquee {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
+}
+
+@layer utilities {
+  .marquee-container {
+    z-index: 0;
+  }
+
+  .marquee-container::before,
+  .marquee-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 5rem;
+    z-index: 2;
+  }
+
+  .marquee-container::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-blue-ocean), transparent);
+  }
+
+  .marquee-container::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-blue-ocean), transparent);
+  }
 }

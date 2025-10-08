@@ -18,6 +18,7 @@ class User extends Authenticatable
         'password',
         'name',
         'nickname',
+        'gender',
         'avatar',
         'email',
         'birthday',

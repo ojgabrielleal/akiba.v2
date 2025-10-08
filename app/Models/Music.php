@@ -15,7 +15,8 @@ class Music extends Model
         'listener_request_total',
         'image',
         'image_ranking',
-        'is_ranking'
+        'is_ranking',
+        'type'
     ];
 
     /**
