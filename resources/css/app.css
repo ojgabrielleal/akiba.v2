@@ -66,7 +66,6 @@
         @apply w-full px-10 mx-auto sm:max-w-6xl xl:px-0;
     }
 
-
     /* Quill editor */
     .ql-editor {
         font-family: var(--font-noto-sans);
