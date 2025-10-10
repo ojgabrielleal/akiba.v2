@@ -6,7 +6,7 @@
     $: ({ shows, verify } = $page.props);
 
     function endBroadcast() {
-        router.post("/painel/locucao/broadcast/end/");
+        router.post("/painel/locucao/broadcast/end");
     }
 
     $: form = useForm({
@@ -17,7 +17,7 @@
 
     function onSubmit(event) {
         event.preventDefault();
-        $form.post("/painel/locucao/broadcast/start/");
+        $form.post("/painel/locucao/broadcast/start");
     }
 </script>
 

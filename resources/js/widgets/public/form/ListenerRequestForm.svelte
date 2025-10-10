@@ -92,7 +92,7 @@
                 id="listener"
                 type="text"
                 name="listener"
-                class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
+                class="w-full h-[2.5rem] bg-white font-noto-sans text-black text-md rounded-lg outline-none pl-4 border border-gray-400"
                 placeholder="Ex: Ayasumi"
                 required={true}
                 bind:value={$form.listener}
@@ -111,7 +111,7 @@
                 id="address"
                 type="text"
                 name="address"
-                class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
+                class="w-full h-[2.5rem] bg-white font-noto-sans text-md text-black rounded-lg outline-none pl-4 border border-gray-400"
                 placeholder="Ex: Salto - SP"
                 required={true}
                 bind:value={$form.address}
@@ -130,7 +130,7 @@
                 id="anime"
                 type="text"
                 name="anime"
-                class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
+                class="w-full h-[2.5rem] bg-white font-noto-sans text-md text-black rounded-lg outline-none pl-4 border border-gray-400"
                 placeholder="Ex: Konosuba"
                 required={true}
                 on:input={(e) => { debouncedSearch(e.target.value); dropdown = true; }}
@@ -167,7 +167,7 @@
             <select
                 id="music"
                 name="music"
-                class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400 disabled:bg-gray-200"
+                class="w-full h-[2.5rem] bg-white font-noto-sans text-md text-black rounded-lg outline-none pl-4 border border-gray-400 disabled:bg-gray-200"
                 disabled={!animeSelected}
                 bind:value={$form.music}
             >
@@ -201,7 +201,7 @@
                 id="message" 
                 name="message"
                 rows="4"
-                class="w-full bg-white font-noto-sans text-md rounded-lg outline-none p-4 border border-gray-400 resize-none"
+                class="w-full bg-white font-noto-sans text-md text-black rounded-lg outline-none p-4 border border-gray-400 resize-none"
                 placeholder="Deixe uma mensagem amigavel"
                 required={true}
                 bind:value={$form.message}

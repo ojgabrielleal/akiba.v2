@@ -55,7 +55,7 @@ async function fetchMetadata() {
 
         updateMediaSession({
             title: 'DJ ' + data.onair.user.nickname + ' - ' + data.onair.program.name,
-            artist: data.stream.musica_atual,
+            artist: decodeURIComponent(escape(data.stream.musica_atual)),
             artwork: [{ src: data.stream.capa_musica, sizes: '512x512', type: 'image/png' }],
         });
 
@@ -78,7 +78,7 @@ export function updateMediaSession({ title, artist, artwork }) {
             title: title || 'DJ Aki-Chan - Let`s Play Akiba',
             artist: artist || 'Yousei Teikoku - Kuusou Mesorogiwi',
             album: 'Rede Akiba - O Paraíso dos Otakus',
-            artwork: artwork || [{ src: '/img/pwa/512.png', sizes: '512x512', type: 'image/png' }]
+            artwork: artwork || [{ src: new URL('/img/default/no-cover.webp', window.location.origin).href, sizes: '512x512', type: 'image/png' }]
         });
     }
 }

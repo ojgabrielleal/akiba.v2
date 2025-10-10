@@ -58,7 +58,7 @@ Route::prefix('painel')->group(function () {
             Route::controller(BroadcastController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.locucao');
                 Route::patch('/requests/status', 'setListenerRequestsStatus');
-                Route::patch('/requests/finished/{id}', 'setToMeetListenerRequest');
+                Route::patch('/requests/finished', 'setToMeetListenerRequest');
                 Route::post('/broadcast/start', 'setStartBroadcast');
                 Route::post('/broadcast/end', 'setEndBroadcast');
             });

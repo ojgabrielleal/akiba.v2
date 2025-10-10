@@ -6,12 +6,12 @@
 
     $: ({ verify, requests } = $page.props);
 
-    function markToFinished(){
-        router.patch(`/painel/locucao/listenerrequestfinished/${item.id}`)
+    function markToFinished(id){
+        router.patch(`/painel/locucao/requests/finished/${id}`)
     }
 
     function changeStatus(){
-        router.patch(`/("/painel/locucao/requests/status`)
+        router.patch("/painel/locucao/requests/status")
     }
 
     // variável dummy para forçar re-render
@@ -99,7 +99,7 @@
                                 {item.created_at.split("T")[1].split(":").slice(0, 2).join(":")}
                             </time>
                             {#if item.status === "new"}
-                                <button on:click={() => markToFinished()} aria-label="Marcar como atendido"class="cursor-pointer text-neutral-aurora">
+                                <button on:click={() => markToFinished(item.id)} aria-label="Marcar como atendido"class="cursor-pointer text-neutral-aurora">
                                     <Icon icon="material-symbols:save" width="24" height="24" aria-hidden="true"/>
                                 </button>
                             {/if}

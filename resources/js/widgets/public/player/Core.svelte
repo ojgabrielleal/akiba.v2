@@ -68,7 +68,11 @@
             <!--Música tocando-->
             <dl class="flex gap-3 items-end mt-14 lg:mt-10">
                 <dt class="w-[5rem] shrink-0">
-                    <img src={$cast.stream.capa_musica} on:error={(e) => e.target.src = 'https://play-lh.googleusercontent.com/UkT7S8wKZ2FhRmIcUZOrLwRtI12FEFMx42Hc_3Mw7-gIdR_SN18LF3FLmyF1SEF-Jnq2'} alt="" aria-hidden="true" class="rounded-lg"/>
+                    {#if $cast.stream.capa_musica === "https://player.painelcast.com/img/img-capa-artista-padrao.png"}
+                        <img src="/img/default/no-cover.webp" on:error={(e) => e.target.src = '/img/default/no-cover.webp'} alt="" aria-hidden="true" class="rounded-lg"/>
+                    {:else}
+                        <img src={$cast.stream.capa_musica} on:error={(e) => e.target.src = '/img/default/no-cover.webp'} alt="" aria-hidden="true" class="rounded-lg"/>
+                    {/if}
                 </dt>
                 <dd>
                     <div class="text-orange-amber font-noto-sans uppercase italic">
