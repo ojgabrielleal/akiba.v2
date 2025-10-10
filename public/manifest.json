@@ -8,59 +8,46 @@
   "theme_color": "#00061a",
   "icons": [
     {
-      "src": "/img/pwa/icons/96.png",
+      "src": "/img/pwa/icons/96-v1.png",
       "sizes": "96x96",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/img/pwa/icons/144.png",
+      "src": "/img/pwa/icons/144-v1.png",
       "sizes": "144x144",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/img/pwa/icons/192.png",
+      "src": "/img/pwa/icons/192-v1.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/img/pwa/icons/512.png",
+      "src": "/img/pwa/icons/512-v1.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/img/pwa/icons/144.png",
+      "src": "/img/pwa/icons/144-v1.png",
       "sizes": "144x144",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/img/pwa/icons/192.png",
+      "src": "/img/pwa/icons/192-v1.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/img/pwa/icons/512.png",
+      "src": "/img/pwa/icons/512-v1.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/img/pwa/screenshots/pc.png",
-      "sizes": "1919x946",
-      "type": "image/png",
-      "form_factor": "wide" 
-    },
-    {
-      "src": "/img/pwa/mobile_screenshot.png",
-      "sizes": "401x858",
-      "type": "image/png"
     }
   ]
 }
