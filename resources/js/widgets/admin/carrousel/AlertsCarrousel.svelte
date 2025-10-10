@@ -56,7 +56,7 @@
                             on:click={() => createSignature(item.id)}
                         >
                             <img
-                                src="/icons/default/verify.svg"
+                                src="/svg/default/verify.svg"
                                 alt=""
                                 aria-hidden="true"
                                 class="w-5"

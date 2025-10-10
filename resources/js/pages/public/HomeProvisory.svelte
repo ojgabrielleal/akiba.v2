@@ -1,17 +1,16 @@
 <script>
     import { Meta } from "@/meta";
-    import { Pwa } from "@/components/public/"
     import { Core, Dock } from "@/widgets/public/player"
     import { cast } from "@/store" 
 
     // Define background color used in the layout
     document.body.style.backgroundColor = "var(--color-blue-midnight)";
+    document.body.style.overflowX = "hidden";
 </script>
 
 <Meta/>
 {#if $cast} 
     <header>
-        <!-- Top maintence range -->
         <article class="w-full flex overflow-hidden fixed top-0 z-10">            
             <div class="flex shrink-0">
                 <div class="bg-blue-ocean py-1 px-10 [clip-path:polygon(0_0,100%_0,calc(100%-1.25rem)_100%,0_100%)] text-neutral-aurora font-noto-sans font-bold italic uppercase">
@@ -41,8 +40,6 @@
     </main>
     <footer>
         <Dock/>
-        <Pwa/>
-        <!-- Bottom maintence range -->
         <article class="w-full flex overflow-hidden rotate-180 fixed bottom-0 z-10">
             <div class="flex shrink-0">
                 <div class="bg-blue-ocean py-1 px-10 [clip-path:polygon(0_0,100%_0,calc(100%-1.25rem)_100%,0_100%)] text-neutral-aurora font-noto-sans font-bold italic uppercase">

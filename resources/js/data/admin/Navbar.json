@@ -1,7 +1,7 @@
 [
     {
         "name": "Dashboard",
-        "icon": "/icons/default/dashboard.svg",
+        "icon": "/svg/default/dashboard.svg",
         "permissions_keys": [
             "all"
         ],
@@ -9,7 +9,7 @@
     },
     {
         "name": "Materias",
-        "icon": "/icons/default/materials.svg",
+        "icon": "/svg/default/materials.svg",
         "permissions_keys": [
             "writer"
         ],
@@ -17,7 +17,7 @@
     },
     {
         "name": "Locução",
-        "icon": "/icons/default/broadcast.svg",
+        "icon": "/svg/default/broadcast.svg",
         "permissions_keys": [
             "streamer"
         ],
@@ -25,7 +25,7 @@
     },
     {
         "name": "Rádio",
-        "icon": "/icons/default/radio.svg",
+        "icon": "/svg/default/radio.svg",
         "permissions_keys": [
             "administrator"
         ],
@@ -33,7 +33,7 @@
     },
     {
         "name": "Podcasts",
-        "icon": "/icons/default/podcasts.svg",
+        "icon": "/svg/default/podcasts.svg",
         "permissions_keys": [
             "podcaster"
         ],
@@ -41,7 +41,7 @@
     },
     {
         "name": "Marketing",
-        "icon": "/icons/default/marketing.svg",
+        "icon": "/svg/default/marketing.svg",
         "permissions_keys": [
             "marketing"
         ],
@@ -49,7 +49,7 @@
     },
     {
         "name": "Mídias",
-        "icon": "/icons/default/media.svg",
+        "icon": "/svg/default/media.svg",
         "permissions_keys": [
             "marketing"
         ],
@@ -57,7 +57,7 @@
     },
     {
         "name": "Administração",
-        "icon": "/icons/default/adms.svg",
+        "icon": "/svg/default/adms.svg",
         "permissions_keys": [
             "administrator"
         ],
@@ -65,7 +65,7 @@
     },
     {
         "name": "Logs",
-        "icon": "/icons/default/logs.svg",
+        "icon": "/svg/default/logs.svg",
         "permissions_keys": [
             "administrator"
         ],
@@ -73,7 +73,7 @@
     },
     {
         "name": "Avisos",
-        "icon": "/icons/default/alerts.svg",
+        "icon": "/svg/default/alerts.svg",
         "permissions_keys": [
             "all"
         ],

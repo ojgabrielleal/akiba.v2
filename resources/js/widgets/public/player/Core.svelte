@@ -1,7 +1,7 @@
 <script>
     import { Modal } from "@/components/public"
     import { ListenerRequestForm } from "@/widgets/public/form"
-    import { player, togglePlayPause, setVolume, cast } from "@/store" // Import from store folder
+    import { player, togglePlayPause, setVolume, cast } from "@/store"
     import Icon from "@iconify/svelte";
 </script>
 
@@ -25,6 +25,7 @@
         </div>
     </div>
 </article>
+
 <!--Container que engloba o player inteiro mais os anuncios abaixo-->
 <div class="container-player">
     <article class="flex gap-5"> <!--Essa div é o flex inicial que engloba os demais blocos separados como de dados ( programa, locutor, música tocando), avatar e controles, mecher no gap meche nos espaçamento entre esses blocos -->
@@ -88,39 +89,37 @@
         <!-- Terceira parte do player ( Controles e botão de pedidos )-->
         <div class="w-[14rem] hidden xl:flex flex-col justify-end items-center gap-3 mb-8">
             <!--Bloco informativo sobre o status do programa ("Programa gravado, locutor no ar etc")-->
-            {#if $cast}
-                <div class="w-full px-3 mb-8">
-                    <dl class={`${$cast.onair.category === "auto" ? "bg-purple-mystic" : $cast.onair.category === "record" ? "bg-orange-amber" : "bg-green-forest"} p-3 flex gap-2 justify-center items-center rounded-md`}>
-                        <dt>
-                            {#if $cast.onair.category === "auto"}
-                                <Icon icon="pixel:robot-solid" width="35" height="35" aria-label="hidden"/>
+            <div class="w-full px-3 mb-8">
+                <dl class={`${$cast.onair.category === "auto" ? "bg-purple-mystic" : $cast.onair.category === "record" ? "bg-orange-amber" : "bg-green-forest"} p-3 flex gap-2 justify-center items-center rounded-md`}>
+                    <dt>
+                        {#if $cast.onair.category === "auto"}
+                            <Icon icon="pixel:robot-solid" width="35" height="35" aria-label="hidden"/>
+                        {/if}
+                        {#if $cast.onair.category === "record"}
+                            <Icon icon="streamline:tape-cassette-record-solid" width="35" height="35" aria-label="hidden"/>
+                        {/if}
+                        {#if $cast.onair.category === "live"}
+                            <Icon icon="fa7-solid:tower-cell" width="35" height="35" aria-label="hidden"/>
+                        {/if}
+                    </dt>
+                    <dd class="font-noto-sans font-medium italic uppercase text-center leading-[1rem]">
+                        {#if $cast.onair.category === "auto"}
+                            Programação automática
+                        {/if}
+                        {#if $cast.onair.category === "record"}
+                            Programa gravado
+                        {/if}
+                        {#if $cast.onair.category === "live"}
+                            {#if $cast.onair.user.gender === "male"}
+                                Locutor <br/> ao vivo agora
                             {/if}
-                            {#if $cast.onair.category === "record"}
-                                <Icon icon="streamline:tape-cassette-record-solid" width="35" height="35" aria-label="hidden"/>
+                            {#if $cast.onair.user.gender === "female"}
+                                Locutora <br/> ao vivo agora
                             {/if}
-                            {#if $cast.onair.category === "live"}
-                                <Icon icon="fa7-solid:tower-cell" width="35" height="35" aria-label="hidden"/>
-                            {/if}
-                        </dt>
-                        <dd class="font-noto-sans font-medium italic uppercase text-center leading-[1rem]">
-                            {#if $cast.onair.category === "auto"}
-                                Programação automática
-                            {/if}
-                            {#if $cast.onair.category === "record"}
-                                Programa gravado
-                            {/if}
-                            {#if $cast.onair.category === "live"}
-                                {#if $cast.onair.user.gender === "male"}
-                                    Locutor <br/> ao vivo agora
-                                {/if}
-                                {#if $cast.onair.user.gender === "female"}
-                                    Locutora <br/> ao vivo agora
-                                {/if}
-                            {/if}
-                        </dd>
-                    </dl>
-                </div>
-            {/if}
+                        {/if}
+                    </dd>
+                </dl>
+            </div>
             <!--Controles do player-->
             <div class="w-[14rem] flex justify-center px-3">
                 <dl>

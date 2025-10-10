@@ -29,11 +29,11 @@
                         </dt>
                         <dd class="flex gap-3">
                             <a href={`${view}${item.slug}`} aria-label="Visualizar" class="cursor-pointer">
-                                <img src="/icons/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
+                                <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                             </a>
                             {#if item.editable}
                                 <a href={`${edit}${item.slug}`} aria-label="Editar" class="cursor-pointer">
-                                    <img src="/icons/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
+                                    <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
                                 </a>
                             {/if}
                         </dd>
