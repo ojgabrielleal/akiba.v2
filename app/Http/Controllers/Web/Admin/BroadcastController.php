@@ -15,6 +15,7 @@ use App\Models\Show;
 use App\Models\Autodj;
 use App\Models\Onair;
 use App\Models\ListenerRequest;
+use App\Models\Music;
 
 class BroadcastController extends Controller
 {
@@ -92,12 +93,12 @@ class BroadcastController extends Controller
         }
     }
 
-    public function setToMeetListenerRequest($id)
+    public function setToAttendedListenerRequest($id)
     {
         try {
             $request = ListenerRequest::where('id', $id)->first();
             $request->update([
-                'status' => 'finished'
+                'status' => 'attended'
             ]);
 
             return back(303);
@@ -126,6 +127,32 @@ class BroadcastController extends Controller
             $this->provideException($e);
         }
     }
+
+    public function setCancelListenerRequest($id)
+    {
+        try {
+            $listener = ListenerRequest::where('id', $id)->with(['onair', 'music'])->first();
+            $music = Music::where('id', $listener->music_id)->first();
+            $onair = Onair::where('id', $listener->onair_id)->first();
+
+            $listener->update([
+                'status' => 'canceled'
+            ]);
+
+            $music->update([
+                'listener_request_total' => $music->listener_request_total - 1
+            ]);
+
+            $onair->update([
+                'listener_request_total' => $onair->listener_request_total - 1
+            ]);
+
+            $this->provideSuccess('save', 'Oii meu bem, o que aconteceu para cancelar o pedido dessa pessoa?? Ela foi má?');
+        } catch (\Throwable $e) {
+            $this->provideException($e);
+        }
+    }
+
 
     public function setStartBroadcast(Request $request)
     {
@@ -172,19 +199,25 @@ class BroadcastController extends Controller
     public function setEndBroadcast()
     {
         try {
+            $onair = Onair::where('is_live', true)->first();
+            $requests = ListenerRequest::where('status', 'new')->where('onair_id', $onair->id)->exists();
             $autodj = Autodj::where('is_default', true)->with('phrases')->first();
-
-            Onair::where('is_live', true)->update([
+            
+            if($requests) {
+                $this->ProvideSuccess('info', 'Oi... Passei aqui rapidinho pra lembrar que pra terminar o programa os pedidos tem que ser atendidos ou cancelados!');
+                return;
+            }
+            
+            $onair->update([
                 'is_live' => false,
                 'listener_request_status' => false
             ]);
             
-            $randomPhrase = $autodj->phrases->random();
-
+            $phrase = $autodj->phrases->random();
             $autodj->onair()->create([
                 'category' => 'auto',
-                'phrase' => $randomPhrase->phrase,
-                'image' => $randomPhrase->image,
+                'phrase' => $phrase->phrase,
+                'image' => $phrase->image,
             ]);
 
             $this->ProvideSuccess('save', 'Um ótimo programa como sempre! Me deixou ansiosa para a próxima vez!');

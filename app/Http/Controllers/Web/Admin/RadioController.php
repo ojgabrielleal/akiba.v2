@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
-
 use Inertia\Inertia;
 
 use App\Traits\Upload\HandlesImageUpload;
@@ -232,7 +231,7 @@ class RadioController extends Controller
             $endOfMonth = Carbon::now()->endOfMonth();
 
             $listenerFound = ListenerRequest::select('listener', 'address', DB::raw('COUNT(*) as total'));
-            $listenerFound->where('status', 'finished');
+            $listenerFound->where('status', 'attended');
             $listenerFound->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
             $listenerFound->groupBy('listener', 'address');
             $listenerFound->orderByDesc('total');
@@ -244,7 +243,7 @@ class RadioController extends Controller
 
             $onairRelated = ListenerRequest::where('listener', $listenerFound->listener);
             $onairRelated->where('address', $listenerFound->address);
-            $onairRelated->where('status', 'finished');
+            $onairRelated->where('status', 'attended');
             $onairRelated->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
             $onairRelated->select('onair_id', DB::raw('COUNT(*) as total'));
             $onairRelated->groupBy('onair_id');
@@ -277,7 +276,7 @@ class RadioController extends Controller
             $endOfMonth = Carbon::now()->endOfMonth();
 
             $listenerFound = ListenerRequest::select('listener', 'address', DB::raw('COUNT(*) as total'));
-            $listenerFound->where('status', 'finished');
+            $listenerFound->where('status', 'attended');
             $listenerFound->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
             $listenerFound->groupBy('listener', 'address');
             $listenerFound->orderByDesc('total');
@@ -289,7 +288,7 @@ class RadioController extends Controller
             
             $onairRelated = ListenerRequest::where('listener', $listenerFound->listener);
             $onairRelated->where('address', $listenerFound->address);
-            $onairRelated->where('status', 'finished');
+            $onairRelated->where('status', 'attended');
             $onairRelated->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
             $onairRelated->select('onair_id', DB::raw('COUNT(*) as total'));
             $onairRelated->groupBy('onair_id');

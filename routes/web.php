@@ -13,7 +13,7 @@ use App\Http\Controllers\Web\Admin\RadioController;
 use App\Http\Controllers\Web\Public\HomeProvisoryController;
 
 Route::prefix('/')->group(function () {
-    Route::controller(HomeProvisoryController::class)->group(function(){
+    Route::controller(HomeProvisoryController::class)->group(function () {
         Route::get('/', 'render')->name('render.public.home');
         Route::post('/create/listener/request', 'createListenerRequest');
     });
@@ -58,7 +58,8 @@ Route::prefix('painel')->group(function () {
             Route::controller(BroadcastController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.locucao');
                 Route::patch('/requests/status', 'setListenerRequestsStatus');
-                Route::patch('/requests/finished', 'setToMeetListenerRequest');
+                Route::patch('/requests/attended/{id}', 'setToAttendedListenerRequest');
+                Route::patch('/requests/canceled/{id}', 'setCancelListenerRequest');
                 Route::post('/broadcast/start', 'setStartBroadcast');
                 Route::post('/broadcast/end', 'setEndBroadcast');
             });

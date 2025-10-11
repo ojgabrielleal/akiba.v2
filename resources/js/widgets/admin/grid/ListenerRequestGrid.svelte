@@ -6,8 +6,12 @@
 
     $: ({ verify, requests } = $page.props);
 
-    function markToFinished(id){
-        router.patch(`/painel/locucao/requests/finished/${id}`)
+    function markToAttended(id){
+        router.patch(`/painel/locucao/requests/attended/${id}`,)
+    }
+
+    function markToCanceled(id){
+        router.patch(`/painel/locucao/requests/canceled/${id}`,)
     }
 
     function changeStatus(){
@@ -45,12 +49,12 @@
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 mt-10">
             {#each requests as item}
                 {#key tick}
-                    <article class={`w-[23.6rem] rounded-lg p-3 ${item.status === "finished" ? "bg-green-forest" : "bg-blue-skywave"}`}>
-                        <div class="flex items-center gap-1.5 text-neutral-aurora text-[1.2rem] font-noto-sans font-bold italic">
+                    <article class={`w-full lg:w-[23.6rem] rounded-lg p-3 ${item.status === "attended" ? "bg-green-forest" : item.status ==="canceled" ? "bg-red-crimson" : "bg-blue-skywave"}`}>
+                        <div class="w-70 flex items-center gap-1.5 text-neutral-aurora text-[1.2rem] font-noto-sans font-bold italic truncate">
                             <Icon icon="mdi:person-circle" width="20" height="20" aria-hidden="true"/>
                             {item.listener}
                         </div>
-                        <div class="mt-1 flex gap-1.5 text-neutral-aurora text-[1rem] font-noto-sans">
+                        <div class="w-70 mt-1 flex gap-1.5 text-neutral-aurora text-[1rem] font-noto-sans truncate">
                             <Icon icon="tabler:map-pin-filled" width="20" height="20" aria-hidden="true"/>
                             {item.address}
                         </div>
@@ -68,15 +72,15 @@
                             </div>
                         </div>
                         <div class="flex gap-3">
-                            <img src={item.music.image} alt="Imagem da música" class="w-15 h-15 rounded-lg object-cover object-top" loading="lazy"/>
+                            <img src={item.music.image} alt="Imagem da música" class="w-15 h-15 rounded-lg object-cover object-top shrink-0" loading="lazy"/>
                             <div>
-                                <div class="block text-neutral-aurora text-sm font-noto-sans">
+                                <div class="w-70 block text-neutral-aurora text-sm font-noto-sans truncate text-ellipsis">
                                     Anime: {item.music.production}
                                 </div>
-                                <div class="block text-neutral-aurora text-sm font-noto-sans">
+                                <div class="w-70 block text-neutral-aurora text-sm font-noto-sans truncate text-ellipsis">
                                     Artista: {item.music.artist}
                                 </div>
-                                <div class="block text-neutral-aurora text-sm font-noto-sans">
+                                <div class="w-70 block text-neutral-aurora text-sm font-noto-sans truncate text-ellipsis">
                                     Música: {item.music.music}
                                 </div>
                             </div>
@@ -96,13 +100,18 @@
                         <div class="flex justify-between">
                             <time class="flex items-center gap-1 text-neutral-aurora text-sm font-noto-sans font-bold italic">
                                 <Icon icon="mdi:clock" width="24" height="24" aria-hiden="true"/>
-                                {item.created_at.split("T")[1].split(":").slice(0, 2).join(":")}
+                                {new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </time>
-                            {#if item.status === "new"}
-                                <button on:click={() => markToFinished(item.id)} aria-label="Marcar como atendido"class="cursor-pointer text-neutral-aurora">
-                                    <Icon icon="material-symbols:save" width="24" height="24" aria-hidden="true"/>
-                                </button>
-                            {/if}
+                            <div class="flex gap-3">
+                                {#if item.status === "new"}
+                                    <button on:click={() => markToCanceled(item.id)} aria-label="Marcar como cancelado"class="cursor-pointer text-neutral-aurora">
+                                        <Icon icon="mdi:cancel-bold" width="24" height="24" aria-hidden="true"/>
+                                    </button>
+                                    <button on:click={() => markToAttended(item.id)} aria-label="Marcar como atendido"class="cursor-pointer text-neutral-aurora">
+                                        <Icon icon="streamline-plump:like-1-solid" width="24" height="24" aria-hidden="true"/>
+                                    </button>
+                                {/if}
+                            </div>
                         </div>
                     </article>
                 {/key}
