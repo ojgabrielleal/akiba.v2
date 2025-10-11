@@ -16,12 +16,22 @@ trait HandlesImageUpload
         }
 
         $folder = 'images/' . trim($subfolder, '/');
-        $name = (string) \Illuminate\Support\Str::uuid() . '.webp';
+        $manager = new ImageManager(new Driver());
+
+        // Check if the uploaded file is a GIF
+        if (strtolower($file->extension()) === 'gif') {
+            $extension = 'gif';
+            $imageContent = $file->get();
+        } else {
+            // For other images, convert to WebP
+            $extension = 'webp';
+            $imageContent = $manager->read($file)->toWebp(85);
+        }
+
+        $name = (string) \Illuminate\Support\Str::uuid() . '.' . $extension;
         $path = $folder . '/' . $name;
 
-        $manager = new ImageManager(new Driver());
-        $image = $manager->read($file)->toWebp(85);
-        Storage::disk($disk)->put($path, (string) $image);
+        Storage::disk($disk)->put($path, (string) $imageContent);
 
         return '/storage/' . $path;
     }

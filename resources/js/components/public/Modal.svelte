@@ -36,7 +36,7 @@
                 <Icon icon="mingcute:close-fill" width="10" height="10" aria-hidden="true" />
             </button>
         </div>
-        <div class="w-full max-h-[70vh] lg:max-h-[80vh] p-5 overflow-y-auto">
+        <div class="w-full max-h-[70vh] lg:max-h-[90vh] p-5 overflow-y-auto">
              <slot name="content" {close} />
         </div>
     </div>

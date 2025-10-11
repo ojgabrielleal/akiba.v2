@@ -45,7 +45,7 @@
         listener: localStorage.getItem('akiba_listener') || null,
         address: localStorage.getItem('akiba_address') || null,
         anime: null,
-        music: null,
+        music: [],
         message: null
     });
 
@@ -215,34 +215,40 @@
                 {/if}
             {/if}
         </div>
-        <div class="mb-3 relative">
-            <label class="text-md text-gray-700 font-noto-sans block mb-1" for="music">
-                Escolha uma música do anime
-            </label>
-            <select 
-                id="music" 
-                name="music" 
-                class="w-full h-[2.5rem] bg-white font-noto-sans text-md text-start text-black rounded-lg outline-none pl-4 pr-10 border border-gray-400 disabled:bg-gray-100"
-                disabled={!animeSelected}
-                required={true}
-                placeholder="Escolha uma música"
-                bind:value={$form.music}
-            >
-                <optgroup label="Aberturas">
-                    {#each musicsList?.openings as item}
-                        <option value={item}>{item.name}</option>
-                    {/each}
-                </optgroup>
-                <optgroup label="Endings">
-                    {#each musicsList?.endings as item}
-                        <option value={item}>{item.name}</option>
-                    {/each}
-                </optgroup>
-            </select>
-            <span class="text-[0.8rem] text-gray-500 font-noto-sans mt-1 block">
-                Primeiro escolhe um anime. Depois a música é simples!
-            </span>
-        </div>
+        {#if animeSelected}
+            <div class="mb-3 relative">
+                <label class="text-md text-gray-700 font-noto-sans block mb-1" for="music">
+                    Escolha uma música do anime
+                </label>
+                <select 
+                    id="music" 
+                    name="music" 
+                    class="w-full h-[8rem] bg-white font-noto-sans text-md text-start text-black rounded-lg outline-none pl-4 pr-10 border border-gray-400 disabled:bg-gray-100"
+                    required={true}
+                    multiple
+                    placeholder="Escolha uma música"
+                    bind:value={$form.music}
+                >
+                    <optgroup label="Aberturas" class="text-gray-700 text-sm font-noto-sans font-bold italic uppercase">
+                        {#each musicsList?.openings as item}
+                            <option value={item} class="cursor-pointer text-sm text-gray-700 font-noto-sans font-normal not-italic normal-case truncate mt-2 mb-2 px-0 hover:p-3 hover:rounded-lg hover:bg-gray-400 hover:text-neutral-aurora checked:p-3 checked:rounded-lg checked:bg-gray-400 checked:text-neutral-aurora ">
+                                {item.name}
+                            </option>
+                        {/each}
+                    </optgroup>
+                    <optgroup label="Encerramentos" class="text-gray-700 text-sm font-noto-sans font-bold italic uppercase">
+                        {#each musicsList?.endings as item}
+                            <option value={item} class="cursor-pointer text-sm text-gray-700 font-noto-sans font-normal not-italic normal-case truncate mt-2 mb-2 px-0 hover:p-3 hover:rounded-lg hover:bg-gray-400 hover:text-neutral-aurora checked:p-3 checked:rounded-lg checked:bg-gray-400 checked:text-neutral-aurora ">
+                                {item.name}
+                            </option>
+                        {/each}
+                    </optgroup>
+                </select>
+                <span class="text-[0.8rem] text-gray-500 font-noto-sans mt-1 block">
+                    Primeiro escolhe um anime. Depois a música é simples!
+                </span>
+            </div>
+        {/if}
         <div class="mb-3">
             <label class="text-md text-gray-700 font-noto-sans block mb-1" for="message">
                 Escreva uma mensagem
@@ -274,7 +280,7 @@
             Foi mal... Você não pode enviar um pedido agora. 😭
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            O programa não tá rolando ao vivo agora, ou {$cast.onair.user.gender === "m" ? "o DJ" : "a DJ"} quer dar uma pausa nos pedidos por enquanto, viu? 
+            O programa não tá rolando ao vivo agora, ou {$cast.onair.user.gender === "m" ? "o DJ" : "a DJ"} {$cast.onair.user.nickname} quer dar uma pausa nos pedidos por enquanto, viu? 
             Mas fica de boa, daqui a pouco, você vai poder mandar a sua música! 💬🎶        
         </dd>
     </dl>

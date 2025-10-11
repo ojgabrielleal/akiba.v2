@@ -22,11 +22,24 @@ class HomeProvisoryController extends Controller
     public function createListenerRequest(Request $request)
     {
         try {
-            // Tratamento da música e artista
-            $music_string = $request->input('music.name');
+            $selected_musics = $request->input('music');
+            if (empty($selected_musics)) {
+                throw new \InvalidArgumentException('Nenhuma música foi selecionada.');
+            }
+
+            // Tratamento do nome da música
+            $selected_music = $selected_musics[0];
+            $music_string = $selected_music['name'];
+            $music_string = preg_replace('/^\d+\s*:\s*/', '', $music_string);
+
+            // Extrai o nome do artista da música
             $explode = explode(' by ', $music_string);
             $music_name = preg_replace('/\s*\(.*?\)\s*/', '', trim($explode[0], '"'));
-            $artist_name = preg_replace('/\s*\(.*?\)\s*/', '', trim($explode[1], '"'));
+            $artist_name = '';
+
+            if (isset($explode[1])) {
+                $artist_name = preg_replace('/\s*\(.*?\)\s*/', '', trim($explode[1], '"'));
+            }
 
             // Dados do listener
             $listener = $request->input('listener');
@@ -35,8 +48,8 @@ class HomeProvisoryController extends Controller
             $message = $request->input('message');
 
             // Dados da música
-            $production = $request->input('anime.title');
-            $type = $request->input('music.type', 'anime');
+            $production = preg_replace('/\s*\(.*?\)\s*/', '', trim($request->input('anime.title')));
+            $type = $selected_music['type'] ?? 'anime';
             $image = $request->input('anime.image');
 
             // Atualiza total de pedidos no onair ativo
@@ -49,7 +62,6 @@ class HomeProvisoryController extends Controller
 
             // Verifica se a música já existe
             $musicObj = Music::where('music', $music_name)->first();
-
             if (!$musicObj) {
                 $musicObj = Music::create([
                     'production' => $production,
