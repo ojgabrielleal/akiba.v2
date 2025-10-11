@@ -2,52 +2,91 @@
     import axios from "axios";
     import { useForm } from "@inertiajs/svelte";
     import { debounce } from "@/utils";
-    import { cast } from "@/store" 
+    import { cast } from "@/store"
+
+    // ------------------------------
+    // Status do formulário e Rate Limit
+    // ------------------------------
+    let rateLimitStorage = localStorage.getItem('akiba_rate_limit');
+    let rateLimitStatus = false;
+    let countdown = "";
+    let interval;
+
+    if (rateLimitStorage) {
+        const rateLimit = new Date(rateLimitStorage);
+        const now = new Date();
+
+        if (now < rateLimit) {
+            rateLimitStatus = true;
+
+            // atualiza o contador a cada segundo
+            interval = setInterval(() => {
+                const diff = rateLimit - new Date();
+                if (diff <= 0) {
+                    clearInterval(interval);
+                    localStorage.removeItem('akiba_rate_limit');
+                    rateLimitStatus = false;
+                    countdown = "";
+                } else {
+                    const minutes = Math.floor(diff / 60000);
+                    const seconds = Math.floor((diff % 60000) / 1000);
+                    countdown = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+                }
+            }, 1000);
+        } else {
+            localStorage.removeItem('akiba_rate_limit');
+        }
+    }
 
     // ------------------------------
     // Formulário Inertia
     // ------------------------------
-    $: success = false;
     const form = useForm({
-        listener: null,
-        address: null,
+        listener: localStorage.getItem('akiba_listener') || null,
+        address: localStorage.getItem('akiba_address') || null,
         anime: null,
         music: null,
         message: null
     });
 
+    let requestSuccess = false;
     function onSubmit(event){
         event.preventDefault();
+
         $form.post('/create/listener/request', {
             onSuccess: () => {
-                success = true;
-                setTimeout(()=> success = false, 60 * 1000);
+                const expiraEm = new Date(Date.now() + 90 * 1000);
+                localStorage.setItem('akiba_rate_limit', expiraEm.toISOString());
+                
+                requestSuccess = true;
+                setTimeout(()=> {
+                    requestSuccess = false;
+                }, 90 * 1000);
             },
         });
     }
 
     // ------------------------------
-    // Controle do dropdown e seleção
+    // Controle dos dropdowns e seleção
     // ------------------------------
-    let dropdown = false;
+    let animesDropdown = false;
     let animesList = [];
+    let musicsList = [];
     let animeSelected = null;
 
     function selectAnime(item) {
+        animesDropdown = false;
         animeSelected = item;
         $form.anime = item;
-        dropdown = false;
         searchMusics(item.mal_id);
+        document.getElementById('anime').value = item.title;    
     }
-    
+
     // ------------------------------
     // Função de busca com debounce
     // ------------------------------
     function searchAnime(value) {
-        if (!value) {
-            animesList = [];
-            return;
-        }
+        if (!value) animesList = [];
 
         axios.get(`https://api.jikan.moe/v4/anime?q=${value}`)
         .then(response => {
@@ -57,7 +96,7 @@
                 mal_id: item.mal_id,
                 image: item.images.jpg.image_url,
                 year: item.aired.from ? new Date(item.aired.from).getFullYear() : 'N/A'
-            }));       
+            }));
         })
         .catch(error => console.error('Erro ao buscar animes:', error));
     }
@@ -66,9 +105,8 @@
     // ------------------------------
     // Buscar músicas do anime
     // ------------------------------
-    let musicsList = null;
-    function searchMusics(malId) {
-        axios.get(`https://api.jikan.moe/v4/anime/${malId}/full`)
+    function searchMusics(value) {
+        axios.get(`https://api.jikan.moe/v4/anime/${value}/full`)
         .then(response => {
             const themes = response.data.data.theme;
 
@@ -81,9 +119,8 @@
     }
 </script>
 
-{#if $cast.onair.listener_request_status === 1 && success === false}
+{#if $cast.onair.listener_request_status === 1 && requestSuccess === false && rateLimitStatus === false}
     <form class="w-full" on:submit={onSubmit}>
-        <!-- Nome / Apelido -->
         <div class="mb-3">
             <label class="text-md text-gray-700 font-noto-sans block mb-1" for="listener">
                 Como gostaria de ser chamado?
@@ -96,13 +133,13 @@
                 placeholder="Ex: Ayasumi"
                 required={true}
                 bind:value={$form.listener}
+                on:blur={(e)=>localStorage.setItem('akiba_listener', e.target.value)}
+                on:focus={() => localStorage.removeItem('akiba_listener')}
             />
             <span class="text-[0.8rem] text-gray-500 font-noto-sans mt-1 block">
                 Vale apelido, nome social.. Só pra falar que o pedido é seu!
             </span>
         </div>
-
-        <!-- Cidade / Estado -->
         <div class="mb-3">
             <label class="text-md text-gray-700 font-noto-sans block mb-1" for="address">
                 Qual é a sua cidade e estado?
@@ -115,13 +152,13 @@
                 placeholder="Ex: Salto - SP"
                 required={true}
                 bind:value={$form.address}
+                on:blur={(e)=>localStorage.setItem('akiba_address', e.target.value)}
+                on:focus={() => localStorage.removeItem('akiba_address')}
             />
             <span class="text-[0.8rem] text-gray-500 font-noto-sans mt-1 block">
                 Não está no Brasil? Fala ai a cidade e país que está agora.
             </span>
         </div>
-
-        <!-- Busca de Anime -->
         <div class="mb-3 relative">
             <label class="text-md text-gray-700 font-noto-sans block mb-1" for="anime">
                 De qual anime você quer ouvir uma música?
@@ -133,50 +170,65 @@
                 class="w-full h-[2.5rem] bg-white font-noto-sans text-md text-black rounded-lg outline-none pl-4 border border-gray-400"
                 placeholder="Ex: Konosuba"
                 required={true}
-                on:input={(e) => { debouncedSearch(e.target.value); dropdown = true; }}
-                on:blur={() => setTimeout(() => dropdown = false, 150)}
+                autocomplete="off"
+                on:focus={() => animesDropdown = true}
+                on:blur={() => animesDropdown = false}
+                on:input={(e) => { debouncedSearch(e.target.value);}}
             />
             <span class="text-[0.8rem] text-gray-500 font-noto-sans mt-1 block">
                 Umas letras já bastam! E ai é só escolha o nome na lista.
             </span>
-
-            {#if dropdown && animesList.length > 0}
-                <div class="w-full bg-white flex flex-col gap-5 p-3 absolute z-25 max-h-40 overflow-y-auto shadow-lg rounded-lg">
-                    {#each animesList as item}
-                        <button on:mousedown={() => selectAnime(item)} class="flex items-start gap-3 p-2 min-h-[4rem] rounded-lg cursor-pointer transition-colors">
-                            <img src={item.image} alt="" aria-hidden="true" class="w-[4rem] h-[4rem] object-cover object-top rounded-md shrink-0"/>
-                            <div class="w-full flex flex-col items-start ">
-                                <div class="text-start font-noto-sans font-semibold text-gray-900 text-sm leading-tight">
-                                    {item.title}
+            {#if animesDropdown}
+                {#if animesList.length > 0}
+                    <div class="absolute w-full bg-white border border-gray-200 rounded-2xl shadow-xl z-25 max-h-56 overflow-y-auto p-2">
+                        {#each animesList as item, i (item.id || i)}
+                            <button on:mousedown={() => selectAnime(item)} class="cursor-pointer flex items-center gap-3 w-full p-2 rounded-xl hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-500/30 transition-all duration-150">
+                                <img
+                                    src={item.image}
+                                    alt={item.title}
+                                    class="w-14 h-14 object-cover object-top rounded-lg border border-gray-100 shadow-sm shrink-0"
+                                    loading="lazy"
+                                />
+                                <div class="flex flex-col items-start text-left">
+                                    <div class="font-noto-sans font-semibold text-gray-900 text-sm line-clamp-1">
+                                        {item.title}
+                                    </div>
+                                    <div class="font-noto-sans text-gray-500 text-xs">
+                                        {item.year}
+                                    </div>
                                 </div>
-                                <div class="font-noto-sans font-medium text-gray-500 text-sm" aria-hidden="true">
-                                    {item.year}
-                                </div>
-                            </div>
-                        </button>
-                    {/each}
-                </div>
+                            </button>
+                        {/each}
+                    </div>
+                {:else}
+                    <div class="absolute w-full bg-white border border-gray-200 rounded-2xl shadow-md z-25 p-5 flex flex-col items-center justify-center text-center text-gray-500 font-noto-sans text-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mb-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                        </svg>
+                        <div class="font-noto-sans">
+                            Nenhum anime encontrado ainda...
+                        </div>
+                        <div class="font-noto-sans text-xs text-gray-400 mt-1">
+                            Digite algo pra começar a busca! 🎧
+                        </div>
+                    </div>
+                {/if}
             {/if}
         </div>
-
-        <!-- Seleção de Música -->
-        <div class="mb-3">
+        <div class="mb-3 relative">
             <label class="text-md text-gray-700 font-noto-sans block mb-1" for="music">
                 Escolha uma música do anime
             </label>
-            <select
-                id="music"
-                name="music"
-                class="w-full h-[2.5rem] bg-white font-noto-sans text-md text-black rounded-lg outline-none pl-4 border border-gray-400 disabled:bg-gray-200"
+            <select 
+                id="music" 
+                name="music" 
+                class="w-full h-[2.5rem] bg-white font-noto-sans text-md text-start text-black rounded-lg outline-none pl-4 pr-10 border border-gray-400 disabled:bg-gray-100"
                 disabled={!animeSelected}
+                required={true}
+                placeholder="Escolha uma música"
                 bind:value={$form.music}
             >
-                {#if animeSelected}
-                    <option value={null} disabled>
-                        Selecione uma música
-                    </option>
-                {/if}
-                <optgroup label="Openings">
+                <optgroup label="Aberturas">
                     {#each musicsList?.openings as item}
                         <option value={item}>{item.name}</option>
                     {/each}
@@ -188,11 +240,9 @@
                 </optgroup>
             </select>
             <span class="text-[0.8rem] text-gray-500 font-noto-sans mt-1 block">
-                Primeiro escolhe o anime, depois a música é simples!
+                Primeiro escolhe um anime. Depois a música é simples!
             </span>
         </div>
-
-        <!-- Mensagem -->
         <div class="mb-3">
             <label class="text-md text-gray-700 font-noto-sans block mb-1" for="message">
                 Escreva uma mensagem
@@ -221,7 +271,7 @@
 {#if $cast.onair.listener_request_status === 0}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
-            Foi mal ai... Você não pode enviar um pedido agora. 😭
+            Foi mal... Você não pode enviar um pedido agora. 😭
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
             O programa não tá rolando ao vivo agora, ou {$cast.onair.user.gender === "m" ? "o DJ" : "a DJ"} quer dar uma pausa nos pedidos por enquanto, viu? 
@@ -230,7 +280,7 @@
     </dl>
 {/if}
 
-{#if success === true}
+{#if requestSuccess === true}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
             Prontinho! Seu pedido foi enviado com sucesso. 💌
@@ -238,6 +288,18 @@
         <dd class="text-sm font-noto-sans text-gray-500">
             O seu pedido já tá a caminho! {$cast.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$cast.onair.user.nickname} vai atender você em instantes. 
             Fica por aí que a programação tá demais! 🔥        
+        </dd>
+    </dl>
+{/if}
+
+{#if rateLimitStatus === true}
+    <dl class="h-[25rem] py-3">
+        <dt class="mb-4 text-sm font-noto-sans text-gray-500">
+            Ui… já tá com saudade {$cast.onair.user.gender === "m" ? "do DJ" : "da DJ"} {$cast.onair.user.nickname}😏
+        </dt>
+        <dd class="text-sm font-noto-sans text-gray-500 leading-relaxed">
+            Calma(a)! {$cast.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$cast.onair.user.nickname} ainda tá curtindo o seu último pedido. 💃
+            Aguenta só mais um pouquinho que você poderá mandar outro pedido em <strong>{countdown}</strong>. ⏳🔥
         </dd>
     </dl>
 {/if}
