@@ -275,7 +275,7 @@
             Foi mal... Você não pode enviar um pedido agora. 😭
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            O programa não tá rolando ao vivo agora, ou {$metadata.onair.user.gender === "m" ? "o DJ" : "a DJ"} {$metadata.onair.user.nickname} quer dar uma pausa nos pedidos por enquanto, viu? 
+            O programa não tá rolando ao vivo agora, ou {$metadata.onair.user.gender === "male" ? "o DJ" : "a DJ"} {$metadata.onair.user.nickname} quer dar uma pausa nos pedidos por enquanto, viu? 
             Mas fica de boa, daqui a pouco, você vai poder mandar a sua música! 💬🎶        
         </dd>
     </dl>
@@ -287,7 +287,7 @@
             Prontinho! Seu pedido foi enviado com sucesso. 💌
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            O seu pedido já tá a caminho! {$metadata.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} vai atender você em instantes. 
+            O seu pedido já tá a caminho! {$metadata.onair.user.gender === "male" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} vai atender você em instantes. 
             Fica por aí que a programação tá demais! 🔥        
         </dd>
     </dl>
@@ -296,10 +296,10 @@
 {#if limit}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
-            Ui… já tá com saudade {$metadata.onair.user.gender === "m" ? "do DJ" : "da DJ"} {$metadata.onair.user.nickname}😏
+            Ui… já tá com saudade {$metadata.onair.user.gender === "male" ? "do DJ" : "da DJ"} {$metadata.onair.user.nickname}😏
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500 leading-relaxed">
-            Calma(a)! {$metadata.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} ainda tá curtindo o seu último pedido. 💃
+            Calma(a)! {$metadata.onair.user.gender === "male" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} ainda tá curtindo o seu último pedido. 💃
             Aguenta só mais um pouquinho que você poderá mandar outro pedido em <strong>{countdown}</strong>. ⏳🔥
         </dd>
     </dl>

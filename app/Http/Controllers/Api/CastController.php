@@ -19,7 +19,7 @@ class CastController extends Controller
                 return response()->json(['error' => 'No active onair'], 404);
             }
 
-            $url = env('STREAM_DATA');
+            $url = env('URL_STREAM_METADATA');
             $streamResponse = @file_get_contents($url);
             
             if (!$streamResponse) {
@@ -55,6 +55,6 @@ class CastController extends Controller
 
     public function stream()
     {
-        return redirect(env('STREAM_ADDRESS'));
+        return redirect(env('URL_STREAM'));
     }
 }

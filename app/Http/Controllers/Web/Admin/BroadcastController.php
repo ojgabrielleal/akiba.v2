@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
@@ -189,6 +190,14 @@ class BroadcastController extends Controller
                 'listener_request_status' => true,
                 'category' => 'live'
             ]);
+
+            if(env('APP_ENV') === "production"){
+                $webhook_discord = env('URL_DISCORD_WEBHOOK');
+                $payload = [
+                    'content' => "@everyone @here Oi meus amores! Só estou passando para avisar que" . ($user->gender === "male" ? " O DJ " : " A DJ ") . $user->nickname . " está no ar agora com o programa " . $show->name . "! Vem ouvir em https://akiba.com.br"          
+                ];
+                Http::post($webhook_discord, $payload);
+            } 
 
             $this->ProvideSuccess('save', 'Ei! Seu programa começou e os ouvintes querem ouvir sua voz! Se solta faz seu show!');
         } catch (\Throwable $e) {
