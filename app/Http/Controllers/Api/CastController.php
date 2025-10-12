@@ -10,7 +10,7 @@ use App\Models\Onair;
 
 class CastController extends Controller
 {
-    public function data()
+    public function metadata()
     {
         try {
             $onair = Onair::with('program.user')->where('is_live', true)->first();

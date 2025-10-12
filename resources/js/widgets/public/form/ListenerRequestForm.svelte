@@ -2,30 +2,29 @@
     import axios from "axios";
     import { useForm } from "@inertiajs/svelte";
     import { debounce } from "@/utils";
-    import { castdata } from "@/store"
+    import { metadata } from "@/store"
 
     // ------------------------------
-    // Status do formulário e Rate Limit
+    // Rate Limit para evitar flood
     // ------------------------------
-    let rateLimitStorage = localStorage.getItem('akiba_rate_limit');
-    let rateLimitStatus = false;
+    let storange = localStorage.getItem('akiba_rate_limit');
+    let limit = false;
     let countdown = "";
     let interval;
 
-    if (rateLimitStorage) {
-        const rateLimit = new Date(rateLimitStorage);
+    if (storange) {
+        const rateLimit = new Date(storange);
         const now = new Date();
 
         if (now < rateLimit) {
-            rateLimitStatus = true;
+            limit = true;
 
-            // atualiza o contador a cada segundo
             interval = setInterval(() => {
                 const diff = rateLimit - new Date();
                 if (diff <= 0) {
                     clearInterval(interval);
                     localStorage.removeItem('akiba_rate_limit');
-                    rateLimitStatus = false;
+                    limit = false;
                     countdown = "";
                 } else {
                     const minutes = Math.floor(diff / 60000);
@@ -39,7 +38,7 @@
     }
 
     // ------------------------------
-    // Formulário Inertia
+    // Formulário
     // ------------------------------
     const form = useForm({
         listener: localStorage.getItem('akiba_listener') || null,
@@ -49,7 +48,7 @@
         message: null
     });
 
-    let requestSuccess = false;
+    let success = false;
     function onSubmit(event){
         event.preventDefault();
 
@@ -58,10 +57,7 @@
                 const expiraEm = new Date(Date.now() + 90 * 1000);
                 localStorage.setItem('akiba_rate_limit', expiraEm.toISOString());
                 
-                requestSuccess = true;
-                setTimeout(()=> {
-                    requestSuccess = false;
-                }, 90 * 1000);
+                success = true;
             },
         });
     }
@@ -69,15 +65,14 @@
     // ------------------------------
     // Controle dos dropdowns e seleção
     // ------------------------------
-    let animesDropdown = false;
-    let animesList = [];
-    let musicsList = [];
-    let animeSelected = null;
+    let dropdown = false;
+    let animes = [];
+    let musics = [];
 
     function selectAnime(item) {
-        animesDropdown = false;
-        animeSelected = item;
+        dropdown = false;
         $form.anime = item;
+
         searchMusics(item.mal_id);
         document.getElementById('anime').value = item.title;    
     }
@@ -86,12 +81,12 @@
     // Função de busca com debounce
     // ------------------------------
     function searchAnime(value) {
-        if (!value) animesList = [];
+        if (!value) animes = [];
 
         axios.get(`https://api.jikan.moe/v4/anime?q=${value}`)
         .then(response => {
             const filtered  = response.data.data.filter(item => item.type === 'TV');
-            animesList = filtered.map(item => ({
+            animes = filtered.map(item => ({
                 title: item.title,
                 mal_id: item.mal_id,
                 image: item.images.jpg.image_url,
@@ -113,13 +108,13 @@
             const openings = (themes.openings || []).map(name => ({ name, type: 'op' }));
             const endings = (themes.endings || []).map(name => ({ name, type: 'ed' }));
 
-            musicsList = { openings, endings };
+            musics = { openings, endings };
         })
         .catch(error => console.error('Erro ao buscar músicas:', error));
     }
 </script>
 
-{#if $castdata.onair.listener_request_status === 1 && requestSuccess === false && rateLimitStatus === false}
+{#if $metadata.onair.listener_request_status === 1 && (!success && !limit)}
     <form class="w-full" on:submit={onSubmit}>
         <div class="mb-3">
             <label class="text-md text-gray-700 font-noto-sans block mb-1" for="listener">
@@ -171,17 +166,17 @@
                 placeholder="Ex: Konosuba"
                 required={true}
                 autocomplete="off"
-                on:focus={() => animesDropdown = true}
-                on:blur={() => animesDropdown = false}
+                on:focus={() => dropdown = true}
+                on:blur={() => dropdown = false}
                 on:input={(e) => { debouncedSearch(e.target.value);}}
             />
             <span class="text-[0.8rem] text-gray-500 font-noto-sans mt-1 block">
                 Umas letras já bastam! E ai é só escolha o nome na lista.
             </span>
-            {#if animesDropdown}
-                {#if animesList.length > 0}
+            {#if dropdown}
+                {#if animes.length > 0}
                     <div class="absolute w-full bg-white border border-gray-200 rounded-2xl shadow-xl z-25 max-h-56 overflow-y-auto p-2">
-                        {#each animesList as item, i (item.id || i)}
+                        {#each animes as item, i (item.id || i)}
                             <button on:mousedown={() => selectAnime(item)} class="cursor-pointer flex items-center gap-3 w-full p-2 rounded-xl hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-500/30 transition-all duration-150">
                                 <img
                                     src={item.image}
@@ -215,7 +210,7 @@
                 {/if}
             {/if}
         </div>
-        {#if animeSelected}
+        {#if $form.anime}
             <div class="mb-3 relative">
                 <label class="text-md text-gray-700 font-noto-sans block mb-1" for="music">
                     Escolha uma música do anime
@@ -230,14 +225,14 @@
                     bind:value={$form.music}
                 >
                     <optgroup label="Aberturas" class="text-gray-700 text-sm font-noto-sans font-bold italic uppercase">
-                        {#each musicsList?.openings as item}
+                        {#each musics?.openings as item}
                             <option value={item} class="cursor-pointer text-sm text-gray-700 font-noto-sans font-normal not-italic normal-case truncate mt-2 mb-2 px-0 hover:p-3 hover:rounded-lg hover:bg-gray-400 hover:text-neutral-aurora checked:p-3 checked:rounded-lg checked:bg-gray-400 checked:text-neutral-aurora ">
                                 {item.name}
                             </option>
                         {/each}
                     </optgroup>
                     <optgroup label="Encerramentos" class="text-gray-700 text-sm font-noto-sans font-bold italic uppercase">
-                        {#each musicsList?.endings as item}
+                        {#each musics?.endings as item}
                             <option value={item} class="cursor-pointer text-sm text-gray-700 font-noto-sans font-normal not-italic normal-case truncate mt-2 mb-2 px-0 hover:p-3 hover:rounded-lg hover:bg-gray-400 hover:text-neutral-aurora checked:p-3 checked:rounded-lg checked:bg-gray-400 checked:text-neutral-aurora ">
                                 {item.name}
                             </option>
@@ -274,37 +269,37 @@
     </form>
 {/if}
 
-{#if $castdata.onair.listener_request_status === 0}
+{#if $metadata.onair.listener_request_status === 0}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
             Foi mal... Você não pode enviar um pedido agora. 😭
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            O programa não tá rolando ao vivo agora, ou {$castdata.onair.user.gender === "m" ? "o DJ" : "a DJ"} {$castdata.onair.user.nickname} quer dar uma pausa nos pedidos por enquanto, viu? 
+            O programa não tá rolando ao vivo agora, ou {$metadata.onair.user.gender === "m" ? "o DJ" : "a DJ"} {$metadata.onair.user.nickname} quer dar uma pausa nos pedidos por enquanto, viu? 
             Mas fica de boa, daqui a pouco, você vai poder mandar a sua música! 💬🎶        
         </dd>
     </dl>
 {/if}
 
-{#if requestSuccess === true}
+{#if success}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
             Prontinho! Seu pedido foi enviado com sucesso. 💌
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            O seu pedido já tá a caminho! {$castdata.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$castdata.onair.user.nickname} vai atender você em instantes. 
+            O seu pedido já tá a caminho! {$metadata.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} vai atender você em instantes. 
             Fica por aí que a programação tá demais! 🔥        
         </dd>
     </dl>
 {/if}
 
-{#if rateLimitStatus === true}
+{#if limit}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
-            Ui… já tá com saudade {$castdata.onair.user.gender === "m" ? "do DJ" : "da DJ"} {$castdata.onair.user.nickname}😏
+            Ui… já tá com saudade {$metadata.onair.user.gender === "m" ? "do DJ" : "da DJ"} {$metadata.onair.user.nickname}😏
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500 leading-relaxed">
-            Calma(a)! {$castdata.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$castdata.onair.user.nickname} ainda tá curtindo o seu último pedido. 💃
+            Calma(a)! {$metadata.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} ainda tá curtindo o seu último pedido. 💃
             Aguenta só mais um pouquinho que você poderá mandar outro pedido em <strong>{countdown}</strong>. ⏳🔥
         </dd>
     </dl>

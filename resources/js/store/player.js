@@ -10,12 +10,21 @@ export const player = writable({
 const getAudio = () => document.getElementById('stream');
 
 async function metadata() {
-    axios.get('/api/cast/data')
+    axios.get('/api/cast/metadata')
     .then((response) => {
+        let data = response.data
+
+        let music_cover
+        if(data.stream.capa_musica === "https://player.painelcast.com/img/img-capa-artista-padrao.png"){
+            music_cover = new URL('/img/default/no-cover.webp', window.location.origin).href
+        }else{
+            music_cover = data.stream.capa_musica
+        }
+
         mediaSession({
-            title: 'DJ ' + response.data.onair.user.nickname + ' - ' + response.data.onair.program.name,
-            artist: decodeURIComponent(escape(response.data.stream.musica_atual)),
-            artwork: [{ src: response.data.stream.capa_musica, sizes: '512x512', type: 'image/png' }],
+            title: 'DJ ' + data.onair.user.nickname + ' - ' + data.onair.program.name,
+            artist: decodeURIComponent(escape(data.stream.musica_atual)),
+            artwork: [{ src: music_cover, sizes: '512x512', type: 'image/png' }],
         });
     })
     .catch((error) => {

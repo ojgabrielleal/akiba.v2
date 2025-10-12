@@ -1,16 +1,16 @@
 import axios from "axios";
 import { writable } from 'svelte/store';
 
-export const castdata = writable(null); 
+export const metadata = writable(null); 
 
 function data() {
-    axios.get('/api/cast/data')
+    axios.get('/api/cast/metadata')
     .then(response => {
-        castdata.set(response.data); 
+        metadata.set(response.data); 
         return response.data;
     })
     .catch(error => {
-        console.error('Erro ao buscar data:', error);
+        console.error(error);
         return null;
     });
 }

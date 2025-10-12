@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 
-class dbBackup extends Command
+class DbBackupCommand  extends Command
 {
     /**
      * The name and signature of the console command.

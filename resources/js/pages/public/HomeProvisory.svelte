@@ -1,7 +1,7 @@
 <script>
     import { Meta } from "@/meta";
     import { Core, Dock } from "@/widgets/public/player"
-    import { castdata } from "@/store" 
+    import { metadata } from "@/store" 
 
     // Define background color used in the layout
     document.body.style.backgroundColor = "var(--color-blue-midnight)";
@@ -9,7 +9,7 @@
 </script>
 
 <Meta/>
-{#if $castdata} 
+{#if $metadata} 
     <header>
         <article class="w-full flex overflow-hidden fixed top-0 z-10">            
             <div class="flex shrink-0">
