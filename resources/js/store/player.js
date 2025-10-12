@@ -1,78 +1,29 @@
-import { writable } from 'svelte/store';
+import axios from 'axios';
+import { writable, get } from "svelte/store"
 
-// ==========================
-// --- Store do Player ---
-// ==========================
-
-/**
- * Store do player que guarda o estado atual:
- * - isPlaying: se a música está tocando
- * - volume: volume do áudio (0.0 a 1.0)
- */
 export const player = writable({
-    isPlaying: false,
-    volume: 1.0
+    playing: false,
+    volume: 1.0,
+    metadata: null,
 });
 
-/**
- * Retorna o elemento de áudio principal da página.
- * @returns {HTMLAudioElement | null}
- */
 const getAudio = () => document.getElementById('stream');
 
-// ==========================
-// --- Metadados (Cast) ---
-// ==========================
-
-/** ID do intervalo de atualização dos metadados */
-let metadataInterval = null;
-
-/** Inicia a busca periódica por metadados */
-function startMetadataPolling() {
-    if (metadataInterval) return;
-    fetchMetadata();
-    metadataInterval = setInterval(fetchMetadata, 15000); // a cada 15 segundos
-}
-
-/** Para a busca periódica por metadados */
-function stopMetadataPolling() {
-    clearInterval(metadataInterval);
-    metadataInterval = null;
-}
-
-/**
- * Busca os metadados da música (título, artista) da API.
- */
-async function fetchMetadata() {
-    try {
-        const response = await fetch('/api/cast/data'); // Substitua pela URL real da sua API
-        if (!response.ok) {
-            console.error('Falha ao buscar metadados.');
-            return;
-        }
-
-        const data = await response.json();
-
-        updateMediaSession({
-            title: 'DJ ' + data.onair.user.nickname + ' - ' + data.onair.program.name,
-            artist: decodeURIComponent(escape(data.stream.musica_atual)),
-            artwork: [{ src: data.stream.capa_musica, sizes: '512x512', type: 'image/png' }],
+async function metadata() {
+    axios.get('/api/cast/data')
+    .then((response) => {
+        mediaSession({
+            title: 'DJ ' + response.data.onair.user.nickname + ' - ' + response.data.onair.program.name,
+            artist: decodeURIComponent(escape(response.data.stream.musica_atual)),
+            artwork: [{ src: response.data.stream.capa_musica, sizes: '512x512', type: 'image/png' }],
         });
-
-    } catch (error) {
+    })
+    .catch((error) => {
         console.error('Erro ao processar metadados:', error);
-    }
+    });
 }
 
-// ==========================
-// --- Media Session ---
-// ==========================
-
-/**
- * Atualiza os metadados do player exibidos no sistema operacional.
- * @param {object} metadata - Informações da música
- */
-export function updateMediaSession({ title, artist, artwork }) {
+function mediaSession({ title, artist, artwork }) {
     if ('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
             title: title || 'DJ Aki-Chan - Let`s Play Akiba',
@@ -83,79 +34,60 @@ export function updateMediaSession({ title, artist, artwork }) {
     }
 }
 
-/**
- * Configura os handlers de ações de mídia (play, pause, etc.).
- */
-function setupMediaSessionHandlers() {
+function mediaSessionHandlers(){
     if ('mediaSession' in navigator) {
         navigator.mediaSession.setActionHandler('play', () => {
-            let isPlaying;
-            const unsub = player.subscribe(p => isPlaying = p.isPlaying);
-            unsub();
-            if (!isPlaying) togglePlayPause();
+            let playing = get(player).playing;
+            if (!playing) togglePlayPause();
         });
-
+        
         navigator.mediaSession.setActionHandler('pause', () => {
-            let isPlaying;
-            const unsub = player.subscribe(p => isPlaying = p.isPlaying);
-            unsub();
-            if (isPlaying) togglePlayPause();
+            let playing = get(player).playing;
+            if (playing) togglePlayPause();
         });
     }
 }
+mediaSessionHandlers();
 
-// Configura os handlers uma única vez
-setupMediaSessionHandlers();
+let interval;
+function startMetadataPooling(){
+    if(interval) return;
+    metadata(); // Primeira chamada
+    interval = setInterval(()=>{
+        metadata();
+    }, 30 * 1000);
+}
 
-// ==========================
-// --- Ações do Player ---
-// ==========================
+function stopMetadataPooling(){
+    if(!interval) return;
+    clearInterval(interval);
+    interval = null;
+}
 
-/**
- * Alterna entre tocar e pausar a música.
- * Também atualiza Media Session e polling de metadados.
- */
 export function togglePlayPause() {
     const audio = getAudio();
-    if (!audio) {
-        console.error("Elemento de áudio #stream não encontrado.");
-        return;
-    }
-
-    let isPlayingNow;
-    const unsubscribe = player.subscribe(value => isPlayingNow = value.isPlaying);
-    unsubscribe();
-
-    if (isPlayingNow) {
-        audio.pause();
-        stopMetadataPolling();
+    
+    let playing = get(player).playing;
+    if (playing) {
+        audio.pause()
+        player.update(p=>({...p, playing: false}));
         if ('mediaSession' in navigator) {
             navigator.mediaSession.playbackState = 'paused';
+            stopMetadataPooling();
         }
-        player.update(p => ({ ...p, isPlaying: false }));
-    } else {
+    } else {        
         audio.play()
-        .then(() => {
-            if ('mediaSession' in navigator) {
-                updateMediaSession({});
-                navigator.mediaSession.playbackState = 'playing';
-            }
-            startMetadataPolling();
-            player.update(p => ({ ...p, isPlaying: true }));
-        })
-        .catch(err => console.error("Erro ao reproduzir:", err));
+        player.update(p=>({...p, playing: true}));
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.playbackState = 'playing';
+            startMetadataPooling();
+        }
     }
 }
 
-/**
- * Define o volume do player.
- * @param {number} newVolume - Valor entre 0.0 e 1.0
- */
 export function setVolume(newVolume) {
     const audio = getAudio();
-    if (!audio) return;
+    audio.volume = newVolume;
 
-    const clampedVolume = Math.max(0, Math.min(1, newVolume));
-    audio.volume = clampedVolume;
-    player.update(p => ({ ...p, volume: clampedVolume }));
+    player.update(current => ({ ...current, volume: newVolume }));
 }

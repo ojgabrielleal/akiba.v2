@@ -1,7 +1,7 @@
 <script>
     import { Modal } from "@/components/public"
     import { ListenerRequestForm } from "@/widgets/public/form"
-    import { player, togglePlayPause, setVolume, cast } from "@/store"
+    import { player, togglePlayPause, setVolume, castdata } from "@/store"
     import Icon from "@iconify/svelte";
 </script>
 
@@ -14,11 +14,11 @@
         <!-- svelte-ignore a11y_distracting_elements -->
         <marquee class="w-5xl relative flex overflow-x-hidden marquee-container">
             <div class="whitespace-nowrap w-full md:w-auto text-neutral-aurora py-4 text-3xl font-noto-sans font-bold uppercase italic">
-                <span class="mx-4">{$cast.onair.phrase}</span>
+                <span class="mx-4">{$castdata.onair.phrase}</span>
             </div>
         </marquee>
         <div class="hidden lg:block absolute bottom-0 right-4 z-10">
-            <img src={$cast.onair.image} alt="" aria-hidden="true" class="w-[8rem]"/>
+            <img src={$castdata.onair.image} alt="" aria-hidden="true" class="w-[8rem]"/>
         </div>
         <div class="hidden lg:block absolute -top-8 right-0 z-10">
             <img src="/img/default/rains.webp" alt="" aria-hidden="true" class="w-[5rem]"/>
@@ -34,27 +34,27 @@
             <!--Programa e locutor-->
             <dl class="flex flex-wrap xl:flex-nowrap items-center gap-5">
                 <dt class="w-[16rem]">
-                    <img src={$cast.onair.program.image} alt={`Programa ${$cast.onair.program.name}`}/>
+                    <img src={$castdata.onair.program.image} alt={`Programa ${$castdata.onair.program.name}`}/>
                 </dt>
                 <dd class="text-gray-500">
                     <Icon icon="bi:chevron-double-right" width="25" height="25" aria-label="hidden"/>
                 </dd>
                 <dt>
                     <div class="text-orange-amber font-noto-sans uppercase">
-                        {#if $cast.onair.user.gender === "male"}
+                        {#if $castdata.onair.user.gender === "male"}
                             Com o DJ:
                         {/if}
-                        {#if $cast.onair.user.gender === "female"}
+                        {#if $castdata.onair.user.gender === "female"}
                             Com a DJ:
                         {/if}
                     </div>
                     <div class="w-full text-neutral-aurora text-3xl font-noto-sans font-bold uppercase italic line-clamp-1">
-                        {$cast.onair.user.nickname}
+                        {$castdata.onair.user.nickname}
                     </div>
-                    <div class={`${$cast.onair.category === "auto" ? "bg-purple-mystic" : $cast.onair.category === "record" ? "bg-orange-amber" : "bg-green-forest"} mt-[0.4rem] w-[6rem] rounded-xl text-center text-sm text-neutral-aurora font-noto-sans font-bold italic uppercase`}>
-                        {#if $cast.onair.category === "auto"}
+                    <div class={`${$castdata.onair.category === "auto" ? "bg-purple-mystic" : $castdata.onair.category === "record" ? "bg-orange-amber" : "bg-green-forest"} mt-[0.4rem] w-[6rem] rounded-xl text-center text-sm text-neutral-aurora font-noto-sans font-bold italic uppercase`}>
+                        {#if $castdata.onair.category === "auto"}
                             Robô
-                        {:else if $cast.onair.category === "record"}
+                        {:else if $castdata.onair.category === "record"}
                             Gravado
                         {:else}
                             Humano
@@ -68,10 +68,10 @@
             <!--Música tocando-->
             <dl class="flex gap-3 items-end mt-14 lg:mt-10">
                 <dt class="w-[5rem] shrink-0">
-                    {#if $cast.stream.capa_musica === "https://player.painelcast.com/img/img-capa-artista-padrao.png"}
+                    {#if $castdata.stream.capa_musica === "https://player.painelcast.com/img/img-capa-artista-padrao.png"}
                         <img src="/img/default/no-cover.webp" on:error={(e) => e.target.src = '/img/default/no-cover.webp'} alt="" aria-hidden="true" class="rounded-lg"/>
                     {:else}
-                        <img src={$cast.stream.capa_musica} on:error={(e) => e.target.src = '/img/default/no-cover.webp'} alt="" aria-hidden="true" class="rounded-lg"/>
+                        <img src={$castdata.stream.capa_musica} on:error={(e) => e.target.src = '/img/default/no-cover.webp'} alt="" aria-hidden="true" class="rounded-lg"/>
                     {/if}
                 </dt>
                 <dd>
@@ -79,7 +79,7 @@
                         Tocando agora:
                     </div>
                     <div class="text-neutral-aurora text-xl font-noto-sans font-bold uppercase italic line-clamp-2">
-                        {decodeURIComponent(escape($cast.stream.musica_atual))}
+                        {decodeURIComponent(escape($castdata.stream.musica_atual))}
                     </div>
                 </dd>
             </dl>
@@ -87,37 +87,37 @@
         <!-- Segunda parte do player ( Avatar )-->
         <div class="hidden lg:block mt-5">
             <div class="w-[20rem] h-[25rem]">
-                <img src={$cast.onair.user.avatar} alt="" aria-label="hidden" class="object-cover w-full h-full"/>
+                <img src={$castdata.onair.user.avatar} alt="" aria-label="hidden" class="object-cover w-full h-full"/>
             </div>
         </div>
         <!-- Terceira parte do player ( Controles e botão de pedidos )-->
         <div class="w-[14rem] hidden xl:flex flex-col justify-end items-center gap-3 mb-8">
             <!--Bloco informativo sobre o status do programa ("Programa gravado, locutor no ar etc")-->
             <div class="w-full px-3 mb-8">
-                <dl class={`${$cast.onair.category === "auto" ? "bg-purple-mystic" : $cast.onair.category === "record" ? "bg-orange-amber" : "bg-green-forest"} p-3 flex gap-2 justify-center items-center rounded-md`}>
+                <dl class={`${$castdata.onair.category === "auto" ? "bg-purple-mystic" : $castdata.onair.category === "record" ? "bg-orange-amber" : "bg-green-forest"} p-3 flex gap-2 justify-center items-center rounded-md`}>
                     <dt>
-                        {#if $cast.onair.category === "auto"}
+                        {#if $castdata.onair.category === "auto"}
                             <Icon icon="pixel:robot-solid" width="35" height="35" aria-label="hidden"/>
                         {/if}
-                        {#if $cast.onair.category === "record"}
+                        {#if $castdata.onair.category === "record"}
                             <Icon icon="streamline:tape-cassette-record-solid" width="35" height="35" aria-label="hidden"/>
                         {/if}
-                        {#if $cast.onair.category === "live"}
+                        {#if $castdata.onair.category === "live"}
                             <Icon icon="fa7-solid:tower-cell" width="35" height="35" aria-label="hidden"/>
                         {/if}
                     </dt>
                     <dd class="font-noto-sans font-medium italic uppercase text-center leading-[1rem]">
-                        {#if $cast.onair.category === "auto"}
+                        {#if $castdata.onair.category === "auto"}
                             Programação automática
                         {/if}
-                        {#if $cast.onair.category === "record"}
+                        {#if $castdata.onair.category === "record"}
                             Programa gravado
                         {/if}
-                        {#if $cast.onair.category === "live"}
-                            {#if $cast.onair.user.gender === "male"}
+                        {#if $castdata.onair.category === "live"}
+                            {#if $castdata.onair.user.gender === "male"}
                                 Locutor <br/> ao vivo agora
                             {/if}
-                            {#if $cast.onair.user.gender === "female"}
+                            {#if $castdata.onair.user.gender === "female"}
                                 Locutora <br/> ao vivo agora
                             {/if}
                         {/if}

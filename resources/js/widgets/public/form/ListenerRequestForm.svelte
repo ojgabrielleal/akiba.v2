@@ -2,7 +2,7 @@
     import axios from "axios";
     import { useForm } from "@inertiajs/svelte";
     import { debounce } from "@/utils";
-    import { cast } from "@/store"
+    import { castdata } from "@/store"
 
     // ------------------------------
     // Status do formulário e Rate Limit
@@ -119,7 +119,7 @@
     }
 </script>
 
-{#if $cast.onair.listener_request_status === 1 && requestSuccess === false && rateLimitStatus === false}
+{#if $castdata.onair.listener_request_status === 1 && requestSuccess === false && rateLimitStatus === false}
     <form class="w-full" on:submit={onSubmit}>
         <div class="mb-3">
             <label class="text-md text-gray-700 font-noto-sans block mb-1" for="listener">
@@ -274,13 +274,13 @@
     </form>
 {/if}
 
-{#if $cast.onair.listener_request_status === 0}
+{#if $castdata.onair.listener_request_status === 0}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
             Foi mal... Você não pode enviar um pedido agora. 😭
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            O programa não tá rolando ao vivo agora, ou {$cast.onair.user.gender === "m" ? "o DJ" : "a DJ"} {$cast.onair.user.nickname} quer dar uma pausa nos pedidos por enquanto, viu? 
+            O programa não tá rolando ao vivo agora, ou {$castdata.onair.user.gender === "m" ? "o DJ" : "a DJ"} {$castdata.onair.user.nickname} quer dar uma pausa nos pedidos por enquanto, viu? 
             Mas fica de boa, daqui a pouco, você vai poder mandar a sua música! 💬🎶        
         </dd>
     </dl>
@@ -292,7 +292,7 @@
             Prontinho! Seu pedido foi enviado com sucesso. 💌
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            O seu pedido já tá a caminho! {$cast.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$cast.onair.user.nickname} vai atender você em instantes. 
+            O seu pedido já tá a caminho! {$castdata.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$castdata.onair.user.nickname} vai atender você em instantes. 
             Fica por aí que a programação tá demais! 🔥        
         </dd>
     </dl>
@@ -301,10 +301,10 @@
 {#if rateLimitStatus === true}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
-            Ui… já tá com saudade {$cast.onair.user.gender === "m" ? "do DJ" : "da DJ"} {$cast.onair.user.nickname}😏
+            Ui… já tá com saudade {$castdata.onair.user.gender === "m" ? "do DJ" : "da DJ"} {$castdata.onair.user.nickname}😏
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500 leading-relaxed">
-            Calma(a)! {$cast.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$cast.onair.user.nickname} ainda tá curtindo o seu último pedido. 💃
+            Calma(a)! {$castdata.onair.user.gender === "m" ? "O DJ" : "A DJ"} {$castdata.onair.user.nickname} ainda tá curtindo o seu último pedido. 💃
             Aguenta só mais um pouquinho que você poderá mandar outro pedido em <strong>{countdown}</strong>. ⏳🔥
         </dd>
     </dl>
