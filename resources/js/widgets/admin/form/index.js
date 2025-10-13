@@ -1,7 +1,8 @@
 export { default as AuthForm } from './AuthForm.svelte'
-export { default as PostForm } from './PostForm.svelte'
-export { default as ReviewForm } from './ReviewForm.svelte'
+export { default as PostsForm } from './PostsForm.svelte'
+export { default as ReviewsForm } from './ReviewsForm.svelte'
 export { default as EventsForm } from './EventsForm.svelte'
 export { default as BroadcastForm } from "./BroadcastForm.svelte"
-export { default as ShowForm } from "./ShowForm.svelte"
+export { default as ShowsForm } from "./ShowsForm.svelte"
 export { default as ListenerMonthForm } from "./ListenerMonthForm.svelte"
+export { default as PodcastsForm } from "./PodcastsForm.svelte"

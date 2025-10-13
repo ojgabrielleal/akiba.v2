@@ -2,7 +2,7 @@
     import { page, router } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
     import { Offcanvas } from "@/components/admin";
-    import { ShowForm } from "@/widgets/admin/form";
+    import { ShowsForm } from "@/widgets/admin/form";
     import Icon from "@iconify/svelte";
 
     $: ({ shows } = $page.props);
@@ -22,7 +22,7 @@
                 Novo programa
             </div>
             <div slot="content" let:close>
-                <ShowForm {close}/>
+                <ShowsForm {close}/>
             </div>
         </Offcanvas>
     </div>

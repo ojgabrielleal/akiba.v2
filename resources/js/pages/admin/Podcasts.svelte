@@ -1,0 +1,10 @@
+<script>
+    import { Meta } from "@/meta";
+    import { Layout } from "@/layouts/admin";
+    import { PodcastsForm } from "@/widgets/admin/form"
+</script>
+
+<Meta meta={{ title: "Podcasts" }} />
+<Layout>
+    <PodcastsForm/>
+</Layout>

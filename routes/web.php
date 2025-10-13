@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\Admin\ReviewsController;
 use App\Http\Controllers\Web\Admin\EventsController;
 use App\Http\Controllers\Web\Admin\BroadcastController;
 use App\Http\Controllers\Web\Admin\RadioController;
+use App\Http\Controllers\Web\Admin\PodcastsController;
 
 use App\Http\Controllers\Web\Public\HomeProvisoryController;
 
@@ -74,6 +75,11 @@ Route::prefix('painel')->group(function () {
                 Route::post('/update/ranking/image/{id}', 'updateRankingMusicImage');
                 Route::post('/create/ranking', 'setRankingMusic');
                 Route::post('/create/listenermonth', 'createListenerMonth');
+            });
+        });
+        Route::prefix('/podcasts')->group(function () {
+            Route::controller(PodcastsController::class)->group(function () {
+                Route::get('/', 'render')->name('render.painel.radio');
             });
         });
     });
