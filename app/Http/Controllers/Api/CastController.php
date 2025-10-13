@@ -14,19 +14,17 @@ class CastController extends Controller
     {
         try {
             $onair = Onair::with('program.user')->where('is_live', true)->first();
-            
-            if (!$onair) {
-                return response()->json(['error' => 'No active onair'], 404);
-            }
 
             $url = env('URL_STREAM_METADATA');
             $streamResponse = @file_get_contents($url);
             
+            if (!$onair) {
+                return response()->json(['error' => 'No active onair'], 404);
+            }
+            
             if (!$streamResponse) {
                 Log::warning("No response from streaming audio API");
-                $streamData = null;
-            } else {
-                $streamData = json_decode($streamResponse, true);
+                return;
             }
 
             return response()->json([
@@ -45,7 +43,7 @@ class CastController extends Controller
                     'phrase' => $onair->phrase,
                     'image' => $onair->image,
                 ],
-                'stream' => $streamData
+                'stream' => json_decode($streamResponse, true)
             ]);
         } catch (\Throwable $e) {
             Log::error($e);
