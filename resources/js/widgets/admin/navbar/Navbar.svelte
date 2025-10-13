@@ -4,7 +4,6 @@
 
     $: ({ user } = $page.props);
 
-    // State to manage mobile navbar visibility
     let mobilenavbar = false;
 </script>
 

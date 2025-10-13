@@ -3,7 +3,6 @@
     import { CorePlayer, DockPlayer } from "@/widgets/public/player"
     import { metadata } from "@/store" 
 
-    // Define background color used in the layout
     document.body.style.backgroundColor = "var(--color-blue-midnight)";
     document.body.style.overflowX = "hidden";
 </script>

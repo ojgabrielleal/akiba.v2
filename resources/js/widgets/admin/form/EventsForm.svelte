@@ -5,7 +5,6 @@
 
     $: ({ publication } = $page.props);
 
-    // Submit the eent from controller backende 
     $: form = useForm({
         image: publication?.image,
         title: publication?.title,

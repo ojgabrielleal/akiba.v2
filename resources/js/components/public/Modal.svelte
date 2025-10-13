@@ -13,7 +13,6 @@
         visible = false;
     }
 
-    // evita que o clique dentro do modal feche
     function block(event) {
         event.stopPropagation();
     }

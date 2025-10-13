@@ -5,10 +5,8 @@
 
     $: ({ alerts } = $page.props);
 
-    // Reference to component
     let container;
 
-    // Submit user to signature card
     function createSignature(id) {
         router.post(`/painel/dashboard/alerts/${id}`);
     }

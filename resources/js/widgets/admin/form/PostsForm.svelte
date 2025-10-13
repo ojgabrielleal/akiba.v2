@@ -6,7 +6,6 @@
 
     $: ({ user, publication } = $page.props);
 
-    // Submit the post from controller backend
     $: form = useForm({
         status: null,
         image: publication?.image,

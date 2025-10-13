@@ -5,10 +5,8 @@
 
     $: ({ tasks } = $page.props);
 
-    // Reference to component
     let container;
 
-    // Submit user to finishing task
     function setTaskCompleted(id) {
         router.patch(`/painel/dashboard/tasks/${id}`);
     }

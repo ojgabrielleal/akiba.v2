@@ -37,7 +37,6 @@
         }, 10 * 1000);
     }
 
-    // Define background color used in the layout
     document.body.style.backgroundColor = "var(--color-blue-indigo)";
 </script>
 

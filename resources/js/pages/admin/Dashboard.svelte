@@ -8,7 +8,6 @@
 
     $: ({ user } = $page.props);
 
-    // Selector phrase in render to hero
     function phraseSwitchHero(nickname) {
         const phrases = [
             `Oi, ${nickname}! Que bom te ver.`,

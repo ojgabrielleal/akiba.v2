@@ -2,7 +2,6 @@
     import { useForm, router } from "@inertiajs/svelte";
     import Icon from "@iconify/svelte";
 
-    // Submit the form to backend
     const form = useForm({
         username: null,
         password: null,

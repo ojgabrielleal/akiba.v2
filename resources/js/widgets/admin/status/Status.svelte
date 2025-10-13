@@ -1,5 +1,5 @@
 <script>
-    import { metadata } from "@/store" // Import from store folder
+    import { metadata } from "@/store"
 
 </script>
 

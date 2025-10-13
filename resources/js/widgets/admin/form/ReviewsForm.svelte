@@ -10,7 +10,6 @@
         (item) => item.user.id === authorSelected,
     );
 
-    // Submit the post from controller backend
     $:form = useForm({
         image: publication?.image,
         title: publication?.title,

@@ -18,7 +18,6 @@
         router.patch("/painel/locucao/requests/status")
     }
 
-    // variável dummy para forçar re-render
     let tick = 0;
     let interval;
 

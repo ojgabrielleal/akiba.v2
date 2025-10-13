@@ -4,7 +4,6 @@
 
     $: ({ calendar } = $page.props);
 
-    // Tags from calendar
     const tags = [
         { label: "Programas", color: "var(--color-blue-skywave)" },
         { label: "Lives", color: "var(--color-purple-mystic)" },
@@ -15,7 +14,6 @@
         { label: "", color: "var(--color-blue-skywave)" },
     ];
 
-    // Weekdays labels and items
     let week = [];
     $: if (calendar) {
         const labels = {

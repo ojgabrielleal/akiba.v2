@@ -3,7 +3,7 @@
     import Quill from "quill";
     import "quill/dist/quill.snow.css";
 
-    export let value = "";   // 👈 já pode ser usado com bind:value
+    export let value = ""; 
     export let height = "50rem";
     export let name = "content";
 
@@ -34,20 +34,17 @@
             },
         });
 
-        // conteúdo inicial
         if (value) {
             quill.root.innerHTML = value;
             textarea.value = value;
         }
 
-        // Atualiza o campo hidden E o bind:value
         quill.on("text-change", () => {
-            value = quill.root.innerHTML;   // 👈 dispara reatividade
+            value = quill.root.innerHTML;  
             textarea.value = value;
         });
     });
 
-    // se a prop `value` mudar de fora → sincroniza com Quill
     $: if (quill && value !== quill.root.innerHTML) {
         quill.root.innerHTML = value;
         textarea.value = value;
