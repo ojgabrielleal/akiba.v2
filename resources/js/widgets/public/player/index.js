@@ -1,2 +1,2 @@
-export { default as Core } from "./Core.svelte"
-export { default as Dock } from "./Dock.svelte"
+export { default as CorePlayer } from "./CorePlayer.svelte"
+export { default as DockPlayer } from "./DockPlayer.svelte"

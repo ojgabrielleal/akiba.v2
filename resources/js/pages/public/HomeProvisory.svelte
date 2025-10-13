@@ -1,6 +1,6 @@
 <script>
     import { Meta } from "@/meta";
-    import { Core, Dock } from "@/widgets/public/player"
+    import { CorePlayer, DockPlayer } from "@/widgets/public/player"
     import { metadata } from "@/store" 
 
     // Define background color used in the layout
@@ -36,10 +36,10 @@
                 <img src="/img/default/logo_and_slogan.webp" alt="Logo" class="w-[20rem] lg:w-[30rem]"/>
             </div>
         </div>
-        <Core/>
+        <CorePlayer/>
     </main>
     <footer>
-        <Dock/>
+        <DockPlayer/>
         <article class="w-full flex overflow-hidden rotate-180 fixed bottom-0 z-10">
             <div class="flex shrink-0">
                 <div class="bg-blue-ocean py-1 px-10 [clip-path:polygon(0_0,100%_0,calc(100%-1.25rem)_100%,0_100%)] text-neutral-aurora font-noto-sans font-bold italic uppercase">
