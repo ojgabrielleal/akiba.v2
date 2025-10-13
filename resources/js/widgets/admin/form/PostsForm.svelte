@@ -51,7 +51,6 @@
                 </div>
                 <Preview 
                     name="image" 
-                    view="w-full max-h-[24rem]"
                     src={$form.image} 
                     oninput={event => $form.image = event.target.files[0]} 
                 />
@@ -75,7 +74,6 @@
                     </label>
                     <Preview 
                         name="cover" 
-                        view="max-h-[30rem]" 
                         src={$form.cover}  
                         oninput={event => $form.cover = event.target.files[0]} 
                     />
@@ -91,7 +89,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full xl:w-[85rem] ml-auto mb-10">
+        <div class="w-full xl:w-[85rem] ml-auto">
             <div class="gap-2 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
                 <div class="mb-8">
                     <label class="text-blue-skywave font-bold italic text-lg text-center uppercase font-noto-sans block mb-1" for="first_category">
@@ -125,7 +123,7 @@
                 </div>
             </div>
             <div class="gap-5 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
-                <div class="mb-8">
+                <div>
                     <div class="text-center text-orange-amber font-bold italic text-lg uppercase font-noto-sans mb-1">
                         Primeira fonte de pesquisa
                     </div>
@@ -154,7 +152,7 @@
                         />
                     </div>
                 </div>
-                <div class="mb-8">
+                <div>
                     <div class="text-center text-orange-amber font-bold italic text-lg uppercase font-noto-sans mb-1">
                         Segunda fonte de pesquisa
                     </div>
@@ -185,7 +183,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
+        <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
             {#if publication?.status === "published"}
                 <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
                     Atualizar matéria

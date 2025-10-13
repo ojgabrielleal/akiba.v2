@@ -48,12 +48,11 @@
                 </div>
                 <Preview 
                     name="image" 
-                    view="w-full max-h-[24rem]"
                     src={$form.image} 
                     oninput={event => $form.image = event.target.files[0]} 
                 />        
             </div>
-            <div class="mb-3">
+            <div>
                 <div class="mb-8">
                     <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="title">
                         Nome do anime
@@ -86,7 +85,7 @@
                         oninput={event => $form.cover = event.target.files[0]} 
                     />   
                 </div>
-                <div class="mb-8">
+                <div>
                     <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="content">
                         Escreva sobre o anime
                     </label>
@@ -109,7 +108,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
+        <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-10">
             <button type="submit" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
                 {#if $form.content}
                     Atualizar

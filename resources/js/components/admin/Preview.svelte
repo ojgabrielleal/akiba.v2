@@ -1,7 +1,7 @@
 <script>
     export let name = null;
     export let size = "w-full h-[15rem] lg:h-[23rem]";
-    export let view = "w-full h-full";
+    export let view = "w-full h-[15rem] lg:h-[23rem]";
     export let src = null;
     export let oninput = null;
 

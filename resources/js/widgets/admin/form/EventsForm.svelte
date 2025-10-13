@@ -46,7 +46,6 @@
                 </span>
                 <Preview 
                     name="image" 
-                    view="w-full max-h-[24rem]"
                     src={$form.image} 
                     oninput={event => $form.image = event.target.files[0]} 
                 />
@@ -70,7 +69,6 @@
                     </label>
                     <Preview 
                         name="cover" 
-                        view="max-h-[30rem]" 
                         src={$form.cover}  
                         oninput={event => $form.cover = event.target.files[0]} 
                     />
@@ -86,9 +84,9 @@
                 </div>
             </div>
         </div>
-        <div class="w-full xl:w-[85rem] ml-auto mb-8">
+        <div class="w-full xl:w-[85rem] ml-auto">
             <div class="gap-3 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
-                <div class="mb-8">
+                <div>
                     <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
                         <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="local">
                             Local:
@@ -102,7 +100,7 @@
                         />
                     </div>
                 </div>
-                <div class="mb-8">
+                <div>
                     <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
                         <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="datas">
                             Datas:
@@ -118,7 +116,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
+        <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-10">
             <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
                 {#if publication}
                     Atualizar 
