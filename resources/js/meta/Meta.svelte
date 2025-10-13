@@ -12,7 +12,6 @@
   const defaultOgType = 'website';
   const defaultTwitterCreator = '@RedeAkiba';
 
-  // Reactive values
   $: fullTitle = meta.title ? `${meta.title} | Rede Akiba` : defaultTitle;
   $: metaDescription = meta.description || defaultDescription;
   $: metaKeywords = meta.keywords || defaultKeywords;
