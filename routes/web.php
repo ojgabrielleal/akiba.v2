@@ -37,22 +37,22 @@ Route::prefix('painel')->group(function () {
         Route::prefix('/materias')->group(function () {
             Route::controller(PostsController::class)->group(function () {
                 Route::get('/{slug?}', 'render')->name('render.painel.materias');
-                Route::post('/update/{slug}', 'updatePost');
                 Route::post('/create', 'createPost');
+                Route::post('/update/{id}', 'updatePost');
             });
         });
         Route::prefix('/reviews')->group(function () {
             Route::controller(ReviewsController::class)->group(function () {
                 Route::get('/{slug?}', 'render')->name('render.painel.reviews');
                 Route::post('/create', 'createReview');
-                Route::post('/update/{slug}', 'updateReview');
+                Route::post('/update/{id}', 'updateReview');
             });
         });
         Route::prefix('/eventos')->group(function () {
             Route::controller(EventsController::class)->group(function () {
                 Route::get('/{slug?}', 'render')->name('render.painel.eventos');
                 Route::post('/create', 'createEvent');
-                Route::post('/update/{slug}', 'updateEvent');
+                Route::post('/update/{id}', 'updateEvent');
             });
         });
         Route::prefix('/locucao')->group(function () {
