@@ -13,13 +13,136 @@ use App\Traits\Response\ProvideException;
 use App\Traits\Response\ProvideSuccess;
 use App\Traits\Upload\HandlesImageUpload;
 
+use App\Models\Podcast;
 
 class PodcastsController extends Controller
 {
     use HandlesImageUpload, ProvideSuccess, ProvideException;
 
-    public function render()
+    public function getPodcasts()
     {
-        return Inertia::render('admin/Podcasts');
+        try{
+            return Podcast::paginate(10);
+        }catch(\Throwable $e){
+            $this->provideException($e);
+        }
+    }
+
+    public function getPodcast($slug)
+    {
+        try{
+            return Podcast::where('slug', $slug)->with('user')->first();
+        }catch(\Throwable $e){
+            $this->provideException($e);
+        }
+    }
+
+    public function createPodcast(Request $request)
+    {
+        try{
+            $request->validate([
+                'image' => 'required',
+                'season' => 'required',
+                'episode' => 'required',
+                'title' => 'required',
+                'summary' => 'required',
+                'description' => 'required',
+                'audio' => 'required'
+            ], [
+                'image.required' => '<b><i>Capa do podcast</b></i> é obrigatório',
+                'season.required' => '<b><i>Número da temporada</b></i> é obrigatório',
+                'episode.required' => '<b><i>Número do episódio</b></i> é obrigatório',
+                'title.required' => '<b><i>Título do episódio</b></i> é obrigatório',
+                'summary.required' => '<b><i>Resumo do episódio</b></i> é obrigatório',
+                'description.required' => '<b><i>Escreva sobre o episódio</b></i> é obrigatório',
+                'audio.required' => '<b><i>URL Embeded do Spotify do episódio</b></i> é obrigatório'
+            ]);
+
+            $user = request()->user();
+            Podcast::create([
+                'user_id' => $user->id,
+                'slug' => Str::slug($request->input('title')),
+                'image' => $this->uploadImage('podcasts', $request->file('image')),
+                'season' => $request->input('season'),
+                'episode' => $request->input('episode'),
+                'title' => $request->input('title'), 
+                'summary' => $request->input('summary'), 
+                'description' => $request->input('description'),
+                'audio' => $request->input('audio')
+            ]);
+
+            $this->provideSuccess('save');
+        }catch(\Throwable $e){
+            $this->provideException($e);
+        }
+    }
+
+    public function updatePodcast(Request $request, $id)
+    {
+        try{
+            $request->validate([
+                'season' => 'required',
+                'episode' => 'required',
+                'title' => 'required',
+                'summary' => 'required',
+                'description' => 'required',
+                'audio' => 'required'
+            ], [
+                'season.required' => '<b><i>Número da temporada</b></i> é obrigatório',
+                'episode.required' => '<b><i>Número do episódio</b></i> é obrigatório',
+                'title.required' => '<b><i>Título do episódio</b></i> é obrigatório',
+                'summary.required' => '<b><i>Resumo do episódio</b></i> é obrigatório',
+                'description.required' => '<b><i>Escreva sobre o episódio</b></i> é obrigatório',
+                'audio.required' => '<b><i>URL Embeded do Spotify do episódio</b></i> é obrigatório'
+            ]);
+
+            $podcast = Podcast::where('id', $id)->first();
+
+            $slug = $request->input('title') !== $podcast->title ? Str::slug($request->input('title')) : $podcast->slug;
+            $image = $request->hasFile('image') ? $this->uploadImage('podcasts', $request->file('image'), 'public', $podcast->image) : $podcast->image;
+            $season = $request->input('season') !== $podcast->season ? $request->input('season') : $podcast->season;
+            $episode = $request->input('episode') !== $podcast->episode ? $request->input('episode') : $podcast->episode;
+            $title = $request->input('title') !== $podcast->title ? $request->input('title') : $podcast->title;
+            $summary = $request->input('summary') !== $podcast->summary ? $request->input('summary') : $podcast->summary;
+            $description = $request->input('description') !== $podcast->description ? $request->input('description') : $podcast->description;
+            $audio = $request->input('audio') !== $podcast->audio ? $request->input('audio') : $podcast->audio;
+
+            $podcast->update([  
+                'slug' => $slug,
+                'image' => $image,
+                'season' => $season,
+                'episode' => $episode,
+                'title' => $title, 
+                'summary' => $summary,
+                'description' => $description,
+                'audio' => $audio,
+            ]);
+
+            $this->provideSuccess('update');
+        }catch(\Throwable $e){
+            $this->provideException($e);
+        }
+    }
+
+    public function setTogglePodcast($id)
+    {
+        try{
+            $podcast = Podcast::where('id', $id)->first();
+            $podcast->update([
+                'is_active' => !$podcast->is_active,
+            ]);
+            
+            $this->provideSuccess('update');
+        }catch(\Throwable $e){
+            $this->provideException($e);
+        }
+    }
+
+    public function render($slug = null)
+    {
+        return Inertia::render('admin/Podcasts', [
+            'podcasts' => $this->getPodcasts(),
+            'podcast' => $this->getPodcast($slug)
+        ]);
     }
 }

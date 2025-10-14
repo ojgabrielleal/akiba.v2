@@ -9,6 +9,8 @@ class Podcast extends Model
     protected $table = 'podcasts';
 
     protected $fillable = [
+        'slug',
+        'is_active',
         'user_id',
         'image',
         'season',
@@ -22,7 +24,7 @@ class Podcast extends Model
     /**
      * Relationship with 'Users' model
      */
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

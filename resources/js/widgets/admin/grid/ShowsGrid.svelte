@@ -39,7 +39,7 @@
                             Atualizar programa
                         </div>
                         <div slot="content" let:close>
-                            <ShowForm {close} show_id={item.id}/>
+                            <ShowsForm {close} show_id={item.id}/>
                         </div>
                     </Offcanvas>
                     <button class="cursor-pointer text-red-crimson" aria-label="Desativar programa" on:click={() => deactivateShow(item.id)}>

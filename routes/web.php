@@ -79,7 +79,10 @@ Route::prefix('painel')->group(function () {
         });
         Route::prefix('/podcasts')->group(function () {
             Route::controller(PodcastsController::class)->group(function () {
-                Route::get('/', 'render')->name('render.painel.radio');
+                Route::get('/{slug?}', 'render')->name('render.painel.podcasts');
+                Route::post('/create', 'createPodcast');
+                Route::post('/update/{id}', 'updatePodcast');
+                Route::patch('/toggle/{id}', 'setTogglePodcast');
             });
         });
     });
