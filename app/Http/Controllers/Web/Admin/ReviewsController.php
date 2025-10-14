@@ -115,7 +115,7 @@ class ReviewsController extends Controller
         }
     }
 
-    public function updateReview(Request $request, $slug)
+    public function updateReview(Request $request, $id)
     {
         try {
             $request->validate([
@@ -128,7 +128,7 @@ class ReviewsController extends Controller
                 "content.required" => "<b><i>Escreva sobre o anime</b></i> é obrigatório",
             ]);
 
-            $review = Review::where('slug', $slug)->first();
+            $review = Review::where('id', $id)->first();
             $content = ReviewContent::where('id', $request->content_id)->first();
 
             $slug = $request->input('title') !== $review->title ? Str::slug($request->input('title')) : $review->slug;

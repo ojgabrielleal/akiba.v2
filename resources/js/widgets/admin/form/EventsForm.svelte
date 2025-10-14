@@ -18,7 +18,7 @@
         event.preventDefault();
 
         const submitter = event.submitter;
-        const url = publication ? `/painel/eventos/update/${publication.slug}` : `/painel/eventos/create`;
+        const url = publication ? `/painel/eventos/update/${publication.id}` : `/painel/eventos/create`;
 
         $form.status = submitter.value
         $form.post(url);
@@ -26,15 +26,15 @@
 
 </script>
 
-<Section title="Criar Eventos">
+<Section title={publication ? "Editar evento" : "Criar evento"}>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
-        <a href="/painel/materias" class="cursor-pointer border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
+        <a href="/painel/materias" class="cursor-pointer border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-center text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
             Matérias
         </a>
-        <a href="/painel/reviews" class="cursor-pointer border-4 border-solid border-purple-mystic rounded-xl text-purple-mystic text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
+        <a href="/painel/reviews" class="cursor-pointer border-4 border-solid border-purple-mystic rounded-xl text-purple-mystic text-xl text-center uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
             Reviews
         </a>
-        <a href="/painel/eventos" class="cursor-pointer border-4 border-solid border-orange-copper rounded-xl text-orange-copper text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
+        <a href="/painel/eventos" class="cursor-pointer border-4 border-solid border-orange-copper rounded-xl text-orange-copper text-xl text-center uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
             Eventos
         </a>
     </div>

@@ -57,7 +57,7 @@ class EventsController extends Controller
         }
     }
 
-    public function updateEvent(Request $request, $slug)
+    public function updateEvent(Request $request, $id)
     {
         try {
             $request->validate([
@@ -72,7 +72,7 @@ class EventsController extends Controller
                 "address.required" => "<b><i>Local</b></i> é obrigatório",
             ]);
 
-            $event = Event::where('slug', $slug)->first();
+            $event = Event::where('id', $id)->first();
 
             $slug = $request->input('title') !== $event->title ? Str::slug($request->input('title')) : $event->slug;
             $image = $request->hasFile('image') ? $this->uploadImage('events', $request->file('image'), 'public', $event->image) : $event->image;

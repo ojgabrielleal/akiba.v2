@@ -72,7 +72,7 @@ class PostsController extends Controller
         }
     }
 
-    public function updatePost(Request $request, $slug)
+    public function updatePost(Request $request, $id)
     {
         try {
             $request->validate([
@@ -95,7 +95,7 @@ class PostsController extends Controller
                 "second_category.required" => "<b><i>Segunda tag</b></i> é obrigatório",
             ]);
             
-            $post = Post::where('slug', $slug)->with(['references', 'categories'])->first();
+            $post = Post::where('id', $id)->with(['references', 'categories'])->first();
 
             if ($request->filled('first_category') && $request->filled('second_category')) {
                 $first_category_id = $post->categories[0]->id;
