@@ -21,7 +21,19 @@
         const url = publication ? `/painel/eventos/update/${publication.id}` : `/painel/eventos/create`;
 
         $form.status = submitter.value
-        $form.post(url);
+        $form.post(url, {
+            preserveState: false,
+            onSuccess: () => {
+                if (!publication) {
+                    $form.image = null,
+                    $form.title = null,
+                    $form.cover = null,
+                    $form.content = null,
+                    $form.dates = null,
+                    $form.address = null
+                }
+            },
+        });
     }
 
 </script>

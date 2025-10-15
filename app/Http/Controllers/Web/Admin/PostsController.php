@@ -146,7 +146,6 @@ class PostsController extends Controller
             ]);
 
             $this->ProvideSuccess('update');
-            return redirect()->route('render.painel.materias', ['slug' => $slug]);
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -179,11 +178,9 @@ class PostsController extends Controller
                 "second_category.required" => "<b><i>Segunda tag</b></i> é obrigatório",
             ]);
 
-            $slug = Str::slug($request->input('title'));
-
             $post = Post::create([
                 'user_id' => $request->user()->id,
-                'slug' => $slug,
+                'slug' => Str::slug($request->input('title')),
                 'title' => $request->input('title'),
                 'content' => $request->input('content'),
                 'status' => $request->input('status'),
@@ -214,7 +211,6 @@ class PostsController extends Controller
             ]);
 
             $this->ProvideSuccess('save');
-            return redirect()->route('render.painel.materias', ['slug' => $slug]);
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }

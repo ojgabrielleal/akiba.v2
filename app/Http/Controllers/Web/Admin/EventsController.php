@@ -93,7 +93,6 @@ class EventsController extends Controller
             ]);
 
             $this->ProvideSuccess('update');
-            return redirect()->route('render.painel.eventos', ['slug' => $slug]);
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -118,13 +117,10 @@ class EventsController extends Controller
                 "address.required" => "<b><i>Local</b></i> é obrigatório",
             ]);
 
-            Log::info($request);
             $user = request()->user();
-            $slug = Str::slug($request->input('title'));
-
             Event::create([
                 'user_id' => $user->id,
-                'slug' => $slug,
+                'slug' => Str::slug($request->input('title')),
                 'image' => $this->uploadImage('events', $request->file('image')),
                 'cover' => $this->uploadImage('events', $request->file('cover')),
                 'title' => $request->input('title'),
@@ -134,7 +130,6 @@ class EventsController extends Controller
             ]);
 
             $this->ProvideSuccess('save');
-            return redirect()->route('render.painel.eventos', ['slug' => $slug]);
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }

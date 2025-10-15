@@ -24,7 +24,19 @@
         const url = publication ? `/painel/reviews/update/${publication.id}` : `/painel/reviews/create`;
         
         $form.content_id = contentSelected?.id;
-        $form.post(url);
+        $form.post(url, {
+            preserveState: false,
+            onSuccess: () => {
+                if (!publication) {
+                    $form.image = null,
+                    $form.title = null,
+                    $form.sinopse = null,
+                    $form.cover = null,
+                    $form.content = null,
+                    $form.content_id = null
+                }
+            },
+        });
     }
 </script>
 
@@ -110,11 +122,7 @@
         </div>
         <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-10">
             <button type="submit" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                {#if $form.content}
-                    Atualizar
-                {:else}
-                    Publicar
-                {/if}
+                Publicar
             </button>
         </div>
     </form>

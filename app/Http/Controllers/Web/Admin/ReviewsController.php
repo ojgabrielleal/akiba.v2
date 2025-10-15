@@ -93,9 +93,8 @@ class ReviewsController extends Controller
                 "content.required" => "<b><i>Escreva sobre o anime</b></i> é obrigatório",
             ]);
             
-            $slug = Str::slug($request->input('title'));
             $review = Review::create([
-                'slug' => $slug,
+                'slug' => Str::slug($request->input('title')),
                 'title' => $request->input('title'),
                 'sinopse' => $request->input('sinopse'),
                 'image' => $this->uploadImage('reviews', $request->file('image')),
@@ -109,7 +108,6 @@ class ReviewsController extends Controller
             ]);
 
             $this->ProvideSuccess('save');
-            return redirect()->route('render.painel.reviews', ['slug' => $slug]);
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -157,8 +155,7 @@ class ReviewsController extends Controller
                 ]);
             }
 
-            $this->ProvideSuccess('save');
-            return redirect()->route('render.painel.reviews', ['slug' => $slug]);
+            $this->ProvideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }

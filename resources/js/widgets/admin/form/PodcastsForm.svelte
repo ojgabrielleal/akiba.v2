@@ -19,7 +19,20 @@
         event.preventDefault();
 
         let url = podcast ? `/painel/podcasts/update/${podcast.id}` : '/painel/podcasts/create';
-        $form.post(url);
+        $form.post(url, {
+            preserveState: false,
+            onSuccess: () => {
+                if (!podcast) {
+                    $form.image = null,
+                    $form.season = null, 
+                    $form.episode = null,
+                    $form.title = null,
+                    $form.summary = null,
+                    $form.description = null,
+                    $form.audio = null
+                }
+            },
+        });
     }
 </script>
 

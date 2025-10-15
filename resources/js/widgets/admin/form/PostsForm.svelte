@@ -26,8 +26,25 @@
         const submitter = event.submitter;
         const url = publication ? `/painel/materias/update/${publication.id}` : `/painel/materias/create`;
 
-        $form.status = submitter.value
-        $form.post(url);
+        $form.status = submitter.value;
+        $form.post(url, {
+            preserveState: false,
+            onSuccess: () => {
+                if(!publication){
+                    $form.status = null,
+                    $form.image = null,
+                    $form.title = null,
+                    $form.cover = null,
+                    $form.content = null,
+                    $form.first_category = null,
+                    $form.second_category = null,
+                    $form.first_reference_name = null,
+                    $form.first_reference_url = null,
+                    $form.second_reference_name = null,
+                    $form.second_reference_url = null
+                }
+            }
+        });
     }
 </script>
 
