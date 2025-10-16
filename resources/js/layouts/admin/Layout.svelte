@@ -6,9 +6,6 @@
     import Icon from "@iconify/svelte";
 
     $: ({ flash } = $page.props);
-    $:if(flash){
-        console.log(flash);
-    }
     
     // ------------------------
     // Sistema de Alertas

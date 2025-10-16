@@ -272,11 +272,11 @@
 {#if $metadata.onair.listener_request_status === 0}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
-            Foi mal... Você não pode enviar um pedido agora. 😭
+            😭 Ai… não dá pra mandar pedido agora!
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            O programa não tá rolando ao vivo agora, ou {$metadata.onair.user.gender === "male" ? "o DJ" : "a DJ"} {$metadata.onair.user.nickname} quer dar uma pausa nos pedidos por enquanto, viu? 
-            Mas fica de boa, daqui a pouco, você vai poder mandar a sua música! 💬🎶        
+            O programa não tá rolando ou {$metadata.onair.user.gender === "male" ? "o DJ" : "a DJ"} {$metadata.onair.user.nickname} tá dando uma pausa, tá?  
+            Mas relaxa, daqui a pouco você consegue mandar sua música! 💬🎶
         </dd>
     </dl>
 {/if}
@@ -284,11 +284,11 @@
 {#if success}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
-            Prontinho! Seu pedido foi enviado com sucesso. 💌
+            💌 Yay! Pedido enviado!
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            O seu pedido já tá a caminho! {$metadata.onair.user.gender === "male" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} vai atender você em instantes. 
-            Fica por aí que a programação tá demais! 🔥        
+            Seu pedido já tá a caminho! {$metadata.onair.user.gender === "male" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} vai ver rapidinho.  
+            Fica por aqui e curte a vibe da programação! ✨🔥
         </dd>
     </dl>
 {/if}
@@ -296,11 +296,11 @@
 {#if limit}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
-            Ui… já tá com saudade {$metadata.onair.user.gender === "male" ? "do DJ" : "da DJ"} {$metadata.onair.user.nickname}😏
+            😏 Eita, tá com saudade {$metadata.onair.user.gender === "male" ? "do DJ" : "da DJ"} {$metadata.onair.user.nickname}?
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500 leading-relaxed">
-            Calma(a)! {$metadata.onair.user.gender === "male" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} ainda tá curtindo o seu último pedido. 💃
-            Aguenta só mais um pouquinho que você poderá mandar outro pedido em <strong>{countdown}</strong>. ⏳🔥
+            Calmaaa! {$metadata.onair.user.gender === "male" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} ainda tá curtindo o último pedido 💃  
+            Aguenta só mais um pouquinho e você poderá mandar outro em <strong>{countdown}</strong>. ⏳💖
         </dd>
     </dl>
 {/if}
