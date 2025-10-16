@@ -111,7 +111,7 @@ trait ProvideException
         if ($e instanceof ValidationException) {
             $errors = collect($e->errors())->flatMap(function ($messages, $field) {
                 return array_map(function ($msg) use ($field) {
-                    return "<strong class='font-bold italic'>{$msg}</strong>&nbspé obrigatório, ok? 😉";
+                    return "O campo&nbsp;<strong class='font-bold uppercase italic'>{$msg}</strong>&nbsp;é obrigatório, ok? 😉";
                 }, $messages);
             })->toArray();
         } else {

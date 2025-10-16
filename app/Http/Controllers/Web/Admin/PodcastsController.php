@@ -50,8 +50,8 @@ class PodcastsController extends Controller
                 'audio' => 'required'
             ], [
                 'image.required' => 'Capa do podcast',
-                'season.required' => 'Número da temporada',
-                'episode.required' => 'Número do episódio',
+                'season.required' => 'Season',
+                'episode.required' => 'Episode',
                 'title.required' => 'Título do episódio',
                 'summary.required' => 'Resumo do episódio',
                 'description.required' => 'Escreva sobre o episódio',
@@ -94,8 +94,8 @@ class PodcastsController extends Controller
                 'description' => 'required',
                 'audio' => 'required'
             ], [
-                'season.required' => 'Número da temporada',
-                'episode.required' => 'Número do episódio',
+                'season.required' => 'Season',
+                'episode.required' => 'Episode',
                 'title.required' => 'Título do episódio',
                 'summary.required' => 'Resumo do episódio',
                 'description.required' => 'Escreva sobre o episódio',
