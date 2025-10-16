@@ -62,11 +62,7 @@ class PostsController extends Controller
     public function getPost($slug)
     {
         try {
-            if ($slug) {
-                $query = Post::where('slug', $slug);
-                $query->with(['references', 'categories']);
-                return $query->first();
-            }
+            return Post::where('slug', $slug)->with(['references', 'categories'])->first();
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -137,7 +133,7 @@ class PostsController extends Controller
             $title = $request->input('title') !== $post->title ? $request->input('title') : $post->title;
             $content = $request->input('content') !== $post->content ? $request->input('content') : $post->content;
 
-            $post->update([
+            $update = $post->update([
                 'slug' =>  $slug,
                 'title' => $title,
                 'content' => $content,
@@ -145,7 +141,11 @@ class PostsController extends Controller
                 'cover' => $cover,
             ]);
 
-            $this->ProvideSuccess('update');
+            if ($update === false) {
+                throw new \Exception('Não foi possível atualizar a matéria');
+            }
+
+            return $this->provideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -188,29 +188,49 @@ class PostsController extends Controller
                 'cover' => $this->uploadImage('posts', $request->file('cover')),
             ]);
 
-            PostReference::create([
+            if ($post === false) {
+                throw new \Exception('Não foi possível criar a matéria');
+            }
+
+            $first_reference = PostReference::create([
                 'post_id' => $post->id,
                 'name' => $request->input('first_reference_name'),
                 'url' => $request->input('first_reference_url'),
             ]);
 
-            PostReference::create([
+            if($first_reference === false){
+                throw new \Exception('Não foi possível criar a primeira referência');
+            }
+
+            $second_reference = PostReference::create([
                 'post_id' => $post->id,
                 'name' => $request->input('second_reference_name'),
                 'url' => $request->input('second_reference_url'),
             ]);
 
-            PostCategory::create([
+            if($second_reference === false){
+                throw new \Exception('Não foi possível criar a segunda referência');
+            }
+
+            $first_category = PostCategory::create([
                 'post_id' => $post->id,
                 'category_name' => $request->input('first_category')
             ]);
 
-            PostCategory::create([
+            if($first_category === false){
+                throw new \Exception('Não foi possível criar a primeira categoria');
+            }
+
+            $second_category = PostCategory::create([
                 'post_id' => $post->id,
                 'category_name' => $request->input('second_category')
             ]);
 
-            $this->ProvideSuccess('save');
+            if($second_category === false){
+                throw new \Exception('Não foi possível criar a segunda categoria');
+            }
+
+            return $this->provideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }

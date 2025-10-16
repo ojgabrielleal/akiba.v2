@@ -98,11 +98,15 @@ class BroadcastController extends Controller
     {
         try {
             $request = ListenerRequest::where('id', $id)->first();
-            $request->update([
+            $updated = $request->update([
                 'status' => 'attended'
             ]);
 
-            return back(303);
+            if($updated === false){
+                throw new \Exception('Não foi possível marcar o pedido como atendido');
+            }
+
+            return $this->provideSuccess('listener_request_attended');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -114,15 +118,19 @@ class BroadcastController extends Controller
             $onair = Onair::where('is_live', true)->first();
 
             if ($onair) {
-                $onair->update([
+                $update = $onair->update([
                     'listener_request_status' => !$onair->listener_request_status
                 ]);
-            }
 
-            if ($onair->listener_request_status) {
-                $this->ProvideSuccess('listener_request_open');
-            } else {
-                $this->ProvideSuccess('listener_request_close');
+                if ($update === false) {
+                    throw new \Exception('Não foi possível atualizar o status da caixa de pedidos');
+                }
+
+                if ($onair->listener_request_status) {
+                    $this->provideSuccess('listener_request_open');
+                } else {
+                    $this->provideSuccess('listener_request_close');
+                }
             }
         } catch (\Throwable $e) {
             $this->provideException($e);
@@ -136,19 +144,31 @@ class BroadcastController extends Controller
             $music = Music::where('id', $listener->music_id)->first();
             $onair = Onair::where('id', $listener->onair_id)->first();
 
-            $listener->update([
+            $listenerUpdate = $listener->update([
                 'status' => 'canceled'
             ]);
 
-            $music->update([
-                'listener_request_total' => $music->listener_request_total - 1
-            ]);
+            if($listenerUpdate === false){
+                $musicUpdate = $music->update([
+                    'listener_request_total' => $music->listener_request_total - 1
+                ]);
 
-            $onair->update([
-                'listener_request_total' => $onair->listener_request_total - 1
-            ]);
+                if($musicUpdate === false){
+                    throw new \Exception('Não foi possível remover uma visualização da música pedida');
+                }
+                
+                $onairUpdate = $onair->update([
+                    'listener_request_total' => $onair->listener_request_total - 1
+                ]);
 
-            return back(303);
+                if($onairUpdate === false){
+                    throw new \Exception('Não foi possível remover uma solicitação de pedido do contador geral do programa');
+                }
+            }else{
+                throw new \Exception('Não foi possível cancelar o pedido');
+            }
+
+            return $this->provideSuccess('listener_request_canceled');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -171,25 +191,37 @@ class BroadcastController extends Controller
             $user = request()->user();
             $show = Show::where('id', $request->input('show'))->first();
 
-            if ($show->is_all) {
+            if ($show && $show->is_all) {
                 if ($show->user_id !== $user->id) {
-                    $show->update([
+                    $update = $show->update([
                         'user_id' => $user->id
                     ]);
+
+                    if ($update === false) {
+                        throw new \Exception('Não foi possível atualizar o dono do programa disponível para todos');
+                    }
                 }
             }
 
-            Onair::where('is_live', true)->update([
+            $updateOnair = Onair::where('is_live', true)->update([
                 'is_live' => false,
                 'listener_request_status' => false,
             ]);
 
-            $show->onair()->create([
+            if($updateOnair === false){
+                throw new \Exception('Não foi possível verificar se já existe um programa no ar e finalizar ele');
+            }
+
+            $createOnair = $show->onair()->create([
                 'phrase' => $request->input('phrase'),
                 'image' => $request->input('image'),
                 'listener_request_status' => true,
                 'category' => 'live'
             ]);
+
+            if($createOnair === false){
+                throw new \Exception('Não foi possível iniciar o programa');
+            }
 
             if(env('APP_ENV') === "production"){
                 $webhook_discord = env('URL_DISCORD_WEBHOOK');
@@ -199,7 +231,7 @@ class BroadcastController extends Controller
                 Http::post($webhook_discord, $payload);
             } 
 
-            $this->ProvideSuccess('start_broadcast');
+            return $this->ProvideSuccess('start_broadcast');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -209,27 +241,34 @@ class BroadcastController extends Controller
     {
         try {
             $onair = Onair::where('is_live', true)->first();
-            $requests = ListenerRequest::where('status', 'new')->where('onair_id', $onair->id)->exists();
             $autodj = Autodj::where('is_default', true)->with('phrases')->first();
+            $requests = ListenerRequest::where('status', 'new')->where('onair_id', $onair->id)->exists();
             
             if($requests) {
-                $this->ProvideSuccess('end_broadcast_listener_request');
-                return;
+                throw new \Exception('Para encerrar o programa, todos os pedidos devem ser atendidos ou cancelados');
             }
             
-            $onair->update([
+            $update = $onair->update([
                 'is_live' => false,
                 'listener_request_status' => false
             ]);
+
+            if($update === false){
+                throw new \Exception('Não foi possível encerrar o programa');
+            }
             
             $phrase = $autodj->phrases->random();
-            $autodj->onair()->create([
+            $create = $autodj->onair()->create([
                 'category' => 'auto',
                 'phrase' => $phrase->phrase,
                 'image' => $phrase->image,
             ]);
 
-            $this->ProvideSuccess('end_broadcast');
+            if($create === false){
+                throw new \Exception('Não foi possível iniciar o AutoDJ');
+            }
+
+            return $this->provideSuccess('end_broadcast');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }

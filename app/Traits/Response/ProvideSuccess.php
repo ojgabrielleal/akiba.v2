@@ -13,61 +13,65 @@ trait ProvideSuccess
         $messages = [
             'save' => [
                 'type' => 'success',
-                'message' => '💾 Salvo! Tá seguro como os planos da Yuno em *Mirai Nikki* 😏📓'
+                'message' => '💾 Salvo! Como se alguém fosse bagunçar agora…'
             ],
             'load' => [
                 'type' => 'info',
-                'message' => '📂 Carregado! Rápido como Subaru em *Re:Zero* 💨❄️'
+                'message' => '📂 Carregado! Surpresa, tudo ainda está aqui.'
             ],
             'update' => [
                 'type' => 'success',
-                'message' => '⚡ Atualizado! Mais organizado que a guilda em *Konosuba* 😂🎯'
+                'message' => '⚡ Atualizado! Porque mudar as coisas de lugar sempre ajuda… certo?'
             ],
             'delete' => [
                 'type' => 'warning',
-                'message' => '🗑️ Apagado! Cuidado, tipo Tanjiro esquecendo a espada em *Demon Slayer* 😅🗡️'
+                'message' => '🗑️ Apagado! Adeus, dados… ou será que voltam?'
             ],
             'error' => [
                 'type' => 'error',
-                'message' => '🙀 Erro! Antes que a Akiyama do *K-On!* reclame 🎸🎶'
+                'message' => '🙀 Erro! Como se isso fosse inesperado…'
             ],
             'exists' => [
                 'type' => 'info',
-                'message' => '👀 Já existe, reative na lixeira! Tá só deitadinho como Kazuma de *Konosuba* 😂💤'
+                'message' => '👀 Já existe… alguém está tentando ser original?'
             ],
             'deactivate' => [
                 'type' => 'info',
-                'message' => '🌙 Desativado… reative depois como Nezuko em *Demon Slayer* 🔥🦋'
+                'message' => '🌙 Desativado… mas vai que alguém realmente se importa.'
             ],
             'activate' => [
                 'type' => 'success',
-                'message' => '☀️ Ativado! Brilha como a magia da Megumin em *Konosuba* 💥✨'
+                'message' => '☀️ Ativado! Agora tudo está... ativo.'
+            ],
+            'listener_request_attended' => [
+                'type' => 'success',
+                'message' => '🎧 Pedido marcado como atendido! Uau, grande coisa.'
+            ],
+            'listener_request_canceled' => [
+                'type' => 'info',
+                'message' => '❌ Pedido cancelado! Porque desistir é sempre uma opção.'
             ],
             'listener_request_open' => [
                 'type' => 'success',
-                'message' => '📢 Pedido aberto! Esperando fãs como no show da Ho Kago Tea Time em *K-On!* 🌀👊'
+                'message' => '📢 Pedidos abertos! Segura essa empolgação se você tiver…'
             ],
             'listener_request_close' => [
                 'type' => 'info',
-                'message' => '🔒 Pedido fechado! Hora de focar, como Subaru em *Re:Zero* 🛡️❄️'
+                'message' => '🔒 Pedidos fechados! Hora de fingir foco para acabar tudo…'
             ],
             'start_broadcast' => [
                 'type' => 'success',
-                'message' => '📡 Programa iniciado! Brilha como Kirito em *SAO* 🌟⚔️'
+                'message' => '📡 Programa iniciado! Como se alguém estivesse esperando…'
             ],
             'end_broadcast' => [
                 'type' => 'info',
-                'message' => '📡 Programa encerrado! Final como *AoT*, sem palavras 🌟⚔️'
-            ],
-            'end_broadcast_listener_request' => [
-                'type' => 'warning',
-                'message' => '⛔ Lembre-se de atender ou cancelar pedidos, ou Yuno vem pegar você! 🎧💬'
+                'message' => '📡 Programa encerrado! Que espetáculo, hein?'
             ],
         ];
 
         $default_message = [
             'type' => 'info',
-            'message' => '✨ Oi! Tudo certo, mais organizado que a guilda de *Konosuba* 😂🎯'
+            'message' => '✨ Oi! Tudo certo… ou pelo menos parece que está organizado 😂🎯'
         ];
 
         $baseData = $messages[$action] ?? $default_message;

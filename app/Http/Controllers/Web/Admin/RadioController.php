@@ -43,9 +43,7 @@ class RadioController extends Controller
     public function getProgramSchedule()
     {
         try {
-            $query = ProgramSchedule::orderBy('created_at', 'desc');
-            $query->with('show.user');
-            return $query->get();
+            return ProgramSchedule::orderBy('created_at', 'desc')->with('show.user')->get();
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -98,19 +96,25 @@ class RadioController extends Controller
                 'has_schedule' => $request->input('has_schedule')
             ]);
 
-            if ($request->input('has_schedule')) {
-                if ($show) {
+            if($show){
+                if ($request->input('has_schedule')) {
                     foreach ($request->input('schedules') as $schedule) {
-                        ProgramSchedule::create([
+                        $schedule = ProgramSchedule::create([
                             'show_id' => $show->id,
                             'day' => $schedule['day'],
                             'time' => $schedule['time'],
                         ]);
+
+                        if($schedule === false){
+                            throw new \Exception('Não foi possível criar o horário do programa');
+                        }
                     }
                 }
+            }else{
+                throw new \Exception('Não foi possível criar o programa');
             }
 
-            $this->ProvideSuccess('save');
+            return $this->provideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -133,7 +137,7 @@ class RadioController extends Controller
             $image = $request->hasFile('image') ? $this->uploadImage('shows', $request->file('image'), 'public', $show->image) : $show->image;
             $is_all = $request->input('is_all') !== $show->is_all ? $request->input('is_all') : $show->is_all;
 
-            $show->update([
+            $update = $show->update([
                 'user_id' => $user_id,
                 'slug' => $slug,
                 'name' => $name,
@@ -142,18 +146,30 @@ class RadioController extends Controller
                 'has_schedule' => $request->input('has_schedule')
             ]);
 
-            if ($request->input('has_schedule')) {
-                ProgramSchedule::where('show_id', $show->id)->delete();
-                foreach ($request->input('schedules') as $schedule) {
-                    ProgramSchedule::create([
-                        'show_id' => $show->id,
-                        'day' => $schedule['day'],
-                        'time' => $schedule['time'],
-                    ]);
+            if($update){
+                if ($request->input('has_schedule')) {
+                    $delete = ProgramSchedule::where('show_id', $show->id)->delete();
+                    if($delete === false){
+                        throw new \Exception('Não foi possível atualizar os horários do programa');
+                    }
+    
+                    foreach ($request->input('schedules') as $schedule) {
+                        $schedule = ProgramSchedule::create([
+                            'show_id' => $show->id,
+                            'day' => $schedule['day'],
+                            'time' => $schedule['time'],
+                        ]);
+
+                        if($schedule === false){
+                            throw new \Exception('Não foi possível criar o horário do programa');
+                        }
+                    }
                 }
+            }else{
+                throw new \Exception('Não foi possível atualizar o programa');
             }
 
-            $this->ProvideSuccess('update');
+            return $this->ProvideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -163,13 +179,21 @@ class RadioController extends Controller
     {
         try {
             $show = Show::where('id', $id)->first();
-            $show->update([
+            $update = $show->update([
                 'is_active' => false
             ]);
 
-            ProgramSchedule::where('show_id', $show->id)->delete();
+            if($update === false){
+                throw new \Exception('Não foi possível desativar o programa');
+            }
 
-            $this->ProvideSuccess('update');
+            $delete = ProgramSchedule::where('show_id', $show->id)->delete();
+
+            if($delete === false){
+                throw new \Exception('Não foi possível deletar os horários do programa');
+            }
+
+            return $this->ProvideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -190,11 +214,15 @@ class RadioController extends Controller
             $music = Music::where('id', $id)->first();
 
             $image = $this->uploadImage('musics/ranking', $request->file('image_ranking'), 'public', $music->image_ranking ?? null);
-            $music->update([
+            $update = $music->update([
                 'image_ranking' => $image,
             ]);
 
-            $this->ProvideSuccess('save');
+            if ($update === false) {
+                throw new \Exception('Não foi possível atualizar a imagem da música');
+            }
+
+            return $this->ProvideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -203,19 +231,31 @@ class RadioController extends Controller
     public function setRankingMusic()
     {
         try {
-            Music::where('is_ranking', true)->update([
+            $update = Music::where('is_ranking', true)->update([
                 'is_ranking' => false
             ]);
 
-            $music = Music::orderBy('listener_request_total', 'desc')->limit(10)->get();
-
-            foreach ($music as $music) {
-                $music->update([
-                    'is_ranking' => true
-                ]);
+            if ($update === false) {
+                throw new \Exception('Não foi possível resetar o ranking de músicas');
             }
 
-            $this->ProvideSuccess('save');
+            $music = Music::orderBy('listener_request_total', 'desc')->limit(10)->get();
+
+            if($music->isEmpty()){
+                throw new \Exception('Não há músicas para definir o ranking');
+            }
+
+            foreach ($music as $music) {
+                $update = $music->update([
+                    'is_ranking' => true
+                ]);
+
+                if ($update === false) {
+                    throw new \Exception('Não foi possível atualizar o ranking da música');
+                }
+            }
+
+            return $this->ProvideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -314,13 +354,17 @@ class RadioController extends Controller
                 $listenerMonth = ListenerMonth::where('id', 1)->first();
                 $image = $this->uploadImage('listener-month', $request->file('image'), 'public', $listenerMonth->image ?? null);
 
-                $listenerMonth->update([
+                $update = $listenerMonth->update([
                     'image' => $image,
                     'listener' => $listenerFound->listener,
                     'address' => $listenerFound->address,
                     'favorite_show' => $listenerFound->onair ? $listenerFound->onair->program->name : null,
                     'requests_total' => $listenerFound->total,
                 ]);
+
+                if ($update === false) {
+                    throw new \Exception('Não foi possível atualizar o ouvinte do mês');
+                }
 
                 return $this->provideSuccess('save');
 
@@ -328,7 +372,7 @@ class RadioController extends Controller
                 DB::statement('ALTER TABLE listener_month AUTO_INCREMENT = 1');
 
                 $image = $this->uploadImage('listener-month', $request->file('image'), 'public');
-                ListenerMonth::create([
+                $create = ListenerMonth::create([
                     'image' => $image,
                     'listener' => $listenerFound->listener,
                     'address' => $listenerFound->address,
@@ -336,9 +380,12 @@ class RadioController extends Controller
                     'requests_total' => $listenerFound->total,
                 ]);
 
-                return $this->provideSuccess('update');
-            }
+                if ($create === false) {
+                    throw new \Exception('Não foi possível criar o ouvinte do mês');
+                }
 
+                return $this->provideSuccess('save');
+            }
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }

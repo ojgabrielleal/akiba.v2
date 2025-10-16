@@ -30,71 +30,71 @@ trait ProvideException
             'trace' => $e->getTraceAsString(),
         ]);
 
-        // Mensagens resumidas com anime
+        // Mensagens randômicas por tipo de exceção
         $messages = [
             ModelNotFoundException::class => [
-                '👀 Nada aqui… estilo dungeon de *Konosuba*.',
-                'Hmm… não achei nada, tipo biblioteca de *K-On!* 📚🎶'
+                '👀 Nada aqui… ou será que está escondido de propósito?',
+                'Hmm… não achei nada, você realmente procurou direito? 📚'
             ],
             QueryException::class => [
-                '⚡ Ops… problema resolvemos depois, estilo reset do Subaru em *Re:Zero* 🌀',
-                'Algo deu errado… calma, tipo Yuno em *Mirai Nikki* 😏📓'
+                '⚡ Ops… algo deu errado, mas quem se importa, né?',
+                'Algo falhou… calma, ninguém ia notar mesmo 😏'
             ],
             AuthenticationException::class => [
-                '🔒 Precisa entrar primeiro, como esconderijo da guilda em *Konosuba*.',
-                'Faça login antes, tipo clubinho em *K-On!* 🎸💕'
+                '🔒 Precisa entrar primeiro… mas é só um detalhe, né?',
+                'Faça login antes… como se isso fosse realmente importante 🎸'
             ],
             AuthorizationException::class => [
-                'Hmm… você não pode acessar, tipo área proibida em *Demon Slayer* 🗡️',
-                'Área restrita… deixa comigo! 😎'
+                'Hmm… você não pode acessar isso… surpresa!',
+                'Área restrita… mas você tentou, né? 😎'
             ],
             NotFoundHttpException::class => [
-                '🚪 Página sumiu… segredinho estilo *Mirai Nikki*.',
-                'Nada aqui… stealth missão em *Konosuba* 🥷'
+                '🚪 Página sumiu… ou talvez nunca existiu.',
+                'Nada aqui… tenta de novo, quem sabe aparece 🥷'
             ],
             MethodNotAllowedHttpException::class => [
-                'Não dá pra fazer assim… combo secreto de *Demon Slayer* 🔥🦋',
-                'Ação inválida… tipo plano da Yuno 😏📓'
+                'Não dá pra fazer assim… mas continue tentando 🔥',
+                'Ação inválida… não era mesmo pra funcionar 😏'
             ],
             HttpException::class => [
-                '🌐 Problema na rede… espera um pouco, loop do Subaru em *Re:Zero* 🌀',
-                'Algo estranho… resolvemos juntos, aula de música em *K-On!* 🎶'
+                '🌐 Problema na rede… mas relaxa, ninguém percebeu 🌀',
+                'Algo estranho… vamos fingir que não aconteceu 🎶'
             ],
             ThrottleRequestsException::class => [
-                '🐢 Devagar… cooldown da Megumin ⚡',
-                'Muito rápido! Espera um pouco, guilda descansando 😌'
+                '🐢 Devagar… todo mundo precisa de um descanso ⚡',
+                'Muito rápido! Espera um pouco, ninguém está correndo 😌'
             ],
             FileNotFoundException::class => [
-                'Hmm… não achei, tipo tesouro em *Konosuba* 🥷',
-                'Sumiu… vamos procurar depois, diário da Yuno 😏📓'
+                'Hmm… não achei, talvez esteja brincando de esconde-esconde 🥷',
+                'Sumiu… olha de novo, deve estar por aí 😏'
             ],
             BindingResolutionException::class => [
-                'Perdeu nos bastidores… resolvemos juntos, guilda 😎',
-                'Não achei… só a gente, banda em *K-On!* 🎸'
+                'Perdeu nos bastidores… mas a vida continua 😎',
+                'Não achei… quem se importa mesmo 🎸'
             ],
             RuntimeException::class => [
-                '💥 Bug… consertamos em segredo, reset do Subaru em *Re:Zero* 🌀',
+                '💥 Bug… mas ninguém vai notar, relaxa 🌀',
             ],
             LogicException::class => [
-                'Algo estranho… cuidamos disso, missão guilda em *Konosuba* 😏',
+                'Algo estranho… mas vamos fingir que está tudo normal 😏',
             ],
         ];
 
-        // Mensagem padrão
-        $defaultMessage = app()->environment('production')
-            ? '💥 Erro estranho… tenta de novo depois, loop do Subaru em *Re:Zero* 🌀😉'
-            : $e->getMessage();
-
         $exceptionClass = get_class($e);
 
-        // Escolhe mensagem randômica ou padrão
-        if (!empty($messages[$exceptionClass])) {
-            $message = $messages[$exceptionClass][array_rand($messages[$exceptionClass])];
-        } else {
-            $message = $defaultMessage;
+        // Prioriza mensagem personalizada, depois anime message, depois padrão
+        $message = $e->getMessage(); // Mensagem personalizada
+        if (empty($message)) {
+            if (!empty($messages[$exceptionClass])) {
+                $message = $messages[$exceptionClass][array_rand($messages[$exceptionClass])];
+            } else {
+                $message = app()->environment('production')
+                    ? '💥 Erro estranho… tenta de novo depois… ou não, vai que dá certo sozinho 😉'
+                    : 'Erro desconhecido: ' . $exceptionClass;
+            }
         }
 
-        // Define status HTTP
+        // Status HTTP
         $status = match (true) {
             $e instanceof ModelNotFoundException => 404,
             $e instanceof ValidationException => 422,
@@ -107,17 +107,19 @@ trait ProvideException
             default => 500,
         };
 
-        // Tratamento especial para ValidationException
+        // Tratamento especial ValidationException
         if ($e instanceof ValidationException) {
             $errors = collect($e->errors())->flatMap(function ($messages, $field) {
                 return array_map(function ($msg) use ($field) {
-                    return "O campo&nbsp;<strong class='font-bold uppercase italic'>{$msg}</strong>&nbsp;é obrigatório, ok? 😉";
+                    $fieldName = ucfirst(str_replace('_', ' ', $field));
+                    return "O campo&nbsp;<strong class='font-bold uppercase italic'>{$msg}</strong>&nbsp;é obrigatório 😉";
                 }, $messages);
             })->toArray();
         } else {
             $errors = $message;
         }
 
+        // Resposta JSON
         if (request()->wantsJson()) {
             return response()->json([
                 'type' => 'warning',
@@ -125,7 +127,7 @@ trait ProvideException
             ], $status);
         }
 
-        // Para web tradicional
+        // Web tradicional
         return back(303)->with('flash', [
             'type' => 'warning',
             'message' => $errors,

@@ -59,10 +59,18 @@ class DashboardController extends Controller
             $query = Alert::find($id);
             $alert = $query->get();
 
-            AlertSignature::create([
+            if($alert->isEmpty()){
+                throw new \Exception('Esse aviso não existe');
+            }
+
+            $create = AlertSignature::create([
                 'user_id' => $user->id,
                 'alert_id' => $alert->id,
             ]);
+
+            if($create === false){
+                throw new \Exception('Não foi possível confirmar sua visualização no aviso');
+            }
 
             return $this->provideSuccess('save');
         } catch (\Throwable  $e) {
@@ -137,10 +145,14 @@ class DashboardController extends Controller
     {
         try {
             $task = Task::find($id);
-            $task->update([
+            $update = $task->update([
                 'completed' => true,
             ]);
 
+            if($update === false){          
+                throw new \Exception('Não foi possível concluir a tarefa');
+            }
+            
             return $this->provideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);

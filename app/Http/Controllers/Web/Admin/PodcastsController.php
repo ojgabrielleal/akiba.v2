@@ -59,13 +59,13 @@ class PodcastsController extends Controller
             ]);
 
             $verifyExist = Podcast::where('season', $request->input('season'))->where('episode', $request->input('episode'))->exists();
+
             if($verifyExist){
-                $this->provideSuccess('exists');
-                return;
+                return $this->provideSuccess('exists');
             }
 
             $user = request()->user();
-            Podcast::create([
+            $create = Podcast::create([
                 'user_id' => $user->id,
                 'slug' => Str::slug($request->input('title')),
                 'image' => $this->uploadImage('podcasts', $request->file('image')),
@@ -77,7 +77,11 @@ class PodcastsController extends Controller
                 'audio' => $request->input('audio')
             ]);
 
-            $this->provideSuccess('save');
+            if($create === false){
+                throw new \Exception('Não foi possível criar o podcast');
+            }
+
+            return $this->provideSuccess('save');
         }catch(\Throwable $e){
             $this->provideException($e);
         }
@@ -124,7 +128,7 @@ class PodcastsController extends Controller
                 'audio' => $audio,
             ]);
 
-            $this->provideSuccess('update');
+            return $this->provideSuccess('update');
         }catch(\Throwable $e){
             $this->provideException($e);
         }
@@ -138,7 +142,7 @@ class PodcastsController extends Controller
                 'is_active' => false,
             ]);
             
-            $this->provideSuccess('deactivate');
+            return $this->provideSuccess('deactivate');
         }catch(\Throwable $e){
             $this->provideException($e);
         }

@@ -101,13 +101,17 @@ class ReviewsController extends Controller
                 'cover' => $this->uploadImage('reviews', $request->file('cover')),
             ]);
 
-            ReviewContent::create([
+            $create = ReviewContent::create([
                 'user_id' => $request->user()->id,
                 'review_id' => $review->id,
                 'content' => $request->input('content')
             ]);
 
-            $this->ProvideSuccess('save');
+            if($create === false){
+                throw new \Exception('Não foi possível criar a review');
+            }
+
+            return $this->ProvideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -135,7 +139,7 @@ class ReviewsController extends Controller
             $title = $request->input('title') !== $review->title ? $request->input('title') : $review->title;
             $sinopse = $request->input('sinopse') !== $review->sinopse ? $request->input('sinopse') : $review->sinopse;
 
-            $review->update([
+            $update = $review->update([
                 'slug' => $slug,
                 'title' => $title,
                 'sinopse' => $sinopse,
@@ -143,19 +147,31 @@ class ReviewsController extends Controller
                 'cover' => $cover,
             ]);
 
+            if($update === false) {
+                throw new \Exception('Não foi possível atualizar o review');
+            }
+
             if ($content) {
-                $content->update([
+                $contentUpdate = $content->update([
                     'content' => $request->input('content')
                 ]);
+
+                if ($contentUpdate === false) {
+                    throw new \Exception('Não foi possível atualizar o conteúdo único do review');
+                }
             } else {
-                ReviewContent::create([
+                $create = ReviewContent::create([
                     'user_id' => $request->user()->id,
                     'review_id' => $review->id,
                     'content' => $request->input('content')
                 ]);
+
+                if ($create === false) {
+                    throw new \Exception('Não foi possível criar o conteúdo único do review');
+                }
             }
 
-            $this->ProvideSuccess('update');
+            return $this->ProvideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
