@@ -13,25 +13,14 @@
 </script>
 
 <Section title="Avisos para a equipe">
-    <div
-        class="scroll-x flex gap-5 overflow-x-auto flex-nowrap"
-        bind:this={container}
-        on:wheel={(e) => scrollx(e, container)}
-        role="group"
-    >
+    <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={(e) => scrollx(e, container)} role="group">
         {#if alerts?.length > 0}
             {#each alerts as item}
-                <article
-                    class="w-100 h-50 lg:w-[29rem] bg-blue-skywave flex-shrink-0 rounded-lg p-4 relative"
-                >
-                    <div
-                        class="font-noto-sans font-black italic uppercase text-neutral-aurora text-xl"
-                    >
+                <article class="w-100 h-50 lg:w-[29rem] bg-blue-skywave flex-shrink-0 rounded-lg p-4 relative">
+                    <div class="font-noto-sans font-black italic uppercase text-neutral-aurora text-xl">
                         {item.user.nickname}
                     </div>
-                    <div
-                        class="font-noto-sans text-sm text-neutral-aurora line-clamp-5 mt-1"
-                    >
+                    <div class="font-noto-sans text-sm text-neutral-aurora line-clamp-5 mt-1">
                         {item.content}
                     </div>
                     <div class="flex gap-2 absolute bottom-3 left-4">
@@ -53,32 +42,18 @@
                             class="w-[2rem] h-[2rem] bg-neutral-aurora absolute bottom-3 right-4 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer"
                             on:click={() => createSignature(item.id)}
                         >
-                            <img
-                                src="/svg/default/verify.svg"
-                                alt=""
-                                aria-hidden="true"
-                                class="w-5"
-                                loading="lazy"
-                            />
+                            <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy" />
                         </button>
                     {/if}
                 </article>
             {/each}
         {:else}
-            <article
-                class="w-100 h-50 lg:w-[29rem] bg-blue-cerulean opacity-50 flex-shrink-0 rounded-lg p-4 relative"
-            >
-                <div
-                    class="font-noto-sans font-black italic uppercase text-neutral-aurora text-xl"
-                >
+            <article class="w-100 h-50 lg:w-[29rem] bg-blue-cerulean opacity-50 flex-shrink-0 rounded-lg p-4 relative">
+                <div class="font-noto-sans font-black italic uppercase text-neutral-aurora text-xl">
                     Aki-chan
                 </div>
-                <div
-                    class="font-noto-sans text-sm text-neutral-aurora line-clamp-5 mt-1"
-                >
-                    Não se preocupe se você não foi lembrado meu bem. Vou estar
-                    aqui ao seu lado, só nós dois esse tempo! Quando quiserem
-                    algo certeza que vão avisar a gente!
+                <div class="font-noto-sans text-sm text-neutral-aurora line-clamp-5 mt-1">
+                    Relax… você não foi lembrado, ninguém se importa e provavelmente ninguém vai avisar. Mas não se preocupe, é só mais um dia normal.
                 </div>
             </article>
         {/if}

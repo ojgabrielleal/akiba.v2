@@ -1,6 +1,5 @@
 <script>
     import { metadata } from "@/store"
-
 </script>
 
 {#if $metadata}
