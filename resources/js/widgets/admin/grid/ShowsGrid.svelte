@@ -29,7 +29,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-20 mt-6">
         {#each shows as item}
             <article class="w-full flex justify-center lg:justify-start gap-4">
-                <img src={item.image} alt={item.name} class={`w-60 transition duration-300 ease-in-out ${item.is_active ? "opacity-100" : "opacity-50"}`} loading="lazy"/>
+                <img src={item.image} alt={item.name} class="w-60 transition duration-300 ease-in-out" loading="lazy"/>
                 <div class="flex flex-wrap lg:flex-col gap-5 mt-2 lg:mt-0">
                     <Offcanvas>
                         <div class="text-blue-skywave cursor-pointer" slot="action">

@@ -10,7 +10,6 @@
     $: ({ streamers } = $page.props);
 
     $: form = useForm({
-        is_active: 1,
         name: null,
         is_all: 0,
         image: null,
@@ -21,7 +20,6 @@
 
     $: if (show_id) {
         axios.get(`/painel/radio/get/show/${show_id}`).then((response) => {
-            $form.is_active = response.data.is_active;
             $form.name = response.data.name;
             $form.image = response.data.image;
             $form.is_all = Number(response.data.is_all);
@@ -69,37 +67,6 @@
             class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
             bind:value={$form.name}
         />
-    </div>
-    <div class="mb-4">
-        <div class="text-md text-gray-700 font-noto-sans mb-2">
-            Este programa está ativo?
-        </div>
-        <div class="flex items-center gap-2 mb-1">
-            <input
-                id="open"
-                type="radio"
-                name="is_active"
-                value={1}
-                class="cursor-pointer w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                bind:group={$form.is_active}
-            />
-            <label for="open" class="cursor-pointer text-md text-gray-700 font-noto-sans">
-                Sim
-            </label>
-        </div>
-        <div class="flex items-center gap-2">
-            <input
-                id="close"
-                type="radio"
-                name="is_active"
-                value={0}
-                class="cursor-pointer w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                bind:group={$form.is_active}
-            />
-            <label for="close" class="cursor-pointer text-md text-gray-700 font-noto-sans">
-                Não
-            </label>
-        </div>
     </div>
     <div class="mb-4">
         <div class="text-md text-gray-700 font-noto-sans mb-2">

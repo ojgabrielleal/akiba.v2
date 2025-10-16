@@ -22,7 +22,7 @@ class PodcastsController extends Controller
     public function getPodcasts()
     {
         try{
-            return Podcast::paginate(10);
+            return Podcast::where('is_active', true)->paginate(10);
         }catch(\Throwable $e){
             $this->provideException($e);
         }
@@ -49,14 +49,20 @@ class PodcastsController extends Controller
                 'description' => 'required',
                 'audio' => 'required'
             ], [
-                'image.required' => '<b><i>Capa do podcast</b></i> é obrigatório',
-                'season.required' => '<b><i>Número da temporada</b></i> é obrigatório',
-                'episode.required' => '<b><i>Número do episódio</b></i> é obrigatório',
-                'title.required' => '<b><i>Título do episódio</b></i> é obrigatório',
-                'summary.required' => '<b><i>Resumo do episódio</b></i> é obrigatório',
-                'description.required' => '<b><i>Escreva sobre o episódio</b></i> é obrigatório',
-                'audio.required' => '<b><i>URL Embeded do Spotify do episódio</b></i> é obrigatório'
+                'image.required' => 'Capa do podcast',
+                'season.required' => 'Número da temporada',
+                'episode.required' => 'Número do episódio',
+                'title.required' => 'Título do episódio',
+                'summary.required' => 'Resumo do episódio',
+                'description.required' => 'Escreva sobre o episódio',
+                'audio.required' => 'URL Embeded do Spotify do episódio'
             ]);
+
+            $verifyExist = Podcast::where('season', $request->input('season'))->where('episode', $request->input('episode'))->exists();
+            if($verifyExist){
+                $this->provideSuccess('exists');
+                return;
+            }
 
             $user = request()->user();
             Podcast::create([
@@ -88,12 +94,12 @@ class PodcastsController extends Controller
                 'description' => 'required',
                 'audio' => 'required'
             ], [
-                'season.required' => '<b><i>Número da temporada</b></i> é obrigatório',
-                'episode.required' => '<b><i>Número do episódio</b></i> é obrigatório',
-                'title.required' => '<b><i>Título do episódio</b></i> é obrigatório',
-                'summary.required' => '<b><i>Resumo do episódio</b></i> é obrigatório',
-                'description.required' => '<b><i>Escreva sobre o episódio</b></i> é obrigatório',
-                'audio.required' => '<b><i>URL Embeded do Spotify do episódio</b></i> é obrigatório'
+                'season.required' => 'Número da temporada',
+                'episode.required' => 'Número do episódio',
+                'title.required' => 'Título do episódio',
+                'summary.required' => 'Resumo do episódio',
+                'description.required' => 'Escreva sobre o episódio',
+                'audio.required' => 'URL Embeded do Spotify do episódio'
             ]);
 
             $podcast = Podcast::where('id', $id)->first();
@@ -124,15 +130,15 @@ class PodcastsController extends Controller
         }
     }
 
-    public function setTogglePodcast($id)
+    public function deactivatePodcast($id)
     {
         try{
             $podcast = Podcast::where('id', $id)->first();
             $podcast->update([
-                'is_active' => !$podcast->is_active,
+                'is_active' => false,
             ]);
             
-            $this->provideSuccess('update');
+            $this->provideSuccess('deactivate');
         }catch(\Throwable $e){
             $this->provideException($e);
         }

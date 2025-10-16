@@ -30,60 +30,59 @@ trait ProvideException
             'trace' => $e->getTraceAsString(),
         ]);
 
-        // Mensagens randômicas por exceção
+        // Mensagens resumidas com anime
         $messages = [
             ModelNotFoundException::class => [
-                'Parece que não tem nada por aqui… só entre quando quiser procurar comigo.',
-                'Hmm… não achei nada. Esse cantinho é só nosso, volta depois sem ninguém por perto.'
+                '👀 Nada aqui… estilo dungeon de *Konosuba*.',
+                'Hmm… não achei nada, tipo biblioteca de *K-On!* 📚🎶'
             ],
             QueryException::class => [
-                'Ops… algo não deu certo, mas é melhor a gente ver isso a sós.',
-                'Deu um probleminha, mas não se preocupe… deixa quietinho até podermos conferir juntos.'
+                '⚡ Ops… problema resolvemos depois, estilo reset do Subaru em *Re:Zero* 🌀',
+                'Algo deu errado… calma, tipo Yuno em *Mirai Nikki* 😏📓'
             ],
             AuthenticationException::class => [
-                'Ei, você precisa entrar primeiro… é segredo nosso, hein.',
-                'Antes de continuar, faça login. Só assim a gente pode continuar juntos.'
+                '🔒 Precisa entrar primeiro, como esconderijo da guilda em *Konosuba*.',
+                'Faça login antes, tipo clubinho em *K-On!* 🎸💕'
             ],
             AuthorizationException::class => [
-                'Hmm… você não pode acessar isso. Melhor deixar pra lá.',
-                'Essa área não é pra todo mundo… me deixa!.'
+                'Hmm… você não pode acessar, tipo área proibida em *Demon Slayer* 🗡️',
+                'Área restrita… deixa comigo! 😎'
             ],
             NotFoundHttpException::class => [
-                'Essa página sumiu… só volte quando ninguém estiver olhando.',
-                'Nada encontrado aqui… é melhor vir sozinho da próxima vez.'
+                '🚪 Página sumiu… segredinho estilo *Mirai Nikki*.',
+                'Nada aqui… stealth missão em *Konosuba* 🥷'
             ],
             MethodNotAllowedHttpException::class => [
-                'Não dá pra fazer desse jeito… vamos tentar quando estiver só nós dois.',
-                'Essa ação não funciona assim… deixa pra tentar depois em segredo.'
+                'Não dá pra fazer assim… combo secreto de *Demon Slayer* 🔥🦋',
+                'Ação inválida… tipo plano da Yuno 😏📓'
             ],
             HttpException::class => [
-                'A rede deu um problema… é melhor esperar um pouco antes de tentar de novo.',
-                'Algo estranho aconteceu… vamos resolver só nós dois, sem pressa.'
+                '🌐 Problema na rede… espera um pouco, loop do Subaru em *Re:Zero* 🌀',
+                'Algo estranho… resolvemos juntos, aula de música em *K-On!* 🎶'
             ],
             ThrottleRequestsException::class => [
-                'Devagar… você está indo rápido demais. Melhor esperar um pouco.',
-                'Muito rápido! Espera um pouco e depois continuamos juntas.'
+                '🐢 Devagar… cooldown da Megumin ⚡',
+                'Muito rápido! Espera um pouco, guilda descansando 😌'
             ],
             FileNotFoundException::class => [
-                'Hmm… não achei o que você procura. Só volte quando estiver sozinho.',
-                'Algo sumiu… vamos procurar juntis quando ninguém estiver por perto.'
+                'Hmm… não achei, tipo tesouro em *Konosuba* 🥷',
+                'Sumiu… vamos procurar depois, diário da Yuno 😏📓'
             ],
             BindingResolutionException::class => [
-                'Algo se perdeu nos bastidores… melhor ver isso a sós.',
-                'Não consegui encontrar isso… só a gente vai resolver, ok?'
+                'Perdeu nos bastidores… resolvemos juntos, guilda 😎',
+                'Não achei… só a gente, banda em *K-On!* 🎸'
             ],
             RuntimeException::class => [
-                'Deu um bug… vamos consertar sem ninguém por perto.',
+                '💥 Bug… consertamos em segredo, reset do Subaru em *Re:Zero* 🌀',
             ],
             LogicException::class => [
-                'Algo estranho aconteceu… deixa só a gente cuidar disso por enquanto.',
+                'Algo estranho… cuidamos disso, missão guilda em *Konosuba* 😏',
             ],
         ];
 
-
         // Mensagem padrão
         $defaultMessage = app()->environment('production')
-            ? 'Parece que deu um erro estranho… tenta de novo depois, só nós dois saberemos disso. Não desanima, tá?'
+            ? '💥 Erro estranho… tenta de novo depois, loop do Subaru em *Re:Zero* 🌀😉'
             : $e->getMessage();
 
         $exceptionClass = get_class($e);
@@ -108,16 +107,15 @@ trait ProvideException
             default => 500,
         };
 
-        // Mensagem padrão para todas as exceções
-        $errors = $message;
-
         // Tratamento especial para ValidationException
         if ($e instanceof ValidationException) {
             $errors = collect($e->errors())->flatMap(function ($messages, $field) {
                 return array_map(function ($msg) use ($field) {
-                    return "'Hmm… eu não vou repetir! {$msg} ";
+                    return "<strong class='font-bold italic'>{$msg}</strong>&nbspé obrigatório, ok? 😉";
                 }, $messages);
             })->toArray();
+        } else {
+            $errors = $message;
         }
 
         if (request()->wantsJson()) {
@@ -127,7 +125,7 @@ trait ProvideException
             ], $status);
         }
 
-        // Para web tradicional, sempre redireciona com 303
+        // Para web tradicional
         return back(303)->with('flash', [
             'type' => 'warning',
             'message' => $errors,

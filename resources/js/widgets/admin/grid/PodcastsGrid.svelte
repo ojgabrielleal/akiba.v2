@@ -5,9 +5,9 @@
 
     $: ({ podcasts } = $page.props);
 
-    function togglePodcast(id)
+    function deactivatePodcast(id)
     {
-        router.patch(`/painel/podcasts/toggle/${id}`);
+        router.patch(`/painel/podcasts/deactivate/${id}`);
     }
 </script>
 
@@ -15,7 +15,7 @@
     <Section title="Todos os podcasts">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 lg:gap-y-10 lg:gap-x-5">
             {#each podcasts.data as item}
-                <div class={item.is_active === 0 ? "opacity-50" : "opacity-100"}>
+                <div>
                     <div class="aspect-square">
                         <img class="w-full h-full" src={item.image} alt={`Capa do podcast ${item.title}`}/>
                     </div>
@@ -27,15 +27,9 @@
                             <a href={`/painel/podcasts/${item.slug}`} aria-label="Editar">
                                 <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                             </a>
-                            {#if item.is_active === 1}
-                                <button on:click={()=>togglePodcast(item.id)} class="cursor-pointer text-red-crimson" aria-label="Desativar">
-                                    <Icon icon="iconamoon:trash-fill" width="26" height="26" aria-hidden="true" />
-                                </button>
-                            {:else}
-                                <button on:click={()=>togglePodcast(item.id)} class="cursor-pointer text-blue-skywave" aria-label="Reativar">
-                                    <Icon icon="bx:reset" width="26" height="26" aria-hidden="true" />
-                                </button>
-                            {/if}
+                            <button on:click={()=>deactivatePodcast(item.id)} class="cursor-pointer text-red-crimson" aria-label="Desativar">
+                                <Icon icon="iconamoon:trash-fill" width="26" height="26" aria-hidden="true" />
+                            </button>
                         </dd>
                     </dl>
                 </div>

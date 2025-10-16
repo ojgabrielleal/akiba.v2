@@ -86,13 +86,13 @@ class PostsController extends Controller
                 'first_category' => 'required',
                 'second_category' => 'required',
             ], [
-                "status.required" => "<b><i>Status</b></i> é obrigatório",
-                "title.required" => "<b><i>Título</b></i> é obrigatório",
-                "content.required" => "<b><i>Escreva sua matéria</b></i> é obrigatório",
-                "first_reference_name.required" => "<b><i>Nome</b></i> para o site da primeira fonte de pesquisa é obrigatório",
-                "first_reference_url.required" => "<b><i>URL</b></i> para o site da primeira fonte de pesquisa é obrigatório",
-                "first_category.required" => "<b><i>Primeira tag</b></i> é obrigatório",
-                "second_category.required" => "<b><i>Segunda tag</b></i> é obrigatório",
+                "status.required" => "Status",
+                "title.required" => "Título",
+                "content.required" => "Escreva sua matéria",
+                "first_reference_name.required" => "Nome para o site da primeira fonte de pesquisa",
+                "first_reference_url.required" => "URL para o site da primeira fonte de pesquisa",
+                "first_category.required" => "Primeira tag",
+                "second_category.required" => "Segunda tag",
             ]);
             
             $post = Post::where('id', $id)->with(['references', 'categories'])->first();
@@ -167,15 +167,15 @@ class PostsController extends Controller
                 'first_category' => 'required',
                 'second_category' => 'required',
             ], [
-                "status.required" => "<b><i>Status</b></i> é obrigatório",
-                "title.required" => "<b><i>Título</b></i> é obrigatório",
-                "content.required" => "<b><i>Escreva sua matéria</b></i> é obrigatório",
-                "image.required" => "<b><i>Imagem em destaque</b></i> é obrigatório",
-                "cover.required" => "<b><i>Capa da matéria</b></i> é obrigatório",
-                "first_reference_name.required" => "<b><i>Nome</b></i> para o site da primeira fonte de pesquisa é obrigatório",
-                "first_reference_url.required" => "<b><i>URL</b></i> para o site da primeira fonte de pesquisa é obrigatório",
-                "first_category.required" => "<b><i>Primeira tag</b></i> é obrigatório",
-                "second_category.required" => "<b><i>Segunda tag</b></i> é obrigatório",
+                "status.required" => "Status",
+                "title.required" => "Título",
+                "content.required" => "Escreva sua matéria",
+                "image.required" => "Imagem em destaque",
+                "cover.required" => "Capa da matéria",
+                "first_reference_name.required" => "Nome para o site da primeira fonte de pesquisa",
+                "first_reference_url.required" => "URL para o site da primeira fonte de pesquisa",
+                "first_category.required" => "Primeira tag",
+                "second_category.required" => "Segunda tag",
             ]);
 
             $post = Post::create([

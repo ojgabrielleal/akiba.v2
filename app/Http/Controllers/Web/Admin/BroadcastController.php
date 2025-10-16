@@ -120,9 +120,9 @@ class BroadcastController extends Controller
             }
 
             if ($onair->listener_request_status) {
-                $this->ProvideSuccess('save', 'Opa, meu bem... já estou avisando que seus pedidos estão chegando! Se prepara!');
+                $this->ProvideSuccess('listener_request_open');
             } else {
-                $this->ProvideSuccess('save', 'Sério!!!! Aconteceu algo? As pessoas querem fazer pedidos... Ou será que o programa tá acabando? #refletindo');
+                $this->ProvideSuccess('listener_request_close');
             }
         } catch (\Throwable $e) {
             $this->provideException($e);
@@ -148,7 +148,7 @@ class BroadcastController extends Controller
                 'listener_request_total' => $onair->listener_request_total - 1
             ]);
 
-            $this->provideSuccess('save', 'Oii meu bem, o que aconteceu para cancelar o pedido dessa pessoa?? Ela foi má?');
+            return back(303);
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -164,8 +164,8 @@ class BroadcastController extends Controller
                 'image' => 'required',
             ], [
                 'show.required' => "Escolha um programa para começar",
-                'phrase.required' => "<b><i>Qual é a frase para esse programa</b></i> é obrigatório",
-                'image.required' => "<b><i>Escolha um icone</b></i> é obrigatório",
+                'phrase.required' => "Qual é a frase para esse programa",
+                'image.required' => "Escolha um icone",
             ]);
 
             $user = request()->user();
@@ -199,7 +199,7 @@ class BroadcastController extends Controller
                 Http::post($webhook_discord, $payload);
             } 
 
-            $this->ProvideSuccess('save', 'Ei! Seu programa começou e os ouvintes querem ouvir sua voz! Se solta faz seu show!');
+            $this->ProvideSuccess('start_broadcast');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -213,7 +213,7 @@ class BroadcastController extends Controller
             $autodj = Autodj::where('is_default', true)->with('phrases')->first();
             
             if($requests) {
-                $this->ProvideSuccess('info', 'Oi... Passei aqui rapidinho pra lembrar que pra terminar o programa os pedidos tem que ser atendidos ou cancelados!');
+                $this->ProvideSuccess('end_broadcast_listener_request');
                 return;
             }
             
@@ -229,7 +229,7 @@ class BroadcastController extends Controller
                 'image' => $phrase->image,
             ]);
 
-            $this->ProvideSuccess('save', 'Um ótimo programa como sempre! Me deixou ansiosa para a próxima vez!');
+            $this->ProvideSuccess('end_broadcast');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }

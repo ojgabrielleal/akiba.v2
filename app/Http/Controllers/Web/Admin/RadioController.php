@@ -54,7 +54,7 @@ class RadioController extends Controller
     public function getShows()
     {
         try {
-            return Show::orderBy('created_at', 'desc')->with(['user', 'schedules'])->get();
+            return Show::orderBy('created_at', 'desc')->with(['user', 'schedules'])->where('is_active', true)->get();
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -76,12 +76,18 @@ class RadioController extends Controller
                 'name' => 'required',
                 'image' => 'required|image',
             ], [
-                'name.required' => '<b><i>Programa</b></i> é obrigatório',
-                'image.required' => '<b><i>Logo do programa</b></i> é obrigatório',
+                'name.required' => 'Programa',
+                'image.required' => 'Logo do programa',
             ]);
 
             $user = request()->user();
             $user_id = $request->input('user_id') ? $request->input('user_id') : $user->id;
+
+            $verifyExist = Show::where('name', $request->input('name'))->exists();
+            if ($verifyExist) {
+                $this->ProvideSuccess('exists');
+                return;
+            }
 
             $show = Show::create([
                 'user_id' => $user_id,
@@ -116,7 +122,7 @@ class RadioController extends Controller
             $request->validate([
                 'name' => 'required',
             ], [
-                'name.required' => '<b><i>Programa</b></i> é obrigatório',
+                'name.required' => 'Programa',
             ]);
 
             $show = Show::where('id', $id)->first();
@@ -269,7 +275,7 @@ class RadioController extends Controller
             $request->validate([
                 'image' => 'required|image',
             ], [    
-                'image.required' => '<b><i>Imagem do ranking</b></i> é obrigatório'
+                'image.required' => 'Imagem do ranking'
             ]);
 
             $startOfMonth = Carbon::now()->startOfMonth();

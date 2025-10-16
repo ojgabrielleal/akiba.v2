@@ -82,7 +82,7 @@ Route::prefix('painel')->group(function () {
                 Route::get('/{slug?}', 'render')->name('render.painel.podcasts');
                 Route::post('/create', 'createPodcast');
                 Route::post('/update/{id}', 'updatePodcast');
-                Route::patch('/toggle/{id}', 'setTogglePodcast');
+                Route::patch('/deactivate/{id}', 'deactivatePodcast');
             });
         });
     });

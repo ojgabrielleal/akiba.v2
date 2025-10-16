@@ -109,12 +109,12 @@ class EventsController extends Controller
                 'dates' => 'required',
                 'address' => 'required',
             ], [
-                "title.required" => "<b><i>Nome do evento</b></i> é obrigatório",
-                "image.required" => "<b><i>Imagem em destaque</b></i> é obrigatório",
-                "cover.required" => "<b><i>Capa do evento</b></i> é obrigatório",
-                "content.required" => "<b><i>Escreva sobre o evento</b></i> é obrigatório",
-                "dates.required" => "<b><i>Datas</b></i> é obrigatório",
-                "address.required" => "<b><i>Local</b></i> é obrigatório",
+                "title.required" => "Nome do evento",
+                "image.required" => "Imagem em destaque",
+                "cover.required" => "Capa do evento",
+                "content.required" => "Escreva sobre o evento",
+                "dates.required" => "Datas",
+                "address.required" => "Local",
             ]);
 
             $user = request()->user();
