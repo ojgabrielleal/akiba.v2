@@ -18,6 +18,7 @@
         content: contentSelected?.content,
         content_id: null,
     })
+
     function onSubmit(event) {
         event.preventDefault();
 
@@ -122,7 +123,11 @@
         </div>
         <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-10">
             <button type="submit" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                Publicar
+                {#if contentSelected?.content}
+                    Atualizar
+                {:else}
+                   Publicar
+                {/if}
             </button>
         </div>
     </form>

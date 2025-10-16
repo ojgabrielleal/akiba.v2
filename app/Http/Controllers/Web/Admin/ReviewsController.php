@@ -64,7 +64,7 @@ class ReviewsController extends Controller
                             'id' => $user->id,
                             'nickname' => $user->nickname,
                         ],
-                        'content' => 'Escreva seu review...'
+                        'content' => ''
                     ];
                     $review->reviews->prepend($placeholder);
                 }
