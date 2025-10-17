@@ -106,7 +106,7 @@ class BroadcastController extends Controller
                 throw new \Exception('Não foi possível marcar o pedido como atendido');
             }
 
-            return $this->provideSuccess('listener_request_attended');
+            $this->provideSuccess('listener_request_attended');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -149,26 +149,26 @@ class BroadcastController extends Controller
             ]);
 
             if($listenerUpdate === false){
-                $musicUpdate = $music->update([
-                    'listener_request_total' => $music->listener_request_total - 1
-                ]);
-
-                if($musicUpdate === false){
-                    throw new \Exception('Não foi possível remover uma visualização da música pedida');
-                }
-                
-                $onairUpdate = $onair->update([
-                    'listener_request_total' => $onair->listener_request_total - 1
-                ]);
-
-                if($onairUpdate === false){
-                    throw new \Exception('Não foi possível remover uma solicitação de pedido do contador geral do programa');
-                }
-            }else{
                 throw new \Exception('Não foi possível cancelar o pedido');
             }
 
-            return $this->provideSuccess('listener_request_canceled');
+            $musicUpdate = $music->update([
+                'listener_request_total' => $music->listener_request_total - 1
+            ]);
+
+            if($musicUpdate === false){
+                throw new \Exception('Não foi possível remover uma visualização da música pedida');
+            }
+            
+            $onairUpdate = $onair->update([
+                'listener_request_total' => $onair->listener_request_total - 1
+            ]);
+
+            if($onairUpdate === false){
+                throw new \Exception('Não foi possível remover uma solicitação de pedido do contador geral do programa');
+            }
+
+            $this->provideSuccess('listener_request_canceled');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -231,7 +231,7 @@ class BroadcastController extends Controller
                 Http::post($webhook_discord, $payload);
             } 
 
-            return $this->ProvideSuccess('start_broadcast');
+            $this->provideSuccess('start_broadcast');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -268,7 +268,7 @@ class BroadcastController extends Controller
                 throw new \Exception('Não foi possível iniciar o AutoDJ');
             }
 
-            return $this->provideSuccess('end_broadcast');
+            $this->provideSuccess('end_broadcast');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }

@@ -24,13 +24,15 @@
 {#if verify.onair === false && verify.streamer === false}
     <Section title="Meus Programas">
         <form on:submit={onSubmit}>
-            <div class="flex flex-wrap justify-center gap-15 lg:gap-x-0 lg:gap-y-15 0 mt-10 mb-20">
-                {#each shows as item}
-                    <button on:click={() => ($form.show = item.id)} type="button" aria-label={item.name} class="cursor-pointer lg:px-10 lg:border-r-2 lg:border-neutral-opacity lg:last:border-0">
-                        <img src={item.image} alt="" aria-hidden="true" class={`w-60 transition duration-300 ease-in-out ${$form.show === item.id ? "opacity-50 scale-90" : "opacity-100"}`} loading="lazy"/>
-                    </button>
-                {/each}
-            </div>
+            {#if shows.length > 0}
+                <div class="flex flex-wrap justify-center gap-15 lg:gap-x-0 lg:gap-y-15 0 mt-10 mb-20">
+                    {#each shows as item}
+                        <button on:click={() => ($form.show = item.id)} type="button" aria-label={item.name} class="cursor-pointer lg:px-10 lg:border-r-2 lg:border-neutral-opacity lg:last:border-0">
+                            <img src={item.image} alt="" aria-hidden="true" class={`w-60 transition duration-300 ease-in-out ${$form.show === item.id ? "opacity-50 scale-90" : "opacity-100"}`} loading="lazy"/>
+                        </button>
+                    {/each}
+                </div>
+            {/if}
             <div class="mb-8">
                 <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="phrase">
                     Qual é a frase para esse programa?

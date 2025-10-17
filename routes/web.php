@@ -58,6 +58,7 @@ Route::prefix('painel')->group(function () {
         Route::prefix('/locucao')->group(function () {
             Route::controller(BroadcastController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.locucao');
+                Route::get('/requests', 'getListenerRequests');
                 Route::patch('/requests/status', 'setListenerRequestsStatus');
                 Route::patch('/requests/attended/{id}', 'setToAttendedListenerRequest');
                 Route::patch('/requests/canceled/{id}', 'setCancelListenerRequest');

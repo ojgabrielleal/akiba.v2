@@ -4,11 +4,17 @@ namespace App\Traits\Response;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Inertia\Inertia;
 
 trait ProvideSuccess
 {
-    public function provideSuccess(string $action, ?string $message = null): Response|RedirectResponse
+    /**
+     * Attach a flash message to the session. When the request is an AJAX/Inertia
+     * request, return the flash as JSON so the frontend can show it without
+     * performing a redirect.
+     */
+    public function provideSuccess(string $action, ?string $message = null)
     {
         $messages = [
             'save' => [
@@ -75,7 +81,6 @@ trait ProvideSuccess
         ];
 
         $baseData = $messages[$action] ?? $default_message;
-
         $finalMessage = $message ?? $baseData['message'];
 
         return back(303)->with('flash', [

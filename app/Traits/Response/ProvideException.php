@@ -119,7 +119,6 @@ trait ProvideException
             $errors = $message;
         }
 
-        // Resposta JSON
         if (request()->wantsJson()) {
             return response()->json([
                 'type' => 'warning',
@@ -127,7 +126,7 @@ trait ProvideException
             ], $status);
         }
 
-        // Web tradicional
+        // Para web tradicional, sempre redireciona com 303
         return back(303)->with('flash', [
             'type' => 'warning',
             'message' => $errors,

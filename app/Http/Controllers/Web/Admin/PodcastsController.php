@@ -61,7 +61,7 @@ class PodcastsController extends Controller
             $verifyExist = Podcast::where('season', $request->input('season'))->where('episode', $request->input('episode'))->exists();
 
             if($verifyExist){
-                return $this->provideSuccess('exists');
+                $this->provideSuccess('exists');
             }
 
             $user = request()->user();
@@ -81,7 +81,7 @@ class PodcastsController extends Controller
                 throw new \Exception('Não foi possível criar o podcast');
             }
 
-            return $this->provideSuccess('save');
+            $this->provideSuccess('save');
         }catch(\Throwable $e){
             $this->provideException($e);
         }
@@ -128,7 +128,7 @@ class PodcastsController extends Controller
                 'audio' => $audio,
             ]);
 
-            return $this->provideSuccess('update');
+            $this->provideSuccess('update');
         }catch(\Throwable $e){
             $this->provideException($e);
         }
@@ -137,14 +137,16 @@ class PodcastsController extends Controller
     public function deactivatePodcast($id)
     {
         try{
-            $podcast = Podcast::where('id', $id)->first();
+            $podcast = Podcast::where('id', $id)->firstOrFail(); 
+            
             $podcast->update([
                 'is_active' => false,
             ]);
-            
-            return $this->provideSuccess('deactivate');
-        }catch(\Throwable $e){
-            $this->provideException($e);
+
+            $this->provideSuccess('deactivate'); 
+        }
+        catch(\Throwable $e){
+            return $this->provideException($e);
         }
     }
 

@@ -111,7 +111,7 @@ class ReviewsController extends Controller
                 throw new \Exception('Não foi possível criar a review');
             }
 
-            return $this->ProvideSuccess('save');
+            $this->provideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -171,7 +171,7 @@ class ReviewsController extends Controller
                 }
             }
 
-            return $this->ProvideSuccess('update');
+            $this->provideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }

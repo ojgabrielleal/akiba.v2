@@ -18,4 +18,4 @@ function data() {
 data();
 setInterval(() => {
     data();
-}, 30 * 1000);
+}, 60 * 1000);

@@ -14,16 +14,18 @@
     let queue = [];
     let timeout = 5 * 1000;
 
-    $: if (flash && flash.message && Array.isArray(flash.message)) {
-        queue = [...queue, ...flash.message.map(msg => ({
-            type: msg.type,
-            message: msg,
-        }))];
-    } else if(flash && flash.message) {
-        queue = [...queue, {
-            type: flash.type,
-            message: flash.message,
-        }];
+    $: if (flash) {
+        if (flash.message && Array.isArray(flash.message)) {
+            queue = [...queue, ...flash.message.map(msg => ({
+                type: msg.type,
+                message: msg.message || msg,
+            }))];
+        } else if (flash.type && flash.message) {
+            queue = [...queue, {
+                type: flash.type,
+                message: flash.message
+            }];
+        }
     }
 
     async function processQueue(){
