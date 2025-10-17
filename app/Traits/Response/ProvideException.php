@@ -27,7 +27,6 @@ trait ProvideException
         // Log detalhado
         Log::error('[LaravelException] ' . get_class($e) . ': ' . $e->getMessage(), [
             'exception' => $e,
-            'trace' => $e->getTraceAsString(),
         ]);
 
         // Mensagens randômicas por tipo de exceção
@@ -82,36 +81,20 @@ trait ProvideException
 
         $exceptionClass = get_class($e);
 
-        // Prioriza mensagem personalizada, depois anime message, depois padrão
+        // Prioriza mensagem personalizada, depois padrão
         $message = $e->getMessage(); // Mensagem personalizada
         if (empty($message)) {
             if (!empty($messages[$exceptionClass])) {
                 $message = $messages[$exceptionClass][array_rand($messages[$exceptionClass])];
             } else {
-                $message = app()->environment('production')
-                    ? '💥 Erro estranho… tenta de novo depois… ou não, vai que dá certo sozinho 😉'
-                    : 'Erro desconhecido: ' . $exceptionClass;
+                $message = app()->environment('production') ? '💥 Erro estranho… tenta de novo depois… ou não, vai que dá certo sozinho 😉' : 'Erro desconhecido: ' . $exceptionClass;
             }
         }
 
-        // Status HTTP
-        $status = match (true) {
-            $e instanceof ModelNotFoundException => 404,
-            $e instanceof ValidationException => 422,
-            $e instanceof AuthenticationException => 401,
-            $e instanceof AuthorizationException => 403,
-            $e instanceof NotFoundHttpException => 404,
-            $e instanceof MethodNotAllowedHttpException => 405,
-            $e instanceof ThrottleRequestsException => 429,
-            $e instanceof RuntimeException, $e instanceof LogicException => 500,
-            default => 500,
-        };
-
         // Tratamento especial ValidationException
         if ($e instanceof ValidationException) {
-            $errors = collect($e->errors())->flatMap(function ($messages, $field) {
-                return array_map(function ($msg) use ($field) {
-                    $fieldName = ucfirst(str_replace('_', ' ', $field));
+            $errors = collect($e->errors())->flatMap(function ($messages) {
+                return array_map(function ($msg) {
                     return "O campo&nbsp;<strong class='font-bold uppercase italic'>{$msg}</strong>&nbsp;é obrigatório 😉";
                 }, $messages);
             })->toArray();
@@ -119,14 +102,6 @@ trait ProvideException
             $errors = $message;
         }
 
-        if (request()->wantsJson()) {
-            return response()->json([
-                'type' => 'warning',
-                'message' => $errors
-            ], $status);
-        }
-
-        // Para web tradicional, sempre redireciona com 303
         return back(303)->with('flash', [
             'type' => 'warning',
             'message' => $errors,

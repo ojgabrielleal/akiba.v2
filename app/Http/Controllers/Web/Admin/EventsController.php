@@ -93,7 +93,7 @@ class EventsController extends Controller
                 throw new \Exception('Não foi possível atualizar o evento');
             }
 
-            $this->provideSuccess('update');
+            return $this->provideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -134,7 +134,7 @@ class EventsController extends Controller
                 throw new \Exception('Não foi possível criar o evento');
             }
             
-            $this->provideSuccess('save');
+            return $this->provideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }

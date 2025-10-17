@@ -145,7 +145,7 @@ class PostsController extends Controller
                 throw new \Exception('Não foi possível atualizar a matéria');
             }
 
-            $this->provideSuccess('update');
+            return $this->provideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -230,7 +230,7 @@ class PostsController extends Controller
                 throw new \Exception('Não foi possível criar a segunda categoria');
             }
 
-            $this->provideSuccess('save');
+            return $this->provideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }

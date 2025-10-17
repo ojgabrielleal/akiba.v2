@@ -87,7 +87,7 @@ class HomeProvisoryController extends Controller
                 'message' => $message,
             ]);
 
-            return back(303);
+            return $this->provideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }

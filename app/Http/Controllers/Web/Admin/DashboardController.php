@@ -72,7 +72,7 @@ class DashboardController extends Controller
                 throw new \Exception('Não foi possível confirmar sua visualização no aviso');
             }
 
-            $this->provideSuccess('save');
+            return $this->provideSuccess('save');
         } catch (\Throwable  $e) {
             return $this->provideException($e);
         }
@@ -153,7 +153,7 @@ class DashboardController extends Controller
                 throw new \Exception('Não foi possível concluir a tarefa');
             }
             
-            $this->provideSuccess('save');
+            return $this->provideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }

@@ -83,7 +83,7 @@ class RadioController extends Controller
 
             $verifyExist = Show::where('name', $request->input('name'))->exists();
             if ($verifyExist) {
-                $this->provideSuccess('exists');
+                return $this->provideSuccess('exists');
                 return;
             }
 
@@ -114,7 +114,7 @@ class RadioController extends Controller
                 throw new \Exception('Não foi possível criar o programa');
             }
 
-            $this->provideSuccess('save');
+            return $this->provideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -169,7 +169,7 @@ class RadioController extends Controller
                 throw new \Exception('Não foi possível atualizar o programa');
             }
 
-            $this->provideSuccess('update');
+            return $this->provideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -193,7 +193,7 @@ class RadioController extends Controller
                 throw new \Exception('Não foi possível deletar os horários do programa');
             }
 
-            $this->provideSuccess('update');
+            return $this->provideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -222,7 +222,7 @@ class RadioController extends Controller
                 throw new \Exception('Não foi possível atualizar a imagem da música');
             }
 
-            $this->provideSuccess('save');
+            return $this->provideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -255,7 +255,7 @@ class RadioController extends Controller
                 }
             }
 
-            $this->provideSuccess('save');
+            return $this->provideSuccess('save');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -366,7 +366,7 @@ class RadioController extends Controller
                     throw new \Exception('Não foi possível atualizar o ouvinte do mês');
                 }
 
-                $this->provideSuccess('save');
+                return $this->provideSuccess('save');
 
             } else {
                 DB::statement('ALTER TABLE listener_month AUTO_INCREMENT = 1');
@@ -384,7 +384,7 @@ class RadioController extends Controller
                     throw new \Exception('Não foi possível criar o ouvinte do mês');
                 }
 
-                $this->provideSuccess('save');
+                return $this->provideSuccess('save');
             }
         } catch (\Throwable $e) {
             return $this->provideException($e);

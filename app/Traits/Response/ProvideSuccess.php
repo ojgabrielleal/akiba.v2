@@ -9,12 +9,7 @@ use Inertia\Inertia;
 
 trait ProvideSuccess
 {
-    /**
-     * Attach a flash message to the session. When the request is an AJAX/Inertia
-     * request, return the flash as JSON so the frontend can show it without
-     * performing a redirect.
-     */
-    public function provideSuccess(string $action, ?string $message = null)
+    public function provideSuccess(string $action)
     {
         $messages = [
             'save' => [
@@ -80,12 +75,12 @@ trait ProvideSuccess
             'message' => '✨ Oi! Tudo certo… ou pelo menos parece que está organizado 😂🎯'
         ];
 
-        $baseData = $messages[$action] ?? $default_message;
-        $finalMessage = $message ?? $baseData['message'];
+        $base = $messages[$action] ?? $default_message;
+        $final = $base['message'];
 
         return back(303)->with('flash', [
-            'type' => $baseData['type'],
-            'message' => $finalMessage,
+            'type' => $base['type'],
+            'message' => $final,
         ]);
     }
 }

@@ -1,27 +1,34 @@
 <script>
     import { page, router } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
-    import { requests, startPolling } from "@/store"
+    import { listenerRequests, startListenerRequestPolling, stopListenerRequestPolling, refetchListenerRequests } from "@/store"
     import Icon from "@iconify/svelte";
     import { onMount, onDestroy } from "svelte";
 
     $: ({ verify } = $page.props);
 
-    let cleanup;
     onMount(() => {
-        cleanup = startPolling();
+       startListenerRequestPolling();
     });
 
     onDestroy(() => {
-        if (cleanup) cleanup();
+        stopListenerRequestPolling();
     })
 
     function markToAttended(id){
-        router.patch(`/painel/locucao/requests/attended/${id}`,)
+        router.patch(`/painel/locucao/requests/attended/${id}`, {}, {
+            onSuccess: ()=>{
+                refetchListenerRequests();
+            }
+        })
     }
 
     function markToCanceled(id){
-        router.patch(`/painel/locucao/requests/canceled/${id}`,)
+        router.patch(`/painel/locucao/requests/canceled/${id}`, {}, {
+            onSuccess: ()=>{
+                refetchListenerRequests();
+            }
+        })
     }
 
     function changeStatus(){
@@ -43,7 +50,7 @@
             {/if}
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 mt-10">
-            {#each $requests as item}
+            {#each $listenerRequests.requests as item}
                 <article class={`w-full lg:w-[23.6rem] rounded-lg p-3 ${item.status === "attended" ? "bg-green-forest" : item.status ==="canceled" ? "bg-red-crimson" : "bg-blue-skywave"}`}>
                     <div class="w-70 flex items-center gap-1.5 text-neutral-aurora text-[1.2rem] font-noto-sans font-bold italic truncate">
                         <Icon icon="mdi:person-circle" width="20" height="20" aria-hidden="true"/>

@@ -1,3 +1,3 @@
-export { metadata } from "./metadata.js"
-export { requests, startPolling } from "./requests.js"
-export { player, togglePlayPause, setVolume } from "./player.js"
+export { metadata, startMetadataPolling, stopMetadataPolling } from "./Metadata.js"
+export { listenerRequests, startListenerRequestPolling, stopListenerRequestPolling, refetchListenerRequests } from "./listenerRequests.js";
+export { player, togglePlayPause, setVolume } from "./Player.js"

@@ -1,5 +1,14 @@
 <script>
-    import { metadata } from "@/store"
+    import { onMount, onDestroy } from "svelte"
+    import { metadata, startMetadataPolling, stopMetadataPolling } from "@/store"
+
+    onMount(() => {
+        startMetadataPolling();
+    });
+
+    onDestroy(() => {
+        stopMetadataPolling();
+    });
 </script>
 
 {#if $metadata}

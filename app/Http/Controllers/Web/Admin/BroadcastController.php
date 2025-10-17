@@ -106,7 +106,7 @@ class BroadcastController extends Controller
                 throw new \Exception('Não foi possível marcar o pedido como atendido');
             }
 
-            $this->provideSuccess('listener_request_attended');
+            return $this->provideSuccess('listener_request_attended');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -127,9 +127,9 @@ class BroadcastController extends Controller
                 }
 
                 if ($onair->listener_request_status) {
-                    $this->provideSuccess('listener_request_open');
+                    return $this->provideSuccess('listener_request_open');
                 } else {
-                    $this->provideSuccess('listener_request_close');
+                    return $this->provideSuccess('listener_request_close');
                 }
             }
         } catch (\Throwable $e) {
@@ -168,7 +168,7 @@ class BroadcastController extends Controller
                 throw new \Exception('Não foi possível remover uma solicitação de pedido do contador geral do programa');
             }
 
-            $this->provideSuccess('listener_request_canceled');
+            return $this->provideSuccess('listener_request_canceled');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -231,7 +231,7 @@ class BroadcastController extends Controller
                 Http::post($webhook_discord, $payload);
             } 
 
-            $this->provideSuccess('start_broadcast');
+            return $this->provideSuccess('start_broadcast');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -268,7 +268,7 @@ class BroadcastController extends Controller
                 throw new \Exception('Não foi possível iniciar o AutoDJ');
             }
 
-            $this->provideSuccess('end_broadcast');
+            return $this->provideSuccess('end_broadcast');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
