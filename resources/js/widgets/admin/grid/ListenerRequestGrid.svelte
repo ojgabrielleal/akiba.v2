@@ -7,10 +7,6 @@
 
     $: ({ verify } = $page.props);
 
-    $:if($page.props){
-        console.log($page.props)
-    }
-
     let cleanup;
     onMount(() => {
         cleanup = startPolling();

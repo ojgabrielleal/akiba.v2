@@ -267,9 +267,8 @@
             Enviar
         </button>
     </form>
-{/if}
 
-{#if $metadata.onair.listener_request_status === 0}
+{:else if $metadata.onair.listener_request_status === 0}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
             😭 Ai… não dá pra mandar pedido agora!
@@ -279,9 +278,8 @@
             Mas relaxa, daqui a pouco você consegue mandar sua música! 💬🎶
         </dd>
     </dl>
-{/if}
 
-{#if success}
+{:else if success}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
             💌 Yay! Pedido enviado!
@@ -291,9 +289,8 @@
             Fica por aqui e curte a vibe da programação! ✨🔥
         </dd>
     </dl>
-{/if}
 
-{#if limit}
+{:else}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
             😏 Eita, tá com saudade {$metadata.onair.user.gender === "male" ? "do DJ" : "da DJ"} {$metadata.onair.user.nickname}?

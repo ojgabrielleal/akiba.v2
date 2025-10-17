@@ -20,7 +20,7 @@ export function startPolling() {
     fetchData();
     
     // Start polling
-    const interval = setInterval(fetchData, 5 * 1000);
+    const interval = setInterval(fetchData, 60 * 1000);
     
     // Return cleanup function
     return () => {
