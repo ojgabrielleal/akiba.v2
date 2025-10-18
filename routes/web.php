@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\Admin\EventsController;
 use App\Http\Controllers\Web\Admin\BroadcastController;
 use App\Http\Controllers\Web\Admin\RadioController;
 use App\Http\Controllers\Web\Admin\PodcastsController;
+use App\Http\Controllers\Web\Admin\MarketingController;
 
 use App\Http\Controllers\Web\Public\HomeProvisoryController;
 
@@ -84,6 +85,11 @@ Route::prefix('painel')->group(function () {
                 Route::post('/create', 'createPodcast');
                 Route::post('/update/{id}', 'updatePodcast');
                 Route::patch('/deactivate/{id}', 'deactivatePodcast');
+            });
+        });
+        Route::prefix('/marketing')->group(function () {
+            Route::controller(MarketingController::class)->group(function () {
+                Route::get('/{slug?}', 'render')->name('render.painel.marketing');
             });
         });
     });
