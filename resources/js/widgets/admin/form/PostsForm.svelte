@@ -12,12 +12,12 @@
         title: publication?.title,
         cover: publication?.cover,
         content: publication?.content,
-        first_category: publication?.categories[0]?.category_name,
-        second_category: publication?.categories[1]?.category_name,
-        first_reference_name: publication?.references[0]?.name,
-        first_reference_url: publication?.references[0]?.url,
-        second_reference_name: publication?.references[1]?.name,
-        second_reference_url: publication?.references[1]?.url,
+        first_category: publication?.categories?.[0]?.category_name,
+        second_category: publication?.categories?.[1]?.category_name,
+        first_reference_name: publication?.references?.[0]?.name,
+        first_reference_url: publication?.references?.[0]?.url,
+        second_reference_name: publication?.references?.[1]?.name,
+        second_reference_url: publication?.references?.[1]?.url,
     });
 
     function onSubmit(event) {
@@ -107,7 +107,7 @@
             </div>
         </div>
         <div class="w-full xl:w-[85rem] ml-auto">
-            <div class="gap-2 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
+            <div class="gap-2 grid grid-cols-1 md:grid-cols-2 md:gap-10">
                 <div class="mb-8">
                     <label class="text-blue-skywave font-bold italic text-lg text-center uppercase font-noto-sans block mb-1" for="first_category">
                         Primeira Tag
@@ -139,7 +139,7 @@
                     </select>
                 </div>
             </div>
-            <div class="gap-5 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
+            <div class="gap-5 grid grid-cols-1 lg:grid-cols-2 lg:gap-10">
                 <div>
                     <div class="text-center text-orange-amber font-bold italic text-lg uppercase font-noto-sans mb-1">
                         Primeira fonte de pesquisa

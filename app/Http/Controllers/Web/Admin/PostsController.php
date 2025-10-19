@@ -62,7 +62,9 @@ class PostsController extends Controller
     public function getPost($slug)
     {
         try {
-            return Post::where('slug', $slug)->with(['references', 'categories'])->firstOrFail();
+            if($slug){
+                return Post::where('slug', $slug)->with(['references', 'categories'])->firstOrFail();
+            }
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
