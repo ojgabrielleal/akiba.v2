@@ -135,7 +135,7 @@ class DashboardController extends Controller
     public function setTaskCompleted($id)
     {
         try {
-            $task = Task::firstOrFail($id);
+            $task = Task::where('id', $id)->firstOrFail();
             
             $taskUpdate = $task->update([
                 'completed' => true,
