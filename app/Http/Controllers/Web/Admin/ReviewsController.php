@@ -55,8 +55,6 @@ class ReviewsController extends Controller
                 $review = $query->first();
 
                 $userReview  = $review->reviews->contains('user_id', $user->id);
-
-                // Add placeholder object in array reviews with user logged;
                 if (!$userReview) {
                     $placeholder = (object) [
                         'user_id' => $user->id,
@@ -101,15 +99,12 @@ class ReviewsController extends Controller
                 'cover' => $this->uploadImage('reviews', $request->file('cover')),
             ]);
 
-            $create = ReviewContent::create([
+            $createReview = ReviewContent::create([
                 'user_id' => $request->user()->id,
                 'review_id' => $review->id,
                 'content' => $request->input('content')
             ]);
-
-            if($create === false){
-                throw new \Exception('Não foi possível criar a review');
-            }
+            if(!$createReview) throw new \Exception('Não foi possível criar a review');
 
             return $this->provideSuccess('save');
         } catch (\Throwable $e) {
@@ -130,8 +125,8 @@ class ReviewsController extends Controller
                 "content.required" => "Escreva sobre o anime",
             ]);
 
-            $review = Review::where('id', $id)->first();
-            $content = ReviewContent::where('id', $request->content_id)->first();
+            $review = Review::where('id', $id)->firstOrFail();
+            $content = ReviewContent::where('id', $request->content_id)->firstOrFail();
 
             $slug = $request->input('title') !== $review->title ? Str::slug($request->input('title')) : $review->slug;
             $image = $request->hasFile('image') ? $this->uploadImage('reviews', $request->file('image'), 'public', $review->image) : $review->image;
@@ -139,36 +134,27 @@ class ReviewsController extends Controller
             $title = $request->input('title') !== $review->title ? $request->input('title') : $review->title;
             $sinopse = $request->input('sinopse') !== $review->sinopse ? $request->input('sinopse') : $review->sinopse;
 
-            $update = $review->update([
+            $updateReview = $review->update([
                 'slug' => $slug,
                 'title' => $title,
                 'sinopse' => $sinopse,
                 'image' => $image,
                 'cover' => $cover,
             ]);
-
-            if($update === false) {
-                throw new \Exception('Não foi possível atualizar o review');
-            }
+            if($updateReview === 0) throw new \Exception('Não foi possível atualizar o review');
 
             if ($content) {
                 $contentUpdate = $content->update([
                     'content' => $request->input('content')
                 ]);
-
-                if ($contentUpdate === false) {
-                    throw new \Exception('Não foi possível atualizar o conteúdo único do review');
-                }
+                if ($contentUpdate === 0) throw new \Exception('Não foi possível atualizar o conteúdo único do review');
             } else {
-                $create = ReviewContent::create([
+                $contentCreate = ReviewContent::create([
                     'user_id' => $request->user()->id,
                     'review_id' => $review->id,
                     'content' => $request->input('content')
                 ]);
-
-                if ($create === false) {
-                    throw new \Exception('Não foi possível criar o conteúdo único do review');
-                }
+                if (!$contentCreate) throw new \Exception('Não foi possível criar o conteúdo único do review');
             }
 
             return $this->provideSuccess('update');

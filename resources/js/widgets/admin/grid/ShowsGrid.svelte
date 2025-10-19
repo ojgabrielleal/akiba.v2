@@ -34,7 +34,7 @@
                     <div class="flex flex-wrap lg:flex-col gap-5 mt-2 lg:mt-0">
                         <Offcanvas>
                             <div class="text-blue-skywave cursor-pointer" slot="action">
-                                <Icon icon="solar:pen-bold" width="24" height="24" />
+                                <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-blue-skywave" loading="lazy"/>
                             </div>
                             <div slot="title">
                                 Atualizar programa

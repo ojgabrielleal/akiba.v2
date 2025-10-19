@@ -62,7 +62,7 @@ class PostsController extends Controller
     public function getPost($slug)
     {
         try {
-            return Post::where('slug', $slug)->with(['references', 'categories'])->first();
+            return Post::where('slug', $slug)->with(['references', 'categories'])->firstOrFail();
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -90,41 +90,45 @@ class PostsController extends Controller
                 "first_category.required" => "Primeira tag",
                 "second_category.required" => "Segunda tag",
             ]);
-            
-            $post = Post::where('id', $id)->with(['references', 'categories'])->first();
+
+            $post = Post::where('id', $id)->with(['references', 'categories'])->firstOrFail();
 
             if ($request->filled('first_category') && $request->filled('second_category')) {
-                $first_category_id = $post->categories[0]->id;
-                $second_category_id = $post->categories[1]->id;
+                $firstCategoryId = $post->categories[0]->id;
+                $secondCategoryId = $post->categories[1]->id;
 
-                $first_category = PostCategory::where('id', $first_category_id)->first();
-                $second_category = PostCategory::where('id', $second_category_id)->first();
+                $first_category = PostCategory::where('id', $firstCategoryId)->firstOrFail();
+                $second_category = PostCategory::where('id', $secondCategoryId)->firstOrFail();
 
-                $first_category->update([
+                $firstCategoryUpdate = $first_category->update([
                     'category_name' => $request->input('first_category')
                 ]);
+                if ($firstCategoryUpdate === 0) throw new \Exception('Não foi possível atualizar a primeira tag');
 
-                $second_category->update([
+                $secondCategoryUpdate = $second_category->update([
                     'category_name' => $request->input('second_category')
                 ]);
+                if ($secondCategoryUpdate === 0) throw new \Exception('Não foi possível atualizar a segunda tag');
             }
 
-            if ($request->filled('first_reference_name') && $request->filled('first_reference_url') && $request->filled('second_reference_name') && $request->filled('second_font_url')) {
-                $first_reference_id = $post->references[0]->id;
-                $second_reference_id = $post->references[1]->id;
+            if ($request->filled('first_reference_name') && $request->filled('first_reference_url') && $request->filled('second_reference_name') && $request->filled('second_reference_url')) {
+                $firstReferenceId = $post->references[0]->id;
+                $secondReferenceId = $post->references[1]->id;
 
-                $first_reference = PostReference::where('id', $first_reference_id)->first();
-                $second_reference = PostReference::where('id', $second_reference_id)->first();
+                $firstReference = PostReference::where('id', $firstReferenceId)->firstOrFail();
+                $secondReference = PostReference::where('id', $secondReferenceId)->firstOrFail();
 
-                $first_reference->update([
+                $firstReferenceUpdate = $firstReference->update([
                     'name' => $request->input('first_reference_name'),
                     'url' => $request->input('first_reference_url'),
                 ]);
+                if ($firstReferenceUpdate === 0) throw new \Exception('Não foi possível atualizar a primeira referência');
 
-                $second_reference->update([
+                $secondReferenceUpdate = $secondReference->update([
                     'name' => $request->input('second_reference_name'),
                     'url' => $request->input('second_reference_url'),
                 ]);
+                if ($secondReferenceUpdate === 0) throw new \Exception('Não foi possível atualizar a segunda referência');
             }
 
             $slug = $request->input('title') !== $post->title ? Str::slug($request->input('title')) : $post->slug;
@@ -133,17 +137,14 @@ class PostsController extends Controller
             $title = $request->input('title') !== $post->title ? $request->input('title') : $post->title;
             $content = $request->input('content') !== $post->content ? $request->input('content') : $post->content;
 
-            $update = $post->update([
+            $postUpdate = $post->update([
                 'slug' =>  $slug,
                 'title' => $title,
                 'content' => $content,
                 'image' => $image,
                 'cover' => $cover,
             ]);
-
-            if ($update === false) {
-                throw new \Exception('Não foi possível atualizar a matéria');
-            }
+            if ($postUpdate === 0) throw new \Exception('Não foi possível atualizar a matéria');
 
             return $this->provideSuccess('update');
         } catch (\Throwable $e) {
@@ -178,7 +179,7 @@ class PostsController extends Controller
                 "second_category.required" => "Segunda tag",
             ]);
 
-            $post = Post::create([
+            $postCreate = Post::create([
                 'user_id' => $request->user()->id,
                 'slug' => Str::slug($request->input('title')),
                 'title' => $request->input('title'),
@@ -187,48 +188,33 @@ class PostsController extends Controller
                 'image' => $this->uploadImage('posts', $request->file('image')),
                 'cover' => $this->uploadImage('posts', $request->file('cover')),
             ]);
+            if (!$postCreate) throw new \Exception('Não foi possível criar a matéria');
 
-            if ($post === false) {
-                throw new \Exception('Não foi possível criar a matéria');
-            }
-
-            $first_reference = PostReference::create([
-                'post_id' => $post->id,
+            $firstReferenceCreate = PostReference::create([
+                'post_id' => $postCreate->id,
                 'name' => $request->input('first_reference_name'),
                 'url' => $request->input('first_reference_url'),
             ]);
+            if(!$firstReferenceCreate) throw new \Exception('Não foi possível criar a primeira referência');
 
-            if($first_reference === false){
-                throw new \Exception('Não foi possível criar a primeira referência');
-            }
-
-            $second_reference = PostReference::create([
-                'post_id' => $post->id,
+            $secondReferenceCreate = PostReference::create([
+                'post_id' => $postCreate->id,
                 'name' => $request->input('second_reference_name'),
                 'url' => $request->input('second_reference_url'),
             ]);
+            if(!$secondReferenceCreate) throw new \Exception('Não foi possível criar a segunda referência');
 
-            if($second_reference === false){
-                throw new \Exception('Não foi possível criar a segunda referência');
-            }
-
-            $first_category = PostCategory::create([
-                'post_id' => $post->id,
+            $firstCategoryCreate = PostCategory::create([
+                'post_id' => $postCreate->id,
                 'category_name' => $request->input('first_category')
             ]);
+            if(!$firstCategoryCreate) throw new \Exception('Não foi possível criar a primeira categoria');
 
-            if($first_category === false){
-                throw new \Exception('Não foi possível criar a primeira categoria');
-            }
-
-            $second_category = PostCategory::create([
-                'post_id' => $post->id,
+            $secondCategoryCreate = PostCategory::create([
+                'post_id' => $postCreate->id,
                 'category_name' => $request->input('second_category')
             ]);
-
-            if($second_category === false){
-                throw new \Exception('Não foi possível criar a segunda categoria');
-            }
+            if(!$secondCategoryCreate) throw new \Exception('Não foi possível criar a segunda categoria');
 
             return $this->provideSuccess('save');
         } catch (\Throwable $e) {

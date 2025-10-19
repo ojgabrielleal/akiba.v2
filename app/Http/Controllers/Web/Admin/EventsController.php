@@ -48,7 +48,7 @@ class EventsController extends Controller
     public function getEvent($slug)
     {
         try {
-            return Event::where('slug', $slug)->first();
+            return Event::where('slug', $slug)->firstOrFail();
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -69,7 +69,7 @@ class EventsController extends Controller
                 "address.required" => "Local",
             ]);
 
-            $event = Event::where('id', $id)->first();
+            $event = Event::where('id', $id)->firstOrFail();
 
             $slug = $request->input('title') !== $event->title ? Str::slug($request->input('title')) : $event->slug;
             $image = $request->hasFile('image') ? $this->uploadImage('events', $request->file('image'), 'public', $event->image) : $event->image;
@@ -79,7 +79,7 @@ class EventsController extends Controller
             $dates = $request->input('dates') !== $event->dates ? $request->input('dates') : $event->dates;
             $address = $request->input('address') !== $event->address ? $request->input('address') : $event->address;
 
-            $update = $event->update([
+            $eventUpdate = $event->update([
                 'slug' => $slug,
                 'image' => $image,
                 'cover' => $cover,
@@ -88,10 +88,7 @@ class EventsController extends Controller
                 'dates' => $dates,
                 'address' => $address
             ]);
-
-            if ($update === false) {
-                throw new \Exception('Não foi possível atualizar o evento');
-            }
+            if ($eventUpdate === 0) throw new \Exception('Não foi possível atualizar o evento');
 
             return $this->provideSuccess('update');
         } catch (\Throwable $e) {
@@ -119,7 +116,7 @@ class EventsController extends Controller
             ]);
 
             $user = request()->user();
-            $create = Event::create([
+            $eventCreate = Event::create([
                 'user_id' => $user->id,
                 'slug' => Str::slug($request->input('title')),
                 'image' => $this->uploadImage('events', $request->file('image')),
@@ -129,10 +126,7 @@ class EventsController extends Controller
                 'dates' => $request->input('dates'),
                 'address' => $request->input('address')
             ]);
-
-            if($create === false){
-                throw new \Exception('Não foi possível criar o evento');
-            }
+            if(!$eventCreate) throw new \Exception('Não foi possível criar o evento');
             
             return $this->provideSuccess('save');
         } catch (\Throwable $e) {
