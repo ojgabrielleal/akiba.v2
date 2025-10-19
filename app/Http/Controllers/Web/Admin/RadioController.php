@@ -232,7 +232,7 @@ class RadioController extends Controller
     public function getListenerMonthRegistered()
     {
         try {
-            return ListenerMonth::where('id', 1)->firstOrFail();
+            return ListenerMonth::where('id', 1)->first();
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -252,7 +252,7 @@ class RadioController extends Controller
             $listenerSearchQuery->select('listener', 'listeners_requests.address', 'shows.name as favorite_show', DB::raw('COUNT(*) as total'));
             $listenerSearchQuery->groupBy('listener', 'listeners_requests.address', 'shows.name');
             $listenerSearchQuery->orderByDesc('total');
-            $listenerMostFound = $listenerSearchQuery->firstOrFail();
+            $listenerMostFound = $listenerSearchQuery->first();
 
             return $listenerMostFound;
         } catch (\Throwable $e) {

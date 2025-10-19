@@ -31,7 +31,9 @@ class PodcastsController extends Controller
     public function getPodcast($slug)
     {
         try{
-            return Podcast::where('slug', $slug)->with('user')->firstOrFail();
+            if($slug){
+                return Podcast::where('slug', $slug)->with('user')->firstOrFail();
+            }
         }catch(\Throwable $e){
             $this->provideException($e);
         }
