@@ -47,15 +47,15 @@ class ReviewsController extends Controller
     public function getReview($slug)
     {
         try {
-            if ($slug) {
+            if($slug){
                 $user = request()->user();
-
+    
                 $query = Review::with('reviews.user');
                 $query->where('slug', $slug);
-                $review = $query->first();
-
-                $userReview  = $review->reviews->contains('user_id', $user->id);
-                if (!$userReview) {
+                $review = $query->firstOrFail();
+    
+                $reviewUser  = $review->reviews->contains('user_id', $user->id);
+                if (!$reviewUser) {
                     $placeholder = (object) [
                         'user_id' => $user->id,
                         'user' => (object) [
@@ -66,7 +66,7 @@ class ReviewsController extends Controller
                     ];
                     $review->reviews->prepend($placeholder);
                 }
-
+    
                 return $review;
             }
         } catch (\Throwable $e) {

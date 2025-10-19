@@ -32,7 +32,7 @@
                     <img src={item.image} alt={item.name} class="w-60 transition duration-300 ease-in-out" loading="lazy"/>
                     <div class="flex flex-wrap lg:flex-col gap-5 mt-2 lg:mt-0">
                         <Offcanvas>
-                            <div class="text-blue-skywave cursor-pointer" slot="action">
+                            <div class="w-5 h-5 text-blue-skywave cursor-pointer" slot="action">
                                 <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-blue-skywave" loading="lazy"/>
                             </div>
                             <div slot="title">
@@ -42,7 +42,7 @@
                                 <ShowsForm {close} show_id={item.id}/>
                             </div>
                         </Offcanvas>
-                        <button class="cursor-pointer" aria-label="Desativar programa" on:click={() => deactivateShow(item.id)}>
+                        <button class="w-5 h-5 cursor-pointer" aria-label="Desativar programa" on:click={() => deactivateShow(item.id)}>
                             <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-red-crimson" loading="lazy"/>
                         </button>
                     </div>

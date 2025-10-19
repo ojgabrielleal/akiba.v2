@@ -48,7 +48,9 @@ class EventsController extends Controller
     public function getEvent($slug)
     {
         try {
-            return Event::where('slug', $slug)->firstOrFail();
+            if($slug){
+                return Event::where('slug', $slug)->firstOrFail();
+            }
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
