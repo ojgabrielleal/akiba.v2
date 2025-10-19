@@ -1,7 +1,6 @@
 <script>
     import { Section } from "@/layouts/admin";
     import { Offcanvas } from "@/components/admin";
-    import Icon from "@iconify/svelte";
 </script>
 
 <Section title="Tutoriais">
@@ -12,11 +11,11 @@
                 Teste
             </div>
             <div class="absolute -bottom-9 right-0 flex flex-row gap-4">
-                <button>
+                <button class="cursor-pointer">
                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-blue-skywave" loading="lazy"/>
                 </button>
-                <button class="cursor-pointer text-red-crimson">
-                    <Icon icon="iconamoon:trash-fill" width="24" height="24" aria-hidden="true" />
+                <button class="cursor-pointer">
+                    <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-red-crimson" loading="lazy"/>
                 </button>
             </div>
         </div>

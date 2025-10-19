@@ -167,6 +167,9 @@
     .filter-blue-skywave {
         filter: invert(53%) sepia(84%) saturate(4530%) hue-rotate(185deg) brightness(99%) contrast(112%);
     }
+    .filter-red-crimson{
+        filter: invert(44%) sepia(59%) saturate(4904%) hue-rotate(335deg) brightness(88%) contrast(113%);
+    }
 }
 
 /*--------------------------------------

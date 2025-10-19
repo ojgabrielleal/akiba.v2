@@ -1,7 +1,6 @@
 <script>
     import { router, page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
-    import Icon from "@iconify/svelte";
 
     $: ({ podcasts } = $page.props);
 
@@ -27,8 +26,8 @@
                                 <a href={`/painel/podcasts/${item.slug}`} aria-label="Editar">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                                 </a>
-                                <button on:click={()=>deactivatePodcast(item.id)} class="cursor-pointer text-red-crimson" aria-label="Desativar">
-                                    <Icon icon="iconamoon:trash-fill" width="26" height="26" aria-hidden="true" />
+                                <button on:click={()=>deactivatePodcast(item.id)} class="cursor-pointer" aria-label="Desativar">
+                                    <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-red-crimson" loading="lazy"/>
                                 </button>
                             </dd>
                         </dl>

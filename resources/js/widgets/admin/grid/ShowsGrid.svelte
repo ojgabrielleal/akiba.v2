@@ -3,7 +3,6 @@
     import { Section } from "@/layouts/admin/";
     import { Offcanvas } from "@/components/admin";
     import { ShowsForm } from "@/widgets/admin/form";
-    import Icon from "@iconify/svelte";
 
     $: ({ shows } = $page.props);
 
@@ -43,8 +42,8 @@
                                 <ShowsForm {close} show_id={item.id}/>
                             </div>
                         </Offcanvas>
-                        <button class="cursor-pointer text-red-crimson" aria-label="Desativar programa" on:click={() => deactivateShow(item.id)}>
-                            <Icon icon="iconamoon:trash-fill" width="24" height="24" aria-hidden="true" />
+                        <button class="cursor-pointer" aria-label="Desativar programa" on:click={() => deactivateShow(item.id)}>
+                            <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-red-crimson" loading="lazy"/>
                         </button>
                     </div>
                 </article>
