@@ -56,7 +56,7 @@ class MarketingController extends Controller
                 'file' => $request->file,
                 'category' => $request->category,
             ]);
-            if(!$repositoryCreate) throw new \Exception('Erro ao criar o cadastrar o arquivo no repositório.');
+            if(!$repositoryCreate->wasRecentlyCreated) throw new \Exception('Erro ao criar o cadastrar o arquivo no repositório.');
     
             return $this->provideSuccess('save');
         }catch(\Throwable $e){

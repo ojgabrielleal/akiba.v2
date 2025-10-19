@@ -61,7 +61,7 @@ class DashboardController extends Controller
                 'user_id' => $user->id,
                 'alert_id' => $alert->id,
             ]);
-            if(!$createAlertSignature) throw new \Exception('Não foi possível confirmar sua visualização no aviso');
+            if(!$createAlertSignature->wasRecentlyCreated) throw new \Exception('Não foi possível confirmar sua visualização no aviso');
 
             return $this->provideSuccess('save');
         } catch (\Throwable  $e) {

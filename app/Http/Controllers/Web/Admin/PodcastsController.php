@@ -73,7 +73,7 @@ class PodcastsController extends Controller
                 'description' => $request->input('description'),
                 'audio' => $request->input('audio')
             ]);
-            if(!$createPodcast) throw new \Exception('Não foi possível criar o podcast');
+            if(!$createPodcast->wasRecentlyCreated) throw new \Exception('Não foi possível criar o podcast');
 
             return $this->provideSuccess('save');
         }catch(\Throwable $e){

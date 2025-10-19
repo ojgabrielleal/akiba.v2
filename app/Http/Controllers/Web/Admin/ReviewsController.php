@@ -104,7 +104,7 @@ class ReviewsController extends Controller
                 'review_id' => $review->id,
                 'content' => $request->input('content')
             ]);
-            if(!$createReview) throw new \Exception('Não foi possível criar a review');
+            if(!$createReview->wasRecentlyCreated) throw new \Exception('Não foi possível criar a review');
 
             return $this->provideSuccess('save');
         } catch (\Throwable $e) {
@@ -154,7 +154,7 @@ class ReviewsController extends Controller
                     'review_id' => $review->id,
                     'content' => $request->input('content')
                 ]);
-                if (!$contentCreate) throw new \Exception('Não foi possível criar o conteúdo único do review');
+                if (!$contentCreate->wasRecentlyCreated) throw new \Exception('Não foi possível criar o conteúdo único do review');
             }
 
             return $this->provideSuccess('update');

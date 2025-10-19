@@ -199,7 +199,7 @@ class BroadcastController extends Controller
                 'listener_request_status' => true,
                 'category' => 'live'
             ]);
-            if(!$onairCreate) throw new \Exception('Não foi possível iniciar o programa');
+            if(!$onairCreate->wasRecentlyCreated) throw new \Exception('Não foi possível iniciar o programa');
 
             if(env('APP_ENV') === "production"){
                 $webhook_discord = env('URL_DISCORD_WEBHOOK');
@@ -236,7 +236,7 @@ class BroadcastController extends Controller
                 'phrase' => $phrase->phrase,
                 'image' => $phrase->image,
             ]);
-            if(!$autoDJCreate) throw new \Exception('Não foi possível iniciar o AutoDJ');
+            if(!$autoDJCreate->wasRecentlyCreated) throw new \Exception('Não foi possível iniciar o AutoDJ');
 
             return $this->provideSuccess('end_broadcast');
         } catch (\Throwable $e) {

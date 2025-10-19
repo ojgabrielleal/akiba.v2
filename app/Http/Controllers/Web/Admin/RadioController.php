@@ -103,7 +103,7 @@ class RadioController extends Controller
                             'day' => $schedule['day'],
                             'time' => $schedule['time'],
                         ]);
-                        if(!$scheduleCreate) throw new \Exception('Não foi possível criar o horário do programa');
+                        if(!$scheduleCreate->wasRecentlyCreated) throw new \Exception('Não foi possível criar o horário do programa');
                     }
                 }
             }else{
@@ -150,15 +150,12 @@ class RadioController extends Controller
                     }
     
                     foreach ($request->input('schedules') as $schedule) {
-                        $schedule = ProgramSchedule::create([
+                        $scheduleCreate = ProgramSchedule::create([
                             'show_id' => $show->id,
                             'day' => $schedule['day'],
                             'time' => $schedule['time'],
                         ]);
-
-                        if($schedule === false){
-                            throw new \Exception('Não foi possível criar o horário do programa');
-                        }
+                        if(!$scheduleCreate->wasRecentlyCreated) throw new \Exception('Não foi possível criar o horário do programa');
                     }
                 }
             }else{
@@ -227,13 +224,10 @@ class RadioController extends Controller
             if($music->isEmpty()) throw new \Exception('Não há músicas para definir o ranking');
 
             foreach ($music as $music) {
-                $update = $music->update([
+                $musicUpdate = $music->update([
                     'is_ranking' => true
                 ]);
-
-                if ($update === false) {
-                    throw new \Exception('Não foi possível atualizar o ranking da música');
-                }
+                if ($musicUpdate === 0) throw new \Exception('Não foi possível atualizar o ranking da música');
             }
 
             return $this->provideSuccess('save');
@@ -356,7 +350,7 @@ class RadioController extends Controller
                     'favorite_show' => $listenerFound->onair ? $listenerFound->onair->program->name : null,
                     'requests_total' => $listenerFound->total,
                 ]);
-                if (!$createListenerMonth) throw new \Exception('Não foi possível criar o ouvinte do mês');
+                if (!$createListenerMonth->wasRecentlyCreated) throw new \Exception('Não foi possível criar o ouvinte do mês');
 
                 return $this->provideSuccess('save');
             }

@@ -188,33 +188,33 @@ class PostsController extends Controller
                 'image' => $this->uploadImage('posts', $request->file('image')),
                 'cover' => $this->uploadImage('posts', $request->file('cover')),
             ]);
-            if (!$postCreate) throw new \Exception('Não foi possível criar a matéria');
+            if (!$postCreate->wasRecentlyCreated) throw new \Exception('Não foi possível criar a matéria');
 
             $firstReferenceCreate = PostReference::create([
                 'post_id' => $postCreate->id,
                 'name' => $request->input('first_reference_name'),
                 'url' => $request->input('first_reference_url'),
             ]);
-            if(!$firstReferenceCreate) throw new \Exception('Não foi possível criar a primeira referência');
+            if(!$firstReferenceCreate->wasRecentlyCreated) throw new \Exception('Não foi possível criar a primeira referência');
 
             $secondReferenceCreate = PostReference::create([
                 'post_id' => $postCreate->id,
                 'name' => $request->input('second_reference_name'),
                 'url' => $request->input('second_reference_url'),
             ]);
-            if(!$secondReferenceCreate) throw new \Exception('Não foi possível criar a segunda referência');
+            if(!$secondReferenceCreate->wasRecentlyCreated) throw new \Exception('Não foi possível criar a segunda referência');
 
             $firstCategoryCreate = PostCategory::create([
                 'post_id' => $postCreate->id,
                 'category_name' => $request->input('first_category')
             ]);
-            if(!$firstCategoryCreate) throw new \Exception('Não foi possível criar a primeira categoria');
+            if(!$firstCategoryCreate->wasRecentlyCreated) throw new \Exception('Não foi possível criar a primeira categoria');
 
             $secondCategoryCreate = PostCategory::create([
                 'post_id' => $postCreate->id,
                 'category_name' => $request->input('second_category')
             ]);
-            if(!$secondCategoryCreate) throw new \Exception('Não foi possível criar a segunda categoria');
+            if(!$secondCategoryCreate->wasRecentlyCreated) throw new \Exception('Não foi possível criar a segunda categoria');
 
             return $this->provideSuccess('save');
         } catch (\Throwable $e) {

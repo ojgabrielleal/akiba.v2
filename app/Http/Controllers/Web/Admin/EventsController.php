@@ -126,7 +126,7 @@ class EventsController extends Controller
                 'dates' => $request->input('dates'),
                 'address' => $request->input('address')
             ]);
-            if(!$eventCreate) throw new \Exception('Não foi possível criar o evento');
+            if(!$eventCreate->wasRecentlyCreated) throw new \Exception('Não foi possível criar o evento');
             
             return $this->provideSuccess('save');
         } catch (\Throwable $e) {
