@@ -114,6 +114,8 @@ class MarketingController extends Controller
 
     public function render()
     {
-        return Inertia::render('admin/Marketing');
+        return Inertia::render('admin/Marketing', [
+            'repositories' => $this->getRepositories(),
+        ]);
     }
 }
