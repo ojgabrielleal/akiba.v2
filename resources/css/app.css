@@ -1,28 +1,44 @@
+/*--------------------------------------
+  1. Imports
+--------------------------------------*/
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
+/*--------------------------------------
+  2. CSS Variables (Root)
+--------------------------------------*/
 :root {
+    /* Neutral */
     --color-neutral-aurora: #fffaf3;
     --color-neutral-opacity: #fffaf31f;
     --color-neutral-sandstone: #e6ded1;
     --color-neutral-honeycream: #ffe8bf;
 
+    /* Reds */
     --color-red-crimson: #ed3237;
 
+    /* Oranges */
     --color-orange-sunset: #ffa919;
     --color-orange-amber: #f69700;
     --color-orange-copper: #cc6633;
 
+    /* Blues */
     --color-blue-midnight: #00061a;
     --color-blue-ocean: #002080;
     --color-blue-indigo: #000036;
     --color-blue-skywave: #0091ff;
     --color-blue-cerulean: #060652;
 
+    /* Purples */
     --color-purple-mystic: #b82bff;
+
+    /* Greens */
     --color-green-forest: #00a859;
 }
 
+/*--------------------------------------
+  3. Themes
+--------------------------------------*/
 @theme theme {
     /* Neutral */
     --color-neutral-aurora: var(--color-neutral-aurora);
@@ -56,123 +72,125 @@
     --font-noto-sans: "Noto Sans", sans-serif;
 }
 
+/*--------------------------------------
+  4. Keyframes
+--------------------------------------*/
+@keyframes marquee {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(-100%); }
+}
+
+/*--------------------------------------
+  5. Components
+--------------------------------------*/
 @layer components {
-    /* Container from the aplication */
+    /* Containers */
     .container {
         @apply w-full px-10 mx-auto sm:max-w-7xl lg:px-0;
     }
-
     .container-player {
         @apply w-full px-10 mx-auto sm:max-w-6xl xl:px-0;
     }
 
-    /* Quill editor */
+    /* Quill Editor */
     .ql-editor {
         font-family: var(--font-noto-sans);
     }
 
     /* Scroll X */
     .scroll-x {
-        -ms-overflow-style: none;
-        /* IE e Edge */
-        scrollbar-width: none;
-        /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+        scrollbar-width: none;    /* Firefox */
     }
-
     .scroll-x::-webkit-scrollbar {
         -webkit-appearance: none;
-        display: none;
-        /* Chrome, Safari e Opera */
+        display: none; /* Chrome/Safari/Opera */
     }
 
-    /* Sections Title */
+    /* Section Titles */
     .title-layout {
         display: flex;
         align-items: center;
         gap: 1rem;
         margin-bottom: 0.5rem;
     }
-
     .title-layout h1 {
         color: var(--color-orange-amber);
         text-transform: uppercase;
-        font-family: "Noto Sans", sans-serif;
+        font-family: var(--font-noto-sans);
         font-weight: 900;
         font-style: italic;
         font-size: 1.3rem;
         margin: 0;
         white-space: nowrap;
     }
-
     .title-layout::after {
         content: "";
         flex: 1;
         height: 0.1rem;
         background-color: var(--color-orange-amber);
     }
+}
 
-    /* Select Input*/
+/*--------------------------------------
+  6. Inputs
+--------------------------------------*/
+@layer inputs {
+    /* Select Inputs */
     select {
         appearance: none;
-        /* Remove a seta nativa */
         -webkit-appearance: none;
         -moz-appearance: none;
-
         background-color: white;
         border: 1px solid #ccc;
         padding: 0.5rem 2rem 0.5rem 1rem;
-        /* Espaço para a seta */
         border-radius: 0.5rem;
         font-size: 1rem;
         color: #000;
-
         background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
         background-repeat: no-repeat;
         background-position: right 0.5rem center;
         background-size: 1rem 1rem;
     }
-
     select:focus {
         outline: none;
     }
+}
 
-    /*Color Filters*/
+/*--------------------------------------
+  7. Color Filters
+--------------------------------------*/
+@layer color-filters {
     .filter-neutral-aurora {
         filter: invert(100%) sepia(75%) saturate(292%) hue-rotate(322deg) brightness(106%) contrast(102%);
     }
-
     .filter-blue-skywave {
         filter: invert(53%) sepia(84%) saturate(4530%) hue-rotate(185deg) brightness(99%) contrast(112%);
     }
 }
 
-@keyframes marquee {
-  from { transform: translateX(100%); }
-  to { transform: translateX(-100%); }
-}
-
+/*--------------------------------------
+  8. Utilities
+--------------------------------------*/
 @layer utilities {
-  .marquee-container {
-    z-index: 0;
-  }
-
-  .marquee-container::before,
-  .marquee-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 5rem;
-    z-index: 2;
-  }
-
-  .marquee-container::before {
-    left: 0;
-    background: linear-gradient(to right, var(--color-blue-ocean), transparent);
-  }
-
-  .marquee-container::after {
-    right: 0;
-    background: linear-gradient(to left, var(--color-blue-ocean), transparent);
-  }
+    .marquee-container {
+        z-index: 0;
+    }
+    .marquee-container::before,
+    .marquee-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 5rem;
+        z-index: 2;
+    }
+    .marquee-container::before {
+        left: 0;
+        background: linear-gradient(to right, var(--color-blue-ocean), transparent);
+    }
+    .marquee-container::after {
+        right: 0;
+        background: linear-gradient(to left, var(--color-blue-ocean), transparent);
+    }
 }
