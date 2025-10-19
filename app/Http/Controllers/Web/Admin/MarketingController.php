@@ -79,14 +79,10 @@ class MarketingController extends Controller
 
             $repository = Repository::where('id', $id)->firstOrFail();
 
-            $image = $request->hasFile('image') ? $this->uploadImage('repository', $request->file('image'), 'public', $repository->image) : $repository->image;
-            $file = $request->input('file') !== null ? $request->input('file') : $repository->file;
-            $category = $request->input('category') !== null ? $request->input('category') : $repository->category;
-
             $repositoryUpdate = $repository->update([
-                'image' => $image,
-                'file' => $file,
-                'category' => $category,
+                'image' => $request->hasFile('image') ? $this->uploadImage('repository', $request->file('image'), 'public', $repository->image) : $repository->image,
+                'file' => $request->input('file', $repository->file),
+                'category' => $request->input('category', $repository->category),
             ]);
             if($repositoryUpdate === 0) throw new \Exception('Erro ao atualizar o arquivo no repositório.');
 

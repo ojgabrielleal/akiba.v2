@@ -126,35 +126,29 @@ class ReviewsController extends Controller
             ]);
 
             $review = Review::where('id', $id)->firstOrFail();
-            $content = ReviewContent::where('id', $request->content_id)->firstOrFail();
-
-            $slug = $request->input('title') !== $review->title ? Str::slug($request->input('title')) : $review->slug;
-            $image = $request->hasFile('image') ? $this->uploadImage('reviews', $request->file('image'), 'public', $review->image) : $review->image;
-            $cover = $request->hasFile('cover') ? $this->uploadImage('reviews', $request->file('cover'), 'public', $review->cover) : $review->cover;
-            $title = $request->input('title') !== $review->title ? $request->input('title') : $review->title;
-            $sinopse = $request->input('sinopse') !== $review->sinopse ? $request->input('sinopse') : $review->sinopse;
+            $reviewContent = ReviewContent::where('id', $request->content_id)->firstOrFail();
 
             $updateReview = $review->update([
-                'slug' => $slug,
-                'title' => $title,
-                'sinopse' => $sinopse,
-                'image' => $image,
-                'cover' => $cover,
+                'slug' => $request->input('title') !== $review->title ? Str::slug($request->input('title')) : $review->slug,
+                'title' => $request->input('title', $review->title),
+                'sinopse' => $request->input('sinopse', $review->sinopse),
+                'image' => $request->hasFile('image') ? $this->uploadImage('reviews', $request->file('image'), 'public', $review->image) : $review->image,
+                'cover' => $request->hasFile('cover') ? $this->uploadImage('reviews', $request->file('cover'), 'public', $review->cover) : $review->cover,
             ]);
             if($updateReview === 0) throw new \Exception('Não foi possível atualizar o review');
 
-            if ($content) {
-                $contentUpdate = $content->update([
-                    'content' => $request->input('content')
+            if ($reviewContent) {
+                $reviewContentUpdate = $reviewContent->update([
+                    'content' => $request->input('content', $reviewContent->content)
                 ]);
-                if ($contentUpdate === 0) throw new \Exception('Não foi possível atualizar o conteúdo único do review');
+                if ($reviewContentUpdate === 0) throw new \Exception('Não foi possível atualizar o conteúdo único do review');
             } else {
-                $contentCreate = ReviewContent::create([
+                $reviewContentCreate = ReviewContent::create([
                     'user_id' => $request->user()->id,
                     'review_id' => $review->id,
                     'content' => $request->input('content')
                 ]);
-                if (!$contentCreate->wasRecentlyCreated) throw new \Exception('Não foi possível criar o conteúdo único do review');
+                if (!$reviewContentCreate->wasRecentlyCreated) throw new \Exception('Não foi possível criar o conteúdo único do review');
             }
 
             return $this->provideSuccess('update');

@@ -71,22 +71,14 @@ class EventsController extends Controller
 
             $event = Event::where('id', $id)->firstOrFail();
 
-            $slug = $request->input('title') !== $event->title ? Str::slug($request->input('title')) : $event->slug;
-            $image = $request->hasFile('image') ? $this->uploadImage('events', $request->file('image'), 'public', $event->image) : $event->image;
-            $cover = $request->hasFile('cover') ? $this->uploadImage('events', $request->file('cover'), 'public', $event->cover) : $event->cover;
-            $title = $request->input('title') !== $event->title ? $request->input('title') : $event->title;
-            $content = $request->input('content') !== $event->content ? $request->input('content') : $event->content;
-            $dates = $request->input('dates') !== $event->dates ? $request->input('dates') : $event->dates;
-            $address = $request->input('address') !== $event->address ? $request->input('address') : $event->address;
-
             $eventUpdate = $event->update([
-                'slug' => $slug,
-                'image' => $image,
-                'cover' => $cover,
-                'title' => $title,
-                'content' => $content,
-                'dates' => $dates,
-                'address' => $address
+                'slug' => $request->input('title') !== $event->title ? Str::slug($request->input('title')) : $event->slug,
+                'image' => $request->hasFile('image') ? $this->uploadImage('events', $request->file('image'), 'public', $event->image) : $event->image,
+                'cover' => $request->hasFile('cover') ? $this->uploadImage('events', $request->file('cover'), 'public', $event->cover) : $event->cover,
+                'title' => $request->input('title', $event->title),
+                'content' => $request->input('content', $event->content),
+                'dates' => $request->input('dates', $event->dates),
+                'address' => $request->input('address', $event->address),
             ]);
             if ($eventUpdate === 0) throw new \Exception('Não foi possível atualizar o evento');
 

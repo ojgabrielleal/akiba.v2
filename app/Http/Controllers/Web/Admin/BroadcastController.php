@@ -65,8 +65,7 @@ class BroadcastController extends Controller
             $query->with('user');
             $query->where('is_active', true);
             $query->where(function ($q) use ($user) {
-                $q->where('user_id', $user->id)
-                    ->orWhere('is_all', true);
+                $q->where('user_id', $user->id)->orWhere('is_all', true);
             });
             $shows = $query->get();
 

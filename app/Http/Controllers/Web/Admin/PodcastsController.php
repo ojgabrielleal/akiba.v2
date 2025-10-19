@@ -102,24 +102,15 @@ class PodcastsController extends Controller
 
             $podcast = Podcast::where('id', $id)->firstOrFail();
 
-            $slug = $request->input('title') !== $podcast->title ? Str::slug($request->input('title')) : $podcast->slug;
-            $image = $request->hasFile('image') ? $this->uploadImage('podcasts', $request->file('image'), 'public', $podcast->image) : $podcast->image;
-            $season = $request->input('season') !== $podcast->season ? $request->input('season') : $podcast->season;
-            $episode = $request->input('episode') !== $podcast->episode ? $request->input('episode') : $podcast->episode;
-            $title = $request->input('title') !== $podcast->title ? $request->input('title') : $podcast->title;
-            $summary = $request->input('summary') !== $podcast->summary ? $request->input('summary') : $podcast->summary;
-            $description = $request->input('description') !== $podcast->description ? $request->input('description') : $podcast->description;
-            $audio = $request->input('audio') !== $podcast->audio ? $request->input('audio') : $podcast->audio;
-
             $podcastUpdate = $podcast->update([  
-                'slug' => $slug,
-                'image' => $image,
-                'season' => $season,
-                'episode' => $episode,
-                'title' => $title, 
-                'summary' => $summary,
-                'description' => $description,
-                'audio' => $audio,
+                'slug' => $request->input('title') !== $podcast->title ? Str::slug($request->input('title')) : $podcast->slug,
+                'image' => $request->hasFile('image') ? $this->uploadImage('podcasts', $request->file('image'), 'public', $podcast->image) : $podcast->image,
+                'season' => $request->input('season', $podcast->season),
+                'episode' => $request->input('episode', $podcast->episode),
+                'title' => $request->input('title', $podcast->title),
+                'summary' => $request->input('summary', $podcast->summary),
+                'description' => $request->input('description', $podcast->description),
+                'audio' => $request->input('audio', $podcast->audio),
             ]);
             if ($podcastUpdate === 0) throw new \Exception('Não foi possível atualizar o podcast');
 

@@ -131,18 +131,12 @@ class PostsController extends Controller
                 if ($secondReferenceUpdate === 0) throw new \Exception('Não foi possível atualizar a segunda referência');
             }
 
-            $slug = $request->input('title') !== $post->title ? Str::slug($request->input('title')) : $post->slug;
-            $image = $request->hasFile('image') ? $this->uploadImage('posts', $request->file('image'), 'public', $post->image) : $post->image;
-            $cover = $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover'), 'public', $post->cover) : $post->cover;
-            $title = $request->input('title') !== $post->title ? $request->input('title') : $post->title;
-            $content = $request->input('content') !== $post->content ? $request->input('content') : $post->content;
-
             $postUpdate = $post->update([
-                'slug' =>  $slug,
-                'title' => $title,
-                'content' => $content,
-                'image' => $image,
-                'cover' => $cover,
+                'slug' =>  $request->input('title') !== $post->title ? Str::slug($request->input('title')) : $post->slug,
+                'title' => $request->input('title', $post->title),
+                'content' => $request->input('content', $post->content),
+                'image' => $request->hasFile('image') ? $this->uploadImage('posts', $request->file('image'), 'public', $post->image) : $post->image,
+                'cover' => $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover'), 'public', $post->cover) : $post->cover,
             ]);
             if ($postUpdate === 0) throw new \Exception('Não foi possível atualizar a matéria');
 
