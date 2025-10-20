@@ -5,7 +5,6 @@
     import { useForm, page } from "@inertiajs/svelte";
     import { Preview } from "@/components/admin";
     import axios from "axios";
-    import Icon from "@iconify/svelte";
 
     $: ({ streamers } = $page.props);
 
@@ -159,8 +158,8 @@
                 <div class="absolute right-0 w-1/3 h-[0.1rem] bg-blue-skywave rounded-full top-1/2 -translate-y-1/2"></div>
             </div>
         </div>
-        <button on:click={addSchedule} type="button" class="cursor-pointer mb-2 flex items-center gap-[0.1rem] text-blue-skywave text-md font-noto-sans">
-            <Icon icon="mynaui:plus-solid" width="20" height="20" aria-hidden="true"/>
+        <button on:click={addSchedule} type="button" class="cursor-pointer mb-2 flex items-center gap-[0.2rem] text-blue-skywave text-md font-noto-sans">
+            <img src="/svg/default/plus.svg" alt="" aria-hidden="true" class="w-5 filter-blue-skywave"/>
             Adicionar horário
         </button>
         {#each $form.schedules as schedule, index}
@@ -197,7 +196,7 @@
                     />
                 </div>
                 <button on:click={() => removeSchedule(index)} type="button" class="cursor-pointer mt-4 flex items-center gap-[0.2rem] text-blue-skywave text-md font-noto-sans">
-                    <Icon icon="fa7-solid:remove" width="14" height="14" aria-hidden="true"/>
+                    <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-5 filter-blue-skywave"/>
                     Remover
                 </button>
             </div>

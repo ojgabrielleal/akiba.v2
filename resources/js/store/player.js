@@ -3,7 +3,7 @@ import { writable, get } from "svelte/store"
 
 export const player = writable({
     playing: false,
-    volume: 1.0,
+    volume: 0.2,
     metadata: null,
 });
 

@@ -3,7 +3,6 @@
     import { Modal } from "@/components/public"
     import { ListenerRequestForm } from "@/widgets/public/form"
     import { player, togglePlayPause, setVolume, metadata, startMetadataPolling, stopMetadataPolling } from "@/store"
-    import Icon from "@iconify/svelte";
 
     onMount(() => {
         startMetadataPolling();
@@ -46,14 +45,13 @@
                     <img src={$metadata?.onair.program.image} alt={`Programa ${$metadata?.onair.program.name}`}/>
                 </dt>
                 <dd class="text-gray-500">
-                    <Icon icon="bi:chevron-double-right" width="25" height="25" aria-label="hidden"/>
+                    <img src="/svg/default/arrowRightTwo.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-gray"/>
                 </dd>
                 <dt>
                     <div class="text-orange-amber font-noto-sans uppercase">
                         {#if $metadata?.onair.user.gender === "male"}
                             Com o DJ:
-                        {/if}
-                        {#if $metadata?.onair.user.gender === "female"}
+                        {:else}
                             Com a DJ:
                         {/if}
                     </div>
@@ -66,12 +64,16 @@
                         {:else if $metadata?.onair.category === "record"}
                             Gravado
                         {:else}
-                            Humano
+                            {#if $metadata?.onair.user.gender === "male"}
+                                Humano
+                            {:else}
+                                Humana
+                            {/if}
                         {/if}
                     </div>
                 </dt>
                 <dd class="text-gray-500 hidden xl:block">
-                    <Icon icon="bi:chevron-double-right" width="25" height="25" aria-label="hidden"/>
+                    <img src="/svg/default/arrowRightTwo.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-gray"/>
                 </dd>
             </dl>
             <!--Música tocando-->
@@ -106,13 +108,13 @@
                 <dl class={`${$metadata?.onair.category === "auto" ? "bg-purple-mystic" : $metadata?.onair.category === "record" ? "bg-orange-amber" : "bg-green-forest"} p-3 flex gap-2 justify-center items-center rounded-md`}>
                     <dt>
                         {#if $metadata?.onair.category === "auto"}
-                            <Icon icon="pixel:robot-solid" width="35" height="35" aria-label="hidden"/>
+                            <img src="/svg/default/robot.svg" alt="" aria-hidden="true" class="w-15"/>
                         {/if}
                         {#if $metadata?.onair.category === "record"}
-                            <Icon icon="streamline:tape-cassette-record-solid" width="35" height="35" aria-label="hidden"/>
+                            <img src="/svg/default/disc.svg" alt="" aria-hidden="true" class="w-10"/>
                         {/if}
                         {#if $metadata?.onair.category === "live"}
-                            <Icon icon="fa7-solid:tower-cell" width="35" height="35" aria-label="hidden"/>
+                            <img src="/svg/default/stream.svg" alt="" aria-hidden="true" class="w-10"/>
                         {/if}
                     </dt>
                     <dd class="font-noto-sans font-medium italic uppercase text-center leading-[1rem]">
@@ -144,7 +146,12 @@
                     </dd>
                 </dl>
                 <button on:click={togglePlayPause} class={`${$player.playing ? "bg-orange-amber" : "bg-blue-skywave"} cursor-pointer w-[3.5rem] h-[3.5rem] rounded-full flex justify-center items-center`}>
-                    <Icon icon={$player.playing ? "ic:round-pause" : "ic:round-play-arrow"}  width="30" height="30" class="text-blue-midnight" aria-label="hidden"/>
+                    {#if $player.playing}
+                        <img src="/svg/default/pause.svg" alt="" aria-hidden="true" class="w-5"/>
+                    {:else}
+                        <img src="/svg/default/play.svg" alt="" aria-hidden="true" class="w-5"/>
+                    {/if}
+                        
                 </button>
             </div>
             <div class="w-full px-3">

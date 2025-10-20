@@ -13,6 +13,7 @@
     --color-neutral-opacity: #fffaf31f;
     --color-neutral-sandstone: #e6ded1;
     --color-neutral-honeycream: #ffe8bf;
+    --color-neutral-gray: #808080;
 
     /* Reds */
     --color-red-crimson: #ed3237;
@@ -45,6 +46,7 @@
     --color-neutral-opacity: var(--color-neutral-opacity);
     --color-neutral-sandstone: var(--color-neutral-sandstone);
     --color-neutral-honeycream: var(--color-neutral-honeycream);
+    --color-neutral-gray: var(--color-neutral-gray);
 
     /* Red */
     --color-red-crimson: var(--color-red-crimson);
@@ -164,8 +166,14 @@
     .filter-neutral-aurora {
         filter: invert(100%) sepia(75%) saturate(292%) hue-rotate(322deg) brightness(106%) contrast(102%);
     }
+    .filter-neutral-gray{
+        filter: invert(54%) sepia(12%) saturate(23%) hue-rotate(46deg) brightness(92%) contrast(88%);
+    }
     .filter-blue-skywave {
         filter: invert(53%) sepia(84%) saturate(4530%) hue-rotate(185deg) brightness(99%) contrast(112%);
+    }
+    .filter-blue-ocean{
+        filter: invert(10%) sepia(55%) saturate(5448%) hue-rotate(224deg) brightness(90%) contrast(109%);
     }
     .filter-red-crimson{
         filter: invert(44%) sepia(59%) saturate(4904%) hue-rotate(335deg) brightness(88%) contrast(113%);

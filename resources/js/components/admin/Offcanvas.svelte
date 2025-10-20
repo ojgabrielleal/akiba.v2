@@ -1,7 +1,6 @@
 <script>
     import { fly, fade } from 'svelte/transition';
     import { quintOut } from 'svelte/easing';
-    import Icon from "@iconify/svelte";
     
     let visible = false;
 
@@ -32,7 +31,7 @@
                     <slot name="title" />
                 </div>
                 <button type="button" on:click={close} class="cursor-pointer text-neutral-aurora" aria-label="Fechar offcanvas">
-                    <Icon icon="mingcute:close-fill" width="24" height="24" aria-hidden="true" />
+                    <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora"/>
                 </button>
             </div>
             <div class="flex-1 overflow-y-auto p-5 bg-neutral-aurora">

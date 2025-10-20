@@ -1,6 +1,5 @@
 <script>
     import { page, router } from "@inertiajs/svelte";
-    import Icon from "@iconify/svelte";
     import { Meta } from "@/meta";
     import { Layout } from "@/layouts/admin";
     import { BroadcastForm } from "@/widgets/admin/form";
@@ -34,8 +33,9 @@
             <div class="font-noto-sans mb-3">
                 O que ele está fazendo é segredinho meu e dele! Volte quando não tiver ninguem...
             </div>
-            <button on:click={()=>redirectToDashboard()} type="button" class="mt-5 flex gap-2 justify-center items-center cursor-pointer w-full py-2 px-6 border-2 border-blue-ocean rounded-xl text-blue-ocean text-md font-bold font-noto-sans italic uppercase">
-                <Icon icon="icon-park-outline:return" width="20" height="20" aria-hidden="true"/>Dashboard
+            <button on:click={()=>redirectToDashboard()} type="button" class="mt-5 flex gap-2 justify-center items-center cursor-pointer w-full py-2 px-6 border-2 border-blue-ocean rounded-xl text-md font-bold font-noto-sans italic uppercase">
+                <img src="/svg/default/return.svg" alt="" aria-hidden="true" class="w-5 filter-blue-ocean"/>
+                Dashboard
             </button>
         </div>
     </section>

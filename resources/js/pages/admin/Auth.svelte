@@ -1,6 +1,5 @@
 <script>
     import { page } from "@inertiajs/svelte";
-    import Icon from "@iconify/svelte";
     import { Meta } from "@/meta";
     import { AuthForm } from "@/widgets/admin/form";
 
@@ -21,7 +20,7 @@
         <AuthForm />
         {#if flash}
             <div class={`bg-[#B91C1C] flex justify-center items-center gap-2 w-full mt-5 p-4 rounded-lg font-noto-sans font-light text-neutral-aurora transition-opacity duration-500 ease-in-out ${flash.message ? "opacity-100" : "opacity-0"}`}>
-                <Icon icon="mingcute:close-fill" width="24" height="24" />
+                <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora"/>
                 {@html flash.message}
             </div>
         {/if}

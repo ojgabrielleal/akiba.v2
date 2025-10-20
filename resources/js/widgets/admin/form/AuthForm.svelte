@@ -1,6 +1,5 @@
 <script>
     import { useForm, router } from "@inertiajs/svelte";
-    import Icon from "@iconify/svelte";
 
     const form = useForm({
         username: null,
@@ -29,7 +28,6 @@
         bind:value={$form.password}
     />
     <button type="submit" class="cursor-pointer font-noto-sans mt-4 flex h-[5rem] w-full items-center justify-center gap-1 rounded-2xl bg-blue-skywave pt-1 text-lg font-light text-neutral-aurora">
-        <Icon icon="fa6-solid:arrow-right-to-bracket" aria-hidde="true"/>
         Entrar
     </button>
 </form>

@@ -3,7 +3,6 @@
     import { page } from "@inertiajs/svelte";
     import { Navbar } from "@/widgets/admin/navbar";
     import { Status } from "@/widgets/admin/status";
-    import Icon from "@iconify/svelte";
 
     $: ({ flash } = $page.props);
     
@@ -66,12 +65,14 @@
 </script>
 
 {#if alert}
-    <div in:scale={{ duration: 300, start: 0.5 }} out:scale={{ duration: 300, end: 0.5 }} class="w-full lg:w-auto lg:max-w-2xl h-17 fixed top-0 lg:top-auto lg:bottom-5 lg:right-5 z-50 rounded-none lg:rounded-lg" style={`background-color: ${switchColor(alert?.type)};`}>
+    <div in:scale={{ duration: 300, start: 0.5 }} out:scale={{ duration: 300, end: 0.5 }} class="w-full lg:w-auto lg:max-w-4xl h-17 fixed top-0 lg:top-auto lg:bottom-5 lg:right-5 z-50 rounded-none lg:rounded-lg" style={`background-color: ${switchColor(alert?.type)};`}>
         <button on:click={closeAlert} class="text-neutral-aurora absolute top-1/2 right-5 -translate-y-1/2 cursor-pointer" aria-label="Fechar alerta">
-            <Icon icon="mingcute:close-fill" width="15" height="15" aria-hidden="true"/>
+            <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora"/>
         </button>
-        <div class="w-auto ml-5 mr-15 h-17 flex items-center font-noto-sans text-neutral-aurora">
-            {@html alert?.message}
+        <div class="w-auto ml-5 mr-15 h-17 flex items-center">
+            <div class="font-noto-sans text-neutral-aurora">
+                {@html alert?.message}
+            </div>
         </div>
     </div>
 {/if}

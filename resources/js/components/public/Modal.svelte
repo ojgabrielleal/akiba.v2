@@ -1,7 +1,6 @@
 <script>
-    import { fly, fade } from 'svelte/transition';
+    import { fade } from 'svelte/transition';
     import { quintOut } from 'svelte/easing';
-    import Icon from "@iconify/svelte";
 
     let visible = false;
 
@@ -31,8 +30,8 @@
             <div class="w-[9rem]">
                 <img src="/img/default/logo.webp" alt="logo">
             </div>
-            <button type="button" aria-label="Fechar modal" on:click={close} class="w-[1.5rem] h-[1.5rem] cursor-pointer absolute -top-8 -right-5 flex justify-center items-center bg-neutral-aurora rounded-full text-black" >
-                <Icon icon="mingcute:close-fill" width="10" height="10" aria-hidden="true" />
+            <button type="button" aria-label="Fechar modal" on:click={close} class="w-[1.5rem] h-[1.5rem] cursor-pointer absolute -top-8 -right-5 flex justify-center items-center bg-neutral-aurora rounded-full" >
+                <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-3"/>
             </button>
         </div>
         <div class="w-full max-h-[70vh] lg:max-h-[90vh] p-5 overflow-y-auto">

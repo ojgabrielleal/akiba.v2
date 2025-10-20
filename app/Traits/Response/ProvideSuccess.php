@@ -2,11 +2,6 @@
 
 namespace App\Traits\Response;
 
-use Illuminate\Http\Response;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\JsonResponse;
-use Inertia\Inertia;
-
 trait ProvideSuccess
 {
     public function provideSuccess(string $action)
