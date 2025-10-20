@@ -49,7 +49,7 @@ class Calendar extends Model
     */
     public function getHourAttribute($value)
     {
-        return Carbon::parse($value)->format('H:i');
+        return Carbon::parse($value)->format('H\Hi');
     }
 
     /**

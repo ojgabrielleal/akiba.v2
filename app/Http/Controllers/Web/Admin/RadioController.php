@@ -81,9 +81,7 @@ class RadioController extends Controller
             $userId = $request->input('user_id') ? $request->input('user_id') : $user->id;
 
             $showExist = Show::where('name', $request->input('name'))->exists();
-            if ($showExist) {
-                return $this->provideSuccess('exists');
-            }
+            if ($showExist) return $this->provideSuccess('exists');
 
             $showCreate = Show::create([
                 'user_id' => $userId,

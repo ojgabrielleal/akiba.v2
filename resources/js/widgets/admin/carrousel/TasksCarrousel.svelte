@@ -54,10 +54,11 @@
         {:else}
             <article class="w-100 h-50 lg:w-[40rem] lg:h-43 shrink-0 rounded-lg p-4 relative bg-blue-cerulean opacity-50">
                 <div class="uppercase font-noto-sans text-neutral-aurora italic font-bold text-2xl">
-                    Assistir animes
+                    Morgar no sofá
                 </div>
                 <div class="w-60 lg:w-90 font-noto-sans text-sm text-neutral-aurora line-clamp-5 mt-1">
-                    Nenhuma tarefa no radar… surpreendente, né? Parece que a incompetência coletiva resolveu dar uma pausa. Meu celular vai tentar avisar, se conseguir.
+                    Nenhuma tarefa no radar… surpreendente, né? Parece que os administradores da Akiba decidiram tirar uma pausa “infinita”. 
+                    Fica tranquilo que quando eles voltarem e inventarem algo eu te aviso... Tentarei.
                 </div>
                 <dl class="absolute top-5 right-5 rounded-xl shadow-lg w-[7rem] text-center overflow-hidden bg-neutral-aurora">
                     <dt class="font-noto-sans italic font-bold text-sm py-1 tracking-wide uppercase bg-blue-indigo text-neutral-aurora">

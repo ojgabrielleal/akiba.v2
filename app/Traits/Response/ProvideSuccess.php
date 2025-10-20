@@ -9,65 +9,65 @@ trait ProvideSuccess
         $messages = [
             'save' => [
                 'type' => 'success',
-                'message' => '💾 Salvo! Como se alguém fosse bagunçar agora…'
+                'message' => '💾 Salvo! Olha só, até que deu certo sem drama dessa vez 😎'
             ],
             'load' => [
                 'type' => 'info',
-                'message' => '📂 Carregado! Surpresa, tudo ainda está aqui.'
+                'message' => '📂 Carregado! Que milagre nada explodiu no processo 🔧'
             ],
             'update' => [
                 'type' => 'success',
-                'message' => '⚡ Atualizado! Porque mudar as coisas de lugar sempre ajuda… certo?'
+                'message' => '⚡ Atualizado! Pequeno toque de perfeição… ou quase isso 😉'
             ],
             'delete' => [
                 'type' => 'warning',
-                'message' => '🗑️ Apagado! Adeus, dados… ou será que voltam?'
+                'message' => '🗑️ Apagado! Às vezes começar do zero é melhor que quebrar a cabeça 🤷‍♂️'
             ],
             'error' => [
                 'type' => 'error',
-                'message' => '🙀 Erro! Como se isso fosse inesperado…'
+                'message' => '🙀 Erro! Parece que o universo quis apimentar seu dia 🔥'
             ],
             'exists' => [
                 'type' => 'info',
-                'message' => '👀 Já existe… alguém está tentando ser original?'
+                'message' => '👀 Isso já existe! Dois corpos não podem ocupar o mesmo lugar, reative na lixeira 😏'
             ],
             'deactivate' => [
                 'type' => 'info',
-                'message' => '🌙 Desativado… mas vai que alguém realmente se importa.'
+                'message' => '🌙 Desativado! Foi dormir, mas promete voltar… ou não 😴'
             ],
             'activate' => [
                 'type' => 'success',
-                'message' => '☀️ Ativado! Agora tudo está... ativo.'
+                'message' => '☀️ Ativado! Preparado pra brilhar… e causar umas confusões ✨'
             ],
             'listener_request_attended' => [
                 'type' => 'success',
-                'message' => '🎧 Pedido marcado como atendido! Uau, grande coisa.'
+                'message' => '🎧 Pedido atendido! Sem drama, o que já é um pequeno milagre moderno 😌'
             ],
             'listener_request_canceled' => [
                 'type' => 'info',
-                'message' => '❌ Pedido cancelado! Porque desistir é sempre uma opção.'
+                'message' => '❌ Pedido cancelado! Melhor isso do que fingir que ia dar certo, né? 😏'
             ],
             'listener_request_open' => [
                 'type' => 'success',
-                'message' => '📢 Pedidos abertos! Segura essa empolgação se você tiver…'
+                'message' => '📢 Pedidos abertos! Prepare-se para a avalanche… e tente não se perder 😅'
             ],
             'listener_request_close' => [
                 'type' => 'info',
-                'message' => '🔒 Pedidos fechados! Hora de fingir foco para acabar tudo…'
+                'message' => '🔒 Pedidos fechados! Até o bom senso precisa tirar férias de vez em quando 😉'
             ],
             'start_broadcast' => [
                 'type' => 'success',
-                'message' => '📡 Programa iniciado! Como se alguém estivesse esperando…'
+                'message' => '📡 Programa iniciado! Vamos torcer para tudo sair do jeito certo… ou quase 😎'
             ],
             'end_broadcast' => [
                 'type' => 'info',
-                'message' => '📡 Programa encerrado! Que espetáculo, hein?'
+                'message' => '📡 Programa encerrado! E a gente finge que tudo saiu do jeito certo 😏'
             ],
         ];
 
         $default_message = [
             'type' => 'info',
-            'message' => '✨ Oi! Tudo certo… ou pelo menos parece que está organizado 😂🎯'
+            'message' => '✨ Oi! Tudo certo… ou pelo menos fingimos muito bem que está organizado 😂🎯'
         ];
 
         $base = $messages[$action] ?? $default_message;

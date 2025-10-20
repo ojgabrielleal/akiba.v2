@@ -53,7 +53,8 @@
                     Aki-chan
                 </div>
                 <div class="font-noto-sans text-sm text-neutral-aurora line-clamp-5 mt-1">
-                    Relax… você não foi lembrado, ninguém se importa e provavelmente ninguém vai avisar. Mas não se preocupe, é só mais um dia normal.
+                    Mais um dia normal e com a mesma bagunça de sempre, um monte de coisa para fazer mas... O pessoal da Akiba tá dormindo vê se pode isso!
+                    Mas relaxa, fica calmo, quando eles acordarem e se algo acontecer serei a primeira a te avisar!
                 </div>
             </article>
         {/if}
