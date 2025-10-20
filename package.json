@@ -7,7 +7,6 @@
         "start": "concurrently \"php artisan serve\" \"npm run dev\""
     },
     "devDependencies": {
-        "@iconify/svelte": "^5.0.0",
         "@tailwindcss/vite": "^4.0.0",
         "axios": "^1.9.0",
         "concurrently": "^9.0.1",
