@@ -52,22 +52,22 @@
             {#each $listenerRequests.requests as item}
                 <article class={`w-full lg:w-[23.6rem] rounded-lg p-3 ${item.status === "attended" ? "bg-green-forest" : item.status ==="canceled" ? "bg-red-crimson" : "bg-blue-skywave"}`}>
                     <div class="w-70 flex items-center gap-1.5 text-neutral-aurora text-[1.2rem] font-noto-sans font-bold italic truncate">
-                        <img src="/svg/default/profile.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora"/>
+                        <img src="/svg/default/profile.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                         {item.listener}
                     </div>
                     <div class="w-70 mt-1 flex gap-1.5 text-neutral-aurora text-[1rem] font-noto-sans truncate">
-                        <img src="/svg/default/gps.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora"/>
+                        <img src="/svg/default/gps.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                         {item.address}
                     </div>
                     <div class="mt-1 flex gap-1.5 text-neutral-aurora text-[1rem] font-noto-sans">
-                        <img src="/svg/default/ip.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora"/>
+                        <img src="/svg/default/ip.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                         {item.listener_ip}
                     </div>
                     <div class="flex items-center justify-center w-full mt-5 mb-5">
                         <div class="relative w-full">
                             <div class="absolute left-0 w-2/5 h-[0.1rem] bg-white rounded-full top-1/2 -translate-y-1/2"></div>
                             <div class="absolute inset-0 flex items-center justify-center">
-                                <img src="/svg/default/music.svg" alt="" aria-hidden="true" class="w-6 filter-neutral-aurora"/>
+                                <img src="/svg/default/music.svg" alt="" aria-hidden="true" class="w-6 filter-neutral-aurora" loading="lazy"/>
                             </div>
                             <div class="absolute right-0 w-2/5 h-[0.1rem] bg-white rounded-full top-1/2 -translate-y-1/2"></div>
                         </div>
@@ -90,7 +90,7 @@
                         <div class="relative w-full">
                             <div class="absolute left-0 w-2/5 h-[0.1rem] bg-white rounded-full top-1/2 -translate-y-1/2"></div>
                             <div class="absolute inset-0 flex items-center justify-center">
-                                <img src="/svg/default/telegram.svg" alt="" aria-hidden="true" class="w-7 filter-neutral-aurora"/>
+                                <img src="/svg/default/telegram.svg" alt="" aria-hidden="true" class="w-7 filter-neutral-aurora" loading="lazy"/>
                             </div>
                             <div class="absolute right-0 w-2/5 h-[0.1rem] bg-white rounded-full top-1/2 -translate-y-1/2"></div>
                         </div>
@@ -100,16 +100,16 @@
                     </div>
                     <div class="flex justify-between">
                         <time class="flex items-center gap-1 text-neutral-aurora text-sm font-noto-sans font-bold italic">
-                            <img src="/svg/default/clock.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora"/>
+                            <img src="/svg/default/clock.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                             {new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </time>
                         <div class="flex gap-3">
                             {#if item.status === "new"}
                                 <button on:click={() => markToCanceled(item.id)} aria-label="Marcar como cancelado" class="cursor-pointer">
-                                    <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-6 filter-neutral-aurora"/>
+                                    <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-6 filter-neutral-aurora" loading="lazy"/>
                                 </button>
                                 <button on:click={() => markToAttended(item.id)} aria-label="Marcar como atendido"class="cursor-pointer">
-                                    <img src="/svg/default/like.svg" alt="" aria-hidden="true" class="w-6 filter-neutral-aurora"/>
+                                    <img src="/svg/default/like.svg" alt="" aria-hidden="true" class="w-6 filter-neutral-aurora" loading="lazy"/>
                                 </button>
                             {/if}
                         </div>

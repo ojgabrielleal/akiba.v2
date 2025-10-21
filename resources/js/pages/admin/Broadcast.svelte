@@ -34,7 +34,7 @@
                 O que ele está fazendo é segredinho meu e dele! Volte quando não tiver ninguem...
             </div>
             <button on:click={()=>redirectToDashboard()} type="button" class="mt-5 flex gap-2 justify-center items-center cursor-pointer w-full py-2 px-6 border-2 border-blue-ocean rounded-xl text-md font-bold font-noto-sans italic uppercase">
-                <img src="/svg/default/return.svg" alt="" aria-hidden="true" class="w-5 filter-blue-ocean"/>
+                <img src="/svg/default/return.svg" alt="" aria-hidden="true" class="w-5 filter-blue-ocean" loading="lazy"/>
                 Dashboard
             </button>
         </div>

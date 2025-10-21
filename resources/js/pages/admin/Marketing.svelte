@@ -4,7 +4,7 @@
     import { MarketingGrid } from "@/widgets/admin/grid";
 </script>
 
-<Meta title="Marketing" />
+<Meta meta={{ title: "Marketing" }} />
 <Layout>
     <MarketingGrid />
 </Layout>

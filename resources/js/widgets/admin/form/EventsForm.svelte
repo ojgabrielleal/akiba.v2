@@ -5,7 +5,7 @@
 
     $: ({ publication } = $page.props);
 
-    $: form = useForm({
+    let form = useForm({
         image: publication?.image,
         title: publication?.title,
         cover: publication?.cover,

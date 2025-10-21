@@ -22,18 +22,23 @@ class MarketingController extends Controller
     public function getRepositories()
     {
         try {
-            $tutorials = Repository::orderBy('created_at', 'desc')->where('category', 'tutorial')->get();
-            $installers = Repository::orderBy('created_at', 'desc')->where('category', 'installer')->get();
-            $packages = Repository::orderBy('created_at', 'desc')->where('category', 'package')->get();
+            $query = Repository::whereIn('category', ['tutorials', 'installers', 'packages']);
+            $query->orderBy('created_at', 'desc');
+            $repository = $query->get();
 
-            if ($tutorials && $installers && $packages) {
-                return response()->json([
-                    'tutorials' => $tutorials,
-                    'installers' => $installers,
-                    'packages' => $packages
-                ], 200);
-            }
+            return $repository;
         } catch (\Throwable $e) {
+            $this->provideException($e);
+        }
+    }
+
+    public function getRepository($id)
+    {
+        try{
+            if($id){
+                return Repository::where('id', $id)->firstOrFail();
+            }
+        }catch(\Throwable $e){
             $this->provideException($e);
         }
     }
@@ -42,19 +47,22 @@ class MarketingController extends Controller
     {
         try{
             $request->validate([
+                'name' => 'required',
                 'image' => 'required',
                 'file' => 'required',
                 'category' => 'required',
             ], [
+                'name' => 'Nome do arquivo',
                 'image.required' => 'Icone do arquivo',
-                'file.required' => 'Link do arquivo',
-                'category.required' => 'Categoria do arquivo',
+                'file.required' => 'URL do conteúdo hospedado externamente',
+                'category.required' => 'Categoria do arquivo'
             ]);
 
             $repositoryCreate = Repository::create([
+                'name' => $request->input('name'),
                 'image' => $this->uploadImage('repository', $request->file('image')),
-                'file' => $request->file,
-                'category' => $request->category,
+                'file' => $request->input('file'),
+                'category' => $request->input('category'),
             ]);
             if(!$repositoryCreate->wasRecentlyCreated) throw new \Exception('Erro ao criar o cadastrar o arquivo no repositório.');
     
@@ -68,18 +76,21 @@ class MarketingController extends Controller
     {
         try{
             $request->validate([
-                'image' => 'sometimes',
-                'file' => 'sometimes',
-                'category' => 'sometimes',
+                'name' => 'required',
+                'image' => 'required',
+                'file' => 'required',
+                'category' => 'required',
             ], [
+                'name' => 'Nome do arquivo',
                 'image.required' => 'Icone do arquivo',
-                'file.required' => 'Link do arquivo',
-                'category.required' => 'Categoria do arquivo',
+                'file.required' => 'URL do conteúdo hospedado externamente',
+                'category.required' => 'Categoria do arquivo'
             ]);
 
             $repository = Repository::where('id', $id)->firstOrFail();
 
             $repositoryUpdate = $repository->update([
+                'name' => $request->input('name', $repository->name),
                 'image' => $request->hasFile('image') ? $this->uploadImage('repository', $request->file('image'), 'public', $repository->image) : $repository->image,
                 'file' => $request->input('file', $repository->file),
                 'category' => $request->input('category', $repository->category),
@@ -92,17 +103,19 @@ class MarketingController extends Controller
         }
     }
 
-    public function deactivateRepository($id)
+    public function deleteRepository($id)
     {
         try {
             $repository = Repository::where('id', $id)->firstOrFail();
 
-            $repositoryDeactivate = $repository->update([
-                'active' => false
-            ]);
-            if ($repositoryDeactivate === 0) throw new \Exception('Não foi possível desativar o arquivo no repositório.');
+            if ($repository->image) {
+                $this->deleteImage($repository->image);
+            }
+            if (!$repository->delete()) {
+                throw new \Exception('Não foi possível deletar o repositório.');
+            }
 
-            return $this->provideSuccess('deactivate');
+            return $this->provideSuccess('delete');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -111,7 +124,7 @@ class MarketingController extends Controller
     public function render()
     {
         return Inertia::render('admin/Marketing', [
-            'repositories' => $this->getRepositories(),
+            'repositories' => $this->getRepositories()
         ]);
     }
 }

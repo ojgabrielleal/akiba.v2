@@ -28,10 +28,10 @@
     <div on:click={block} class="lg:w-[26rem] bg-neutral-aurora rounded-t-lg rounded-b-md relative">        
         <div class="w-full h-[5rem] pt-8 px-5 lg:mb-2 bg-cover bg-center rounded-t-md" style="background-image: url('/img/default/requests.webp');">
             <div class="w-[9rem]">
-                <img src="/img/default/logo.webp" alt="logo">
+                <img src="/img/default/logo.webp" alt="logo" loading="lazy">
             </div>
             <button type="button" aria-label="Fechar modal" on:click={close} class="w-[1.5rem] h-[1.5rem] cursor-pointer absolute -top-8 -right-5 flex justify-center items-center bg-neutral-aurora rounded-full" >
-                <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-3"/>
+                <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-3" loading="lazy"/>
             </button>
         </div>
         <div class="w-full max-h-[70vh] lg:max-h-[90vh] p-5 overflow-y-auto">

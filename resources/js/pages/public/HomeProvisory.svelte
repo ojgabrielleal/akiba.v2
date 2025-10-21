@@ -31,7 +31,7 @@
 <main class="mt-23 h-auto">
     <div class="container">
         <div class="w-full flex justify-center">
-            <img src="/img/default/logo_and_slogan.webp" alt="Logo" class="w-[20rem] lg:w-[30rem]"/>
+            <img src="/img/default/logo_and_slogan.webp" alt="Logo" class="w-[20rem] lg:w-[30rem]" loading="lazy"/>
         </div>
     </div>
     <CorePlayer/>

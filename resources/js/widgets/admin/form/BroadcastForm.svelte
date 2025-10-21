@@ -9,7 +9,7 @@
         router.post("/painel/locucao/broadcast/end");
     }
 
-    $: form = useForm({
+    let form = useForm({
         show: null,
         phrase: null,
         image: null,

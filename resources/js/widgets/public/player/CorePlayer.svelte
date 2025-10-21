@@ -17,7 +17,7 @@
 <article class="mt-9 lg:mt-15 bg-blue-ocean">
     <div class="container-player w-full flex justify-center relative">
         <div class="hidden lg:block absolute -top-7 left-0">
-            <img src="/img/default/rains.webp" alt="" aria-hidden="true" class="w-[5rem] transform -scale-x-100 -scale-y-100"/>
+            <img src="/img/default/rains.webp" alt="" aria-hidden="true" class="w-[5rem] transform -scale-x-100 -scale-y-100" loading="lazy"/>
         </div>
         <!-- svelte-ignore a11y_distracting_elements -->
         <marquee class="w-5xl relative flex overflow-x-hidden marquee-container">
@@ -26,10 +26,10 @@
             </div>
         </marquee>
         <div class="hidden lg:block absolute bottom-0 right-4 z-10">
-            <img src={$metadata?.onair.image} alt="" aria-hidden="true" class="w-[8rem]"/>
+            <img src={$metadata?.onair.image} alt="" aria-hidden="true" class="w-[8rem]" loading="lazy"/>
         </div>
         <div class="hidden lg:block absolute -top-8 right-0 z-10">
-            <img src="/img/default/rains.webp" alt="" aria-hidden="true" class="w-[5rem]"/>
+            <img src="/img/default/rains.webp" alt="" aria-hidden="true" class="w-[5rem]" loading="lazy"/>
         </div>
     </div>
 </article>
@@ -42,10 +42,10 @@
             <!--Programa e locutor-->
             <dl class="flex flex-wrap xl:flex-nowrap items-center gap-5">
                 <dt class="w-[16rem]">
-                    <img src={$metadata?.onair.program.image} alt={`Programa ${$metadata?.onair.program.name}`}/>
+                    <img src={$metadata?.onair.program.image} alt={`Programa ${$metadata?.onair.program.name}`} loading="lazy"/>
                 </dt>
                 <dd class="text-gray-500">
-                    <img src="/svg/default/arrowRightTwo.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-gray"/>
+                    <img src="/svg/default/arrowRightTwo.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-gray" loading="lazy"/>
                 </dd>
                 <dt>
                     <div class="text-orange-amber font-noto-sans uppercase">
@@ -73,16 +73,16 @@
                     </div>
                 </dt>
                 <dd class="text-gray-500 hidden xl:block">
-                    <img src="/svg/default/arrowRightTwo.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-gray"/>
+                    <img src="/svg/default/arrowRightTwo.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-gray" loading="lazy"/>
                 </dd>
             </dl>
             <!--Música tocando-->
             <dl class="flex gap-3 items-end mt-14 lg:mt-10">
                 <dt class="w-[5rem] shrink-0">
                     {#if $metadata?.stream.capa_musica === "https://player.painelcast.com/img/img-capa-artista-padrao.png"}
-                        <img src="/img/default/no_cover.webp" on:error={(e) => e.target.src = '/img/default/no_cover.webp'} alt="" aria-hidden="true" class="rounded-lg"/>
+                        <img src="/img/default/no_cover.webp" on:error={(e) => e.target.src = '/img/default/no_cover.webp'} alt="" aria-hidden="true" class="rounded-lg" loading="lazy"/>
                     {:else}
-                        <img src={$metadata?.stream.capa_musica} on:error={(e) => e.target.src = '/img/default/no_cover.webp'} alt="" aria-hidden="true" class="rounded-lg"/>
+                        <img src={$metadata?.stream.capa_musica} on:error={(e) => e.target.src = '/img/default/no_cover.webp'} alt="" aria-hidden="true" class="rounded-lg" loading="lazy"/>
                     {/if}
                 </dt>
                 <dd>
@@ -98,7 +98,7 @@
         <!-- Segunda parte do player ( Avatar )-->
         <div class="hidden lg:block mt-5">
             <div class="w-[20rem] h-[25rem]">
-                <img src={$metadata?.onair.user.avatar} alt="" aria-label="hidden" class="object-cover w-full h-full"/>
+                <img src={$metadata?.onair.user.avatar} alt="" aria-label="hidden" class="object-cover w-full h-full" loading="lazy"/>
             </div>
         </div>
         <!-- Terceira parte do player ( Controles e botão de pedidos )-->
@@ -108,13 +108,13 @@
                 <dl class={`${$metadata?.onair.category === "auto" ? "bg-purple-mystic" : $metadata?.onair.category === "record" ? "bg-orange-amber" : "bg-green-forest"} p-3 flex gap-2 justify-center items-center rounded-md`}>
                     <dt>
                         {#if $metadata?.onair.category === "auto"}
-                            <img src="/svg/default/robot.svg" alt="" aria-hidden="true" class="w-15"/>
+                            <img src="/svg/default/robot.svg" alt="" aria-hidden="true" class="w-15" loading="lazy"/>
                         {/if}
                         {#if $metadata?.onair.category === "record"}
-                            <img src="/svg/default/disc.svg" alt="" aria-hidden="true" class="w-10"/>
+                            <img src="/svg/default/disc.svg" alt="" aria-hidden="true" class="w-10" loading="lazy"/>
                         {/if}
                         {#if $metadata?.onair.category === "live"}
-                            <img src="/svg/default/stream.svg" alt="" aria-hidden="true" class="w-10"/>
+                            <img src="/svg/default/stream.svg" alt="" aria-hidden="true" class="w-10" loading="lazy"/>
                         {/if}
                     </dt>
                     <dd class="font-noto-sans font-medium italic uppercase text-center leading-[1rem]">
@@ -147,9 +147,9 @@
                 </dl>
                 <button on:click={togglePlayPause} class={`${$player.playing ? "bg-orange-amber" : "bg-blue-skywave"} cursor-pointer w-[3.5rem] h-[3.5rem] rounded-full flex justify-center items-center`}>
                     {#if $player.playing}
-                        <img src="/svg/default/pause.svg" alt="" aria-hidden="true" class="w-5"/>
+                        <img src="/svg/default/pause.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                     {:else}
-                        <img src="/svg/default/play.svg" alt="" aria-hidden="true" class="w-5"/>
+                        <img src="/svg/default/play.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                     {/if}
                         
                 </button>

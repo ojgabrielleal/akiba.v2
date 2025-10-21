@@ -31,7 +31,7 @@
                     <slot name="title" />
                 </div>
                 <button type="button" on:click={close} class="cursor-pointer text-neutral-aurora" aria-label="Fechar offcanvas">
-                    <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora"/>
+                    <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                 </button>
             </div>
             <div class="flex-1 overflow-y-auto p-5 bg-neutral-aurora">

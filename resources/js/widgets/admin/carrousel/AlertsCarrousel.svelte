@@ -42,7 +42,7 @@
                             class="w-[2rem] h-[2rem] bg-neutral-aurora absolute bottom-3 right-4 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer"
                             on:click={() => createSignature(item.id)}
                         >
-                            <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy" />
+                            <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                         </button>
                     {/if}
                 </article>

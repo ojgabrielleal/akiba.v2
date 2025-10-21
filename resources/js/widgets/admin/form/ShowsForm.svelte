@@ -8,7 +8,7 @@
 
     $: ({ streamers } = $page.props);
 
-    $: form = useForm({
+    let form = useForm({
         name: null,
         is_all: 0,
         image: null,
@@ -159,7 +159,7 @@
             </div>
         </div>
         <button on:click={addSchedule} type="button" class="cursor-pointer mb-2 flex items-center gap-[0.2rem] text-blue-skywave text-md font-noto-sans">
-            <img src="/svg/default/plus.svg" alt="" aria-hidden="true" class="w-5 filter-blue-skywave"/>
+            <img src="/svg/default/plus.svg" alt="" aria-hidden="true" class="w-5 filter-blue-skywave" loading="lazy"/>
             Adicionar horário
         </button>
         {#each $form.schedules as schedule, index}
@@ -196,7 +196,7 @@
                     />
                 </div>
                 <button on:click={() => removeSchedule(index)} type="button" class="cursor-pointer mt-4 flex items-center gap-[0.2rem] text-blue-skywave text-md font-noto-sans">
-                    <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-5 filter-blue-skywave"/>
+                    <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-5 filter-blue-skywave" loading="lazy"/>
                     Remover
                 </button>
             </div>

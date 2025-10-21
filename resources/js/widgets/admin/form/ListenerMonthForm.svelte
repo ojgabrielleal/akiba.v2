@@ -9,7 +9,7 @@
         console.log(listener_month_found)
     }
 
-    $: form = useForm({
+    let form = useForm({
         image: null,
         listener: listener_month_found?.listener,
         address: listener_month_found?.address,

@@ -89,10 +89,11 @@ Route::prefix('painel')->group(function () {
         });
         Route::prefix('/marketing')->group(function () {
             Route::controller(MarketingController::class)->group(function () {
-                Route::get('/{slug?}', 'render')->name('render.painel.marketing');
+                Route::get('/', 'render')->name('render.painel.marketing');
+                Route::get('/get/repository/{id?}', 'getRepository');
                 Route::post('/create/repository', 'createRepository');
                 Route::post('/update/repository/{id}', 'updateRepository');
-                Route::post('/deactivate/repository/{id}', 'deactivateRepository');
+                Route::delete('/delete/repository/{id}', 'deleteRepository');
             });
         });
     });

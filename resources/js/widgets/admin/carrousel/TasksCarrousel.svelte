@@ -46,7 +46,7 @@
                             class="bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer"
                             on:click={() => setTaskCompleted(item.id)}
                         >
-                            <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy" />
+                            <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                         </button>
                     {/if}
                 </article>

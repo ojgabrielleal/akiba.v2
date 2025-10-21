@@ -6,7 +6,7 @@
 
     $: ({ user, publication } = $page.props);
 
-    $: form = useForm({
+    let form = useForm({
         status: null,
         image: publication?.image,
         title: publication?.title,

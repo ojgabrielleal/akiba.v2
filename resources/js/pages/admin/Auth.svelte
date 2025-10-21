@@ -20,7 +20,7 @@
         <AuthForm />
         {#if flash}
             <div class={`bg-[#B91C1C] flex justify-center items-center gap-2 w-full mt-5 p-4 rounded-lg font-noto-sans font-light text-neutral-aurora transition-opacity duration-500 ease-in-out ${flash.message ? "opacity-100" : "opacity-0"}`}>
-                <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora"/>
+                <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                 {@html flash.message}
             </div>
         {/if}

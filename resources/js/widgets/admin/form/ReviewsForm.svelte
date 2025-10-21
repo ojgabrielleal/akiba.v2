@@ -10,7 +10,7 @@
         (item) => item.user.id === authorSelected,
     );
 
-    $:form = useForm({
+    let form = useForm({
         image: publication?.image,
         title: publication?.title,
         sinopse: publication?.sinopse,
