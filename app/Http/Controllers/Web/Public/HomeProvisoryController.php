@@ -17,7 +17,7 @@ use App\Models\ListenerRequest;
 
 class HomeProvisoryController extends Controller
 {
-    use ProvideException, ProvideSuccess;
+    use ProvideException;
 
     public function createListenerRequest(Request $request)
     {
@@ -87,7 +87,7 @@ class HomeProvisoryController extends Controller
                 'message' => $message,
             ]);
 
-            return $this->provideSuccess('save');
+            return back(303);
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }

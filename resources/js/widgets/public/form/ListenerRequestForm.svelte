@@ -56,7 +56,7 @@
             onSuccess: () => {
                 const expiraEm = new Date(Date.now() + 90 * 1000);
                 localStorage.setItem('akiba_rate_limit', expiraEm.toISOString());
-                
+
                 success = true;
             },
         });
