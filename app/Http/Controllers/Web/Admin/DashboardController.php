@@ -55,13 +55,12 @@ class DashboardController extends Controller
     {
         try {
             $user = $request->user();
-            $alert = Alert::firstOrFail($id);
+            $alert = Alert::where('id', $id)->firstOrFail();
 
-            $createAlertSignature = AlertSignature::create([
+            AlertSignature::create([
                 'user_id' => $user->id,
                 'alert_id' => $alert->id,
             ]);
-            if(!$createAlertSignature->wasRecentlyCreated) throw new \Exception('Não foi possível confirmar sua visualização no aviso');
 
             return $this->provideSuccess('save');
         } catch (\Throwable  $e) {
@@ -136,11 +135,9 @@ class DashboardController extends Controller
     {
         try {
             $task = Task::where('id', $id)->firstOrFail();
-            
-            $taskUpdate = $task->update([
+            $task->update([
                 'completed' => true,
             ]);
-            if($taskUpdate === 0) throw new \Exception('Não foi possível concluir a tarefa');
             
             return $this->provideSuccess('save');
         } catch (\Throwable $e) {

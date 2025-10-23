@@ -93,7 +93,7 @@ Route::prefix('painel')->group(function () {
                 Route::get('/get/repository/{id?}', 'getRepository');
                 Route::post('/create/repository', 'createRepository');
                 Route::post('/update/repository/{id}', 'updateRepository');
-                Route::delete('/delete/repository/{id}', 'deleteRepository');
+                Route::patch('/deactivate/repository/{id}', 'deactivateRepository');
             });
         });
     });

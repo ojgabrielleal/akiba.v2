@@ -60,11 +60,12 @@ class PodcastsController extends Controller
                 'audio.required' => 'URL Embeded do Spotify do episódio'
             ]);
 
-            $podcastExists = Podcast::where('season', $request->input('season'))->where('episode', $request->input('episode'))->exists();
-            if($podcastExists) return $this->provideSuccess('exists');
-
             $user = request()->user();
-            $createPodcast = Podcast::create([
+            
+            $exists = Podcast::where('season', $request->input('season'))->where('episode', $request->input('episode'))->exists();
+            if($exists) return $this->provideSuccess('exists');
+
+            Podcast::create([
                 'user_id' => $user->id,
                 'slug' => Str::slug($request->input('title')),
                 'image' => $this->uploadImage('podcasts', $request->file('image')),
@@ -75,7 +76,6 @@ class PodcastsController extends Controller
                 'description' => $request->input('description'),
                 'audio' => $request->input('audio')
             ]);
-            if(!$createPodcast->wasRecentlyCreated) throw new \Exception('Não foi possível criar o podcast');
 
             return $this->provideSuccess('save');
         }catch(\Throwable $e){
@@ -103,8 +103,7 @@ class PodcastsController extends Controller
             ]);
 
             $podcast = Podcast::where('id', $id)->firstOrFail();
-
-            $podcastUpdate = $podcast->update([  
+            $podcast->update([  
                 'slug' => $request->input('title') !== $podcast->title ? Str::slug($request->input('title')) : $podcast->slug,
                 'image' => $request->hasFile('image') ? $this->uploadImage('podcasts', $request->file('image'), 'public', $podcast->image) : $podcast->image,
                 'season' => $request->input('season', $podcast->season),
@@ -114,7 +113,6 @@ class PodcastsController extends Controller
                 'description' => $request->input('description', $podcast->description),
                 'audio' => $request->input('audio', $podcast->audio),
             ]);
-            if ($podcastUpdate === 0) throw new \Exception('Não foi possível atualizar o podcast');
 
             return $this->provideSuccess('update');
         }catch(\Throwable $e){
@@ -126,11 +124,9 @@ class PodcastsController extends Controller
     {
         try{
             $podcast = Podcast::where('id', $id)->firstOrFail(); 
-
-            $podcastDeactivate = $podcast->update([
+            $podcast->update([
                 'is_active' => false,
             ]);
-            if ($podcastDeactivate === 0) throw new \Exception('Não foi possível desativar o podcast');
 
             return $this->provideSuccess('deactivate'); 
         }

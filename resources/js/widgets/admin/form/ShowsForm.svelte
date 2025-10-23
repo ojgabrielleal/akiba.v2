@@ -8,7 +8,7 @@
 
     $: ({ streamers } = $page.props);
 
-    let form = useForm({
+    $: form = useForm({
         name: null,
         is_all: 0,
         image: null,

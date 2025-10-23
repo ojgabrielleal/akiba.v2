@@ -9,7 +9,7 @@
         router.post("/painel/locucao/broadcast/end");
     }
 
-    let form = useForm({
+    $: form = useForm({
         show: null,
         phrase: null,
         image: null,
@@ -59,7 +59,7 @@
             </div>
             <div class="flex justify-end">
                 <button type="submit" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
-                    Iniciar programa
+                    Iniciar
                 </button>
             </div>
         </form>
@@ -68,7 +68,7 @@
 {#if verify.onair === true && verify.streamer === true}
     <div class="flex justify-center mb-8">
         <button on:click={() => endBroadcast()} type="button" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-red-crimson rounded-xl text-red-crimson text-xl font-bold font-noto-sans italic uppercase">
-            Encerrar programa
+            Encerrar
         </button>
     </div>
 {/if}

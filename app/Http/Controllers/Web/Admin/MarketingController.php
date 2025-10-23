@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
@@ -23,6 +22,7 @@ class MarketingController extends Controller
     {
         try {
             $query = Repository::whereIn('category', ['tutorials', 'installers', 'packages']);
+            $query->where('is_active', true);
             $query->orderBy('created_at', 'desc');
             $repository = $query->get();
 
@@ -58,13 +58,15 @@ class MarketingController extends Controller
                 'category.required' => 'Categoria do arquivo'
             ]);
 
-            $repositoryCreate = Repository::create([
+            $exists = Repository::where('file', $request->input('file'))->where('name', $request->input('name'))->exists();
+            if($exists) return $this->provideSuccess('exists');
+
+            Repository::create([
                 'name' => $request->input('name'),
                 'image' => $this->uploadImage('repository', $request->file('image')),
                 'file' => $request->input('file'),
                 'category' => $request->input('category'),
             ]);
-            if(!$repositoryCreate->wasRecentlyCreated) throw new \Exception('Erro ao criar o cadastrar o arquivo no repositório.');
     
             return $this->provideSuccess('save');
         }catch(\Throwable $e){
@@ -88,14 +90,12 @@ class MarketingController extends Controller
             ]);
 
             $repository = Repository::where('id', $id)->firstOrFail();
-
-            $repositoryUpdate = $repository->update([
+            $repository->update([
                 'name' => $request->input('name', $repository->name),
                 'image' => $request->hasFile('image') ? $this->uploadImage('repository', $request->file('image'), 'public', $repository->image) : $repository->image,
                 'file' => $request->input('file', $repository->file),
                 'category' => $request->input('category', $repository->category),
             ]);
-            if($repositoryUpdate === 0) throw new \Exception('Erro ao atualizar o arquivo no repositório.');
 
             return $this->provideSuccess('update');
         }catch(\Throwable $e){
@@ -103,19 +103,15 @@ class MarketingController extends Controller
         }
     }
 
-    public function deleteRepository($id)
+    public function deactivateRepository($id)
     {
         try {
             $repository = Repository::where('id', $id)->firstOrFail();
+            $repository->update([
+                'is_active' => false,
+            ]);
 
-            if ($repository->image) {
-                $this->deleteImage($repository->image);
-            }
-            if (!$repository->delete()) {
-                throw new \Exception('Não foi possível deletar o repositório.');
-            }
-
-            return $this->provideSuccess('delete');
+            return $this->provideSuccess('deactivate');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }

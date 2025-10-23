@@ -10,7 +10,7 @@
         (item) => item.user.id === authorSelected,
     );
 
-    let form = useForm({
+    $: form = useForm({
         image: publication?.image,
         title: publication?.title,
         sinopse: publication?.sinopse,
@@ -94,6 +94,7 @@
                     </label>
                     <Preview 
                         name="cover" 
+                        viewobject="object-cover"
                         src={$form.cover} 
                         oninput={event => $form.cover = event.target.files[0]} 
                     />   

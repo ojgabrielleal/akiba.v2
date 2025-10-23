@@ -5,7 +5,7 @@
 
     $: ({ podcast } = $page.props);
 
-    let form = useForm({
+    $: form = useForm({
         'image': podcast?.image,
         'season': podcast?.season, 
         'episode': podcast?.episode,

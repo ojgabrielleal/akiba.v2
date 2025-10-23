@@ -25,9 +25,7 @@ trait ProvideException
     public function provideException(Throwable $e): Response|RedirectResponse|\Illuminate\Http\JsonResponse
     {
         // Log detalhado
-        Log::error('[LaravelException] ' . get_class($e) . ': ' . $e->getMessage(), [
-            'exception' => $e,
-        ]);
+        Log::error('[LaravelException] ' . get_class($e) . ': ' . $e->getMessage());
 
         // Mensagens randômicas por tipo de exceção
         $messages = [

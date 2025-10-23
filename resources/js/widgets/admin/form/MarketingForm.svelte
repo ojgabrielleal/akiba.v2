@@ -5,7 +5,7 @@
     import { useForm, page } from "@inertiajs/svelte";
     import { Preview } from "@/components/admin";
 
-    let form = useForm({
+    $: form = useForm({
         image: null,
         name: null,
         category: null,

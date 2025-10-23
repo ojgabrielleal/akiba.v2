@@ -9,6 +9,7 @@ class Repository extends Model
     protected $table = 'repositories';
 
     protected $fillable = [
+        'is_active',
         'image',
         'file',
         'category',

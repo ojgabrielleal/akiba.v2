@@ -6,7 +6,7 @@
 
     $: ({ user, publication } = $page.props);
 
-    let form = useForm({
+    $: form = useForm({
         status: null,
         image: publication?.image,
         title: publication?.title,
@@ -91,6 +91,7 @@
                     </label>
                     <Preview 
                         name="cover" 
+                        viewobject="object-cover"
                         src={$form.cover}  
                         oninput={event => $form.cover = event.target.files[0]} 
                     />
