@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\Admin\BroadcastController;
 use App\Http\Controllers\Web\Admin\RadioController;
 use App\Http\Controllers\Web\Admin\PodcastsController;
 use App\Http\Controllers\Web\Admin\MarketingController;
+use App\Http\Controllers\Web\Admin\MediasController;
 
 use App\Http\Controllers\Web\Public\HomeProvisoryController;
 
@@ -94,6 +95,11 @@ Route::prefix('painel')->group(function () {
                 Route::post('/create/repository', 'createRepository');
                 Route::post('/update/repository/{id}', 'updateRepository');
                 Route::patch('/deactivate/repository/{id}', 'deactivateRepository');
+            });
+        });
+        Route::prefix('/medias')->group(function () {
+            Route::controller(MediasController::class)->group(function () {
+                Route::get('/', 'render')->name('render.painel.medias');
             });
         });
     });

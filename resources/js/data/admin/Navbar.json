@@ -53,7 +53,7 @@
         "permissions_keys": [
             "marketing"
         ],
-        "address": "/painel/media"
+        "address": "/painel/medias"
     },
     {
         "name": "Administração",
