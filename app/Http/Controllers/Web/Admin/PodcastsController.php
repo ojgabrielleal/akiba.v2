@@ -22,7 +22,7 @@ class PodcastsController extends Controller
     public function getPodcasts()
     {
         try{
-            return Podcast::where('is_active', true)->paginate(10);
+            return Podcast::where('is_active', true)->orderBy('created_at', 'desc')->paginate(10);
         }catch(\Throwable $e){
             $this->provideException($e);
         }
@@ -61,7 +61,7 @@ class PodcastsController extends Controller
             ]);
 
             $user = request()->user();
-            
+        
             $exists = Podcast::where('season', $request->input('season'))->where('episode', $request->input('episode'))->exists();
             if($exists) return $this->provideSuccess('exists');
 

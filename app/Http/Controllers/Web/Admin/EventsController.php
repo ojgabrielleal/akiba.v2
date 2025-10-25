@@ -27,6 +27,7 @@ class EventsController extends Controller
             $query = Event::orderBy('created_at', 'desc');
             $query->with('user');
             $query->when(!$user->permissions_keys->contains('administrator'), function ($q) use ($user) { $q->where('user_id', $user->id); });
+            $query->where('is_active', true);
             $events = $query->paginate(10);
 
             $events->getCollection()->transform(function ($event) {
@@ -92,8 +93,8 @@ class EventsController extends Controller
         try {
             $request->validate([
                 'title' => 'required',
-                'image' => 'required|image|max:2048',
-                'cover' => 'required|image|max:2048',
+                'image' => 'required',
+                'cover' => 'required',
                 'content' => 'required',
                 'dates' => 'required',
                 'address' => 'required',

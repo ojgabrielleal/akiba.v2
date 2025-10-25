@@ -63,6 +63,10 @@ trait ProvideSuccess
                 'type' => 'info',
                 'message' => '📡 Programa encerrado! E a gente finge que tudo saiu do jeito certo 😏'
             ],
+            'vote' => [
+                'type' => 'success',
+                'message' => '🗳️ Voto computado! Seu poder de decisão foi registrado… e ninguém explodiu, ufa 😎'
+            ],
         ];
 
         $default_message = [

@@ -100,6 +100,12 @@ Route::prefix('painel')->group(function () {
         Route::prefix('/medias')->group(function () {
             Route::controller(MediasController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.medias');
+                Route::get('/get/poll/{id}', 'getPoll');
+                Route::post('/create/poll', 'createPoll');
+                Route::patch('/update/poll/{id}', 'updatePoll');
+                Route::post('/create/vote/{id}', 'createVote');
+                Route::patch('/deactivate/poll/{id}', 'deactivatePoll');
+                Route::patch('/deactivate/event/{slug}', 'deactivateEvent');
             });
         });
     });

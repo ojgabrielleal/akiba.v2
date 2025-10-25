@@ -14,6 +14,10 @@ class PollOption extends Model
         'votes',
     ];
 
+    protected $hidden = [
+        'poll_id'
+    ];
+
     protected $casts = [
         'votes' => 'integer',
     ];
