@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
+use App\Exceptions\AlreadyExistsException;
+
 use Inertia\Inertia;
 
 use App\Traits\Response\ProvideException;
@@ -74,6 +76,9 @@ class EventsController extends Controller
                 "dates.required" => "Datas",
                 "address.required" => "Local",
             ]);
+
+            $exists = Event::where('title', $request->input('title'))->exists();
+            if($exists) throw new AlreadyExistsException();
 
             $user = request()->user();
 

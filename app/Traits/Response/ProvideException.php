@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use App\Exceptions\AlreadyExistsException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\RedirectResponse;
@@ -75,6 +76,10 @@ trait ProvideException
             ],
             LogicException::class => [
                 'Algo estranho… mas vamos fingir que está tudo sob controle 😏',
+            ],
+            AlreadyExistsException::class => [
+                '🚫 Esse item já existe! O universo odeia duplicatas 😤',
+                '👀 Já tem um igualzinho por aqui, tenta outro nome 😉',
             ],
         ];
         $exceptionClass = get_class($e);

@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+use App\Exceptions\AlreadyExistsException;
+
 use Inertia\Inertia;
 
 use App\Traits\Upload\HandlesImageUpload;
@@ -81,8 +83,8 @@ class RadioController extends Controller
             $user = request()->user();
 
             $exist = Show::where('name', $request->input('name'))->exists();
-            if ($exist) return $this->provideSuccess('exists');
-
+            if ($exist) throw new AlreadyExistsException();
+            
             $create = Show::create([
                 'user_id' => $request->input('user_id') ? $request->input('user_id') : $user->id,
                 'slug' => Str::slug($request->input('name')),

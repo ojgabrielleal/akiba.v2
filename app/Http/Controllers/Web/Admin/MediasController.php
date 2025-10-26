@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+use App\Exceptions\AlreadyExistsException;
+
 use Inertia\Inertia;
 
 use App\Traits\Response\ProvideException;
@@ -94,7 +96,7 @@ class MediasController extends Controller
             ]);
 
             $exists = Poll::where('question', $request->input('question'))->exists();
-            if($exists) return $this->provideSuccess('exists');
+            if($exists) throw new AlreadyExistsException();
 
             $poll = Poll::create([
                 'question' => $request->input('question')

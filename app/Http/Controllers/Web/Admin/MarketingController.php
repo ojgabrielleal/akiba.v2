@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+use App\Exceptions\AlreadyExistsException;
+
 use Inertia\Inertia;
 
 use App\Traits\Response\ProvideException;
@@ -82,7 +84,7 @@ class MarketingController extends Controller
             ]);
 
             $exists = Repository::where('file', $request->input('file'))->where('name', $request->input('name'))->exists();
-            if($exists) return $this->provideSuccess('exists');
+            if($exists) throw new AlreadyExistsException();
 
             Repository::create([
                 'name' => $request->input('name'),

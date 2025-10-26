@@ -77,7 +77,7 @@ class PodcastsController extends Controller
             $user = request()->user();
         
             $exists = Podcast::where('season', $request->input('season'))->where('episode', $request->input('episode'))->exists();
-            if($exists) return $this->provideSuccess('exists');
+            if($exists) return $this->s');
 
             Podcast::create([
                 'user_id' => $user->id,
