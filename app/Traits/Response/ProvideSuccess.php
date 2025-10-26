@@ -27,10 +27,6 @@ trait ProvideSuccess
                 'type' => 'error',
                 'message' => '🙀 Erro! Parece que o universo quis apimentar seu dia 🔥'
             ],
-            'exists' => [
-                'type' => 'info',
-                'message' => '👀 Isso já existe! Dois corpos não podem ocupar o mesmo lugar, reative na lixeira 😏'
-            ],
             'deactivate' => [
                 'type' => 'info',
                 'message' => '🌙 Desativado! Foi dormir, mas promete voltar… ou não 😴'
