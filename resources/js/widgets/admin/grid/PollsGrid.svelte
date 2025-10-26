@@ -51,7 +51,7 @@
             {#each polls as item}
                 {@const alreadyVoted = votedPolls.includes(item.question)}
                 <form on:submit|preventDefault={() => voteQuestion(event, item)} class="bg-blue-skywave p-5 rounded-md">
-                    <div class="text-neutral-aurora text-xl text-center font-noto-sans font-bold mb-7">
+                    <div class="text-neutral-aurora text-xl text-start font-noto-sans font-bold mb-7">
                         {item.question}
                     </div>
                     <div class="flex flex-col gap-3 mb-7">
@@ -108,8 +108,8 @@
             {/each}
         {:else}
             <div class="bg-blue-cerulean opacity-50 p-5 rounded-md pointer-events-none">
-                <div class="text-neutral-aurora text-xl text-center font-noto-sans font-bold mb-7">
-                    Quem é o mais preguiçoso da Akiba?
+                <div class="text-neutral-aurora text-xl text-start font-noto-sans font-bold mb-7">
+                    Quem é o mais preguiçoso do time da Akiba até agora?
                 </div>
                 <div class="flex flex-col gap-3 mb-7">
                     <div class="inline-flex items-center">
@@ -168,6 +168,11 @@
                             Suzuh
                         </label>
                     </div>
+                </div>
+                <div class="flex justify-between">
+                    <button type="submit" class="cursor-pointer text-neutral-aurora text-md font-noto-sans font-bold uppercase italic rounded-sm py-1 px-3 bg-orange-amber">
+                        Votar
+                    </button>
                 </div>
             </div>
         {/if}

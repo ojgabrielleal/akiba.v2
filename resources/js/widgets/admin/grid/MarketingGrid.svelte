@@ -6,10 +6,6 @@
 
     $: ({ permissions, repositories } = $page.props);
 
-    $:if(permissions){
-        console.log(permissions)
-    }
-
     function deleteRepository(repository_id){
         router.delete(`/painel/marketing/deactivate/repository/${repository_id}`);
     }

@@ -4,14 +4,9 @@
 
     $: ({ permissions, events } = $page.props);
 
-    $:if(events){
-        console.log(events)
-    }
-
     function deactivateEvent(slug){
         router.delete(`/painel/medias/deactivate/event/${slug}`);
     }
-
 </script>
 
 <Section title="Eventos">
