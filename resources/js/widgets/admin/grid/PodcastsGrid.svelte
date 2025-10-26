@@ -2,17 +2,16 @@
     import { router, page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
 
-    $: ({ podcasts } = $page.props);
+    $: ({ permissions, podcasts } = $page.props);
 
-    function deactivatePodcast(id)
-    {
-        router.patch(`/painel/podcasts/deactivate/${id}`);
+    function deactivatePodcast(id){
+        router.delete(`/painel/podcasts/deactivate/${id}`);
     }
 </script>
 
 <Section title="Todos os podcasts">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 lg:gap-y-10 lg:gap-x-5">
-            {#if podcasts?.data?.length > 0}
+            {#if podcasts.data?.length > 0}
                 {#each podcasts.data as item}
                     <div>
                         <div class="aspect-square">
@@ -26,9 +25,11 @@
                                 <a href={`/painel/podcasts/${item.slug}`} aria-label="Editar">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                                 </a>
-                                <button on:click={()=>deactivatePodcast(item.id)} class="cursor-pointer" aria-label="Desativar">
-                                    <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-red-crimson" loading="lazy"/>
-                                </button>
+                                {#if permissions.deactivate}
+                                    <button on:click={()=>deactivatePodcast(item.id)} class="cursor-pointer" aria-label="Desativar">
+                                        <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-red-crimson" loading="lazy"/>
+                                    </button>
+                                {/if}
                             </dd>
                         </dl>
                     </div>

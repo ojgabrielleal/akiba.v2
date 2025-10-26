@@ -2,6 +2,7 @@
     export let close = () => {};
     export let poll_id = null;
 
+    import { onMount } from 'svelte';
     import { useForm } from "@inertiajs/svelte";
     import axios from "axios";
 
@@ -17,7 +18,7 @@
         event.preventDefault();
 
         if(poll_id){
-            $form.patch(`/painel/medias/update/poll/${poll_id}`, {
+            $form.put(`/painel/medias/update/poll/${poll_id}`, {
                 onSuccess: () => close(),
             });
         }else{
@@ -27,16 +28,17 @@
         } 
     }
 
-    if(poll_id){
-        axios.get(`/painel/medias/get/poll/${poll_id}`).then((response) => {
-            console.log(response)
-            $form.question = response.data.question;
-            $form.option_one = response.data.options[0].option
-            $form.option_two = response.data.options[1].option
-            $form.option_three = response.data.options[2].option
-            $form.option_four = response.data.options[3].option
-        });
-    }
+    onMount(()=>{
+        if(poll_id){
+            axios.get(`/painel/medias/get/poll/${poll_id}`).then((response) => {
+                $form.question = response.data.question;
+                $form.option_one = response.data.options[0].option
+                $form.option_two = response.data.options[1].option
+                $form.option_three = response.data.options[2].option
+                $form.option_four = response.data.options[3].option
+            });
+        }
+    })
 </script>
 
 <form on:submit={onSubmit}>

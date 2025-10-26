@@ -4,21 +4,37 @@
     import { Offcanvas } from "@/components/admin";
     import { MarketingForm } from "@/widgets/admin/form";
 
-    $: ({ repositories } = $page.props);
-    
-    $:tutorials = repositories?.filter(obj => obj.category === "tutorials");
-    $:installers = repositories?.filter(obj => obj.category === "installers");
-    $:packages = repositories?.filter(obj => obj.category === "packages");
+    $: ({ permissions, repositories } = $page.props);
+
+    $:if(permissions){
+        console.log(permissions)
+    }
 
     function deleteRepository(repository_id){
-        router.patch(`/painel/marketing/deactivate/repository/${repository_id}`);
+        router.delete(`/painel/marketing/deactivate/repository/${repository_id}`);
     }
 </script>
 
+{#if !permissions.all}
+    <div class="flex justify-center mt-5 mb-15">
+        <Offcanvas>
+            <div class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase" slot="action" >
+                Upar conteúdo
+            </div>
+            <div slot="title">
+                Novo conteúdo
+            </div>
+            <div slot="content" let:close>
+                <MarketingForm close={close}/>
+            </div>
+        </Offcanvas>
+    </div>
+{/if}
+
 <Section title="Tutoriais">
     <div class="mb-[5rem] grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
-        {#if tutorials?.length > 0}
-            {#each tutorials as item}
+        {#if repositories?.tutorials.length > 0}
+            {#each repositories?.tutorials as item}
                 <article class="w-full bg-blue-skywave relative">
                     <a href={item.file} target="_blank">
                     <img src={item.image} alt={item.name} class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
@@ -41,8 +57,8 @@
 
 <Section title="Instaladores">
     <div class="mb-[5rem] grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
-        {#if installers?.length > 0}
-            {#each installers as item}
+        {#if repositories?.installers.length > 0}
+            {#each repositories?.installers as item}
                 <article class="w-full bg-blue-skywave relative">
                     <a href={item.file} target="_blank">
                         <img src={item.image} alt={item.name} class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
@@ -65,8 +81,8 @@
 
 <Section title="Pacotes e Modelos">
     <div class="mb-[5rem] grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
-        {#if packages?.length > 0}
-            {#each packages as item}
+        {#if repositories?.packages.length > 0}
+            {#each repositories?.packages as item}
                 <article class="w-full bg-blue-skywave relative">
                     <a href={item.file} target="_blank">
                         <img src={item.image} alt={item.name} class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
@@ -87,55 +103,58 @@
     </div>
 </Section>
 
-<Section title="Todos os conteúdos">
-    <div class="flex justify-center mt-5 mb-15">
-        <Offcanvas>
-            <div class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase" slot="action" >
-                Upar conteúdo
-            </div>
-            <div slot="title">
-                Novo conteúdo
-            </div>
-            <div slot="content" let:close>
-                <MarketingForm close={close}/>
-            </div>
-        </Offcanvas>
-    </div>
-    <div class="mb-[5rem] grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-x-4 gap-y-20">
-            {#if repositories?.length > 0}
-                {#each repositories as item}
-                    <article class="w-full bg-blue-skywave relative">
-                        <a href={item.file} target="_blank">
-                            <img src={item.image} alt={item.name}  class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
-                            <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
-                                {item.name}
+
+{#if permissions.all}
+    <Section title="Todos os conteúdos">
+        <div class="flex justify-center mt-5 mb-15">
+            <Offcanvas>
+                <div class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase" slot="action" >
+                    Upar conteúdo
+                </div>
+                <div slot="title">
+                    Novo conteúdo
+                </div>
+                <div slot="content" let:close>
+                    <MarketingForm close={close}/>
+                </div>
+            </Offcanvas>
+        </div>
+        <div class="mb-[5rem] grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-x-4 gap-y-20">
+                {#if repositories?.all.length > 0}
+                    {#each repositories?.all as item}
+                        <article class="w-full bg-blue-skywave relative">
+                            <a href={item.file} target="_blank">
+                                <img src={item.image} alt={item.name}  class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
+                                <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
+                                    {item.name}
+                                </div>
+                            </a>
+                            <div class="absolute -bottom-9 right-0 flex flex-row gap-4">
+                                <Offcanvas>
+                                    <div class="cursor-pointer" slot="action" >
+                                        <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-blue-skywave" loading="lazy"/>
+                                    </div>
+                                    <div slot="title">
+                                        Editar conteúdo
+                                    </div>
+                                    <div slot="content" let:close>
+                                        <MarketingForm repository_id={item.id} close={close}/>
+                                    </div>
+                                </Offcanvas>
+                                <button onclick={()=>deleteRepository(item.id)} class="cursor-pointer">
+                                    <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-red-crimson" loading="lazy"/>
+                                </button>
                             </div>
-                        </a>
-                        <div class="absolute -bottom-9 right-0 flex flex-row gap-4">
-                            <Offcanvas>
-                                <div class="cursor-pointer" slot="action" >
-                                    <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-blue-skywave" loading="lazy"/>
-                                </div>
-                                <div slot="title">
-                                    Editar conteúdo
-                                </div>
-                                <div slot="content" let:close>
-                                    <MarketingForm repository_id={item.id} close={close}/>
-                                </div>
-                            </Offcanvas>
-                            <button onclick={()=>deleteRepository(item.id)} class="cursor-pointer">
-                                <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-red-crimson" loading="lazy"/>
-                            </button>
+                        </article>
+                    {/each}
+                {:else}
+                    <article class="w-full bg-blue-skywave relative opacity-50">
+                        <img src="/img/default/default_landscape.webp" alt="" aria-hidden="true" class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
+                        <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
+                            Nada por aqui, até agora
                         </div>
                     </article>
-                {/each}
-            {:else}
-                <article class="w-full bg-blue-skywave relative opacity-50">
-                    <img src="/img/default/default_landscape.webp" alt="" aria-hidden="true" class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
-                    <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
-                        Nada por aqui, até agora
-                    </div>
-                </article>
-            {/if}
-        </div>
-</Section>
+                {/if}
+            </div>
+    </Section>
+{/if}

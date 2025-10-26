@@ -11,33 +11,30 @@
     );
 
     $: form = useForm({
+        _method: null,
+        content_id: null,
         image: publication?.image,
         title: publication?.title,
         sinopse: publication?.sinopse,
         cover: publication?.cover,
         content: contentSelected?.content,
-        content_id: null,
     })
 
     function onSubmit(event) {
         event.preventDefault();
-
-        const url = publication ? `/painel/reviews/update/${publication.id}` : `/painel/reviews/create`;
         
         $form.content_id = contentSelected?.id;
-        $form.post(url, {
-            preserveState: false,
-            onSuccess: () => {
-                if (!publication) {
-                    $form.image = null,
-                    $form.title = null,
-                    $form.sinopse = null,
-                    $form.cover = null,
-                    $form.content = null,
-                    $form.content_id = null
-                }
-            },
-        });
+        if(publication){
+            $form._method = "PUT"
+            $form.post(`/painel/reviews/update/${publication.id}`);
+        }else{
+            $form.post(`/painel/reviews/create`, {
+                preserveState: false,
+                onSuccess: () => {
+                    $form.reset();
+                },
+            });
+        }
     }
 </script>
 

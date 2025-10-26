@@ -42,6 +42,7 @@ trait ProvideException
                 'Faça login antes… como se isso fosse realmente assustador 🎸'
             ],
             AuthorizationException::class => [
+                'Você não tem permissão para esta ação. Não leve para o lado pessoal, é só o sistema 😒',
                 'Hmm… você não pode acessar isso… surpresa! O mistério aumenta.',
                 'Área restrita… mas olha, pelo menos tentou 😎'
             ],

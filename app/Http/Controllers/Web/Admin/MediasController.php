@@ -13,22 +13,50 @@ use App\Traits\Response\ProvideSuccess;
 
 use App\Models\Poll;
 use App\Models\PollOption;
-use App\Models\Event;
+
+use App\Http\Controllers\Web\Admin\EventsController;
 
 class MediasController extends Controller
 {
     use ProvideSuccess, ProvideException;
 
-    public function getEvents()
+    public function permissions()
     {
         try{
-            return Event::orderBy('created_at', 'desc')->where('is_active', true)->get();
+            $user = request()->user();
+
+            return [
+                'create_poll' => $user->permissions_keys->contains('administrator'),
+                'edit_poll' => $user->permissions_keys->contains('administrator'), 
+                'deactivate_poll' => $user->permissions_keys->contains('administrator'), 
+                'deactivate_event' => $user->permissions_keys->contains('administrator')
+            ];
         }catch(\Throwable $e){
             return $this->provideException($e);
         }
     }
 
-    public function getPolls()
+    public function listEvents()
+    {
+        try{
+            $eventsController = new EventsController();
+            return $eventsController->listEvents();
+        }catch(\Throwable $e){
+            return $this->provideException($e);
+        }
+    }
+
+    public function deactivateEvent($slug)
+    {
+        try{
+            $eventsController = new EventsController();
+            return $eventsController->deactivateEvent($slug);
+        }catch(\Throwable $e){
+            return $this->provideException($e);
+        } 
+    }
+
+    public function listPolls()
     {
         try{
             return Poll::orderBy('created_at', 'desc')->with('options')->where('is_active', true)->get();
@@ -135,7 +163,19 @@ class MediasController extends Controller
             return $this->provideException($e);
         }
     }
+    
+    public function deactivatePoll($id){
+        try{
+            Poll::where('id', $id)->update([
+                'is_active' => false
+            ]);
 
+            return $this->provideSuccess('deactivate');
+        }catch(\Throwable $e){
+            return $this->provideException($e);
+        }
+    }
+    
     public function createVote($id)
     {
         try{
@@ -150,36 +190,12 @@ class MediasController extends Controller
         }
     }
 
-    public function deactivatePoll($id){
-        try{
-            Poll::where('id', $id)->update([
-                'is_active' => false
-            ]);
-
-            return $this->provideSuccess('deactivate');
-        }catch(\Throwable $e){
-            return $this->provideException($e);
-        }
-    }
-
-    public function deactivateEvent($slug){
-        try{
-            Event::where('slug', $slug)->update([
-                'is_active' => false
-            ]);     
-
-            return $this->provideSuccess('deactivate');
-        }catch(\Throwable $e){
-            return $this->provideException($e);
-        }
-    }
-
-
     public function render()
     {
         return Inertia::render('admin/Medias', [
-            'polls' => $this->getPolls(),
-            'events' => $this->getEvents()
+            'permissions' => $this->permissions(),
+            'polls' => $this->listPolls(),
+            'events' => $this->listEvents()
         ]);
     }
 }

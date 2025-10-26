@@ -6,7 +6,7 @@ export const listenerRequests = writable({
 });
 
 function fetchListenerRequests() {
-    axios.get('/painel/locucao/requests')
+    axios.get('/painel/locucao/list/listener/requests')
         .then((response) => {
             listenerRequests.update(current => ({ ...current, requests: response.data }));
         })

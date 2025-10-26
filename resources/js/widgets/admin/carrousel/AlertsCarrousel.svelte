@@ -8,7 +8,7 @@
     let container;
 
     function createSignature(id) {
-        router.post(`/painel/dashboard/alerts/${id}`);
+        router.post(`/painel/dashboard/create/alert/signature/${id}`);
     }
 </script>
 

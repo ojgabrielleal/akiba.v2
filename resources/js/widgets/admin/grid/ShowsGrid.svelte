@@ -7,7 +7,7 @@
     $: ({ shows } = $page.props);
 
     function deactivateShow(id){
-        router.patch(`/painel/radio/deactivate/show/${id}`);
+        router.delete(`/painel/radio/deactivate/show/${id}`);
     }
 </script>
 

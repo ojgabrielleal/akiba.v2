@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
@@ -19,7 +20,20 @@ class PodcastsController extends Controller
 {
     use HandlesImageUpload, ProvideSuccess, ProvideException;
 
-    public function getPodcasts()
+    public function permissions()
+    {
+        try{
+            $user = request()->user();
+
+            return [
+                'edit' => $user->permissions_keys->contains('administrator')
+            ];
+        }catch(\Throwable $e){
+            $this->provideException($e);
+        }
+    }
+
+    public function listPodcasts()
     {
         try{
             return Podcast::where('is_active', true)->orderBy('created_at', 'desc')->paginate(10);
@@ -138,7 +152,8 @@ class PodcastsController extends Controller
     public function render($slug = null)
     {
         return Inertia::render('admin/Podcasts', [
-            'podcasts' => $this->getPodcasts(),
+            'permissions' => $this->permissions(),
+            'podcasts' => $this->listPodcasts(),
             'podcast' => $this->getPodcast($slug)
         ]);
     }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
 
@@ -22,26 +21,20 @@ class DashboardController extends Controller
 {
     use ProvideException, ProvideSuccess;
 
-    public function getAlerts()
+    public function listAlerts()
     {
         try {
             $user = request()->user();
 
             $query = Alert::limit(6);
             $query->orderBy('created_at', 'desc');
-            $query->whereDoesntHave('signatures', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
-            });
-            $query->with(['user', 'signatures' => function ($query) {
-                $query->limit(4)->with('user');
-            }]);
+            $query->whereDoesntHave('signatures', function ($query) use ($user) { $query->where('user_id', $user->id); });
+            $query->with(['user', 'signatures' => function ($query) { $query->limit(4)->with('user'); }]);
             $alerts = $query->get();
 
             $alerts = $alerts->map(function ($alert) use ($user) {
                 $data = $alert->toArray();
-                $data['actions'] = [
-                    'confirm' => $user->id === $alert->user->id
-                ];
+                $data['actions'] = [ 'confirm' => $user->id === $alert->user->id ];
                 return $data;
             });
 
@@ -68,7 +61,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function getTasks()
+    public function listTasks()
     {
         try {
             $user = request()->user();
@@ -131,7 +124,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function setTaskCompleted($id)
+    public function setTaskComplete($id)
     {
         try {
             $task = Task::where('id', $id)->firstOrFail();
@@ -145,7 +138,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function getLastsPosts()
+    public function listLastsPosts()
     {
         try {
             $user = request()->user();
@@ -157,9 +150,7 @@ class DashboardController extends Controller
 
             $posts->getCollection()->transform(function ($post) use ($user) {
                 $data = $post->toArray();
-                $data['styles'] = [
-                    'bg' => 'var(--color-blue-skywave)'
-                ];
+                $data['styles'] = [ 'bg' => 'var(--color-blue-skywave)' ];
                 $data['editable'] = $user->permissions_keys->contains('administrator') || $post->user_id == $user->id;
                 return $data;
             });
@@ -170,7 +161,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function getCalendar()
+    public function listCalendar()
     {
         try {
             $query = Calendar::with('user');
@@ -186,10 +177,10 @@ class DashboardController extends Controller
     public function render()
     {
         return Inertia::render('admin/Dashboard', [
-            'alerts' => $this->getAlerts(),
-            'tasks' => $this->getTasks(),
-            'publications' => $this->getLastsPosts(),
-            'calendar' => $this->getCalendar(),
+            'alerts' => $this->listAlerts(),
+            'tasks' => $this->listTasks(),
+            'publications' => $this->listLastsPosts(),
+            'calendar' => $this->listCalendar(),
         ]);
     }
 }

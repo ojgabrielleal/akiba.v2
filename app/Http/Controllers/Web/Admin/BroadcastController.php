@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
 
@@ -22,7 +21,7 @@ class BroadcastController extends Controller
 {
     use ProvideSuccess, ProvideException;
 
-    public function setVerifyOnair()
+    public function setCheckOnair()
     {
         try {
             $user = request()->user();
@@ -56,7 +55,7 @@ class BroadcastController extends Controller
         }
     }
 
-    public function getShows()
+    public function listShows()
     {
         try {
             $user = request()->user();
@@ -73,57 +72,37 @@ class BroadcastController extends Controller
         }
     }
 
-    public function getListenerRequests()
+    public function listListenersRequests()
     {
         try {
             $onair = Onair::where('is_live', true)->firstOrFail();
 
-            if ($onair) {
-                $query = ListenerRequest::orderBy('created_at', 'desc');
-                $query->with(['onair', 'music']);
-                $query->where('onair_id', $onair->id);
-                $requests = $query->get();
+            $query = ListenerRequest::orderBy('created_at', 'desc');
+            $query->with(['onair', 'music']);
+            $query->where('onair_id', $onair->id);
+            $requests = $query->get();
 
-                return $requests;
-            }
+            return $requests;
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
     }
 
-    public function setToAttendedListenerRequest($id)
+
+    public function setGrantedListenerRequest($id)
     {
         try {
             $request = ListenerRequest::where('id', $id)->firstOrFail();
             $request->update([
-                'status' => 'attended'
+                'status' => 'granted'
             ]);
 
-            return $this->provideSuccess('listener_request_attended');
+            return $this->provideSuccess('listener_request_granted');
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
     }
-
-    public function setListenerRequestsStatus()
-    {
-        try {
-            $onair = Onair::where('is_live', true)->firstOrFail();
-            $onair->update([
-                'listener_request_status' => !$onair->listener_request_status
-            ]);
-
-            if ($onair->listener_request_status) {
-                return $this->provideSuccess('listener_request_open');
-            } else {
-                return $this->provideSuccess('listener_request_close');
-            }
-           
-        } catch (\Throwable $e) {
-            $this->provideException($e);
-        }
-    }
-
+    
     public function setCancelListenerRequest($id)
     {
         try {
@@ -148,6 +127,25 @@ class BroadcastController extends Controller
             $this->provideException($e);
         }
     }
+
+    public function setChangeListenerRequestsStatus()
+    {
+        try {
+            $onair = Onair::where('is_live', true)->firstOrFail();
+            $onair->update([
+                'listener_request_status' => !$onair->listener_request_status
+            ]);
+
+            if ($onair->listener_request_status) {
+                return $this->provideSuccess('listener_request_open');
+            } else {
+                return $this->provideSuccess('listener_request_close');
+            }
+        } catch (\Throwable $e) {
+            $this->provideException($e);
+        }
+    }
+
 
     public function setStartBroadcast(Request $request)
     {
@@ -199,7 +197,7 @@ class BroadcastController extends Controller
         }
     }
 
-    public function setEndBroadcast()
+    public function setFinishBroadcast()
     {
         try {
             $onair = Onair::where('is_live', true)->firstOrFail();
@@ -229,9 +227,9 @@ class BroadcastController extends Controller
     public function render()
     {
         return Inertia::render('admin/Broadcast', [
-            "verify" => $this->setVerifyOnair(),
-            "shows" => $this->getShows(),
-            "requests" => $this->getListenerRequests(),
+            "shows" => $this->listShows(),
+            "requests" => $this->listListenersRequests(),
+            "verify" => $this->setCheckOnair(),
         ]);
     }
 }

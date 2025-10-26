@@ -18,7 +18,21 @@ class MarketingController extends Controller
 {
     use HandlesImageUpload, ProvideSuccess, ProvideException;
 
-    public function getRepositories()
+
+    public function permissions()
+    {
+        try{
+            $user = request()->user();
+
+            return [
+                'all' => $user->permissions_keys->contains('administrator')
+            ];
+        }catch (\Throwable $e) {
+            $this->provideException($e);
+        }
+    }
+
+    public function listRepositories()
     {
         try {
             $query = Repository::whereIn('category', ['tutorials', 'installers', 'packages']);
@@ -26,7 +40,16 @@ class MarketingController extends Controller
             $query->orderBy('created_at', 'desc');
             $repository = $query->get();
 
-            return $repository;
+            $tutorials = $repository->filter(fn($obj)=> $obj->category === 'tutorials');
+            $installers = $repository->filter(fn($obj)=> $obj->category === 'installers');
+            $packages = $repository->filter(fn($obj)=> $obj->category === 'packages');
+
+            return [
+                'all' => $repository,
+                'tutorials' => $tutorials,
+                'installers' => $installers,
+                'packages' => $packages,
+            ];
         } catch (\Throwable $e) {
             $this->provideException($e);
         }
@@ -120,7 +143,8 @@ class MarketingController extends Controller
     public function render()
     {
         return Inertia::render('admin/Marketing', [
-            'repositories' => $this->getRepositories()
+            'permissions' => $this->permissions(),
+            'repositories' => $this->listRepositories()
         ]);
     }
 }

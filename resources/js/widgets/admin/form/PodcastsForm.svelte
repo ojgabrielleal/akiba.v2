@@ -6,33 +6,30 @@
     $: ({ podcast } = $page.props);
 
     $: form = useForm({
-        'image': podcast?.image,
-        'season': podcast?.season, 
-        'episode': podcast?.episode,
-        'title': podcast?.title,
-        'summary': podcast?.summary,
-        'description': podcast?.description,
-        'audio': podcast?.audio,
+        _method: null,
+        image: podcast?.image,
+        season: podcast?.season, 
+        episode: podcast?.episode,
+        title: podcast?.title,
+        summary: podcast?.summary,
+        description: podcast?.description,
+        audio: podcast?.audio,
     });
 
     function onSubmit(event){
         event.preventDefault();
 
-        let url = podcast ? `/painel/podcasts/update/${podcast.id}` : '/painel/podcasts/create';
-        $form.post(url, {
-            preserveState: false,
-            onSuccess: () => {
-                if (!podcast) {
-                    $form.image = null,
-                    $form.season = null, 
-                    $form.episode = null,
-                    $form.title = null,
-                    $form.summary = null,
-                    $form.description = null,
-                    $form.audio = null
-                }
-            },
-        });
+        if(podcast){
+            $form._method = "PUT";
+            $form.post(`/painel/podcasts/update/${podcast.id}`);
+        }else{
+            $form.post('/painel/podcasts/create/', {
+                preserveState: false,
+                onSuccess: () => {
+                    $form.reset();
+                },
+            });
+        }
     }
 </script>
 

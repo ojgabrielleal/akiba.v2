@@ -3,48 +3,38 @@
     import { Section } from "@/layouts/admin";
     import { Preview, Wysiwyg } from "@/components/admin";
     import Tags from "@/data/admin/Tags";
-
-    $: ({ user, publication } = $page.props);
+    
+    $: ({ permissions, publication } = $page.props);
 
     $: form = useForm({
-        status: null,
+        _method: null,
+        status: publication?.status,
         image: publication?.image,
         title: publication?.title,
         cover: publication?.cover,
         content: publication?.content,
-        first_category: publication?.categories?.[0]?.category_name,
-        second_category: publication?.categories?.[1]?.category_name,
-        first_reference_name: publication?.references?.[0]?.name,
-        first_reference_url: publication?.references?.[0]?.url,
-        second_reference_name: publication?.references?.[1]?.name,
-        second_reference_url: publication?.references?.[1]?.url,
+        first_category: publication?.categories[0]?.category_name,
+        second_category: publication?.categories[1]?.category_name,
+        first_reference_name: publication?.references[0]?.name,
+        first_reference_url: publication?.references[0]?.url,
+        second_reference_name: publication?.references[1]?.name,
+        second_reference_url:  publication?.references[1]?.url,
     });
-
+    
     function onSubmit(event) {
         event.preventDefault();
-
-        const submitter = event.submitter;
-        const url = publication ? `/painel/materias/update/${publication.id}` : `/painel/materias/create`;
-
-        $form.status = submitter.value;
-        $form.post(url, {
-            preserveState: false,
-            onSuccess: () => {
-                if(!publication){
-                    $form.status = null,
-                    $form.image = null,
-                    $form.title = null,
-                    $form.cover = null,
-                    $form.content = null,
-                    $form.first_category = null,
-                    $form.second_category = null,
-                    $form.first_reference_name = null,
-                    $form.first_reference_url = null,
-                    $form.second_reference_name = null,
-                    $form.second_reference_url = null
+        if(publication){
+            $form._method = "PUT";
+            $form.post(`/painel/materias/update/${publication.id}`);
+        }else{
+            $form.status = event.submitter.value;
+            $form.post('/painel/materias/create', {
+                preserveState: false,
+                onSuccess: () => {
+                    $form.reset()
                 }
-            }
-        });
+            });
+        }
     }
 </script>
 
@@ -213,7 +203,7 @@
                 <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
                     Mandar para revisão
                 </button>
-                {#if user.permissions_keys?.includes("administrator")}
+                {#if permissions.publish}
                     <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
                         Publicar
                     </button>

@@ -39,7 +39,7 @@ trait ProvideSuccess
                 'type' => 'success',
                 'message' => '☀️ Ativado! Preparado pra brilhar… e causar umas confusões ✨'
             ],
-            'listener_request_attended' => [
+            'listener_request_granted' => [
                 'type' => 'success',
                 'message' => '🎧 Pedido atendido! Sem drama, o que já é um pequeno milagre moderno 😌'
             ],

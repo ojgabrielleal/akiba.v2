@@ -7,8 +7,8 @@
 
     let container;
 
-    function setTaskCompleted(id) {
-        router.patch(`/painel/dashboard/tasks/${id}`);
+    function setTaskComplete(id) {
+        router.put(`/painel/dashboard/set/complete/task/${id}`);
     }
 </script>
 
@@ -35,7 +35,7 @@
                         <button
                             type="button"
                             class="font-noto-sans italic font-bold bg-red-crimson rounded-xl text-neutral-aurora uppercase absolute right-5 bottom-3 py-2 px-6 cursor-pointer"
-                            on:click={() => setTaskCompleted(item.id)}
+                            on:click={() => setTaskComplete(item.id)}
                         >
                             Solicitar Conclusão
                         </button>
@@ -44,7 +44,7 @@
                             type="button"
                             aria-label="Concluir tarefa"
                             class="bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer"
-                            on:click={() => setTaskCompleted(item.id)}
+                            on:click={() => setTaskComplete(item.id)}
                         >
                             <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                         </button>

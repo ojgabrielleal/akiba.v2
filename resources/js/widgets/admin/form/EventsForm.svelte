@@ -6,6 +6,7 @@
     $: ({ publication } = $page.props);
 
     $: form = useForm({
+        _method: null,
         image: publication?.image,
         title: publication?.title,
         cover: publication?.cover,
@@ -17,25 +18,18 @@
     function onSubmit(event) {
         event.preventDefault();
 
-        const submitter = event.submitter;
-        const url = publication ? `/painel/eventos/update/${publication.id}` : `/painel/eventos/create`;
-
-        $form.status = submitter.value
-        $form.post(url, {
-            preserveState: false,
-            onSuccess: () => {
-                if (!publication) {
-                    $form.image = null,
-                    $form.title = null,
-                    $form.cover = null,
-                    $form.content = null,
-                    $form.dates = null,
-                    $form.address = null
-                }
-            },
-        });
+        if(publication){
+            $form._method = "PUT";
+            $form.post(`/painel/eventos/update/${publication.id}`);
+        }else{
+            $form.post('/painel/eventos/create', {
+                preserveState: false,
+                onSuccess: () => {
+                    $form.reset();
+                },
+            });
+        }
     }
-
 </script>
 
 <Section title={publication ? "Editar evento" : "Criar evento"}>

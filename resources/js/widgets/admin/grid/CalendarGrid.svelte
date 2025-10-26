@@ -34,8 +34,6 @@
             day: label,
             items: calendar.filter(event => event.day === label)
         }));
-
-        console.log('week', week);
     }
 </script>
 

@@ -14,8 +14,8 @@
         stopListenerRequestPolling();
     })
 
-    function markToAttended(id){
-        router.patch(`/painel/locucao/requests/attended/${id}`, {}, {
+    function markToGranted(id){
+        router.put(`/painel/locucao/set/granted/listener/requests/${id}`, {}, {
             onSuccess: ()=>{
                 refetchListenerRequests();
             }
@@ -23,7 +23,7 @@
     }
 
     function markToCanceled(id){
-        router.patch(`/painel/locucao/requests/canceled/${id}`, {}, {
+        router.put(`/painel/locucao/set/cancel/listener/requests/${id}`, {}, {
             onSuccess: ()=>{
                 refetchListenerRequests();
             }
@@ -31,7 +31,7 @@
     }
 
     function changeStatus(){
-        router.patch("/painel/locucao/requests/status")
+        router.put("/painel/locucao/set/status/listener/requests")
     }
 </script>
 
@@ -50,7 +50,7 @@
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 mt-10">
             {#each $listenerRequests.requests as item}
-                <article class={`w-full lg:w-[23.6rem] rounded-lg p-3 ${item.status === "attended" ? "bg-green-forest" : item.status ==="canceled" ? "bg-red-crimson" : "bg-blue-skywave"}`}>
+                <article class={`w-full lg:w-[23.6rem] rounded-lg p-3 ${item.status === "granted" ? "bg-green-forest" : item.status ==="canceled" ? "bg-red-crimson" : "bg-blue-skywave"}`}>
                     <div class="w-70 flex items-center gap-1.5 text-neutral-aurora text-[1.2rem] font-noto-sans font-bold italic truncate">
                         <img src="/svg/default/profile.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                         {item.listener}
@@ -108,7 +108,7 @@
                                 <button on:click={() => markToCanceled(item.id)} aria-label="Marcar como cancelado" class="cursor-pointer">
                                     <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-6 filter-neutral-aurora" loading="lazy"/>
                                 </button>
-                                <button on:click={() => markToAttended(item.id)} aria-label="Marcar como atendido"class="cursor-pointer">
+                                <button on:click={() => markToGranted(item.id)} aria-label="Marcar como atendido"class="cursor-pointer">
                                     <img src="/svg/default/like.svg" alt="" aria-hidden="true" class="w-6 filter-neutral-aurora" loading="lazy"/>
                                 </button>
                             {/if}

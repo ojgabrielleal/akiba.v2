@@ -21,14 +21,29 @@ class PostsController extends Controller
 {
     use HandlesImageUpload, ProvideSuccess, ProvideException;
 
-    public function getPosts()
+    public function permissions()
+    {
+        try{
+            $user = request()->user();
+
+            return [
+                'publish' => $user->permissions_keys->contains('administrator'),
+            ];
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
+    public function listPosts()
     {
         try {
             $user = request()->user();
 
             $query = Post::orderBy('created_at', 'desc');
             $query->with('user');
-            $query->when(!$user->permissions_keys->contains('administrator'), function ($q) use ($user) { $q->where('user_id', $user->id); });
+            $query->when(!$user->permissions_keys->contains('administrator'), function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            });
             $posts = $query->paginate(10);
 
             function resolvePostAppareace($post)
@@ -60,68 +75,9 @@ class PostsController extends Controller
     public function getPost($slug)
     {
         try {
-            if($slug){
+            if ($slug) {
                 return Post::where('slug', $slug)->with(['references', 'categories'])->firstOrFail();
             }
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function updatePost(Request $request, $id)
-    {
-        try {
-            $request->validate([
-                "status" => 'required',
-                "title" => 'required',
-                "content" => 'required',
-                'first_reference_name' => 'required',
-                'first_reference_url' => 'required',
-                'second_reference_name' => 'required',
-                'second_reference_url' => 'required',
-                'first_category' => 'required',
-                'second_category' => 'required',
-            ], [
-                "status.required" => "Status",
-                "title.required" => "Título",
-                "content.required" => "Escreva sua matéria",
-                "first_reference_name.required" => "Nome para o site da primeira fonte de pesquisa",
-                "first_reference_url.required" => "URL para o site da primeira fonte de pesquisa",
-                "first_category.required" => "Primeira tag",
-                "second_category.required" => "Segunda tag",
-            ]);
-
-            $post = Post::where('id', $id)->with(['references', 'categories'])->firstOrFail();
-            $post->update([
-                'slug' =>  $request->input('title') !== $post->title ? Str::slug($request->input('title')) : $post->slug,
-                'title' => $request->input('title', $post->title),
-                'content' => $request->input('content', $post->content),
-                'image' => $request->hasFile('image') ? $this->uploadImage('posts', $request->file('image'), 'public', $post->image) : $post->image,
-                'cover' => $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover'), 'public', $post->cover) : $post->cover,
-            ]);
-
-            $first_category = PostCategory::where('id', $post->categories[0]->id)->firstOrFail();
-            $second_category = PostCategory::where('id',$post->categories[1]->id)->firstOrFail();
-            $firstReference = PostReference::where('id', $post->references[0]->id)->firstOrFail();
-            $secondReference = PostReference::where('id', $post->references[1]->id)->firstOrFail();
-
-            $first_category->update([
-                'category_name' => $request->input('first_category', $first_category->category_name)
-            ]);
-            $second_category->update([
-                'category_name' => $request->input('second_category', $second_category->category_name)
-            ]);
-            $firstReference->update([
-                'name' => $request->input('first_reference_name', $firstReference->name),
-                'url' => $request->input('first_reference_url', $firstReference->url)
-            ]);
-            $secondReference->update([
-                'name' => $request->input('second_reference_name', $secondReference->name),
-                'url' => $request->input('second_reference_url', $secondReference->url)
-            ]);
-
-
-            return $this->provideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -134,8 +90,8 @@ class PostsController extends Controller
                 "status" => 'required',
                 "title" => 'required',
                 "content" => 'required',
-                'image' => 'required|image|max:2048',
-                'cover' => 'required|image|max:2048',
+                'image' => 'required',
+                'cover' => 'required',
                 'first_reference_name' => 'required',
                 'first_reference_url' => 'required',
                 'second_reference_name' => 'required',
@@ -164,29 +120,95 @@ class PostsController extends Controller
                 'cover' => $this->uploadImage('posts', $request->file('cover')),
             ]);
 
-            PostReference::create([
-                'post_id' => $create->id,
-                'name' => $request->input('first_reference_name'),
-                'url' => $request->input('first_reference_url'),
-            ]);
+            $references = [
+                ['name' => $request->input('first_reference_name'), 'url' => $request->input('first_reference_url')],
+                ['name' => $request->input('second_reference_name'), 'url' => $request->input('second_reference_url')],
+            ];
 
-            PostReference::create([
-                'post_id' => $create->id,
-                'name' => $request->input('second_reference_name'),
-                'url' => $request->input('second_reference_url'),
-            ]);
+            $categories = [
+                $request->input('first_category'),
+                $request->input('second_category'),
+            ];
 
-            PostCategory::create([
-                'post_id' => $create->id,
-                'category_name' => $request->input('first_category')
-            ]);
+            foreach ($references as $item) {
+                PostReference::create([
+                    'post_id' => $create->id,
+                    'name' => $item['name'],
+                    'url' => $item['url'],
+                ]);
+            }
 
-            PostCategory::create([
-                'post_id' => $create->id,
-                'category_name' => $request->input('second_category')
-            ]);
+            foreach ($categories as $item) {
+                PostCategory::create([
+                    'post_id' => $create->id,
+                    'category_name' => $item,
+                ]);
+            }
 
             return $this->provideSuccess('save');
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
+    public function updatePost(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                "status" => 'required',
+                "title" => 'required',
+                "content" => 'required',
+                'first_reference_name' => 'required',
+                'first_reference_url' => 'required',
+                'second_reference_name' => 'required',
+                'second_reference_url' => 'required',
+                'first_category' => 'required',
+                'second_category' => 'required',
+            ], [
+                "status.required" => "Status",
+                "title.required" => "Título",
+                "content.required" => "Escreva sua matéria",
+                "first_reference_name.required" => "Nome para o site da primeira fonte de pesquisa",
+                "first_reference_url.required" => "URL para o site da primeira fonte de pesquisa",
+                "first_category.required" => "Primeira tag",
+                "second_category.required" => "Segunda tag",
+            ]);
+
+            Log::info($request);
+
+            $post = Post::where('id', $id)->with(['references', 'categories'])->firstOrFail();
+            $post->update([
+                'slug' =>  $request->input('title') !== $post->title ? Str::slug($request->input('title')) : $post->slug,
+                'title' => $request->input('title', $post->title),
+                'content' => $request->input('content', $post->content),
+                'image' => $request->hasFile('image') ? $this->uploadImage('posts', $request->file('image'), 'public', $post->image) : $post->image,
+                'cover' => $request->hasFile('cover') ? $this->uploadImage('posts', $request->file('cover'), 'public', $post->cover) : $post->cover,
+            ]);
+
+            $categories = [
+                $request->input('first_category'),
+                $request->input('second_category')
+            ];
+
+            $references = [
+                ['name' => $request->input('first_reference_name'), 'url' => $request->input('first_reference_url')],
+                ['name' => $request->input('second_reference_name'), 'url' => $request->input('second_reference_url')],
+            ];
+
+            foreach($categories as $index => $item){
+                PostCategory::where('id', $post->categories[$index]->id)->update([
+                    'category_name' => $item
+                ]);
+            }
+
+            foreach($references as $index => $item){
+                PostReference::where('id', $post->references[$index]->id)->update([
+                    'name' => $item['name'],
+                    'url' => $item['url']
+                ]);
+            }
+            
+            return $this->provideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -195,7 +217,8 @@ class PostsController extends Controller
     public function render($slug = null)
     {
         return Inertia::render('admin/Posts', [
-            "publications" => $this->getPosts(),
+            "permissions" => $this->permissions(),
+            "publications" => $this->listPosts(),
             "publication" => $this->getPost($slug)
         ]);
     }

@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
 
@@ -25,7 +24,7 @@ class RadioController extends Controller
 {
     use HandlesImageUpload, ProvideSuccess, ProvideException;
 
-    public function getStreamers()
+    public function listStreamers()
     {
         try {
             $users = User::all();
@@ -39,7 +38,7 @@ class RadioController extends Controller
         }
     }
 
-    public function getProgramsSchedules()
+    public function listProgramsSchedules()
     {
         try {
             return ProgramSchedule::orderBy('created_at', 'desc')->with('show.user')->get();
@@ -48,7 +47,7 @@ class RadioController extends Controller
         }
     }
 
-    public function getShows()
+    public function listShows()
     {
         try {
             return Show::orderBy('created_at', 'desc')->with(['user', 'schedules'])->where('is_active', true)->get();
@@ -162,24 +161,41 @@ class RadioController extends Controller
         }
     }
 
-    public function getRankingMusics()
+    public function getListenerMonthRegistered()
     {
         try {
-            return Music::orderBy('listener_request_total', 'desc')->limit(3)->get();
+            return ListenerMonth::where('id', 1)->first();
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
     }
 
-    public function updateRankingMusicImage(Request $request, $id)
+    public function getListenerMonthFound()
     {
         try {
-            $music = Music::where('id', $id)->firstOrFail();
-            $music->update([
-                'image_ranking' => $this->uploadImage('musics/ranking', $request->file('image_ranking'), 'public', $music->image_ranking ?? null),
-            ]);
+            $startOfMonth = Carbon::now()->startOfMonth();
+            $endOfMonth = Carbon::now()->endOfMonth();
 
-            return $this->provideSuccess('save');
+            $query = DB::table('listeners_requests');
+            $query->where('status', 'granted');
+            $query->join('onair', 'listeners_requests.onair_id', '=', 'onair.id');
+            $query->join('shows', 'onair.program_id', '=', 'shows.id');
+            $query->whereBetween('listeners_requests.created_at', [$startOfMonth, $endOfMonth]);
+            $query->select('listener', 'listeners_requests.address', 'shows.name as favorite_show', DB::raw('COUNT(*) as total'));
+            $query->groupBy('listener', 'listeners_requests.address', 'shows.name');
+            $query->orderByDesc('total');
+            $listener = $query->first();
+
+            return $listener;
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
+    public function listRankingMusics()
+    {
+        try {
+            return Music::orderBy('listener_request_total', 'desc')->limit(3)->get();
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -200,37 +216,6 @@ class RadioController extends Controller
             }
 
             return $this->provideSuccess('save');
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function getListenerMonthRegistered()
-    {
-        try {
-            return ListenerMonth::where('id', 1)->first();
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function getListenerMonthFound()
-    {
-        try {
-            $startOfMonth = Carbon::now()->startOfMonth();
-            $endOfMonth = Carbon::now()->endOfMonth();
-
-            $query = DB::table('listeners_requests');
-            $query->where('status', 'attended');
-            $query->join('onair', 'listeners_requests.onair_id', '=', 'onair.id');
-            $query->join('shows', 'onair.program_id', '=', 'shows.id');
-            $query->whereBetween('listeners_requests.created_at', [$startOfMonth, $endOfMonth]);
-            $query->select('listener', 'listeners_requests.address', 'shows.name as favorite_show', DB::raw('COUNT(*) as total'));
-            $query->groupBy('listener', 'listeners_requests.address', 'shows.name');
-            $query->orderByDesc('total');
-            $listener = $query->first();
-
-            return $listener;
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -276,13 +261,27 @@ class RadioController extends Controller
         }
     }
 
+    public function updateRankingMusicImage(Request $request, $id)
+    {
+        try {
+            $music = Music::where('id', $id)->firstOrFail();
+            $music->update([
+                'image_ranking' => $this->uploadImage('musics/ranking', $request->file('image_ranking'), 'public', $music->image_ranking ?? null),
+            ]);
+
+            return $this->provideSuccess('save');
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
     public function render()
     {
         return Inertia::render('admin/Radio', [
-            "shows" => $this->getShows(),
-            "streamers" => $this->getStreamers(),
-            "program_schedule" => $this->getProgramsSchedules(),
-            "ranking_musics" => $this->getRankingMusics(),
+            "shows" => $this->listShows(),
+            "streamers" => $this->listStreamers(),
+            "program_schedule" => $this->listProgramsSchedules(),
+            "ranking_musics" => $this->listRankingMusics(),
             "listener_month_registered" => $this->getListenerMonthRegistered(),
             'listener_month_found' => $this->getListenerMonthFound(),
         ]);

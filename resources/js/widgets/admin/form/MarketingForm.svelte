@@ -1,11 +1,13 @@
 <script>
-    export let repository_id = null ;
     export let close = () => {};
+    export let repository_id = null ;
 
-    import { useForm, page } from "@inertiajs/svelte";
+    import { onMount } from 'svelte';
+    import { useForm } from "@inertiajs/svelte";
     import { Preview } from "@/components/admin";
 
     $: form = useForm({
+        _method: null,
         image: null,
         name: null,
         category: null,
@@ -15,20 +17,28 @@
     function onSubmit(event){
         event.preventDefault();
 
-        const url = repository_id ? `/painel/marketing/update/repository/${repository_id}` : `/painel/marketing/create/repository`;
-        $form.post(url, {
-            onSuccess: () => close(),
-        })
+        if(repository_id){
+            $form._method = "PUT"
+            $form.post(`/painel/marketing/update/repository/${repository_id}`, {
+                onSuccess: ()=> close()
+            });
+        }else{
+            $form.post('/painel/marketing/create/repository', {
+                onSuccess: ()=>close()
+            });
+        }
     }
 
-    $: if (repository_id) {
-        axios.get(`/painel/marketing/get/repository/${repository_id}`).then((response) => {
-            $form.image = response.data.image;
-            $form.name = response.data.name;
-            $form.category = response.data.category;
-            $form.file = response.data.file;
-        });
-    }
+    onMount(()=>{
+        if (repository_id) {
+            axios.get(`/painel/marketing/get/repository/${repository_id}`).then((response) => {
+                $form.image = response.data.image;
+                $form.name = response.data.name;
+                $form.category = response.data.category;
+                $form.file = response.data.file;
+            });
+        }
+    });
 </script>
 
 <form onsubmit={onSubmit}>

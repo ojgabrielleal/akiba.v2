@@ -2,6 +2,7 @@
     export let close = () => {};
     export let show_id = null;
 
+    import { onMount } from 'svelte';
     import { useForm, page } from "@inertiajs/svelte";
     import { Preview } from "@/components/admin";
     import axios from "axios";
@@ -9,6 +10,7 @@
     $: ({ streamers } = $page.props);
 
     $: form = useForm({
+        _method: null,
         name: null,
         is_all: 0,
         image: null,
@@ -16,34 +18,42 @@
         has_schedule: 1,
         schedules: [{ time: null, day: null }],
     });
-
-    $: if (show_id) {
-        axios.get(`/painel/radio/get/show/${show_id}`).then((response) => {
-            $form.name = response.data.name;
-            $form.image = response.data.image;
-            $form.is_all = Number(response.data.is_all);
-            $form.user_id = response.data.user.id;
-            $form.has_schedule = response.data.has_schedule;
-            $form.schedules = response.data.schedules ? response.data.schedules : { time: null, day: null };
-        });
+    
+    function onSubmit(event) {
+        event.preventDefault();
+        
+        if(show_id){
+            $form._method = "PUT"
+            $form.post(`/painel/radio/update/show/${show_id}`, {
+                onSuccess: () => close(),
+            });
+        }else{
+            $form.post("/painel/radio/create/show", {
+                onSuccess: () => close(),
+            });
+        }
     }
 
     function addSchedule() {
         $form.schedules = [...$form.schedules, { time: null, day: null }];
     }
-
+    
     function removeSchedule(index) {
         $form.schedules = $form.schedules.filter((_, i) => i !== index);
     }
 
-    function onSubmit(event) {
-        event.preventDefault();
-
-        let url = show_id ? `/painel/radio/update/show/${show_id}` : "/painel/radio/create/show";
-        $form.post(url, {
-            onSuccess: () => close(),
-        });
-    }
+    onMount(()=>{
+        if (show_id) {
+            axios.get(`/painel/radio/get/show/${show_id}`).then((response) => {
+                $form.name = response.data.name;
+                $form.image = response.data.image;
+                $form.is_all = Number(response.data.is_all);
+                $form.user_id = response.data.user.id;
+                $form.has_schedule = response.data.has_schedule;
+                $form.schedules = response.data.schedules ? response.data.schedules : { time: null, day: null };
+            });
+        }
+    })
 </script>
 
 <form on:submit={onSubmit}>

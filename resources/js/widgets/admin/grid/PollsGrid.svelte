@@ -4,11 +4,11 @@
     import { Offcanvas } from "@/components/admin";
     import { PollsForm } from "@/widgets/admin/form"
 
-    $: ({ polls } = $page.props);
+    $: ({ permissions, polls } = $page.props);
 
     $: votedPolls = JSON.parse(localStorage.getItem('akiba-voted') || '[]');
 
-    function vote(event, item){
+    function voteQuestion(event, item){
         event.preventDefault();
 
         const form = event.target;
@@ -25,30 +25,32 @@
     }
 
     function deactivatePoll(id){
-        router.patch(`/painel/medias/deactivate/poll/${id}`);
+        router.delete(`/painel/medias/deactivate/poll/${id}`);
     }
 
 </script>
 
 <Section title="Enquetes">
-    <div class="flex justify-center">
-        <Offcanvas>
-            <div class="cursor-pointer text-neutral-aurora text-xl font-noto-sans font-bold uppercase italic rounded-sm py-1 px-3 bg-orange-amber" slot="action" >
-                Criar enquete
-            </div>
-            <div slot="title">
-                Cadastrar enquete
-            </div>
-            <div slot="content" let:close>
-                <PollsForm close={close}/>
-            </div>
-        </Offcanvas>
-    </div>
+    {#if permissions.create_poll}
+        <div class="flex justify-center">
+            <Offcanvas>
+                <div class="cursor-pointer text-neutral-aurora text-xl font-noto-sans font-bold uppercase italic rounded-sm py-1 px-3 bg-orange-amber" slot="action" >
+                    Criar enquete
+                </div>
+                <div slot="title">
+                    Cadastrar enquete
+                </div>
+                <div slot="content" let:close>
+                    <PollsForm close={close}/>
+                </div>
+            </Offcanvas>
+        </div>
+    {/if}
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-10">
         {#if polls.length > 0}
             {#each polls as item}
                 {@const alreadyVoted = votedPolls.includes(item.question)}
-                <form on:submit|preventDefault={() => vote(event, item)} class="bg-blue-skywave p-5 rounded-md">
+                <form on:submit|preventDefault={() => voteQuestion(event, item)} class="bg-blue-skywave p-5 rounded-md">
                     <div class="text-neutral-aurora text-xl text-center font-noto-sans font-bold mb-7">
                         {item.question}
                     </div>
@@ -82,20 +84,24 @@
                             Votar
                         </button>
                         <div class="flex gap-3">
-                            <Offcanvas>
-                                <div class="cursor-pointer" slot="action" >
-                                    <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                                </div>
-                                <div slot="title">
-                                    Atualizar enquete
-                                </div>
-                                <div slot="content" let:close>
-                                    <PollsForm poll_id={item.id} close={close}/>
-                                </div>
-                            </Offcanvas>
-                            <button on:click={()=>deactivatePoll(item.id)} type="button" class="cursor-pointer" aria-label="Desativar">
-                                <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                            </button>
+                            {#if permissions.edit_poll}
+                                <Offcanvas>
+                                    <div class="cursor-pointer" slot="action" >
+                                        <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
+                                    </div>
+                                    <div slot="title">
+                                        Atualizar enquete
+                                    </div>
+                                    <div slot="content" let:close>
+                                        <PollsForm poll_id={item.id} close={close}/>
+                                    </div>
+                                </Offcanvas>
+                            {/if}
+                            {#if permissions.deactivate_poll}
+                                <button on:click={()=>deactivatePoll(item.id)} type="button" class="cursor-pointer" aria-label="Desativar">
+                                    <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
+                                </button>
+                            {/if}
                         </div>
                     </div>
                 </form>
@@ -103,7 +109,7 @@
         {:else}
             <div class="bg-blue-cerulean opacity-50 p-5 rounded-md pointer-events-none">
                 <div class="text-neutral-aurora text-xl text-center font-noto-sans font-bold mb-7">
-                    Quem é o mais preguiçoso de nós?
+                    Quem é o mais preguiçoso da Akiba?
                 </div>
                 <div class="flex flex-col gap-3 mb-7">
                     <div class="inline-flex items-center">
@@ -162,11 +168,6 @@
                             Suzuh
                         </label>
                     </div>
-                </div>
-                <div class="flex justify-between">
-                    <button type="submit" class="cursor-pointer text-neutral-aurora text-md font-noto-sans font-bold uppercase italic rounded-sm py-1 px-3 bg-orange-amber">
-                        Votar
-                    </button>
                 </div>
             </div>
         {/if}

@@ -1,13 +1,10 @@
 <script>
     export let close = () => {};
+
     import { useForm, page } from "@inertiajs/svelte";
     import { Preview } from "@/components/admin";
 
     $: ({ listener_month_found } = $page.props);
-
-    $: if(listener_month_found){
-        console.log(listener_month_found)
-    }
 
     $: form = useForm({
         image: null,
@@ -20,7 +17,7 @@
     function onSubmit(event){
         event.preventDefault();
 
-        $form.post('/painel/radio/create/listenermonth', {
+        $form.post('/painel/radio/create/listener/month', {
             onSuccess: () => close()
         })
     }

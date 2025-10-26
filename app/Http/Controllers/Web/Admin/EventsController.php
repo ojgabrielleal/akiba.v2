@@ -19,7 +19,7 @@ class EventsController extends Controller
 {
     use HandlesImageUpload, ProvideSuccess, ProvideException;
 
-    public function getEvents()
+    public function listEvents()
     {
         try {
             $user = request()->user();
@@ -51,38 +51,6 @@ class EventsController extends Controller
             if($slug){
                 return Event::where('slug', $slug)->firstOrFail();
             }
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function updateEvent(Request $request, $id)
-    {
-        try {
-            $request->validate([
-                'title' => 'required',
-                'content' => 'required',
-                'dates' => 'required',
-                'address' => 'required',
-            ], [
-                "title.required" => "Nome do evento",
-                "content.required" => "Escreva sobre o evento",
-                "dates.required" => "Datas",
-                "address.required" => "Local",
-            ]);
-
-            $event = Event::where('id', $id)->firstOrFail();
-            $event->update([
-                'slug' => $request->input('title') !== $event->title ? Str::slug($request->input('title')) : $event->slug,
-                'image' => $request->hasFile('image') ? $this->uploadImage('events', $request->file('image'), 'public', $event->image) : $event->image,
-                'cover' => $request->hasFile('cover') ? $this->uploadImage('events', $request->file('cover'), 'public', $event->cover) : $event->cover,
-                'title' => $request->input('title', $event->title),
-                'content' => $request->input('content', $event->content),
-                'dates' => $request->input('dates', $event->dates),
-                'address' => $request->input('address', $event->address),
-            ]);
-
-            return $this->provideSuccess('update');
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -126,10 +94,54 @@ class EventsController extends Controller
         }
     }
 
+    public function updateEvent(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'title' => 'required',
+                'content' => 'required',
+                'dates' => 'required',
+                'address' => 'required',
+            ], [
+                "title.required" => "Nome do evento",
+                "content.required" => "Escreva sobre o evento",
+                "dates.required" => "Datas",
+                "address.required" => "Local",
+            ]);
+
+            $event = Event::where('id', $id)->firstOrFail();
+            $event->update([
+                'slug' => $request->input('title') !== $event->title ? Str::slug($request->input('title')) : $event->slug,
+                'image' => $request->hasFile('image') ? $this->uploadImage('events', $request->file('image'), 'public', $event->image) : $event->image,
+                'cover' => $request->hasFile('cover') ? $this->uploadImage('events', $request->file('cover'), 'public', $event->cover) : $event->cover,
+                'title' => $request->input('title', $event->title),
+                'content' => $request->input('content', $event->content),
+                'dates' => $request->input('dates', $event->dates),
+                'address' => $request->input('address', $event->address),
+            ]);
+
+            return $this->provideSuccess('update');
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
+    public function deactivateEvent($slug){
+        try{
+            Event::where('slug', $slug)->update([
+                'is_active' => false
+            ]);     
+
+            return $this->provideSuccess('deactivate');
+        }catch(\Throwable $e){
+            return $this->provideException($e);
+        }
+    }
+
     public function render($slug = null)
     {
         return Inertia::render('admin/Events', [
-            "publications" => $this->getEvents(),
+            "publications" => $this->listEvents(),
             "publication" => $this->getEvent($slug)
         ]);
     }
