@@ -28,13 +28,18 @@ class EventsController extends Controller
             
             $query = Event::orderBy('created_at', 'desc');
             $query->with('user');
-            $query->when(!$user->permissions_keys->contains('administrator'), function ($q) use ($user) { $q->where('user_id', $user->id); });
+            $query->when(!$user->permissions_keys->contains('administrator'), function ($q) use ($user) { 
+                $q->where('user_id', $user->id); 
+            });
             $query->where('is_active', true);
             $events = $query->paginate(10);
 
-            $events->getCollection()->transform(function ($event) {
+            $events->getCollection()->transform(function ($event) use ($user) {
                 $data = $event->toArray();
-                $data['editable'] = true;
+                $data['actions'] = [
+                    'editable' => true,
+                    'deactivate' => $user->permissions_keys->contains('administrator')
+                ];
                 $data['styles'] = [
                     'bg' => 'var(--color-blue-skywave)',
                 ];
@@ -127,18 +132,6 @@ class EventsController extends Controller
 
             return $this->provideSuccess('update');
         } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function deactivateEvent($slug){
-        try{
-            Event::where('slug', $slug)->update([
-                'is_active' => false
-            ]);     
-
-            return $this->provideSuccess('deactivate');
-        }catch(\Throwable $e){
             return $this->provideException($e);
         }
     }

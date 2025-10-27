@@ -21,7 +21,7 @@ class PostsController extends Controller
 {
     use HandlesImageUpload, ProvideSuccess, ProvideException;
 
-    public function permissions()
+    public function screenPermissions()
     {
         try{
             $user = request()->user();
@@ -62,7 +62,9 @@ class PostsController extends Controller
             $posts->getCollection()->transform(function ($post) use ($user) {
                 $data = $post->toArray();
                 $data['styles'] = resolvePostAppareace($post);
-                $data['editable'] = $user->permissions_keys->contains('administrator') || $post->user_id == $user->id;
+                $data['actions'] = [
+                    'editable' => $user->permissions_keys->contains('administrator') || $post->user_id == $user->id,
+                ];
                 return $data;
             });
 
@@ -217,7 +219,7 @@ class PostsController extends Controller
     public function render($slug = null)
     {
         return Inertia::render('admin/Posts', [
-            "permissions" => $this->permissions(),
+            "screen_permissions" => $this->screenPermissions(),
             "publications" => $this->listPosts(),
             "publication" => $this->getPost($slug)
         ]);

@@ -2,7 +2,7 @@
     import { router, page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
 
-    $: ({ permissions, podcasts } = $page.props);
+    $: ({ podcasts } = $page.props);
 
     function deactivatePodcast(id){
         router.delete(`/painel/podcasts/deactivate/${id}`);
@@ -22,10 +22,12 @@
                                 S{item.season}-EP{item.episode}
                             </dt>
                             <dd class="flex items-center gap-3">
-                                <a href={`/painel/podcasts/${item.slug}`} aria-label="Editar">
-                                    <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                                </a>
-                                {#if permissions.deactivate}
+                                {#if item.actions.editable}
+                                    <a href={`/painel/podcasts/${item.slug}`} aria-label="Editar">
+                                        <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
+                                    </a>
+                                {/if}
+                                {#if item.actions.deactivate}
                                     <button on:click={()=>deactivatePodcast(item.id)} class="cursor-pointer" aria-label="Desativar">
                                         <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-red-crimson" loading="lazy"/>
                                     </button>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Exceptions\AlreadyExistsException;
 use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
@@ -20,23 +20,25 @@ class PodcastsController extends Controller
 {
     use HandlesImageUpload, ProvideSuccess, ProvideException;
 
-    public function permissions()
+    public function listPodcasts()
     {
         try{
             $user = request()->user();
 
-            return [
-                'edit' => $user->permissions_keys->contains('administrator')
-            ];
-        }catch(\Throwable $e){
-            $this->provideException($e);
-        }
-    }
+            $query = Podcast::where('is_active', true);
+            $query->orderBy('created_at', 'desc');
+            $podcasts = $query->paginate(10);
 
-    public function listPodcasts()
-    {
-        try{
-            return Podcast::where('is_active', true)->orderBy('created_at', 'desc')->paginate(10);
+            $podcasts->getCollection()->transform(function ($event) use ($user) {
+                $data = $event->toArray();
+                $data['actions'] = [
+                    'editable' => true,
+                    'deactivate' => $user->permissions_keys->contains('administrator')
+                ];
+                return $data;
+            });
+
+            return $podcasts;
         }catch(\Throwable $e){
             $this->provideException($e);
         }
@@ -77,7 +79,7 @@ class PodcastsController extends Controller
             $user = request()->user();
         
             $exists = Podcast::where('season', $request->input('season'))->where('episode', $request->input('episode'))->exists();
-            if($exists) return $this->s');
+            if($exists) throw new AlreadyExistsException();
 
             Podcast::create([
                 'user_id' => $user->id,
@@ -152,7 +154,6 @@ class PodcastsController extends Controller
     public function render($slug = null)
     {
         return Inertia::render('admin/Podcasts', [
-            'permissions' => $this->permissions(),
             'podcasts' => $this->listPodcasts(),
             'podcast' => $this->getPodcast($slug)
         ]);

@@ -150,8 +150,12 @@ class DashboardController extends Controller
 
             $posts->getCollection()->transform(function ($post) use ($user) {
                 $data = $post->toArray();
-                $data['styles'] = [ 'bg' => 'var(--color-blue-skywave)' ];
-                $data['editable'] = $user->permissions_keys->contains('administrator') || $post->user_id == $user->id;
+                $data['styles'] = [ 
+                    'bg' => 'var(--color-blue-skywave)' 
+                ];
+                $data['actions'] = [
+                    'editable' => $user->permissions_keys->contains('administrator') || $post->user_id == $user->id
+                ];
                 return $data;
             });
 

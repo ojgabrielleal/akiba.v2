@@ -4,7 +4,7 @@
     import { Offcanvas } from "@/components/admin";
     import { PollsForm } from "@/widgets/admin/form"
 
-    $: ({ permissions, polls } = $page.props);
+    $: ({ screen_permissions, polls } = $page.props);
 
     $: votedPolls = JSON.parse(localStorage.getItem('akiba-voted') || '[]');
 
@@ -31,7 +31,7 @@
 </script>
 
 <Section title="Enquetes">
-    {#if permissions.create_poll}
+    {#if screen_permissions.create_poll}
         <div class="flex justify-center">
             <Offcanvas>
                 <div class="cursor-pointer text-neutral-aurora text-xl font-noto-sans font-bold uppercase italic rounded-sm py-1 px-3 bg-orange-amber" slot="action" >
@@ -84,7 +84,7 @@
                             Votar
                         </button>
                         <div class="flex gap-3">
-                            {#if permissions.edit_poll}
+                            {#if item.actions.edit}
                                 <Offcanvas>
                                     <div class="cursor-pointer" slot="action" >
                                         <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
@@ -97,7 +97,7 @@
                                     </div>
                                 </Offcanvas>
                             {/if}
-                            {#if permissions.deactivate_poll}
+                            {#if item.actions.deactivate}
                                 <button on:click={()=>deactivatePoll(item.id)} type="button" class="cursor-pointer" aria-label="Desativar">
                                     <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                                 </button>

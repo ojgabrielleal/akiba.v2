@@ -15,23 +15,19 @@ use App\Traits\Response\ProvideSuccess;
 
 use App\Models\Poll;
 use App\Models\PollOption;
-
-use App\Http\Controllers\Web\Admin\EventsController;
+use App\Models\Event;
 
 class MediasController extends Controller
 {
     use ProvideSuccess, ProvideException;
 
-    public function permissions()
+    public function screenPermissions()
     {
         try{
             $user = request()->user();
 
             return [
                 'create_poll' => $user->permissions_keys->contains('administrator'),
-                'edit_poll' => $user->permissions_keys->contains('administrator'), 
-                'deactivate_poll' => $user->permissions_keys->contains('administrator'), 
-                'deactivate_event' => $user->permissions_keys->contains('administrator')
             ];
         }catch(\Throwable $e){
             return $this->provideException($e);
@@ -40,28 +36,66 @@ class MediasController extends Controller
 
     public function listEvents()
     {
+        try {
+            $user = request()->user();
+            
+            $query = Event::orderBy('created_at', 'desc');
+            $query->with('user');
+            $query->when(!$user->permissions_keys->contains('administrator'), function ($q) use ($user) { 
+                $q->where('user_id', $user->id); 
+            });
+            $query->where('is_active', true);
+            $events = $query->paginate(10);
+
+            $events->getCollection()->transform(function ($event) use ($user) {
+                $data = $event->toArray();
+                $data['actions'] = [
+                    'editable' => true,
+                    'deactivate' => $user->permissions_keys->contains('administrator')
+                ];
+                $data['styles'] = [
+                    'bg' => 'var(--color-blue-skywave)',
+                ];
+                return $data;
+            });
+
+            return $events;
+        } catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
+    public function deactivateEvent($id){
         try{
-            $eventsController = new EventsController();
-            return $eventsController->listEvents();
+            Event::where('id', $id)->update([
+                'is_active' => false
+            ]);     
+            return $this->provideSuccess('deactivate');
         }catch(\Throwable $e){
             return $this->provideException($e);
         }
     }
 
-    public function deactivateEvent($slug)
-    {
-        try{
-            $eventsController = new EventsController();
-            return $eventsController->deactivateEvent($slug);
-        }catch(\Throwable $e){
-            return $this->provideException($e);
-        } 
-    }
-
     public function listPolls()
     {
         try{
-            return Poll::orderBy('created_at', 'desc')->with('options')->where('is_active', true)->get();
+            $user = request()->user();
+
+            $query = Poll::orderBy('created_at', 'desc');
+            $query->with('options');
+            $query->where('is_active', true);
+            $polls = $query->get();
+
+            $polls->transform(function ($poll) use ($user) {
+                $data = $poll->toArray();
+                $data['actions'] = [
+                    'editable' => $user->permissions_keys->contains('administrator'),
+                    'deactivate' => $user->permissions_keys->contains('administrator')
+                ];
+                return $data;
+            });
+
+            return $polls;
         }catch(\Throwable $e){
             return $this->provideException($e);
         }
@@ -195,7 +229,7 @@ class MediasController extends Controller
     public function render()
     {
         return Inertia::render('admin/Medias', [
-            'permissions' => $this->permissions(),
+            'screen_permissions' => $this->screenPermissions(),
             'polls' => $this->listPolls(),
             'events' => $this->listEvents()
         ]);

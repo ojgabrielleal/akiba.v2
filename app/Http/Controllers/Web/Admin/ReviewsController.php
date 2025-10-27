@@ -31,7 +31,9 @@ class ReviewsController extends Controller
 
             $reviews->getCollection()->transform(function ($review) use ($user) {
                 $data = $review->toArray();
-                $data['editable'] = true;
+                $data['actions'] = [
+                    'editable' => true,
+                ];
                 $data['styles'] = [
                     'bg' => $review->reviews->contains('user_id', $user->id) ? 'var(--color-purple-mystic)' : 'var(--color-blue-skywave)',
                 ];

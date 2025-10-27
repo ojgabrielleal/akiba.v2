@@ -2,7 +2,7 @@
     import { router, page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";    
 
-    $: ({ permissions, events } = $page.props);
+    $: ({ events } = $page.props);
 
     function deactivateEvent(slug){
         router.delete(`/painel/medias/deactivate/event/${slug}`);
@@ -17,11 +17,13 @@
                     <div class="h-65 bg-blue-skywave rounded-sm relative overflow-hidden">
                         <img class="w-full h-65 object-cover aspect-square brightness-50" src={item.cover} alt={`Evento ${item.title}`}/>
                         <div class="flex gap-4 absolute bottom-3 right-3">
-                            <a href={`/painel/eventos/${item.slug}`} type="button" class="cursor-pointer" aria-label="Editar">
-                                <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                            </a>
-                            {#if permissions.deactivate_event}
-                                <button on:click={()=>deactivateEvent(item.slug)} type="button" class="cursor-pointer" aria-label="Desativar">
+                            {#if item.actions.editable}
+                                <a href={`/painel/eventos/${item.slug}`} type="button" class="cursor-pointer" aria-label="Editar">
+                                    <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
+                                </a>
+                            {/if}
+                            {#if item.actions.deactivate}
+                                <button on:click={()=>deactivateEvent(item.id)} type="button" class="cursor-pointer" aria-label="Desativar">
                                     <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                                 </button>
                             {/if}
