@@ -12,6 +12,8 @@ use App\Http\Controllers\Web\Admin\RadioController;
 use App\Http\Controllers\Web\Admin\PodcastsController;
 use App\Http\Controllers\Web\Admin\MarketingController;
 use App\Http\Controllers\Web\Admin\MediasController;
+use App\Http\Controllers\Web\Admin\AdmsController;
+use App\Http\Controllers\Web\Admin\ProfileController;
 
 use App\Http\Controllers\Web\Public\HomeProvisoryController;
 
@@ -106,6 +108,16 @@ Route::prefix('painel')->group(function () {
                 Route::post('/create/vote/{id}', 'createVote');
                 Route::delete('/deactivate/poll/{id}', 'deactivatePoll');
                 Route::delete('/deactivate/event/{id}', 'deactivateEvent');
+            });
+        });
+        Route::prefix('/adms')->group(function () {
+            Route::controller(AdmsController::class)->group(function () {
+                Route::get('/', 'render')->name('render.painel.adms');
+            });
+        });
+        Route::prefix('/profile')->group(function () {
+            Route::controller(ProfileController::class)->group(function () {
+                Route::get('/', 'render')->name('render.painel.profile');
             });
         });
     });

@@ -26,7 +26,7 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div on:click={close} transition:fade={{ x: '100%', duration: 500, easing: quintOut }} class="w-screen h-screen fixed inset-0 flex justify-center items-center p-9 bg-[#00000086] z-[50]">
     <div on:click={block} class="lg:w-[26rem] bg-neutral-aurora rounded-t-lg rounded-b-md relative">        
-        <div class="w-full h-[5rem] pt-8 px-5 lg:mb-2 bg-cover bg-center rounded-t-md" style="background-image: url('/img/default/requests.webp');">
+        <div class="w-full h-[5rem] pt-8 px-5 lg:mb-2 bg-cover bg-center rounded-t-md" style="background-image: url('/img/default/playerListenerRequests.webp');">
             <div class="w-[9rem]">
                 <img src="/img/default/logo.webp" alt="logo" loading="lazy">
             </div>

@@ -4,14 +4,14 @@
     import { useForm, page } from "@inertiajs/svelte";
     import { Preview } from "@/components/admin";
 
-    $: ({ listener_month_found } = $page.props);
+    $: ({ listenerMonthFound } = $page.props);
 
     $: form = useForm({
         image: null,
-        listener: listener_month_found?.listener,
-        address: listener_month_found?.address,
-        favorite_show: listener_month_found?.favorite_show,
-        requests_total: listener_month_found?.total,
+        listener: listenerMonthFound?.listener,
+        address: listenerMonthFound?.address,
+        favorite_show: listenerMonthFound?.favorite_show,
+        requests_total: listenerMonthFound?.total,
     });
 
     function onSubmit(event){

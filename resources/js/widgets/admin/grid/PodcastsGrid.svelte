@@ -13,7 +13,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 lg:gap-y-10 lg:gap-x-5">
             {#if podcasts.data?.length > 0}
                 {#each podcasts.data as item}
-                    <div>
+                    <article>
                         <div class="aspect-square">
                             <img class="w-full h-full rounded-lg" src={item.image} alt={`Capa do podcast ${item.title}`}/>
                         </div>
@@ -34,19 +34,19 @@
                                 {/if}
                             </dd>
                         </dl>
-                    </div>
+                    </article>
                 {/each}
             {:else}
-                <div class="opacity-50">
+                <article class="opacity-50">
                     <div class="aspect-square">
-                        <img class="w-full h-full object-cover object-center rounded-lg" src="/img/default/default_landscape.webp" alt="" aria-hidden="true"/>
+                        <img class="w-full h-full object-cover object-center rounded-lg" src="/img/default/defaultLandscape.webp" alt="" aria-hidden="true"/>
                     </div>
                     <div class="flex justify-between mt-3">
                         <div class="text-orange-amber text-2xl font-noto-sans font-bold uppercase italic">
                             S00-EP00
                         </div>
                     </div>
-                </div>
+                </article>
             {/if}
         </div>
         {#if podcasts.per_page >= 10}

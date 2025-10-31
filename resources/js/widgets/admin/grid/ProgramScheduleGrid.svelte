@@ -2,7 +2,7 @@
     import { page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";    
 
-    $: ({ program_schedule } = $page.props);
+    $: ({ programSchedule } = $page.props);
 
     let days = {
         "dom": "Domingo",
@@ -15,10 +15,10 @@
     }
 </script>
 
-{#if program_schedule.length > 1}
+{#if programSchedule.length > 1}
     <Section title="Grade de programação">
         <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-15 mt-6">
-            {#each program_schedule as item}
+            {#each programSchedule as item}
                 <article class="w-full">
                     <img class="w-[10rem] mb-3" src={item.show.image} alt={item.show.name} loading="lazy"/>
                     <div class="w-full rounded-md py-3 px-4 bg-neutral-aurora relative mb-2">

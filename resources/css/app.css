@@ -10,7 +10,6 @@
 :root {
     /* Neutral */
     --color-neutral-aurora: #fffaf3;
-    --color-neutral-opacity: #fffaf31f;
     --color-neutral-sandstone: #e6ded1;
     --color-neutral-honeycream: #ffe8bf;
     --color-neutral-gray: #808080;
@@ -43,7 +42,6 @@
 @theme theme {
     /* Neutral */
     --color-neutral-aurora: var(--color-neutral-aurora);
-    --color-neutral-opacity: var(--color-neutral-opacity);
     --color-neutral-sandstone: var(--color-neutral-sandstone);
     --color-neutral-honeycream: var(--color-neutral-honeycream);
     --color-neutral-gray: var(--color-neutral-gray);
@@ -157,6 +155,30 @@
     select:focus {
         outline: none;
     }
+
+    /*Calendar Inputs*/ 
+    input[type="date"] {
+        position: relative;
+
+        /* Remove estilos do navegador */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
+        /* Ícone personalizado */
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 20px;
+
+        /* Ajustes visuais */
+        font-family: "Noto Sans", sans-serif;
+    }
+
+    /* Chrome, Edge, Opera */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        cursor: pointer;
+    }
 }
 
 /*--------------------------------------
@@ -174,6 +196,9 @@
     }
     .filter-blue-ocean{
         filter: invert(10%) sepia(55%) saturate(5448%) hue-rotate(224deg) brightness(90%) contrast(109%);
+    }
+    .filter-blue-indigo{
+        filter: invert(8%) sepia(27%) saturate(5191%) hue-rotate(227deg) brightness(96%) contrast(124%);
     }
     .filter-red-crimson{
         filter: invert(44%) sepia(59%) saturate(4904%) hue-rotate(335deg) brightness(88%) contrast(113%);

@@ -219,7 +219,7 @@ class PostsController extends Controller
     public function render($slug = null)
     {
         return Inertia::render('admin/Posts', [
-            "screen_permissions" => $this->screenPermissions(),
+            "screenPermissions" => $this->screenPermissions(),
             "publications" => $this->listPosts(),
             "publication" => $this->getPost($slug)
         ]);

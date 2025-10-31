@@ -282,10 +282,10 @@ class RadioController extends Controller
         return Inertia::render('admin/Radio', [
             "shows" => $this->listShows(),
             "streamers" => $this->listStreamers(),
-            "program_schedule" => $this->listProgramsSchedules(),
-            "ranking_musics" => $this->listRankingMusics(),
-            "listener_month_registered" => $this->getListenerMonthRegistered(),
-            'listener_month_found' => $this->getListenerMonthFound(),
+            "programSchedule" => $this->listProgramsSchedules(),
+            "rankingMusics" => $this->listRankingMusics(),
+            "listenerMonthRegistered" => $this->getListenerMonthRegistered(),
+            'listenerMonthFound' => $this->getListenerMonthFound(),
         ]);
     }
 }

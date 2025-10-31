@@ -4,7 +4,7 @@
     import { Offcanvas } from "@/components/admin";
     import { PollsForm } from "@/widgets/admin/form"
 
-    $: ({ screen_permissions, polls } = $page.props);
+    $: ({ screenPermissions, polls } = $page.props);
 
     $: votedPolls = JSON.parse(localStorage.getItem('akiba-voted') || '[]');
 
@@ -31,7 +31,7 @@
 </script>
 
 <Section title="Enquetes">
-    {#if screen_permissions.create_poll}
+    {#if screenPermissions.create_poll}
         <div class="flex justify-center">
             <Offcanvas>
                 <div class="cursor-pointer text-neutral-aurora text-xl font-noto-sans font-bold uppercase italic rounded-sm py-1 px-3 bg-orange-amber" slot="action" >
@@ -107,12 +107,12 @@
                 </form>
             {/each}
         {:else}
-            <div class="bg-blue-cerulean opacity-50 p-5 rounded-md pointer-events-none">
+            <article class="bg-blue-cerulean opacity-50 p-5 rounded-md pointer-events-none">
                 <div class="text-neutral-aurora text-xl text-start font-noto-sans font-bold mb-7">
                     Quem é o mais preguiçoso do time da Akiba até agora?
                 </div>
-                <div class="flex flex-col gap-3 mb-7">
-                    <div class="inline-flex items-center">
+                <dl class="flex flex-col gap-3 mb-7">
+                    <dt class="inline-flex items-center">
                         <label class="relative flex items-center cursor-pointer" for="option">
                             <input 
                                 id="option"
@@ -125,8 +125,8 @@
                         <label class="w-full ml-2 flex justify-between text-neutral-aurora text-md font-noto-sans cursor-pointer" for="option">
                             Neko Kirame
                         </label>
-                    </div>
-                    <div class="inline-flex items-center">
+                    </dt>
+                    <dd class="inline-flex items-center">
                         <label class="relative flex items-center cursor-pointer" for="option">
                             <input 
                                 id="option"
@@ -139,8 +139,8 @@
                         <label class="w-full ml-2 flex justify-between text-neutral-aurora text-md font-noto-sans cursor-pointer" for="option">
                             Takashi
                         </label>
-                    </div>
-                    <div class="inline-flex items-center">
+                    </dd>
+                    <dt class="inline-flex items-center">
                         <label class="relative flex items-center cursor-pointer" for="option">
                             <input 
                                 id="option"
@@ -153,8 +153,8 @@
                         <label class="w-full ml-2 flex justify-between text-neutral-aurora text-md font-noto-sans cursor-pointer" for="option">
                             NHK
                         </label>
-                    </div>
-                    <div class="inline-flex items-center">
+                    </dt>
+                    <dd class="inline-flex items-center">
                         <label class="relative flex items-center cursor-pointer" for="option">
                             <input 
                                 id="option"
@@ -167,14 +167,14 @@
                         <label class="w-full ml-2 flex justify-between text-neutral-aurora text-md font-noto-sans cursor-pointer" for="option">
                             Suzuh
                         </label>
-                    </div>
-                </div>
+                    </dd>
+                </dl>
                 <div class="flex justify-between">
                     <button type="submit" class="cursor-pointer text-neutral-aurora text-md font-noto-sans font-bold uppercase italic rounded-sm py-1 px-3 bg-orange-amber">
                         Votar
                     </button>
                 </div>
-            </div>
+            </article>
         {/if}
     </div>
 </Section>

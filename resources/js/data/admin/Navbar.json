@@ -11,7 +11,7 @@
         "name": "Materias",
         "icon": "/svg/default/materials.svg",
         "permissions_keys": [
-            "writer"
+            "administrator", "dev", "writer"
         ],
         "address": "/painel/materias"
     },
@@ -19,7 +19,7 @@
         "name": "Locução",
         "icon": "/svg/default/broadcast.svg",
         "permissions_keys": [
-            "streamer"
+            "administrator", "dev", "streamer"
         ],
         "address": "/painel/locucao"
     },
@@ -27,7 +27,7 @@
         "name": "Rádio",
         "icon": "/svg/default/radio.svg",
         "permissions_keys": [
-            "administrator"
+            "administrator", "dev"
         ],
         "address": "/painel/radio"
     },
@@ -35,7 +35,7 @@
         "name": "Podcasts",
         "icon": "/svg/default/podcasts.svg",
         "permissions_keys": [
-            "podcaster"
+            "administrator", "dev", "podcaster"
         ],
         "address": "/painel/podcasts"
     },
@@ -43,7 +43,7 @@
         "name": "Marketing",
         "icon": "/svg/default/marketing.svg",
         "permissions_keys": [
-            "marketing"
+            "administrator", "dev", "social"
         ],
         "address": "/painel/marketing"
     },
@@ -51,7 +51,7 @@
         "name": "Mídias",
         "icon": "/svg/default/media.svg",
         "permissions_keys": [
-            "marketing"
+            "administrator", "dev", "social"
         ],
         "address": "/painel/medias"
     },
@@ -59,15 +59,15 @@
         "name": "Administração",
         "icon": "/svg/default/adms.svg",
         "permissions_keys": [
-            "administrator"
+            "administrator", "dev"
         ],
-        "address": "/painel/administrator"
+        "address": "/painel/adms"
     },
     {
         "name": "Logs",
         "icon": "/svg/default/logs.svg",
         "permissions_keys": [
-            "administrator"
+            "administrator", "dev"
         ],
         "address": "/painel/logs"
     },

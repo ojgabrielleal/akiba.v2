@@ -16,7 +16,7 @@ async function metadata() {
 
         let music_cover
         if(data.stream.capa_musica === "https://player.painelcast.com/img/img-capa-artista-padrao.png"){
-            music_cover = new URL('/img/default/no_cover.webp', window.location.origin).href
+            music_cover = new URL('/img/default/defaultCover.webp', window.location.origin).href
         }else{
             music_cover = data.stream.capa_musica
         }
@@ -38,7 +38,7 @@ function mediaSession({ title, artist, artwork }) {
             title: title || 'DJ Aki-Chan - Let`s Play Akiba',
             artist: artist || 'Yousei Teikoku - Kuusou Mesorogiwi',
             album: 'Rede Akiba - O Paraíso dos Otakus',
-            artwork: artwork || [{ src: new URL('/img/default/no_cover.webp', window.location.origin).href, sizes: '512x512', type: 'image/png' }]
+            artwork: artwork || [{ src: new URL('/img/default/defaultCover.webp', window.location.origin).href, sizes: '512x512', type: 'image/png' }]
         });
     }
 }

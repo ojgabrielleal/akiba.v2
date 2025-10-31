@@ -40,7 +40,7 @@
         {:else}
             <div class="bg-blue-cerulean opacity-50 flex flex-col gap-2">
                 <div class="h-65 bg-blue-skywave rounded-sm relative overflow-hidden">
-                    <img class="w-full h-65 object-cover aspect-square brightness-50" src="/img/default/default_landscape.webp" alt="" aria-hidden="true"/>
+                    <img class="w-full h-65 object-cover aspect-square brightness-50" src="/img/default/defaultLandscape.webp" alt="" aria-hidden="true"/>
                 </div>
                 <div class="rounded-sm bg-orange-amber py-2 text-neutral-aurora text-center font-noto-sans font-semibold">
                     Shinjuku - Tokyo

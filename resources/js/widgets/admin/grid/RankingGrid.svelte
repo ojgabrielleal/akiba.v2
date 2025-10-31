@@ -3,7 +3,7 @@
     import { Section } from "@/layouts/admin/";
     import { Preview } from "@/components/admin";
 
-    $: ({ ranking_musics } = $page.props);
+    $: ({ rankingMusics } = $page.props);
 
     function updateImageRanking(event, id){
         const formData = new FormData();
@@ -21,8 +21,8 @@
 
 <Section title="Akiba Ranking">
     <div class="flex flex-col gap-5">
-        {#if ranking_musics.length >= 3}
-            {#each ranking_musics as item, index}
+        {#if rankingMusics.length >= 3}
+            {#each rankingMusics as item, index}
                 <article class="flex flex-wrap lg:flex-nowrap items-center gap-5">
                     <div class="flex items-center gap-5">
                         <Preview size="w-[6rem] h-[6rem]" view="w-[6rem] h-[6rem]" src={item.image_ranking} oninput={(event) => (updateImageRanking(event, item.id))}/>
@@ -72,7 +72,7 @@
         {/if}
         </div>
         <div class="flex justify-end mt-7" >
-            <button on:click={()=>setRanking()} disabled={ranking_musics.length < 3} class="cursor-pointer bg-blue-skywave px-4 py-2 rounded-md text-neutral-aurora font-noto-sans font-bold uppercase italic disabled:opacity-50 disabled:pointer-events-none">
+            <button on:click={()=>setRanking()} disabled={rankingMusics.length < 3} class="cursor-pointer bg-blue-skywave px-4 py-2 rounded-md text-neutral-aurora font-noto-sans font-bold uppercase italic disabled:opacity-50 disabled:pointer-events-none">
                 Atualizar ranking
             </button>
         </div>

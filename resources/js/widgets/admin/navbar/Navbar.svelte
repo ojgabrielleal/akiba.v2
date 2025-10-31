@@ -23,7 +23,7 @@
         </ul>
         <div class="absolute -bottom-[1.45rem] right-0 flex items-center gap-2">
             <a href={`/profile/${user.slug}`} aria-label={user.nickname}>
-                <img src={user.avatar} alt={`Avatar de ${user.nickname}`} class="w-16 h-16 rounded-full border-8 border-neutral-aurora" loading="lazy"/>
+                <img src={user.avatar} alt={`Avatar de ${user.nickname}`} class="w-16 h-16 rounded-full object-cover object-top border-8 border-neutral-aurora" loading="lazy"/>
             </a>
         </div>
     </div>
@@ -36,7 +36,7 @@
             <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
     </button>
-    <img src={user.avatar} alt={`Avatar de ${user.nickname}`} class="w-10 h-10 rounded-full" loading="lazy"/>
+    <img src={user.avatar} alt={`Avatar de ${user.nickname}`} class="w-10 h-10 rounded-full object-cover object-top" loading="lazy"/>
 </nav>
 
 <!-- Sidebar Menu -->

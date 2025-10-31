@@ -42,7 +42,7 @@
             {/each}
         {:else}
             <article class="w-full bg-blue-skywave relative opacity-50">
-                <img src="/img/default/default_landscape.webp" alt="" aria-hidden="true" class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
+                <img src="/img/default/defaultLandscape.webp" alt="" aria-hidden="true" class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
                 <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
                     Nada por aqui, até agora
                 </div>
@@ -66,7 +66,7 @@
             {/each}
         {:else}
             <article class="w-full bg-blue-skywave relative opacity-50">
-                <img src="/img/default/default_landscape.webp" alt="" aria-hidden="true" class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
+                <img src="/img/default/defaultLandscape.webp" alt="" aria-hidden="true" class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
                 <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
                     Nada por aqui, até agora
                 </div>
@@ -90,7 +90,7 @@
             {/each}
         {:else}
             <article class="w-full bg-blue-skywave relative opacity-50">
-                <img src="/img/default/default_landscape.webp" alt="" aria-hidden="true" class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
+                <img src="/img/default/defaultLandscape.webp" alt="" aria-hidden="true" class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
                 <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
                     Nada por aqui, até agora
                 </div>
@@ -145,7 +145,7 @@
                     {/each}
                 {:else}
                     <article class="w-full bg-blue-skywave relative opacity-50">
-                        <img src="/img/default/default_landscape.webp" alt="" aria-hidden="true" class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
+                        <img src="/img/default/defaultLandscape.webp" alt="" aria-hidden="true" class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
                         <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
                             Nada por aqui, até agora
                         </div>

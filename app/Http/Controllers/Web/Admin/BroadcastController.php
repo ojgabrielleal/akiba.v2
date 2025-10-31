@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
 
@@ -159,6 +160,8 @@ class BroadcastController extends Controller
                 'phrase.required' => "Qual é a frase para esse programa",
                 'image.required' => "Escolha um icone",
             ]);
+
+            Log::info("Passei aqui iniciando programa");
 
             $user = request()->user();
             $show = Show::where('id', $request->input('show'))->firstOrFail();

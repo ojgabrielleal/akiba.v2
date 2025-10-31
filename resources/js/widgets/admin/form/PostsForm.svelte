@@ -4,7 +4,7 @@
     import { Preview, Wysiwyg } from "@/components/admin";
     import Tags from "@/data/admin/Tags";
     
-    $: ({ screen_permissions, publication } = $page.props);
+    $: ({ screenPermissions, publication } = $page.props);
 
     $: form = useForm({
         _method: null,
@@ -203,7 +203,7 @@
                 <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
                     Mandar para revisão
                 </button>
-                {#if screen_permissions.publish}
+                {#if screenPermissions.publish}
                     <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
                         Publicar
                     </button>

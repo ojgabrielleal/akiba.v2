@@ -7,7 +7,7 @@
 </script>
 
 <Meta meta={{ title: "Realize o Login" }} />
-<div class="relative flex min-h-screen items-center justify-center bg-cover bg-center" style="background-image: url('/img/default/background.webp')">
+<div class="relative flex min-h-screen items-center justify-center bg-cover bg-center" style="background-image: url('/img/default/authBackground.webp')">
     <!-- Overlay escura -->
     <div class="absolute inset-0 bg-black opacity-50"></div>
 

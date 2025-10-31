@@ -229,7 +229,7 @@ class MediasController extends Controller
     public function render()
     {
         return Inertia::render('admin/Medias', [
-            'screen_permissions' => $this->screenPermissions(),
+            'screenPermissions' => $this->screenPermissions(),
             'polls' => $this->listPolls(),
             'events' => $this->listEvents()
         ]);

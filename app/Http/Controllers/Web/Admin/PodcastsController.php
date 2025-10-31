@@ -29,8 +29,8 @@ class PodcastsController extends Controller
             $query->orderBy('created_at', 'desc');
             $podcasts = $query->paginate(10);
 
-            $podcasts->getCollection()->transform(function ($event) use ($user) {
-                $data = $event->toArray();
+            $podcasts->getCollection()->transform(function ($podcast) use ($user) {
+                $data = $podcast->toArray();
                 $data['actions'] = [
                     'editable' => true,
                     'deactivate' => $user->permissions_keys->contains('administrator')

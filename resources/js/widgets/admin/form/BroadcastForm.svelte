@@ -13,11 +13,11 @@
     
     function onSubmit(event) {
         event.preventDefault();
-        $form.post("/painel/locucao/set/finish/broadcast");
+        $form.post("/painel/locucao/set/start/broadcast");
     }
 
     function endBroadcast() {
-        router.post("/painel/locucao/set/start/broadcast");
+        router.post("/painel/locucao/set/end/broadcast");
     }
 </script>
 
@@ -27,7 +27,7 @@
             {#if shows.length > 0}
                 <div class="flex flex-wrap justify-center gap-15 lg:gap-x-0 lg:gap-y-15 0 mt-10 mb-20">
                     {#each shows as item}
-                        <button on:click={() => ($form.show = item.id)} type="button" aria-label={item.name} class="cursor-pointer lg:px-10 lg:border-r-2 lg:border-neutral-opacity lg:last:border-0">
+                        <button on:click={() => ($form.show = item.id)} type="button" aria-label={item.name} class="cursor-pointer lg:px-10 lg:border-r-2 lg:border-neutral-aurora/10 lg:last:border-0">
                             <img src={item.image} alt="" aria-hidden="true" class={`w-60 transition duration-300 ease-in-out ${$form.show === item.id ? "opacity-50 scale-90" : "opacity-100"}`} loading="lazy"/>
                         </button>
                     {/each}

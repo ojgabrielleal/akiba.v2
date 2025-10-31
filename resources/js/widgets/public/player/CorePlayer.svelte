@@ -17,7 +17,7 @@
 <article class="mt-9 lg:mt-15 bg-blue-ocean">
     <div class="container-player w-full flex justify-center relative">
         <div class="hidden lg:block absolute -top-7 left-0">
-            <img src="/img/default/rains.webp" alt="" aria-hidden="true" class="w-[5rem] transform -scale-x-100 -scale-y-100" loading="lazy"/>
+            <img src="/img/default/playerRains.webp" alt="" aria-hidden="true" class="w-[5rem] transform -scale-x-100 -scale-y-100" loading="lazy"/>
         </div>
         <!-- svelte-ignore a11y_distracting_elements -->
         <marquee class="w-5xl relative flex overflow-x-hidden marquee-container">
@@ -29,7 +29,7 @@
             <img src={$metadata?.onair.image} alt="" aria-hidden="true" class="w-[8rem]" loading="lazy"/>
         </div>
         <div class="hidden lg:block absolute -top-8 right-0 z-10">
-            <img src="/img/default/rains.webp" alt="" aria-hidden="true" class="w-[5rem]" loading="lazy"/>
+            <img src="/img/default/playerRains.webp" alt="" aria-hidden="true" class="w-[5rem]" loading="lazy"/>
         </div>
     </div>
 </article>
@@ -80,9 +80,9 @@
             <dl class="flex gap-3 items-end mt-14 lg:mt-10">
                 <dt class="w-[5rem] shrink-0">
                     {#if $metadata?.stream.capa_musica === "https://player.painelcast.com/img/img-capa-artista-padrao.png"}
-                        <img src="/img/default/no_cover.webp" on:error={(e) => e.target.src = '/img/default/no_cover.webp'} alt="" aria-hidden="true" class="rounded-lg" loading="lazy"/>
+                        <img src="/img/default/defaultCover.webp" on:error={(e) => e.target.src = '/img/default/defaultCover.webp'} alt="" aria-hidden="true" class="rounded-lg" loading="lazy"/>
                     {:else}
-                        <img src={$metadata?.stream.capa_musica} on:error={(e) => e.target.src = '/img/default/no_cover.webp'} alt="" aria-hidden="true" class="rounded-lg" loading="lazy"/>
+                        <img src={$metadata?.stream.capa_musica} on:error={(e) => e.target.src = '/img/default/defaultCover.webp'} alt="" aria-hidden="true" class="rounded-lg" loading="lazy"/>
                     {/if}
                 </dt>
                 <dd>

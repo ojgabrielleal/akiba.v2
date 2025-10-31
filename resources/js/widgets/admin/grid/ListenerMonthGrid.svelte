@@ -4,7 +4,7 @@
     import { Offcanvas } from "@/components/admin";
     import { ListenerMonthForm } from "@/widgets/admin/form";
 
-    $: ({ listener_month_registered } = $page.props);
+    $: ({ listenerMonthRegistered } = $page.props);
 </script>
 
 <Section title="Ouvinte do mês">
@@ -15,7 +15,7 @@
                     Nome:
                 </dt>
                 <dd class="block text-neutral-aurora font-noto-sans uppercase">
-                    {listener_month_registered?.listener || "Aki-Chan"}
+                    {listenerMonthRegistered?.listener || "Aki-Chan"}
                 </dd>
             </div>
             <div class="mb-8">
@@ -23,7 +23,7 @@
                     Mora em:
                 </dt>
                 <dd class="block text-neutral-aurora font-noto-sans uppercase">
-                    {listener_month_registered?.address || "Shinjuku - Tokyo"}
+                    {listenerMonthRegistered?.address || "Shinjuku - Tokyo"}
                 </dd>
             </div>
             <div class="mb-8">
@@ -31,7 +31,7 @@
                     Número de pedidos feitos:
                 </dt>
                 <dd class="block text-neutral-aurora font-noto-sans uppercase">
-                    {listener_month_registered?.requests_total || "+8000"}
+                    {listenerMonthRegistered?.requests_total || "+8000"}
                 </dd>
             </div>
             <div class="mb-8">
@@ -39,7 +39,7 @@
                     Programa preferido
                 </dt>
                 <dd class="block text-neutral-aurora font-noto-sans uppercase">
-                    {listener_month_registered?.favorite_show || "Plantão Ecchi"}
+                    {listenerMonthRegistered?.favorite_show || "Plantão Ecchi"}
                 </dd>
             </div>
         </dl>
@@ -48,7 +48,7 @@
                 <span class="text-orange-amber font-bold italic text-sm uppercase font-noto-sans block">
                     Imagem do ouvinte
                 </span>
-                <image src={listener_month_registered?.image ?? "/img/default/default_avatar_full.webp"} alt="Imagem do ouvinte" class="w-[9rem] h-[9rem] bg-gray-600 rounded-lg"/>
+                <image src={listenerMonthRegistered?.image ?? "/img/default/defaultAvatarFull.webp"} alt="Imagem do ouvinte" class="w-[9rem] h-[9rem] bg-gray-600 rounded-lg"/>
             </div>
             <Offcanvas>
                 <div class="cursor-pointer bg-blue-skywave px-4 py-2 rounded-md text-neutral-aurora font-noto-sans font-bold uppercase italic" slot="action">
