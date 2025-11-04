@@ -24,10 +24,10 @@ class PostsController extends Controller
     public function screenPermissions()
     {
         try{
-            $user = request()->user();
+            $logged = request()->user();
 
             return [
-                'publish' => $user->permissions_keys->contains('administrator'),
+                'publish' => $logged->permissions_keys->contains('administrator'),
             ];
         } catch (\Throwable $e) {
             return $this->provideException($e);
@@ -37,12 +37,12 @@ class PostsController extends Controller
     public function listPosts()
     {
         try {
-            $user = request()->user();
+            $logged = request()->user();
 
             $query = Post::orderBy('created_at', 'desc');
             $query->with('user');
-            $query->when(!$user->permissions_keys->contains('administrator'), function ($q) use ($user) {
-                $q->where('user_id', $user->id);
+            $query->when(!$logged->permissions_keys->contains('administrator'), function ($q) use ($logged) {
+                $q->where('user_id', $logged->id);
             });
             $posts = $query->paginate(10);
 
@@ -59,11 +59,11 @@ class PostsController extends Controller
                 ];
             }
 
-            $posts->getCollection()->transform(function ($post) use ($user) {
+            $posts->getCollection()->transform(function ($post) use ($logged) {
                 $data = $post->toArray();
                 $data['styles'] = resolvePostAppareace($post);
                 $data['actions'] = [
-                    'editable' => $user->permissions_keys->contains('administrator') || $post->user_id == $user->id,
+                    'editable' => $logged->permissions_keys->contains('administrator') || $post->user_id == $logged->id,
                 ];
                 return $data;
             });
@@ -175,8 +175,6 @@ class PostsController extends Controller
                 "first_category.required" => "Primeira tag",
                 "second_category.required" => "Segunda tag",
             ]);
-
-            Log::info($request);
 
             $post = Post::where('id', $id)->with(['references', 'categories'])->firstOrFail();
             $post->update([

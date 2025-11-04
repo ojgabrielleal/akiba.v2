@@ -35,13 +35,14 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'birthday' => 'date',
+        'birthday' => 'date:Y-m-d',
         'password' => 'hashed',
     ];
 
     protected $with = [
         'permissions', 
-        'externalLinks'
+        'externalLinks',
+        'likes'
     ];
 
     protected $appends = ['permissions_keys'];
@@ -66,6 +67,11 @@ class User extends Authenticatable
     public function permissions()
     {
         return $this->hasMany(UserPermission::class, 'user_id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(UserLike::class, 'user_id');
     }
 
     /** 

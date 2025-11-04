@@ -8,7 +8,7 @@
 </script>
 
 <Section title="Ouvinte do mês">
-    <div class="grid grid-cols-1 lg:grid-cols-2 pt-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2">
         <dl class="grid grid-cols-2">
             <div class="mb-8">
                 <dt class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans">

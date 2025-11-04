@@ -35,9 +35,17 @@
                     <div class="rounded-full p-2 bg-neutral-aurora text-xs text-blue-indigo font-noto-sans font-bold uppercase italic">
                         {item.highest_role}
                     </div>
-                    <button type="button" aria-label="Confirmar alerta" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
-                        <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
-                    </button>
+                    <div class="flex flex-wrap lg:flex-nowrap gap-2">
+                        <button aria-label="Alterar senha" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
+                            <img src="/svg/default/crown.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
+                        </button>
+                        <button aria-label="Alterar senha" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
+                            <img src="/svg/default/key.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
+                        </button>
+                        <a href={`/painel/profile/${item.slug}`} aria-label="Editar perfil" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
+                            <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
+                        </a>
+                    </div>
                 </div>
             </article>
         {/each}

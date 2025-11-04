@@ -25,7 +25,7 @@ class BroadcastController extends Controller
     public function setCheckOnair()
     {
         try {
-            $user = request()->user();
+            $logged = request()->user();
             $onair = Onair::where('is_live', true)->firstOrFail();
 
             $response = [
@@ -45,7 +45,7 @@ class BroadcastController extends Controller
 
                 if ($onair->program_type === "App\Models\Show") {
                     $response['onair'] = true;
-                    $response['streamer'] = $show->user_id === $user->id;
+                    $response['streamer'] = $show->user_id === $logged->id;
                     $response['listener_request'] = $onair->listener_request_status;
                 }
             }
@@ -59,12 +59,12 @@ class BroadcastController extends Controller
     public function listShows()
     {
         try {
-            $user = request()->user();
+            $logged = request()->user();
 
             $query = Show::orderBy('created_at', 'desc');
             $query->with('user');
             $query->where('is_active', true);
-            $query->where(function ($q) use ($user) { $q->where('user_id', $user->id)->orWhere('is_all', true); });
+            $query->where(function ($q) use ($logged) { $q->where('user_id', $logged->id)->orWhere('is_all', true); });
             $shows = $query->get();
 
             return $shows;
@@ -161,15 +161,13 @@ class BroadcastController extends Controller
                 'image.required' => "Escolha um icone",
             ]);
 
-            Log::info("Passei aqui iniciando programa");
-
-            $user = request()->user();
+            $logged = request()->user();
             $show = Show::where('id', $request->input('show'))->firstOrFail();
 
             if ($show->is_all) {
-                if ($show->user_id !== $user->id) {
+                if ($show->user_id !== $logged->id) {
                     $show->update([
-                        'user_id' => $user->id
+                        'user_id' => $logged->id
                     ]);
                 }
             }
@@ -189,7 +187,7 @@ class BroadcastController extends Controller
             if(env('APP_ENV') === "production"){
                 $webhook_discord = env('URL_DISCORD_WEBHOOK');
                 $payload = [
-                    'content' => "@everyone @here Oi meus amores! Só estou passando para avisar que" . ($user->gender === "male" ? " O DJ " : " A DJ ") . $user->nickname . " está no ar agora com o programa " . $show->name . "! Vem ouvir em https://akiba.com.br"          
+                    'content' => "@everyone @here Oi meus amores! Só estou passando para avisar que" . ($logged->gender === "male" ? " O DJ " : " A DJ ") . $logged->nickname . " está no ar agora com o programa " . $show->name . "! Vem ouvir em https://akiba.com.br"          
                 ];
                 Http::post($webhook_discord, $payload);
             } 

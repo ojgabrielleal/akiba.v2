@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserExternalLink extends Model
+class UserLike extends Model
 {
-    protected $table = 'users_externals_links';
+    protected $table = 'users_likes';
 
     protected $fillable = [
         'user_id',
-        'name',
-        'url',
+        'category',
+        'content'
     ];
 
     protected $hidden = [
@@ -21,7 +21,7 @@ class UserExternalLink extends Model
     /**
      * Relationship from model 'Users'
      */
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

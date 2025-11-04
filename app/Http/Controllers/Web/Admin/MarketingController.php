@@ -24,10 +24,10 @@ class MarketingController extends Controller
     public function permissions()
     {
         try{
-            $user = request()->user();
+            $logged = request()->user();
 
             return [
-                'all' => $user->permissions_keys->contains('administrator')
+                'all' => $logged->permissions_keys->contains('administrator')
             ];
         }catch (\Throwable $e) {
             $this->provideException($e);

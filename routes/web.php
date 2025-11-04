@@ -117,7 +117,8 @@ Route::prefix('painel')->group(function () {
         });
         Route::prefix('/profile')->group(function () {
             Route::controller(ProfileController::class)->group(function () {
-                Route::get('/', 'render')->name('render.painel.profile');
+                Route::get('/{slug?}', 'render')->name('render.painel.profile');
+                Route::put('/update/{id}', 'updateProfile');
             });
         });
     });

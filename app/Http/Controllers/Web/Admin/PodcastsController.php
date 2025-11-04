@@ -23,17 +23,17 @@ class PodcastsController extends Controller
     public function listPodcasts()
     {
         try{
-            $user = request()->user();
+            $logged = request()->user();
 
             $query = Podcast::where('is_active', true);
             $query->orderBy('created_at', 'desc');
             $podcasts = $query->paginate(10);
 
-            $podcasts->getCollection()->transform(function ($podcast) use ($user) {
+            $podcasts->getCollection()->transform(function ($podcast) use ($logged) {
                 $data = $podcast->toArray();
                 $data['actions'] = [
                     'editable' => true,
-                    'deactivate' => $user->permissions_keys->contains('administrator')
+                    'deactivate' => $logged->permissions_keys->contains('administrator')
                 ];
                 return $data;
             });
@@ -76,13 +76,13 @@ class PodcastsController extends Controller
                 'audio.required' => 'URL Embeded do Spotify do episódio'
             ]);
 
-            $user = request()->user();
+            $logged = request()->user();
         
             $exists = Podcast::where('season', $request->input('season'))->where('episode', $request->input('episode'))->exists();
             if($exists) throw new AlreadyExistsException();
 
             Podcast::create([
-                'user_id' => $user->id,
+                'user_id' => $logged->id,
                 'slug' => Str::slug($request->input('title')),
                 'image' => $this->uploadImage('podcasts', $request->file('image')),
                 'season' => $request->input('season'),

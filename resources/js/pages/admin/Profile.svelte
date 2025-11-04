@@ -1,10 +1,10 @@
 <script>
     import { Meta } from "@/meta";
     import { Layout } from "@/layouts/admin";
-    import { UsersForm } from "@/widgets/admin/form";
+    import { ProfileForm } from "@/widgets/admin/form";
 </script>
 
 <Meta meta={{ title: "Profile" }} />
 <Layout>
-    <UsersForm/>
+    <ProfileForm/>
 </Layout>

@@ -24,17 +24,17 @@ class DashboardController extends Controller
     public function listAlerts()
     {
         try {
-            $user = request()->user();
+            $logged = request()->user();
 
             $query = Alert::limit(6);
             $query->orderBy('created_at', 'desc');
-            $query->whereDoesntHave('signatures', function ($query) use ($user) { $query->where('user_id', $user->id); });
+            $query->whereDoesntHave('signatures', function ($query) use ($logged) { $query->where('user_id', $logged->id); });
             $query->with(['user', 'signatures' => function ($query) { $query->limit(4)->with('user'); }]);
             $alerts = $query->get();
 
-            $alerts = $alerts->map(function ($alert) use ($user) {
+            $alerts = $alerts->map(function ($alert) use ($logged) {
                 $data = $alert->toArray();
-                $data['actions'] = [ 'confirm' => $user->id === $alert->user->id ];
+                $data['actions'] = [ 'confirm' => $logged->id === $alert->user->id ];
                 return $data;
             });
 
@@ -47,11 +47,11 @@ class DashboardController extends Controller
     public function createAlertSignature(Request $request, $id)
     {
         try {
-            $user = $request->user();
+            $logged = $request->user();
             $alert = Alert::where('id', $id)->firstOrFail();
 
             AlertSignature::create([
-                'user_id' => $user->id,
+                'user_id' => $logged->id,
                 'alert_id' => $alert->id,
             ]);
 
@@ -64,13 +64,13 @@ class DashboardController extends Controller
     public function listTasks()
     {
         try {
-            $user = request()->user();
+            $logged = request()->user();
 
             $query = Task::orderBy('created_at', 'desc');
-            $query->where('user_id', $user->id);
+            $query->where('user_id', $logged->id);
             $query->with('user');
             $query->where('completed', 0);
-            $query->where('user_id', $user->id);
+            $query->where('user_id', $logged->id);
             $tasks = $query->get();
 
             function resolveTaskAppearance($task)
@@ -141,20 +141,20 @@ class DashboardController extends Controller
     public function listLastsPosts()
     {
         try {
-            $user = request()->user();
+            $logged = request()->user();
 
             $query = Post::orderBy('created_at', 'desc');
             $query->where('status', 'published');
             $query->with('user');
             $posts = $query->paginate(5);
 
-            $posts->getCollection()->transform(function ($post) use ($user) {
+            $posts->getCollection()->transform(function ($post) use ($logged) {
                 $data = $post->toArray();
                 $data['styles'] = [ 
                     'bg' => 'var(--color-blue-skywave)' 
                 ];
                 $data['actions'] = [
-                    'editable' => $user->permissions_keys->contains('administrator') || $post->user_id == $user->id
+                    'editable' => $logged->permissions_keys->contains('administrator') || $post->user_id == $logged->id
                 ];
                 return $data;
             });

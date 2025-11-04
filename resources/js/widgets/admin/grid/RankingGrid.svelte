@@ -25,7 +25,7 @@
             {#each rankingMusics as item, index}
                 <article class="flex flex-wrap lg:flex-nowrap items-center gap-5">
                     <div class="flex items-center gap-5">
-                        <Preview size="w-[6rem] h-[6rem]" view="w-[6rem] h-[6rem]" src={item.image_ranking} oninput={(event) => (updateImageRanking(event, item.id))}/>
+                        <Preview standard="w-[6rem] h-[6rem] rounded-lg" view="w-[6rem] h-[6rem]" src={item.image_ranking} oninput={(event) => (updateImageRanking(event, item.id))}/>
                         <strong class="text-neutral-aurora text-6xl font-noto-sans font-bold uppercase italic">
                             #{index + 1}
                         </strong>
@@ -37,7 +37,7 @@
             {/each} 
         {:else}
             <article class="flex flex-wrap lg:flex-nowrap items-center gap-5 opacity-50 pointer-events-none">
-                <Preview size="w-[6rem] h-[6rem]" view="w-[6rem] h-[6rem]"/>
+                <Preview standard="w-[6rem] h-[6rem] rounded-lg" view="w-[6rem] h-[6rem]"/>
                 <div class="flex items-center gap-5">
                     <strong class="text-neutral-aurora text-6xl font-noto-sans font-bold uppercase italic">
                         #1
@@ -48,7 +48,7 @@
                 </div>
             </article>
             <article class="flex flex-wrap lg:flex-nowrap items-center gap-5 opacity-50 pointer-events-none">
-                <Preview size="w-[6rem] h-[6rem]" view="w-[6rem] h-[6rem]"/>
+                <Preview standard="w-[6rem] h-[6rem] rounded-lg" view="w-[6rem] h-[6rem]"/>
                 <div class="flex items-center gap-5">
                     <strong class="text-neutral-aurora text-6xl font-noto-sans font-bold uppercase italic">
                         #2
@@ -59,7 +59,7 @@
                 </div>
             </article>
             <article class="flex flex-wrap lg:flex-nowrap items-center gap-5 opacity-50 pointer-events-none">
-                <Preview size="w-[6rem] h-[6rem]" view="w-[6rem] h-[6rem]"/>
+                <Preview standard="w-[6rem] h-[6rem] rounded-lg" view="w-[6rem] h-[6rem]"/>
                 <div class="flex items-center gap-5">
                     <strong class="text-neutral-aurora text-6xl font-noto-sans font-bold uppercase italic">
                         #3

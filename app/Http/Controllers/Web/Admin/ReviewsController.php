@@ -23,19 +23,19 @@ class ReviewsController extends Controller
     public function getReviews()
     {
         try {
-            $user = request()->user();
+            $logged = request()->user();
 
             $query = Review::orderBy('created_at', 'desc');
             $query->with('reviews');
             $reviews = $query->paginate(10);
 
-            $reviews->getCollection()->transform(function ($review) use ($user) {
+            $reviews->getCollection()->transform(function ($review) use ($logged) {
                 $data = $review->toArray();
                 $data['actions'] = [
                     'editable' => true,
                 ];
                 $data['styles'] = [
-                    'bg' => $review->reviews->contains('user_id', $user->id) ? 'var(--color-purple-mystic)' : 'var(--color-blue-skywave)',
+                    'bg' => $review->reviews->contains('user_id', $logged->id) ? 'var(--color-purple-mystic)' : 'var(--color-blue-skywave)',
                 ];
                 return $data;
             });
@@ -50,19 +50,19 @@ class ReviewsController extends Controller
     {
         try {
             if($slug){
-                $user = request()->user();
+                $logged = request()->user();
     
                 $query = Review::with('reviews.user');
                 $query->where('slug', $slug);
                 $review = $query->firstOrFail();
     
-                $verify  = $review->reviews->contains('user_id', $user->id);
+                $verify  = $review->reviews->contains('user_id', $logged->id);
                 if (!$verify) {
                     $placeholder = (object) [
-                        'user_id' => $user->id,
+                        'user_id' => $logged->id,
                         'user' => (object) [
-                            'id' => $user->id,
-                            'nickname' => $user->nickname,
+                            'id' => $logged->id,
+                            'nickname' => $logged->nickname,
                         ],
                         'content' => ''
                     ];

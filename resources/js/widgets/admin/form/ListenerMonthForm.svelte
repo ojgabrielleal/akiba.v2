@@ -26,7 +26,7 @@
 <form on:submit={onSubmit}>
     <div class="mb-4">
         <Preview
-            size="w-full h-[10rem]"
+            standard="w-full h-[10rem] rounded-lg"
             name="image"
             oninput={(event) => ($form.image = event.target.files[0])}
         />

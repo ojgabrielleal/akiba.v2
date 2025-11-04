@@ -22,7 +22,7 @@
         {/each}
         </ul>
         <div class="absolute -bottom-[1.45rem] right-0 flex items-center gap-2">
-            <a href={`/profile/${user.slug}`} aria-label={user.nickname}>
+            <a href={`/painel/profile/${user.slug}`} aria-label={user.nickname}>
                 <img src={user.avatar} alt={`Avatar de ${user.nickname}`} class="w-16 h-16 rounded-full object-cover object-top border-8 border-neutral-aurora" loading="lazy"/>
             </a>
         </div>

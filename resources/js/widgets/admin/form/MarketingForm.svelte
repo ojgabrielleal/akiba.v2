@@ -45,7 +45,7 @@
     <div class="mb-4">
         <Preview 
             name="image" 
-            size="w-full h-[10rem]"
+            standard="w-full h-[10rem] rounded-lg"
             src={$form.image}
             oninput={event => $form.image = event.target.files[0]}
         />
