@@ -1,12 +1,9 @@
 <script>
     import { page, Link } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";   
-    
-    $: ({ users } = $page.props);
+    import { Offcanvas } from "@/components/admin";
 
-    $: if(users){
-        console.log(users)
-    }
+    $: ({ users } = $page.props);
 </script>
 
 <div class="flex justify-center gap-5 mb-5">
@@ -36,12 +33,28 @@
                         {item.highest_role}
                     </div>
                     <div class="flex flex-wrap lg:flex-nowrap gap-2">
-                        <button aria-label="Alterar senha" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
-                            <img src="/svg/default/crown.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
-                        </button>
-                        <button aria-label="Alterar senha" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
-                            <img src="/svg/default/key.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
-                        </button>
+                        <Offcanvas>
+                            <div aria-label="Definir permissões" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer" slot="action">
+                                <img src="/svg/default/crown.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
+                            </div>
+                            <div slot="title">
+                                Definir permissões
+                            </div>
+                            <div slot="content" let:close>
+                                #
+                            </div>
+                        </Offcanvas>
+                        <Offcanvas>
+                            <div aria-label="Alterar senha" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer" slot="action">
+                                <img src="/svg/default/key.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
+                            </div>
+                            <div slot="title">
+                                Alterar senha
+                            </div>
+                            <div slot="content" let:close>
+                                #
+                            </div>
+                        </Offcanvas>
                         <Link href={`/painel/profile/${item.slug}`} aria-label="Editar perfil" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
                             <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
                         </Link>
