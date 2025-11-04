@@ -6,10 +6,6 @@
 
     $: ({ profile } = $page.props);
 
-    $:if(profile){
-        console.log(profile)
-    }
-
     $:form = useForm({
         _method: "PUT",
         name: profile?.name,
@@ -94,7 +90,7 @@
                             bind:value={$form.gender}
                         >
                             <option value="male">Masculino</option>
-                            <option value="feminino">Feminino</option>
+                            <option value="female">Feminino</option>
                         </select>
                     </div>
                     <div>

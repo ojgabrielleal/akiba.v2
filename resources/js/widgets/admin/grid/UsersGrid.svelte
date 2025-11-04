@@ -1,5 +1,5 @@
 <script>
-    import { page, router } from "@inertiajs/svelte";
+    import { page, Link } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";   
     
     $: ({ users } = $page.props);
@@ -42,9 +42,9 @@
                         <button aria-label="Alterar senha" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
                             <img src="/svg/default/key.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
                         </button>
-                        <a href={`/painel/profile/${item.slug}`} aria-label="Editar perfil" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
+                        <Link href={`/painel/profile/${item.slug}`} aria-label="Editar perfil" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
                             <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </article>

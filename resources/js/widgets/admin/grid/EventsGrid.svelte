@@ -1,5 +1,5 @@
 <script>
-    import { router, page } from "@inertiajs/svelte";
+    import { router, page, Link } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";    
 
     $: ({ events } = $page.props);
@@ -18,9 +18,9 @@
                         <img class="w-full h-65 object-cover aspect-square brightness-50" src={item.cover} alt={`Evento ${item.title}`}/>
                         <div class="flex gap-4 absolute bottom-3 right-3">
                             {#if item.actions.editable}
-                                <a href={`/painel/eventos/${item.slug}`} type="button" class="cursor-pointer" aria-label="Editar">
+                                <Link href={`/painel/eventos/${item.slug}`} type="button" class="cursor-pointer" aria-label="Editar">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                                </a>
+                                </Link>
                             {/if}
                             {#if item.actions.deactivate}
                                 <button on:click={()=>deactivateEvent(item.id)} type="button" class="cursor-pointer" aria-label="Desativar">

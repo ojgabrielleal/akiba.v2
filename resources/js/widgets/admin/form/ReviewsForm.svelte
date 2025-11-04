@@ -1,5 +1,5 @@
 <script>
-    import { page, useForm } from "@inertiajs/svelte";
+    import { page, useForm, Link } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin";
     import { Preview, Wysiwyg } from "@/components/admin";
 
@@ -40,15 +40,15 @@
 
 <Section title={publication ? "Editar review" : "Criar review"}>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
-        <a href="/painel/materias" class="cursor-pointer border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl text-center uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
+        <Link preserveState={false} href="/painel/materias" class="cursor-pointer border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-center text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
             Matérias
-        </a>
-        <a href="/painel/reviews" class="cursor-pointer border-4 border-solid border-purple-mystic rounded-xl text-purple-mystic text-xl text-center uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
+        </Link>
+        <Link preserveState={false} href="/painel/reviews" class="cursor-pointer border-4 border-solid border-purple-mystic rounded-xl text-purple-mystic text-xl text-center uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
             Reviews
-        </a>
-        <a href="/painel/eventos" class="cursor-pointer border-4 border-solid border-orange-copper rounded-xl text-orange-copper text-xl text-center uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
+        </Link>
+        <Link preserveState={false} href="/painel/eventos" class="cursor-pointer border-4 border-solid border-orange-copper rounded-xl text-orange-copper text-xl text-center uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
             Eventos
-        </a>
+        </Link>
     </div>        
     <form class="mt-10 xl:mt-25" on:submit={onSubmit}>
         <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">

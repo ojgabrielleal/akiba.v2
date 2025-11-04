@@ -27,7 +27,7 @@ class MarketingController extends Controller
             $logged = request()->user();
 
             return [
-                'all' => $logged->permissions_keys->contains('administrator')
+                'all' => $logged->permissions_keys->intersect(['administrator', 'dev'])->isNotEmpty()
             ];
         }catch (\Throwable $e) {
             $this->provideException($e);

@@ -1,5 +1,5 @@
 <script>
-    import { router, page } from "@inertiajs/svelte";
+    import { router, page, Link } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
 
     $: ({ podcasts } = $page.props);
@@ -23,9 +23,9 @@
                             </dt>
                             <dd class="flex items-center gap-3">
                                 {#if item.actions.editable}
-                                    <a href={`/painel/podcasts/${item.slug}`} aria-label="Editar">
+                                    <Link href={`/painel/podcasts/${item.slug}`} aria-label="Editar">
                                         <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                                    </a>
+                                    </Link>
                                 {/if}
                                 {#if item.actions.deactivate}
                                     <button on:click={()=>deactivatePodcast(item.id)} class="cursor-pointer" aria-label="Desativar">

@@ -1,5 +1,5 @@
 <script>
-    import { page, router } from "@inertiajs/svelte";
+    import { page, router, Link} from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin";
     import { Offcanvas } from "@/components/admin";
     import { MarketingForm } from "@/widgets/admin/form";
@@ -32,12 +32,12 @@
         {#if repositories?.tutorials.length > 0}
             {#each repositories?.tutorials as item}
                 <article class="w-full bg-blue-skywave relative">
-                    <a href={item.file} target="_blank">
-                    <img src={item.image} alt={item.name} class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
-                    <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
-                        {item.name}
-                    </div>
-                    </a>
+                    <Link href={item.file} target="_blank">
+                        <img src={item.image} alt={item.name} class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
+                        <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
+                            {item.name}
+                        </div>
+                    </Link>
                 </article>
             {/each}
         {:else}
@@ -56,12 +56,12 @@
         {#if repositories?.installers.length > 0}
             {#each repositories?.installers as item}
                 <article class="w-full bg-blue-skywave relative">
-                    <a href={item.file} target="_blank">
+                    <Link href={item.file} target="_blank">
                         <img src={item.image} alt={item.name} class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
                         <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
                             {item.name}
                         </div>
-                    </a>
+                    </Link>
                 </article>
             {/each}
         {:else}
@@ -80,12 +80,12 @@
         {#if repositories?.packages.length > 0}
             {#each repositories?.packages as item}
                 <article class="w-full bg-blue-skywave relative">
-                    <a href={item.file} target="_blank">
+                    <Link href={item.file} target="_blank">
                         <img src={item.image} alt={item.name} class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
                         <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
                             {item.name}
                         </div>
-                    </a>
+                    </Link>
                 </article>
             {/each}
         {:else}
@@ -119,12 +119,12 @@
                 {#if repositories?.all.length > 0}
                     {#each repositories?.all as item}
                         <article class="w-full bg-blue-skywave relative">
-                            <a href={item.file} target="_blank">
+                            <Link href={item.file} target="_blank">
                                 <img src={item.image} alt={item.name}  class="w-full h-[12rem] object-cover aspect-square" loading="lazy"/>
                                 <div class="p-2 text-neutral-aurora text-center font-noto-sans font-light">
                                     {item.name}
                                 </div>
-                            </a>
+                            </Link>
                             <div class="absolute -bottom-9 right-0 flex flex-row gap-4">
                                 <Offcanvas>
                                     <div class="cursor-pointer" slot="action" >

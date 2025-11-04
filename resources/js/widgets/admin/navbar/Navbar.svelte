@@ -1,5 +1,5 @@
 <script>
-    import { page } from "@inertiajs/svelte";
+    import { page, Link } from "@inertiajs/svelte";
     import Items from "@/data/admin/Navbar";
 
     $: ({ user } = $page.props);
@@ -14,17 +14,17 @@
         {#each Items as item}
             {#if item.permissions_keys.includes('all') || item.permissions_keys.some(p => user.permissions_keys.includes(p))}
                 <li>
-                    <a href={item.address} aria-label={item.name} class="flex items-center gap-2 text-neutral-aurora hover:text-[var(--color-neutral-aurora-dark)]">
+                    <Link href={item.address} aria-label={item.name} class="flex items-center gap-2 text-neutral-aurora hover:text-[var(--color-neutral-aurora-dark)]">
                         <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>
-                    </a>
+                    </Link>
                 </li>
             {/if}
         {/each}
         </ul>
         <div class="absolute -bottom-[1.45rem] right-0 flex items-center gap-2">
-            <a href={`/painel/profile/${user.slug}`} aria-label={user.nickname}>
+            <Link href={`/painel/profile/${user.slug}`} aria-label={user.nickname}>
                 <img src={user.avatar} alt={`Avatar de ${user.nickname}`} class="w-16 h-16 rounded-full object-cover object-top border-8 border-neutral-aurora" loading="lazy"/>
-            </a>
+            </Link>
         </div>
     </div>
 </nav>
@@ -54,10 +54,10 @@
         {#each Items as item}
             {#if item.permissions_keys.includes('all') || item.permissions_keys.some(p => user.permissions_keys.includes(p))}
                 <li>
-                    <a href={item.address} aria-label={item.name} class="flex items-center gap-3 text-gray-800 hover:text-blue-600">
+                    <Link href={item.address} aria-label={item.name} class="flex items-center gap-3 text-gray-800 hover:text-blue-600">
                         <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>
                         <span>{item.name}</span>
-                    </a>
+                    </Link>
                 </li>
             {/if}
         {/each}

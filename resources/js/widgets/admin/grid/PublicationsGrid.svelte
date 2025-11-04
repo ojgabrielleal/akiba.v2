@@ -3,7 +3,7 @@
     export let view = null;
     export let edit = null;
 
-    import { router, page } from "@inertiajs/svelte";
+    import { router, page, Link } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
 
     $: ({ publications } = $page.props);
@@ -28,13 +28,13 @@
                             {item?.user?.nickname}
                         </dt>
                         <dd class="flex gap-3">
-                            <a href={`${view}${item.slug}`} aria-label="Visualizar" class="cursor-pointer">
+                            <Link href={`${view}${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
                                 <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                            </a>
+                            </Link>
                             {#if item.actions.editable}
-                                <a href={`${edit}${item.slug}`} aria-label="Editar" class="cursor-pointer">
+                                <Link href={`${edit}${item.slug}`} aria-label="Editar" class="cursor-pointer">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
-                                </a>
+                                </Link>
                             {/if}
                         </dd>
                     </dl>
