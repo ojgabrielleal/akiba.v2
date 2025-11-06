@@ -8,46 +8,46 @@
 </script>
 
 <Section title="Ouvinte do mês">
-    <div class="grid grid-cols-1 lg:grid-cols-2">
-        <dl class="grid grid-cols-2">
-            <div class="mb-8">
+    <article class="grid grid-cols-1 lg:grid-cols-2">
+        <div class="grid grid-cols-2">
+            <dl class="mb-8">
                 <dt class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans">
                     Nome:
                 </dt>
                 <dd class="block text-neutral-aurora font-noto-sans uppercase">
                     {listenerMonthRegistered?.listener || "Aki-Chan"}
                 </dd>
-            </div>
-            <div class="mb-8">
+            </dl>
+            <dl class="mb-8">
                 <dt class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block">
                     Mora em:
                 </dt>
                 <dd class="block text-neutral-aurora font-noto-sans uppercase">
                     {listenerMonthRegistered?.address || "Shinjuku - Tokyo"}
                 </dd>
-            </div>
-            <div class="mb-8">
+            </dl>
+            <dl class="mb-8">
                 <dt class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block">
                     Número de pedidos feitos:
                 </dt>
                 <dd class="block text-neutral-aurora font-noto-sans uppercase">
                     {listenerMonthRegistered?.requests_total || "+8000"}
                 </dd>
-            </div>
-            <div class="mb-8">
+            </dl>
+            <dl class="mb-8">
                 <dt class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block">
                     Programa preferido
                 </dt>
                 <dd class="block text-neutral-aurora font-noto-sans uppercase">
                     {listenerMonthRegistered?.favorite_show || "Plantão Ecchi"}
                 </dd>
-            </div>
-        </dl>
+            </dl>
+        </div>
         <div class="flex gap-5 items-center justify-end">
             <div>
-                <span class="text-orange-amber font-bold italic text-sm uppercase font-noto-sans block">
+                <div class="text-orange-amber font-bold italic text-sm uppercase font-noto-sans block">
                     Imagem do ouvinte
-                </span>
+                </div>
                 <image src={listenerMonthRegistered?.image ?? "/img/default/defaultAvatarFull.webp"} alt="Imagem do ouvinte" class="w-[9rem] h-[9rem] bg-gray-600 rounded-lg"/>
             </div>
             <Offcanvas>
@@ -62,5 +62,5 @@
                 </div>
             </Offcanvas>
         </div>
-    </div>
+    </article>
 </Section>

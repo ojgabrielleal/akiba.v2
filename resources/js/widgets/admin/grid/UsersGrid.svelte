@@ -41,11 +41,11 @@
                     </dd>
                 </dl>
                 <img class="w-35 absolute right-0 bottom-0" src={item.avatar} alt="" aria-hidden="true"/>
-                <div class="w-full flex justify-between items-end px-3 absolute left-0 bottom-2">
-                    <div class="rounded-full p-2 bg-neutral-aurora text-xs text-blue-indigo font-noto-sans font-bold uppercase italic">
+                <dl class="w-full flex justify-between items-end px-3 absolute left-0 bottom-2">
+                    <dt class="rounded-full p-2 bg-neutral-aurora text-xs text-blue-indigo font-noto-sans font-bold uppercase italic">
                         {item.highest_role}
-                    </div>
-                    <div class="flex flex-wrap lg:flex-nowrap gap-2">
+                    </dt>
+                    <dd class="flex flex-wrap lg:flex-nowrap gap-2">
                         <Offcanvas>
                             <div aria-label="Definir permissões" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer" slot="action">
                                 <img src="/svg/default/crown.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
@@ -63,8 +63,8 @@
                         <button on:click={() => deactivateUser(item.id)} aria-label="Desativar perfil" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
                             <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-4 filter-red-crimson" loading="lazy"/>
                         </button>
-                    </div>
-                </div>
+                    </dd>
+                </dl>
             </article>
         {/each}
     </div>
