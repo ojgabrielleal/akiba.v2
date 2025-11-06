@@ -25,7 +25,7 @@ class BroadcastController extends Controller
     public function setCheckOnair()
     {
         try {
-            $logged = request()->user();
+            $authenticated = request()->user();
             $onair = Onair::where('is_live', true)->firstOrFail();
 
             $response = [
@@ -45,31 +45,31 @@ class BroadcastController extends Controller
 
                 if ($onair->program_type === "App\Models\Show") {
                     $response['onair'] = true;
-                    $response['streamer'] = $show->user_id === $logged->id;
+                    $response['streamer'] = $show->user_id === $authenticated->id;
                     $response['listener_request'] = $onair->listener_request_status;
                 }
             }
 
             return $response;
         } catch (\Throwable $e) {
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 
     public function listShows()
     {
         try {
-            $logged = request()->user();
+            $authenticated = request()->user();
 
             $query = Show::orderBy('created_at', 'desc');
             $query->with('user');
             $query->where('is_active', true);
-            $query->where(function ($q) use ($logged) { $q->where('user_id', $logged->id)->orWhere('is_all', true); });
+            $query->where(function ($q) use ($authenticated) { $q->where('user_id', $authenticated->id)->orWhere('is_all', true); });
             $shows = $query->get();
 
             return $shows;
         } catch (\Throwable $e) {
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -85,7 +85,7 @@ class BroadcastController extends Controller
 
             return $requests;
         } catch (\Throwable $e) {
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -100,7 +100,7 @@ class BroadcastController extends Controller
 
             return $this->provideSuccess('listener_request_granted');
         } catch (\Throwable $e) {
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
     
@@ -125,7 +125,7 @@ class BroadcastController extends Controller
 
             return $this->provideSuccess('listener_request_canceled');
         } catch (\Throwable $e) {
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -143,7 +143,7 @@ class BroadcastController extends Controller
                 return $this->provideSuccess('listener_request_close');
             }
         } catch (\Throwable $e) {
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -161,13 +161,13 @@ class BroadcastController extends Controller
                 'image.required' => "Escolha um icone",
             ]);
 
-            $logged = request()->user();
+            $authenticated = request()->user();
             $show = Show::where('id', $request->input('show'))->firstOrFail();
 
             if ($show->is_all) {
-                if ($show->user_id !== $logged->id) {
+                if ($show->user_id !== $authenticated->id) {
                     $show->update([
-                        'user_id' => $logged->id
+                        'user_id' => $authenticated->id
                     ]);
                 }
             }
@@ -187,14 +187,14 @@ class BroadcastController extends Controller
             if(env('APP_ENV') === "production"){
                 $webhook_discord = env('URL_DISCORD_WEBHOOK');
                 $payload = [
-                    'content' => "@everyone @here Oi meus amores! Só estou passando para avisar que" . ($logged->gender === "male" ? " O DJ " : " A DJ ") . $logged->nickname . " está no ar agora com o programa " . $show->name . "! Vem ouvir em https://akiba.com.br"          
+                    'content' => "@everyone @here Oi meus amores! Só estou passando para avisar que" . ($authenticated->gender === "male" ? " O DJ " : " A DJ ") . $authenticated->nickname . " está no ar agora com o programa " . $show->name . "! Vem ouvir em https://akiba.com.br"          
                 ];
                 Http::post($webhook_discord, $payload);
             } 
 
             return $this->provideSuccess('start_broadcast');
         } catch (\Throwable $e) {
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -221,7 +221,7 @@ class BroadcastController extends Controller
 
             return $this->provideSuccess('end_broadcast');
         } catch (\Throwable $e) {
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 

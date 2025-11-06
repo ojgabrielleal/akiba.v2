@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect; 
 use Illuminate\Support\Facades\Auth;
 
 use Inertia\Inertia;
@@ -20,7 +21,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return Inertia::location('/painel/dashboard');
+            return to_route('render.painel.dashboard');
         }
 
         return back(303)->with('flash', [

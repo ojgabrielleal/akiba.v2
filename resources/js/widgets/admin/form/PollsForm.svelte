@@ -1,12 +1,12 @@
 <script>
     export let close = () => {};
-    export let poll_id = null;
+    export let pollId = null;
 
     import { onMount } from 'svelte';
     import { useForm } from "@inertiajs/svelte";
     import axios from "axios";
 
-    $: form = useForm({
+    let form = useForm({
         question: null,
         option_one: null,
         option_two: null, 
@@ -17,8 +17,8 @@
     function onSubmit(event){
         event.preventDefault();
 
-        if(poll_id){
-            $form.put(`/painel/medias/update/poll/${poll_id}`, {
+        if(pollId){
+            $form.put(`/painel/medias/update/poll/${pollId}`, {
                 onSuccess: () => close(),
             });
         }else{
@@ -29,8 +29,8 @@
     }
 
     onMount(()=>{
-        if(poll_id){
-            axios.get(`/painel/medias/get/poll/${poll_id}`).then((response) => {
+        if(pollId){
+            axios.get(`/painel/medias/get/poll/${pollId}`).then((response) => {
                 $form.question = response.data.question;
                 $form.option_one = response.data.options[0].option
                 $form.option_two = response.data.options[1].option
@@ -110,7 +110,7 @@
         </div>
     </div>
     <button type="submit" class="cursor-pointer bg-blue-skywave px-8 py-2 rounded-md text-neutral-aurora font-noto-sans font-bold italic uppercase">
-        {#if poll_id}
+        {#if pollId}
             Atualizar
         {:else}
             Cadastrar

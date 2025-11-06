@@ -24,21 +24,21 @@ class EventsController extends Controller
     public function listEvents()
     {
         try {
-            $logged = request()->user();
+            $authenticated = request()->user();
             
             $query = Event::orderBy('created_at', 'desc');
             $query->with('user');
-            $query->when(!$logged->permissions_keys->contains('administrator'), function ($q) use ($logged) { 
-                $q->where('user_id', $logged->id); 
+            $query->when(!$authenticated->permissions_keys->contains('administrator'), function ($q) use ($authenticated) { 
+                $q->where('user_id', $authenticated->id); 
             });
             $query->where('is_active', true);
             $events = $query->paginate(10);
 
-            $events->getCollection()->transform(function ($event) use ($logged) {
+            $events->getCollection()->transform(function ($event) use ($authenticated) {
                 $data = $event->toArray();
                 $data['actions'] = [
                     'editable' => true,
-                    'deactivate' => $logged->permissions_keys->contains('administrator')
+                    'deactivate' => $authenticated->permissions_keys->contains('administrator')
                 ];
                 $data['styles'] = [
                     'bg' => 'var(--color-blue-skywave)',
@@ -85,10 +85,10 @@ class EventsController extends Controller
             $exists = Event::where('title', $request->input('title'))->exists();
             if($exists) throw new AlreadyExistsException();
 
-            $logged = request()->user();
+            $authenticated = request()->user();
 
             Event::create([
-                'user_id' => $logged->id,
+                'user_id' => $authenticated->id,
                 'slug' => Str::slug($request->input('title')),
                 'image' => $this->uploadImage('events', $request->file('image')),
                 'cover' => $this->uploadImage('events', $request->file('cover')),

@@ -86,14 +86,14 @@
                         <div class="flex gap-3">
                             {#if item.actions.edit}
                                 <Offcanvas>
-                                    <div class="cursor-pointer" slot="action" >
+                                    <div aria-label="Editar" class="cursor-pointer" slot="action" >
                                         <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                                     </div>
                                     <div slot="title">
                                         Atualizar enquete
                                     </div>
                                     <div slot="content" let:close>
-                                        <PollsForm poll_id={item.id} close={close}/>
+                                        <PollsForm pollId={item.id} close={close}/>
                                     </div>
                                 </Offcanvas>
                             {/if}

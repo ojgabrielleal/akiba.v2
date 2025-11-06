@@ -21,24 +21,24 @@ class ProfileController extends Controller
 {
     use HandlesImageUpload, ProvideSuccess, ProvideException;
 
-    public function getProfile($slug)
+    public function getUser($slug)
     {
         try{
             if($slug){
-                $logged = request()->user();
+                $authenticated = request()->user();
 
-                if ($logged->permissions_keys->intersect(['administrator', 'dev'])->isNotEmpty()) {
+                if ($authenticated->permissions_keys->intersect(['administrator', 'dev'])->isNotEmpty()) {
                     return User::where('slug', $slug)->firstOrFail();
                 }
 
-                return $logged;
+                return $authenticated;
             }
         }catch(\Throwable $e){
             return $this->provideException($e);
         }
     }
 
-    public function updateProfile(Request $request, $id)
+    public function updateUser(Request $request, $id)
     {
         try{
             $request->validate([
@@ -63,19 +63,19 @@ class ProfileController extends Controller
                 'bibliography' => 'Bibliografia'
             ]);
 
-            $profile = User::where('id', $id)->firstOrFail();
-            $profile->update([
-                'slug' =>  $request->input('nickname') !== $profile->nickname ? Str::slug($request->input('nickname')) : $profile->slug,
-                'avatar' => $request->hasFile('avatar') ? $this->uploadImage('users', $request->file('avatar'), 'public', $profile->avatar) : $profile->avatar,
-                'name' => $request->input('name', $profile->name),
-                'nickname' => $request->input('nickname', $profile->nickname),
-                'gender' => $request->input('gender', $profile->gender),
-                'birthday' => $request->input('birthday', $profile->birthday),
-                'email' => $request->input('email', $profile->email),
-                'city' => $request->input('city', $profile->city),
-                'state' => $request->input('state', $profile->state),
-                'country' => $request->input('country', $profile->country),
-                'bibliography' => $request->input('bibliography', $profile->bibliography),
+            $user = User::where('id', $id)->firstOrFail();
+            $user->update([
+                'slug' =>  $request->input('nickname') !== $user->nickname ? Str::slug($request->input('nickname')) : $user->slug,
+                'avatar' => $request->hasFile('avatar') ? $this->uploadImage('users', $request->file('avatar'), 'public', $user->avatar) : $user->avatar,
+                'name' => $request->input('name', $user->name),
+                'nickname' => $request->input('nickname', $user->nickname),
+                'gender' => $request->input('gender', $user->gender),
+                'birthday' => $request->input('birthday', $user->birthday),
+                'email' => $request->input('email', $user->email),
+                'city' => $request->input('city', $user->city),
+                'state' => $request->input('state', $user->state),
+                'country' => $request->input('country', $user->country),
+                'bibliography' => $request->input('bibliography', $user->bibliography),
             ]);
 
             // Links externos
@@ -117,7 +117,7 @@ class ProfileController extends Controller
     public function render($slug = null)
     {
         return Inertia::render('admin/Profile', [
-            'profile' => $this->getProfile($slug)
+            'profile' => $this->getUser($slug)
         ]);
     }
 }

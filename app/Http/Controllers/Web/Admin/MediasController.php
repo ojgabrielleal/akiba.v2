@@ -24,10 +24,10 @@ class MediasController extends Controller
     public function screenPermissions()
     {
         try{
-            $logged = request()->user();
+            $authenticated = request()->user();
 
             return [
-                'create_poll' => $logged->permissions_keys->contains('administrator'),
+                'create_poll' => $authenticated->permissions_keys->contains('administrator'),
             ];
         }catch(\Throwable $e){
             return $this->provideException($e);
@@ -37,21 +37,21 @@ class MediasController extends Controller
     public function listEvents()
     {
         try {
-            $logged = request()->user();
+            $authenticated = request()->user();
             
             $query = Event::orderBy('created_at', 'desc');
             $query->with('user');
-            $query->when(!$logged->permissions_keys->contains('administrator'), function ($q) use ($logged) { 
-                $q->where('user_id', $logged->id); 
+            $query->when(!$authenticated->permissions_keys->contains('administrator'), function ($q) use ($authenticated) { 
+                $q->where('user_id', $authenticated->id); 
             });
             $query->where('is_active', true);
             $events = $query->paginate(10);
 
-            $events->getCollection()->transform(function ($event) use ($logged) {
+            $events->getCollection()->transform(function ($event) use ($authenticated) {
                 $data = $event->toArray();
                 $data['actions'] = [
                     'editable' => true,
-                    'deactivate' => $logged->permissions_keys->contains('administrator')
+                    'deactivate' => $authenticated->permissions_keys->contains('administrator')
                 ];
                 $data['styles'] = [
                     'bg' => 'var(--color-blue-skywave)',
@@ -79,18 +79,18 @@ class MediasController extends Controller
     public function listPolls()
     {
         try{
-            $logged = request()->user();
+            $authenticated = request()->user();
 
             $query = Poll::orderBy('created_at', 'desc');
             $query->with('options');
             $query->where('is_active', true);
             $polls = $query->get();
 
-            $polls->transform(function ($poll) use ($logged) {
+            $polls->transform(function ($poll) use ($authenticated) {
                 $data = $poll->toArray();
                 $data['actions'] = [
-                    'editable' => $logged->permissions_keys->contains('administrator'),
-                    'deactivate' => $logged->permissions_keys->contains('administrator')
+                    'editable' => $authenticated->permissions_keys->contains('administrator'),
+                    'deactivate' => $authenticated->permissions_keys->contains('administrator')
                 ];
                 return $data;
             });

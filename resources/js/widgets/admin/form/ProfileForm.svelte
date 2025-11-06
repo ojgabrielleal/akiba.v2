@@ -48,7 +48,7 @@
                 <Preview 
                     name="image" 
                     standard="w-full h-[15rem] rounded-full"
-                    view="w-full h-[15rem] rounded-full object-cover object-top bg-neutral-aurora"
+                    view="w-full h-[25rem] lg:h-[15rem] rounded-lg lg:rounded-full object-contain lg:object-cover object-top bg-neutral-aurora"
                     src={$form.avatar} 
                     oninput={event => $form.avatar = event.target.files[0]} 
                 />

@@ -80,13 +80,13 @@ class RadioController extends Controller
                 'image.required' => 'Logo do programa',
             ]);
 
-            $logged = request()->user();
+            $authenticated = request()->user();
 
             $exist = Show::where('name', $request->input('name'))->exists();
             if ($exist) throw new AlreadyExistsException();
             
             $create = Show::create([
-                'user_id' => $request->input('user_id') ? $request->input('user_id') : $logged->id,
+                'user_id' => $request->input('user_id') ? $request->input('user_id') : $authenticated->id,
                 'slug' => Str::slug($request->input('name')),
                 'name' => $request->input('name'),
                 'image' => $this->uploadImage('shows', $request->file('image'), 'public'),

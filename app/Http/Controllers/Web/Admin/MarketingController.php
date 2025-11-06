@@ -24,13 +24,13 @@ class MarketingController extends Controller
     public function permissions()
     {
         try{
-            $logged = request()->user();
+            $authenticated = request()->user();
 
             return [
-                'all' => $logged->permissions_keys->intersect(['administrator', 'dev'])->isNotEmpty()
+                'all' => $authenticated->permissions_keys->intersect(['administrator', 'dev'])->isNotEmpty()
             ];
         }catch (\Throwable $e) {
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -53,7 +53,7 @@ class MarketingController extends Controller
                 'packages' => $packages,
             ];
         } catch (\Throwable $e) {
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -64,7 +64,7 @@ class MarketingController extends Controller
                 return Repository::where('id', $id)->firstOrFail();
             }
         }catch(\Throwable $e){
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
     
@@ -95,7 +95,7 @@ class MarketingController extends Controller
     
             return $this->provideSuccess('save');
         }catch(\Throwable $e){
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -124,7 +124,7 @@ class MarketingController extends Controller
 
             return $this->provideSuccess('update');
         }catch(\Throwable $e){
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 

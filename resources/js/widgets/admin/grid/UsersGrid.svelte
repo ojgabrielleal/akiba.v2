@@ -1,15 +1,28 @@
 <script>
-    import { page, Link } from "@inertiajs/svelte";
+    import { page, Link, router } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";   
     import { Offcanvas } from "@/components/admin";
+    import { UserForm, UserSecurityForm } from "@/widgets/admin/form"
 
     $: ({ users } = $page.props);
+
+    function deactivateUser(id){
+        router.delete(`/painel/adms/deactivate/user/${id}`);
+    }
 </script>
 
 <div class="flex justify-center gap-5 mb-5">
-    <button class="text-blue-skywave text-xl font-noto-sans font-bold italic uppercase">
-        Cadastrar membro
-    </button>
+    <Offcanvas>
+        <div class="text-blue-skywave text-xl font-noto-sans font-bold italic uppercase cursor-pointer" slot="action">
+            Cadastrar membro
+        </div>
+        <div slot="title">
+            Novo membro
+        </div>
+        <div slot="content" let:close>
+            <UserForm {close}/>
+        </div>
+    </Offcanvas>
     <span class="border-l border-neutral-aurora/30"></span>
     <button class="text-blue-skywave text-xl font-noto-sans font-bold italic uppercase">
         Agendar Atividade
@@ -38,26 +51,18 @@
                                 <img src="/svg/default/crown.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
                             </div>
                             <div slot="title">
-                                Definir permissões
+                                Configurações administrativas
                             </div>
                             <div slot="content" let:close>
-                                #
-                            </div>
-                        </Offcanvas>
-                        <Offcanvas>
-                            <div aria-label="Alterar senha" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer" slot="action">
-                                <img src="/svg/default/key.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
-                            </div>
-                            <div slot="title">
-                                Alterar senha
-                            </div>
-                            <div slot="content" let:close>
-                                #
+                                <UserSecurityForm close={close} userId={item.id}/>
                             </div>
                         </Offcanvas>
                         <Link href={`/painel/profile/${item.slug}`} aria-label="Editar perfil" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
                             <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
                         </Link>
+                        <button on:click={() => deactivateUser(item.id)} aria-label="Desativar perfil" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
+                            <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-4 filter-red-crimson" loading="lazy"/>
+                        </button>
                     </div>
                 </div>
             </article>

@@ -113,12 +113,17 @@ Route::prefix('painel')->group(function () {
         Route::prefix('/adms')->group(function () {
             Route::controller(AdmsController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.adms');
+                Route::get('/get/user/{id}', 'getUser');
+                Route::post('/create/user', 'createUser');
+                Route::put('/update/user/permissions/{id}', 'updateUserPermissions');
+                Route::put('/update/user/password/{id}', 'updateUserPassword');
+                Route::delete('/deactivate/user/{id}', 'deativateUser');
             });
         });
         Route::prefix('/profile')->group(function () {
             Route::controller(ProfileController::class)->group(function () {
                 Route::get('/{slug?}', 'render')->name('render.painel.profile');
-                Route::put('/update/{id}', 'updateProfile');
+                Route::put('/update/{id}', 'updateUser');
             });
         });
     });

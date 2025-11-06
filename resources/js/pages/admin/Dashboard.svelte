@@ -6,7 +6,7 @@
     import { AlertsCarrousel, TasksCarrousel } from "@/widgets/admin/carrousel";
     import { PublicationsGrid, CalendarGrid } from "@/widgets/admin/grid";
 
-    $: ({ user } = $page.props);
+    $: ({ authenticated } = $page.props);
 
     function phraseSwitchHero(nickname) {
         const phrases = [
@@ -30,7 +30,7 @@
 <Meta meta={{ title: "Dashboard" }} />
 <Layout>
     <GreatingHero
-        phrase={phraseSwitchHero(user.nickname)}
+        phrase={phraseSwitchHero(authenticated.nickname)}
         icon="/img/default/defaultHero.webp"
     />
     <AlertsCarrousel/>

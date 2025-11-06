@@ -5,7 +5,7 @@
 
     $: ({ shows, verify } = $page.props);
 
-    $: form = useForm({
+    let form = useForm({
         show: null,
         phrase: null,
         image: null,

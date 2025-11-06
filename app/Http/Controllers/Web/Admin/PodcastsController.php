@@ -23,24 +23,24 @@ class PodcastsController extends Controller
     public function listPodcasts()
     {
         try{
-            $logged = request()->user();
+            $authenticated = request()->user();
 
             $query = Podcast::where('is_active', true);
             $query->orderBy('created_at', 'desc');
             $podcasts = $query->paginate(10);
 
-            $podcasts->getCollection()->transform(function ($podcast) use ($logged) {
+            $podcasts->getCollection()->transform(function ($podcast) use ($authenticated) {
                 $data = $podcast->toArray();
                 $data['actions'] = [
                     'editable' => true,
-                    'deactivate' => $logged->permissions_keys->contains('administrator')
+                    'deactivate' => $authenticated->permissions_keys->contains('administrator')
                 ];
                 return $data;
             });
 
             return $podcasts;
         }catch(\Throwable $e){
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -51,7 +51,7 @@ class PodcastsController extends Controller
                 return Podcast::where('slug', $slug)->with('user')->firstOrFail();
             }
         }catch(\Throwable $e){
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -76,13 +76,13 @@ class PodcastsController extends Controller
                 'audio.required' => 'URL Embeded do Spotify do episódio'
             ]);
 
-            $logged = request()->user();
+            $authenticated = request()->user();
         
             $exists = Podcast::where('season', $request->input('season'))->where('episode', $request->input('episode'))->exists();
             if($exists) throw new AlreadyExistsException();
 
             Podcast::create([
-                'user_id' => $logged->id,
+                'user_id' => $authenticated->id,
                 'slug' => Str::slug($request->input('title')),
                 'image' => $this->uploadImage('podcasts', $request->file('image')),
                 'season' => $request->input('season'),
@@ -95,7 +95,7 @@ class PodcastsController extends Controller
 
             return $this->provideSuccess('save');
         }catch(\Throwable $e){
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 
@@ -132,7 +132,7 @@ class PodcastsController extends Controller
 
             return $this->provideSuccess('update');
         }catch(\Throwable $e){
-            $this->provideException($e);
+            return $this->provideException($e);
         }
     }
 

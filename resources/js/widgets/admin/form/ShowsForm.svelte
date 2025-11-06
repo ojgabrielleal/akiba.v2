@@ -1,6 +1,6 @@
 <script>
     export let close = () => {};
-    export let show_id = null;
+    export let showId = null;
 
     import { onMount } from 'svelte';
     import { useForm, page } from "@inertiajs/svelte";
@@ -9,7 +9,7 @@
 
     $: ({ streamers } = $page.props);
 
-    $: form = useForm({
+    let form = useForm({
         _method: null,
         name: null,
         is_all: 0,
@@ -22,9 +22,9 @@
     function onSubmit(event) {
         event.preventDefault();
         
-        if(show_id){
+        if(showId){
             $form._method = "PUT"
-            $form.post(`/painel/radio/update/show/${show_id}`, {
+            $form.post(`/painel/radio/update/show/${showId}`, {
                 onSuccess: () => close(),
             });
         }else{
@@ -43,8 +43,8 @@
     }
 
     onMount(()=>{
-        if (show_id) {
-            axios.get(`/painel/radio/get/show/${show_id}`).then((response) => {
+        if (showId) {
+            axios.get(`/painel/radio/get/show/${showId}`).then((response) => {
                 $form.name = response.data.name;
                 $form.image = response.data.image;
                 $form.is_all = Number(response.data.is_all);
@@ -213,7 +213,7 @@
         {/each}
     {/if}
     <button type="submit" class="cursor-pointer bg-blue-skywave px-8 py-2 rounded-md text-neutral-aurora font-noto-sans font-bold italic uppercase">
-        {#if show_id}
+        {#if showId}
             Atualizar
         {:else}
             Cadastrar

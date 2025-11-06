@@ -23,19 +23,19 @@ class ReviewsController extends Controller
     public function getReviews()
     {
         try {
-            $logged = request()->user();
+            $authenticated = request()->user();
 
             $query = Review::orderBy('created_at', 'desc');
             $query->with('reviews');
             $reviews = $query->paginate(10);
 
-            $reviews->getCollection()->transform(function ($review) use ($logged) {
+            $reviews->getCollection()->transform(function ($review) use ($authenticated) {
                 $data = $review->toArray();
                 $data['actions'] = [
                     'editable' => true,
                 ];
                 $data['styles'] = [
-                    'bg' => $review->reviews->contains('user_id', $logged->id) ? 'var(--color-purple-mystic)' : 'var(--color-blue-skywave)',
+                    'bg' => $review->reviews->contains('user_id', $authenticated->id) ? 'var(--color-purple-mystic)' : 'var(--color-blue-skywave)',
                 ];
                 return $data;
             });
@@ -50,19 +50,19 @@ class ReviewsController extends Controller
     {
         try {
             if($slug){
-                $logged = request()->user();
+                $authenticated = request()->user();
     
                 $query = Review::with('reviews.user');
                 $query->where('slug', $slug);
                 $review = $query->firstOrFail();
     
-                $verify  = $review->reviews->contains('user_id', $logged->id);
+                $verify  = $review->reviews->contains('user_id', $authenticated->id);
                 if (!$verify) {
                     $placeholder = (object) [
-                        'user_id' => $logged->id,
+                        'user_id' => $authenticated->id,
                         'user' => (object) [
-                            'id' => $logged->id,
-                            'nickname' => $logged->nickname,
+                            'id' => $authenticated->id,
+                            'nickname' => $authenticated->nickname,
                         ],
                         'content' => ''
                     ];

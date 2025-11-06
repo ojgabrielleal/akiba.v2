@@ -3,9 +3,9 @@
     import { Section } from "@/layouts/admin";
     import { Preview, Wysiwyg } from "@/components/admin";
 
-    $: ({ user, publication } = $page.props);
+    $: ({ authenticated, publication } = $page.props);
 
-    $: authorSelected = user.id;
+    $: authorSelected = authenticated.id;
     $: contentSelected = publication?.reviews?.find(
         (item) => item.user.id === authorSelected,
     );

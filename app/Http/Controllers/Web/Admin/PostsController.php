@@ -24,10 +24,10 @@ class PostsController extends Controller
     public function screenPermissions()
     {
         try{
-            $logged = request()->user();
+            $authenticated = request()->user();
 
             return [
-                'publish' => $logged->permissions_keys->contains('administrator'),
+                'publish' => $authenticated->permissions_keys->contains('administrator'),
             ];
         } catch (\Throwable $e) {
             return $this->provideException($e);
@@ -37,12 +37,12 @@ class PostsController extends Controller
     public function listPosts()
     {
         try {
-            $logged = request()->user();
+            $authenticated = request()->user();
 
             $query = Post::orderBy('created_at', 'desc');
             $query->with('user');
-            $query->when(!$logged->permissions_keys->contains('administrator'), function ($q) use ($logged) {
-                $q->where('user_id', $logged->id);
+            $query->when(!$authenticated->permissions_keys->contains('administrator'), function ($q) use ($authenticated) {
+                $q->where('user_id', $authenticated->id);
             });
             $posts = $query->paginate(10);
 
@@ -59,11 +59,11 @@ class PostsController extends Controller
                 ];
             }
 
-            $posts->getCollection()->transform(function ($post) use ($logged) {
+            $posts->getCollection()->transform(function ($post) use ($authenticated) {
                 $data = $post->toArray();
                 $data['styles'] = resolvePostAppareace($post);
                 $data['actions'] = [
-                    'editable' => $logged->permissions_keys->contains('administrator') || $post->user_id == $logged->id,
+                    'editable' => $authenticated->permissions_keys->contains('administrator') || $post->user_id == $authenticated->id,
                 ];
                 return $data;
             });

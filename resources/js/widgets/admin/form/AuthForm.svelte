@@ -1,7 +1,7 @@
 <script>
     import { useForm, router } from "@inertiajs/svelte";
 
-    const form = useForm({
+    let form = useForm({
         username: null,
         password: null,
     });
