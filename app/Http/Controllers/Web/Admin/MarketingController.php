@@ -27,7 +27,7 @@ class MarketingController extends Controller
             $authenticated = request()->user();
 
             return [
-                'all' => $authenticated->permissions_keys->intersect(['administrator', 'dev'])->isNotEmpty()
+                'view_all' => $authenticated->permissions_keys->intersect(['administrator', 'dev'])->isNotEmpty()
             ];
         }catch (\Throwable $e) {
             return $this->provideException($e);

@@ -1,6 +1,6 @@
 <script>
     export let close = () => {};
-    export let repository_id = null ;
+    export let repositoryId = null ;
 
     import { onMount } from 'svelte';
     import { useForm } from "@inertiajs/svelte";
@@ -14,24 +14,10 @@
         file: null
     });
 
-    function onSubmit(event){
-        event.preventDefault();
-
-        if(repository_id){
-            $form._method = "PUT"
-            $form.post(`/painel/marketing/update/repository/${repository_id}`, {
-                onSuccess: ()=> close()
-            });
-        }else{
-            $form.post('/painel/marketing/create/repository', {
-                onSuccess: ()=>close()
-            });
-        }
-    }
-
     onMount(()=>{
-        if (repository_id) {
-            axios.get(`/painel/marketing/get/repository/${repository_id}`).then((response) => {
+        if (repositoryId) {
+            axios.get(`/painel/marketing/get/repository/${repositoryId}`).then((response) => {
+                $form._method = "PUT"
                 $form.image = response.data.image;
                 $form.name = response.data.name;
                 $form.category = response.data.category;
@@ -39,15 +25,23 @@
             });
         }
     });
+
+    function onSubmit(){
+        let url = repositoryId ? `/painel/marketing/update/repository/${repositoryId}` : '/painel/marketing/create/repository';
+        $form.post(url, {
+            onSuccess: ()=>close()
+        });
+    }
 </script>
 
-<form onsubmit={onSubmit}>
+<form on:submit|preventDefault={onSubmit}>
     <div class="mb-4">
         <Preview 
             name="image" 
             standard="w-full h-[10rem] rounded-lg"
             src={$form.image}
             oninput={event => $form.image = event.target.files[0]}
+            required={true}
         />
     </div>
     <div class="mb-4">
@@ -93,7 +87,7 @@
         />
     </div>
     <button type="submit" class="cursor-pointer bg-blue-skywave px-8 py-2 rounded-md text-neutral-aurora font-noto-sans font-bold italic uppercase">
-        {#if repository_id}
+        {#if repositoryId}
             Atualizar
         {:else}
             Cadastrar

@@ -14,15 +14,13 @@
         permissions_keys: null
     });
 
-    function onSubmitPassword(event){
-        event.preventDefault();
+    function onSubmitPassword(){
         $formPassword.put(`/painel/adms/update/user/password/${userId}`, {
             onSuccess: () => close()
         });
     }
 
-    function onSubmitPermissions(event){
-        event.preventDefault();
+    function onSubmitPermissions(){
         $formPermissions.put(`/painel/adms/update/user/permissions/${userId}`, {
             onSuccess: () => close()
         });
@@ -40,7 +38,7 @@
     });
 </script>
 
-<form on:submit={onSubmitPassword}>
+<form on:submit|preventDefault={onSubmitPassword}>
     <div class="flex items-center justify-center w-full mb-5">
         <div class="relative w-full">
             <div class="absolute left-0 w-1/3 h-[0.1rem] bg-blue-skywave rounded-full top-1/2 -translate-y-1/2"></div>
@@ -69,7 +67,7 @@
         Atualizar
     </button>
 </form>
-<form on:submit={onSubmitPermissions}>
+<form on:submit|preventDefault={onSubmitPermissions}>
     <div class="flex items-center justify-center w-full mt-8 mb-5">
         <div class="relative w-full">
             <div class="absolute left-0 w-1/3 h-[0.1rem] bg-blue-skywave rounded-full top-1/2 -translate-y-1/2"></div>

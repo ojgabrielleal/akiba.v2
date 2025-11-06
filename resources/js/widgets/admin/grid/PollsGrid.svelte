@@ -6,11 +6,8 @@
 
     $: ({ screenPermissions, polls } = $page.props);
 
-    $: votedPolls = JSON.parse(localStorage.getItem('akiba-voted') || '[]');
-
+    let votedPolls = JSON.parse(localStorage.getItem('akiba-voted') || '[]');
     function voteQuestion(event, item){
-        event.preventDefault();
-
         const form = event.target;
         const formData = new FormData(form);
         const option = formData.get('option');
@@ -65,6 +62,7 @@
                                         class="peer h-5 w-5 cursor-pointer appearance-none rounded-full bg-neutral-aurora" 
                                         value={subitem.id} 
                                         disabled={alreadyVoted}
+                                        required
                                     >
                                     <div class="absolute bg-blue-skywave w-2/4 h-2/4 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
                                 </label>

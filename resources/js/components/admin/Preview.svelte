@@ -4,6 +4,7 @@
     export let view = "w-full max-h-[15rem] lg:max-h-[23rem] object-contain object-top rounded-lg bg-neutral-aurora";
     export let src = null;
     export let oninput = null;
+    export let required = false;
 
     let preview = null;
 
@@ -35,9 +36,10 @@
         id={name}
         type="file"
         name={name}
-        class="hidden"
+        class="sr-only"
         accept="image/*"
         on:input={oninput}
         on:change={previewImage}
+        required={required}
     />
 </label>

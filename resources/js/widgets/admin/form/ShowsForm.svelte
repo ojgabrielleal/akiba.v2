@@ -19,21 +19,6 @@
         schedules: [{ time: null, day: null }],
     });
     
-    function onSubmit(event) {
-        event.preventDefault();
-        
-        if(showId){
-            $form._method = "PUT"
-            $form.post(`/painel/radio/update/show/${showId}`, {
-                onSuccess: () => close(),
-            });
-        }else{
-            $form.post("/painel/radio/create/show", {
-                onSuccess: () => close(),
-            });
-        }
-    }
-
     function addSchedule() {
         $form.schedules = [...$form.schedules, { time: null, day: null }];
     }
@@ -45,6 +30,7 @@
     onMount(()=>{
         if (showId) {
             axios.get(`/painel/radio/get/show/${showId}`).then((response) => {
+                $form._method = "PUT"
                 $form.name = response.data.name;
                 $form.image = response.data.image;
                 $form.is_all = Number(response.data.is_all);
@@ -54,15 +40,23 @@
             });
         }
     })
+
+    function onSubmit() {   
+        let url = showId ? `/painel/radio/update/show/${showId}` : '/painel/radio/create/show'
+        $form.post(url, {
+            onSuccess: () => close(),
+        });
+    }
 </script>
 
-<form on:submit={onSubmit}>
+<form on:submit|preventDefault={onSubmit}>
     <div class="mb-4">
         <Preview
             standard="w-full h-[10rem] rounded-lg"
             name="image"
             src={$form.image}
             oninput={(event) => ($form.image = event.target.files[0])}
+            required={true}
         />
     </div>
     <div class="mb-4">
@@ -75,6 +69,7 @@
             name="name"
             class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
             bind:value={$form.name}
+            required
         />
     </div>
     <div class="mb-4">
@@ -151,6 +146,7 @@
                 name="name"
                 class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
                 bind:value={$form.user_id}
+                required
             >
                 {#each streamers as item}
                     <option value={item.id}>{item.nickname}</option>

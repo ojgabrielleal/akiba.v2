@@ -12,15 +12,14 @@
        permission: null,
     });
 
-    function onSubmit(event){
-        event.preventDefault();
+    function onSubmit(){
         $form.post('/painel/adms/create/user', {
             onSuccess: () => close()
         });
     }
 </script>
 
-<form on:submit={onSubmit}>
+<form on:submit|preventDefault={onSubmit}>
     <div class="flex items-center justify-center w-full mb-5">
         <div class="relative w-full">
             <div class="absolute left-0 w-1/3 h-[0.1rem] bg-blue-skywave rounded-full top-1/2 -translate-y-1/2"></div>
@@ -40,6 +39,7 @@
             name="username"
             class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
             bind:value={$form.username}
+            required
         />
     </div>
     <div class="mb-4">
@@ -52,6 +52,7 @@
             name="password"
             class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
             bind:value={$form.password}
+            required
         />
         <div class="text-sm font-noto-sans text-gray-400 mt-1">
             Essa senha será criptografada para proteção
@@ -66,6 +67,7 @@
             name="permission"
             class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
             bind:value={$form.permission}
+            required
         >
             <option value="administrator">Administrador</option>
             <option value="dev">Dev</option>
@@ -94,6 +96,7 @@
             name="name"
             class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
             bind:value={$form.name}
+            required
         />
     </div>
     <div class="mb-4">
@@ -106,6 +109,7 @@
             name="nickname"
             class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
             bind:value={$form.nickname}
+            required
         />
     </div>
     <div class="mb-4">
@@ -117,6 +121,7 @@
             name="gender"
             class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
             bind:value={$form.gender}
+            required
         >
             <option value="male">Masculino</option>
             <option value="female">Feminino</option>

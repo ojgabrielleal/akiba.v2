@@ -95,7 +95,7 @@ Route::prefix('painel')->group(function () {
                 Route::get('/', 'render')->name('render.painel.marketing');
                 Route::get('/get/repository/{id}', 'getRepository');
                 Route::post('/create/repository', 'createRepository');
-                Route::put('/update/repository{id}', 'updateRepository');
+                Route::put('/update/repository/{id}', 'updateRepository');
                 Route::delete('/deactivate/repository/{id}', 'deactivateRepository');
             });
         });

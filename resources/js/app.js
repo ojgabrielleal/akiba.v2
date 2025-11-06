@@ -7,11 +7,6 @@ createInertiaApp({
         const pages = import.meta.glob("./pages/**/*.svelte", { eager: true });
         return pages[`./pages/${name}.svelte`];
     },
-    defaults: {
-        visitOptions: (href, options) => {
-            return { viewTransition: true }
-        },
-    },
     setup({ el, App, props, plugin }) {
         // Registro do sw
         if ('serviceWorker' in navigator) {

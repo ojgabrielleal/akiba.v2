@@ -1,40 +1,49 @@
 <script>
+    import { onMount } from "svelte";
     import { useForm, page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
     import { Preview, Wysiwyg } from "@/components/admin";
 
     $: ({ podcast } = $page.props);
 
-    $: form = useForm({
+    let form = useForm({
         _method: null,
-        image: podcast?.image,
-        season: podcast?.season, 
-        episode: podcast?.episode,
-        title: podcast?.title,
-        summary: podcast?.summary,
-        description: podcast?.description,
-        audio: podcast?.audio,
+        image: null,
+        season: null,
+        episode: null,
+        title: null,
+        summary: null,
+        description: null,
+        audio: null,
     });
 
-    function onSubmit(event){
-        event.preventDefault();
-
+    onMount(()=>{
         if(podcast){
             $form._method = "PUT";
-            $form.post(`/painel/podcasts/update/${podcast.id}`);
-        }else{
-            $form.post('/painel/podcasts/create/', {
-                preserveState: false,
-                onSuccess: () => {
-                    $form.reset();
-                },
-            });
+            $form.image = podcast.image,
+            $form.season = podcast.season, 
+            $form.episode = podcast.episode,
+            $form.title = podcast.title,
+            $form.summary = podcast.summary,
+            $form.description = podcast.description,
+            $form.audio = podcast.audio
         }
+    })
+
+    function onSubmit(){
+        let url = podcast ? `/painel/podcasts/update/${podcast.id}` : '/painel/podcasts/create/'
+        $form.post(url, {
+            preserveState: podcast,
+            onSuccess: () => {
+                podcast ? null : $form.reset();
+            },
+        });
+        
     }
 </script>
 
 <Section title={podcast ? "Editar Podcast" : "Adicionar Podcast"}>
-    <form class="mt-10" on:submit={onSubmit}>
+    <form on:submit|preventDefault={onSubmit} class="mt-10">
         <div class="grid grid-cols-1 xl:grid-cols-[20rem_1fr] gap-8 mb-8">
             <div>
                 <div class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
@@ -43,6 +52,7 @@
                 <Preview  
                     src={$form.image} 
                     oninput={event => $form.image = event.target.files[0]} 
+                    required={podcast ? false : true}
                 />
             </div>
             <div class="flex flex-col gap-8">
@@ -57,6 +67,7 @@
                             name="season"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             bind:value={$form.season}
+                            required
                         />                  
                     </div>
                     <div>
@@ -69,6 +80,7 @@
                             name="episode"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             bind:value={$form.episode}
+                            required
                         />                  
                     </div>
                     <div>
@@ -81,6 +93,7 @@
                             name="title"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             bind:value={$form.title}
+                            required
                         />                  
                     </div>
                 </div>
@@ -92,6 +105,7 @@
                         height="13rem"
                         name="summary"
                         bind:value={$form.summary}
+                        required={true}
                     />
                 </div>
             </div>
@@ -105,6 +119,7 @@
                     height="25rem"
                     name="description"
                     bind:value={$form.description}
+                    required={true}
                 />
             </div>
             <div>
@@ -117,6 +132,7 @@
                     name="audio"
                     class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                     bind:value={$form.audio}
+                    required
                 /> 
             </div>
         </div>

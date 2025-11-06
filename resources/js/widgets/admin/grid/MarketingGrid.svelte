@@ -6,12 +6,12 @@
 
     $: ({ permissions, repositories } = $page.props);
 
-    function deleteRepository(repository_id){
-        router.delete(`/painel/marketing/deactivate/repository/${repository_id}`);
+    function deleteRepository(repositoryId){
+        router.delete(`/painel/marketing/deactivate/repository/${repositoryId}`);
     }
 </script>
 
-{#if !permissions.all}
+{#if !permissions.view_all}
     <div class="flex justify-center mt-5 mb-15">
         <Offcanvas>
             <div class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase" slot="action" >
@@ -100,7 +100,7 @@
 </Section>
 
 
-{#if permissions.all}
+{#if permissions.view_all}
     <Section title="Todos os conteúdos">
         <div class="flex justify-center mt-5 mb-15">
             <Offcanvas>
@@ -134,7 +134,7 @@
                                         Editar conteúdo
                                     </div>
                                     <div slot="content" let:close>
-                                        <MarketingForm repository_id={item.id} close={close}/>
+                                        <MarketingForm repositoryId={item.id} close={close}/>
                                     </div>
                                 </Offcanvas>
                                 <button onclick={()=>deleteRepository(item.id)} class="cursor-pointer">

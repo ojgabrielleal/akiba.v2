@@ -27,7 +27,7 @@ class MediasController extends Controller
             $authenticated = request()->user();
 
             return [
-                'create_poll' => $authenticated->permissions_keys->contains('administrator'),
+                'create_poll' => $authenticated->permissions_keys->intersect(['administrator', 'dev'])->isNotEmpty(),
             ];
         }catch(\Throwable $e){
             return $this->provideException($e);

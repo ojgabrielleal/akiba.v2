@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect; 
 use Illuminate\Support\Facades\Auth;
 
 use Inertia\Inertia;
@@ -17,6 +16,8 @@ class AuthController extends Controller
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
+
+        $credentials['is_active'] = true;
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();

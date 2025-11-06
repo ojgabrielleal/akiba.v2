@@ -1,4 +1,5 @@
 <script>
+    import { onMount } from "svelte"
     import { useForm, page } from "@inertiajs/svelte"
     import { Section } from "@/layouts/admin/";   
     import { Preview } from "@/components/admin/"
@@ -6,27 +7,45 @@
 
     $: ({ profile } = $page.props);
 
-    $:form = useForm({
-        _method: "PUT",
-        name: profile?.name,
-        nickname: profile?.nickname,
-        gender: profile?.gender,
-        avatar: profile?.avatar,
-        birthday: profile?.birthday,
-        email: profile?.email,
-        city: profile?.city,
-        state: profile?.state,
-        country: profile?.country,
-        bibliography: profile?.bibliography,
-        external_links: profile?.external_links,
-        likes: profile?.likes
+    let form = useForm({
+        _method: null,
+        name: null,
+        nickname: null,
+        gender: null,
+        avatar: null,
+        birthday: null,
+        email: null,
+        city: null,
+        state: null,
+        country: null,
+        bibliography: null,
+        external_links: null,
+        likes: null,
     })
 
-    let selectNewExternalLink = Default.social[0].name
+    onMount(()=>{
+        if(profile){
+            $form._method = "PUT",
+            $form.name = profile.name,
+            $form.nickname = profile.nickname,
+            $form.gender = profile.gender,
+            $form.avatar = profile.avatar,
+            $form.birthday = profile.birthday,
+            $form.email = profile.email,
+            $form.city = profile.city,
+            $form.state = profile.state,
+            $form.country = profile.country,
+            $form.bibliography = profile.bibliography,
+            $form.external_links = profile.external_links,
+            $form.likes = profile.likes 
+        }
+    })
+
+    let selectedNewExternalLink = Default.social[0].name
     function addExternalLink(){
         $form.external_links = [
             ...$form.external_links,
-            { name: selectNewExternalLink, url: "" } 
+            { name: selectedNewExternalLink, url: "" } 
         ];
     }
 
@@ -35,13 +54,12 @@
         $form.external_links = $form.external_links
     }
 
-    function onSubmit(event){
-        event.preventDefault();
+    function onSubmit(){
         $form.post(`/painel/profile/update/${profile?.id}`);
     }
 </script>
 
-<form on:submit={onSubmit}>
+<form on:submit|preventDefault={onSubmit}>
     <Section title="O básico">
         <div class="grid grid-cols-1 xl:grid-cols-[15rem_1fr] gap-5 items-center">
             <div class="mb-3">
@@ -51,6 +69,7 @@
                     view="w-full h-[25rem] lg:h-[15rem] rounded-lg lg:rounded-full object-contain lg:object-cover object-top bg-neutral-aurora"
                     src={$form.avatar} 
                     oninput={event => $form.avatar = event.target.files[0]} 
+                    required={profile ? false : true}
                 />
             </div>
             <div>
@@ -65,6 +84,7 @@
                             name="name"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             bind:value={$form.name}
+                            required
                         />
                     </div>
                     <div>
@@ -76,7 +96,8 @@
                             type="text"
                             name="nickname"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.nickname}                        
+                            bind:value={$form.nickname} 
+                            required                       
                         />
                     </div>
                     <div>
@@ -88,6 +109,7 @@
                             name="gender"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             bind:value={$form.gender}
+                            required
                         >
                             <option value="male">Masculino</option>
                             <option value="female">Feminino</option>
@@ -103,6 +125,7 @@
                             name="birthday"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             bind:value={$form.birthday}
+                            required
                         />
                     </div>
                 </div>
@@ -116,7 +139,8 @@
                             type="email"
                             name="email"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.email}                        
+                            bind:value={$form.email}    
+                            required                    
                         />
                     </div>
                     <div>
@@ -128,7 +152,8 @@
                             type="text"
                             name="city"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.city}                        
+                            bind:value={$form.city}   
+                            required                     
                         />
                     </div>
                     <div>
@@ -140,7 +165,8 @@
                             type="text"
                             name="state"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.state}                        
+                            bind:value={$form.state}    
+                            required                    
                         />
                     </div>
                     <div>
@@ -153,7 +179,8 @@
                             name="country"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             defaultValue="Brasil"
-                            bind:value={$form.country}                        
+                            bind:value={$form.country}  
+                            required                      
                         />
                     </div>
                 </div>
@@ -166,7 +193,7 @@
                 name="social" 
                 id="social" 
                 class="w-full lg:w-96 h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                bind:value={selectNewExternalLink} 
+                bind:value={selectedNewExternalLink} 
             >
                 {#each Default.social as item}
                     <option value={item.name}>{item.name}</option>
@@ -207,6 +234,7 @@
                 rows="5"
                 class="w-full bg-neutral-aurora font-noto-sans rounded-lg outline-none p-4"
                 bind:value={$form.bibliography}
+                required
             ></textarea>
         </div>
         <div class="mb-8">

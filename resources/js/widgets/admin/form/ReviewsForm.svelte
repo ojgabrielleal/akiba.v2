@@ -1,4 +1,5 @@
 <script>
+    import { onMount } from "svelte";
     import { page, useForm, Link } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin";
     import { Preview, Wysiwyg } from "@/components/admin";
@@ -10,31 +11,35 @@
         (item) => item.user.id === authorSelected,
     );
 
-    $: form = useForm({
+    let form = useForm({
         _method: null,
-        content_id: null,
-        image: publication?.image,
-        title: publication?.title,
-        sinopse: publication?.sinopse,
-        cover: publication?.cover,
-        content: contentSelected?.content,
+        content_id: contentSelected.id,
+        image: null,
+        title: null,
+        sinopse: null,
+        cover: null,
+        content: null,
+    });
+
+    onMount(()=>{
+        if(publication){
+            $form._method = "PUT",
+            $form.image = publication.image,
+            $form.title = publication.title,
+            $form.sinopse = publication.sinopse,
+            $form.cover = publication.cover,
+            $form.content = contentSelected.content
+        }
     })
 
-    function onSubmit(event) {
-        event.preventDefault();
-        
-        $form.content_id = contentSelected?.id;
-        if(publication){
-            $form._method = "PUT"
-            $form.post(`/painel/reviews/update/${publication.id}`);
-        }else{
-            $form.post(`/painel/reviews/create`, {
-                preserveState: false,
-                onSuccess: () => {
-                    $form.reset();
-                },
-            });
-        }
+    function onSubmit() {
+        let url = publication ? `/painel/reviews/update/${publication.id}` : `/painel/reviews/create`       
+        $form.post(url, {
+            preserveState: publication,
+            onSuccess: () => {
+                publication ? null : $form.reset();
+            },
+        });
     }
 </script>
 
@@ -50,7 +55,7 @@
             Eventos
         </Link>
     </div>        
-    <form class="mt-10 xl:mt-25" on:submit={onSubmit}>
+    <form on:submit|preventDefault={onSubmit} class="mt-10 xl:mt-25">
         <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
             <div class="mb-3">
                 <div class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans mb-1">
@@ -60,6 +65,7 @@
                     name="image" 
                     src={$form.image} 
                     oninput={event => $form.image = event.target.files[0]} 
+                    required={publication ? false : true}
                 />        
             </div>
             <div>
@@ -73,6 +79,7 @@
                         name="title"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                         bind:value={$form.title}
+                        required
                     />
                 </div>
                 <div class="mb-8">
@@ -83,6 +90,7 @@
                         height="15rem"
                         name="sinopse"
                         bind:value={$form.sinopse}
+                        required
                     />
                 </div>
                 <div class="mb-8">
@@ -94,6 +102,7 @@
                         viewobject="object-cover"
                         src={$form.cover} 
                         oninput={event => $form.cover = event.target.files[0]} 
+                        required
                     />   
                 </div>
                 <div>
@@ -115,7 +124,7 @@
                             {/each}
                         </div>
                     {/if}
-                    <Wysiwyg name="content" bind:value={$form.content} />
+                    <Wysiwyg name="content" bind:value={$form.content} required={true}/>
                 </div>
             </div>
         </div>

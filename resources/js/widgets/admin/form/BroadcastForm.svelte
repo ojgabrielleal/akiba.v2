@@ -11,19 +11,18 @@
         image: null,
     });
     
-    function onSubmit(event) {
-        event.preventDefault();
+    function onSubmit() {
         $form.post("/painel/locucao/set/start/broadcast");
     }
 
     function endBroadcast() {
-        router.post("/painel/locucao/set/end/broadcast");
+        router.post("/painel/locucao/set/finish/broadcast");
     }
 </script>
 
 {#if verify.onair === false && verify.streamer === false}
     <Section title="Meus Programas">
-        <form on:submit={onSubmit}>
+        <form on:submit|preventDefault={onSubmit}>
             {#if shows.length > 0}
                 <div class="flex flex-wrap justify-center gap-15 lg:gap-x-0 lg:gap-y-15 0 mt-10 mb-20">
                     {#each shows as item}

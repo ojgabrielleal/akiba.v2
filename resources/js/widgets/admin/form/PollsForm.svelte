@@ -13,21 +13,7 @@
         option_three: null,
         option_four: null 
     });
-
-    function onSubmit(event){
-        event.preventDefault();
-
-        if(pollId){
-            $form.put(`/painel/medias/update/poll/${pollId}`, {
-                onSuccess: () => close(),
-            });
-        }else{
-            $form.post("/painel/medias/create/poll", {
-                onSuccess: () => close(),
-            });
-        } 
-    }
-
+    
     onMount(()=>{
         if(pollId){
             axios.get(`/painel/medias/get/poll/${pollId}`).then((response) => {
@@ -39,9 +25,18 @@
             });
         }
     })
+    
+    function onSubmit(){
+        const method = pollId ? 'put' : 'post';
+        let url = pollId ? `/painel/medias/update/poll/${pollId}` : '/painel/medias/create/poll';
+        $form[method](url, {
+            onSuccess: () => close(),
+        });
+    }
+
 </script>
 
-<form on:submit={onSubmit}>
+<form on:submit|preventDefault={onSubmit}>
     <div class="mb-4">
         <label for="question" class="text-md text-gray-700 font-noto-sans block mb-1">
             Pergunta
@@ -67,6 +62,7 @@
                 placeholder="Digite a primeira opção"
                 class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
                 bind:value={$form.option_one}
+                required
             />
         </div>
         <div class="mb-4">
@@ -80,6 +76,7 @@
                 placeholder="Digite a segunda opção"
                 class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
                 bind:value={$form.option_two}
+                required
             />
         </div>
         <div class="mb-4">
@@ -93,6 +90,7 @@
                 placeholder="Digite a terceira opção"
                 class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
                 bind:value={$form.option_three}
+                required
             />
         </div>
         <div class="mb-6">
@@ -106,6 +104,7 @@
                 placeholder="Digite a quarta opção"
                 class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
                 bind:value={$form.option_four}
+                required
             />
         </div>
     </div>

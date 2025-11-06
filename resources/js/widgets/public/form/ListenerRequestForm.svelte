@@ -5,39 +5,6 @@
     import { metadata } from "@/store"
 
     // ------------------------------
-    // Rate Limit para evitar flood
-    // ------------------------------
-    let storange = localStorage.getItem('akiba_rate_limit');
-    let limit = false;
-    let countdown = "";
-    let interval;
-
-    if (storange) {
-        const rateLimit = new Date(storange);
-        const now = new Date();
-
-        if (now < rateLimit) {
-            limit = true;
-
-            interval = setInterval(() => {
-                const diff = rateLimit - new Date();
-                if (diff <= 0) {
-                    clearInterval(interval);
-                    localStorage.removeItem('akiba_rate_limit');
-                    limit = false;
-                    countdown = "";
-                } else {
-                    const minutes = Math.floor(diff / 60000);
-                    const seconds = Math.floor((diff % 60000) / 1000);
-                    countdown = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
-                }
-            }, 1000);
-        } else {
-            localStorage.removeItem('akiba_rate_limit');
-        }
-    }
-
-    // ------------------------------
     // Formulário
     // ------------------------------
     const form = useForm({
@@ -49,14 +16,11 @@
     });
 
     let success = false;
-    function onSubmit(event){
-        event.preventDefault();
-
+    function onSubmit(){
         $form.post('/create/listener/request', {
             onSuccess: () => {
                 const expiraEm = new Date(Date.now() + 90 * 1000);
                 localStorage.setItem('akiba_rate_limit', expiraEm.toISOString());
-
                 success = true;
             },
         });
@@ -114,8 +78,8 @@
     }
 </script>
 
-{#if $metadata.onair.listener_request_status === 1 && (!success && !limit)}
-    <form class="w-full" on:submit={onSubmit}>
+{#if $metadata.onair.listener_request_status === 1 && !success}
+    <form on:submit|preventDefault={onSubmit} class="w-full">
         <div class="mb-3">
             <label class="text-md text-gray-700 font-noto-sans block mb-1" for="listener">
                 Como gostaria de ser chamado?
@@ -278,7 +242,6 @@
             Mas relaxa, daqui a pouco você consegue mandar sua música! 💬🎶
         </dd>
     </dl>
-
 {:else if success}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
@@ -287,17 +250,6 @@
         <dd class="text-sm font-noto-sans text-gray-500">
             Seu pedido já tá a caminho! {$metadata.onair.user.gender === "male" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} vai ver rapidinho.  
             Fica por aqui e curte a vibe da programação! ✨🔥
-        </dd>
-    </dl>
-
-{:else}
-    <dl class="h-[25rem] py-3">
-        <dt class="mb-4 text-sm font-noto-sans text-gray-500">
-            😏 Eita, tá com saudade {$metadata.onair.user.gender === "male" ? "do DJ" : "da DJ"} {$metadata.onair.user.nickname}?
-        </dt>
-        <dd class="text-sm font-noto-sans text-gray-500 leading-relaxed">
-            Calmaaa! {$metadata.onair.user.gender === "male" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} ainda tá curtindo o último pedido 💃  
-            Aguenta só mais um pouquinho e você poderá mandar outro em <strong>{countdown}</strong>. ⏳💖
         </dd>
     </dl>
 {/if}

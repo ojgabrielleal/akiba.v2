@@ -27,7 +27,7 @@ class PostsController extends Controller
             $authenticated = request()->user();
 
             return [
-                'publish' => $authenticated->permissions_keys->contains('administrator'),
+                'publish' => $authenticated->permissions_keys->intersect(['administrator', 'dev'])->isNotEmpty(),
             ];
         } catch (\Throwable $e) {
             return $this->provideException($e);

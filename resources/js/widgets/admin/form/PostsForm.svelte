@@ -1,4 +1,5 @@
 <script>
+    import { onMount } from "svelte";
     import { useForm, page, Link } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin";
     import { Preview, Wysiwyg } from "@/components/admin";
@@ -6,39 +7,52 @@
     
     $: ({ screenPermissions, publication } = $page.props);
 
-    $: form = useForm({
+    let form = useForm({
         _method: null,
-        status: publication?.status,
-        image: publication?.image,
-        title: publication?.title,
-        cover: publication?.cover,
-        content: publication?.content,
-        first_category: publication?.categories[0]?.category_name,
-        second_category: publication?.categories[1]?.category_name,
-        first_reference_name: publication?.references[0]?.name,
-        first_reference_url: publication?.references[0]?.url,
-        second_reference_name: publication?.references[1]?.name,
-        second_reference_url:  publication?.references[1]?.url,
+        status: null,
+        image: null,
+        title: null,
+        cover: null,
+        content: null,
+        first_category: null,
+        second_category: null,
+        first_reference_name: null,
+        first_reference_url: null,
+        second_reference_name: null,
+        second_reference_url:  null,
     });
+
+    onMount(()=>{
+        if(publication){
+            $form._method = "PUT",
+            $form.status = publication.status,
+            $form.image = publication.image,
+            $form.title = publication.title,
+            $form.cover = publication.cover,
+            $form.content = publication.content,
+            $form.first_category = publication.categories[0].category_name,
+            $form.second_category = publication.categories[1].category_name,
+            $form.first_reference_name = publication.references[0].name,
+            $form.first_reference_url = publication.references[0].url,
+            $form.second_reference_name = publication.references[1].name,
+            $form.second_reference_url =  publication.references[1].url
+        }
+    })
     
     function onSubmit(event) {
-        event.preventDefault();
-        if(publication){
-            $form._method = "PUT";
-            $form.post(`/painel/materias/update/${publication.id}`);
-        }else{
-            $form.status = event.submitter.value;
-            $form.post('/painel/materias/create', {
-                preserveState: false,
-                onSuccess: () => {
-                    $form.reset()
-                }
-            });
-        }
+        let url = publication ? `/painel/materias/update/${publication.id}` : '/painel/materias/create';
+        
+        $form.status = event.submitter.value;
+        $form.post(url, {
+            preserveState: publication,
+            onSuccess: () => {
+                publication ? null : $form.reset()
+            }
+        });
     }
 </script>
 
-<Section title={publication ? "Editar matéria" : "Criar matéria"}>
+<Section title={publication ?  "Editar matéria" : "Criar matéria"}>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         <Link preserveState={false} href="/painel/materias" class="cursor-pointer border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-center text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
             Matérias
@@ -50,7 +64,7 @@
             Eventos
         </Link>
     </div>
-    <form class="mt-10 xl:mt-25" on:submit={onSubmit}>
+    <form on:submit|preventDefault={onSubmit} class="mt-10 xl:mt-25">
         <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
             <div class="mb-3">
                 <div class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
@@ -60,6 +74,7 @@
                     name="image" 
                     src={$form.image} 
                     oninput={event => $form.image = event.target.files[0]} 
+                    required={publication ? false : true}
                 />
             </div>
             <div class="mb-3">
@@ -84,6 +99,7 @@
                         viewobject="object-cover"
                         src={$form.cover}  
                         oninput={event => $form.cover = event.target.files[0]} 
+                        required={publication ? false : true}
                     />
                 </div>
                 <div class="mb-8">
@@ -93,6 +109,7 @@
                     <Wysiwyg 
                         name="content" 
                         bind:value={$form.content} 
+                        required={true}
                     />
                 </div>
             </div>
@@ -192,7 +209,7 @@
             </div>
         </div>
         <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
-            {#if publication?.status === "published"}
+            {#if publication && publication.status === "published"}
                 <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
                     Atualizar
                 </button>

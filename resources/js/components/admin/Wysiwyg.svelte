@@ -6,6 +6,7 @@
     export let value = ""; 
     export let height = "50rem";
     export let name = "content";
+    export let required = false;
 
     let quill;
     let editor;
@@ -54,4 +55,4 @@
 <div class="bg-neutral-aurora rounded-xl overflow-hidden">
     <div bind:this={editor} class="p-3 lg:min-h-[40rem]" style={`min-height: ${height};`}></div>
 </div>
-<textarea name={name} class="hidden" bind:this={textarea}></textarea>
+<textarea name={name} class="sr-only" bind:this={textarea} required={required}></textarea>
