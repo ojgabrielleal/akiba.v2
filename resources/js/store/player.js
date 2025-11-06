@@ -13,18 +13,11 @@ async function metadata() {
     axios.get('/api/cast/metadata')
     .then((response) => {
         let data = response.data
-
-        let music_cover
-        if(data.stream.capa_musica === "https://player.painelcast.com/img/img-capa-artista-padrao.png"){
-            music_cover = new URL('/img/default/defaultCover.webp', window.location.origin).href
-        }else{
-            music_cover = data.stream.capa_musica
-        }
-
+        console.log(data.stream.capa_musica)
         mediaSession({
             title: 'DJ ' + data.onair.user.nickname + ' - ' + data.onair.program.name,
             artist: decodeURIComponent(escape(data.stream.musica_atual)),
-            artwork: [{ src: music_cover, sizes: '512x512', type: 'image/png' }],
+            artwork: [{ src: data.stream.capa_musica, sizes: '512x512', type: 'image/png' }],
         });
     })
     .catch((error) => {
@@ -35,10 +28,9 @@ async function metadata() {
 function mediaSession({ title, artist, artwork }) {
     if ('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
-            title: title || 'DJ Aki-Chan - Let`s Play Akiba',
-            artist: artist || 'Yousei Teikoku - Kuusou Mesorogiwi',
-            album: 'Rede Akiba - O Paraíso dos Otakus',
-            artwork: artwork || [{ src: new URL('/img/default/defaultCover.webp', window.location.origin).href, sizes: '512x512', type: 'image/png' }]
+            title: title,
+            artist: artist,
+            artwork: artwork,
         });
     }
 }

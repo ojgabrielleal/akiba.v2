@@ -93,8 +93,19 @@ class HomeProvisoryController extends Controller
         }
     }
 
+    public function getOnair()
+    {
+        try{
+            return Onair::with('program.user')->where('is_live', true)->firstOrFail();
+        }  catch (\Throwable $e) {
+            return $this->provideException($e);
+        }
+    }
+
     public function render()
     {
-        return Inertia::render('public/HomeProvisory');
+        return Inertia::render('public/HomeProvisory', [
+            'onair' => $this->getOnair()
+        ]);
     }
 }

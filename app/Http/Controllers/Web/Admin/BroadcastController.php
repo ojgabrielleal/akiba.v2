@@ -231,6 +231,7 @@ class BroadcastController extends Controller
             "shows" => $this->listShows(),
             "requests" => $this->listListenersRequests(),
             "verify" => $this->setCheckOnair(),
+            'listenerRequests' => $this->listListenersRequests()
         ]);
     }
 }

@@ -1,8 +1,12 @@
 <script>
-    import { onMount, onDestroy } from "svelte";
+    import { onMount, onDestroy } from "svelte"
+    import { page, usePoll } from "@inertiajs/svelte";
     import { Modal } from "@/components/public"
     import { ListenerRequestForm } from "@/widgets/public/form"
     import { player, togglePlayPause, setVolume, metadata, startMetadataPolling, stopMetadataPolling } from "@/store"
+
+    usePoll(60*1000);
+    $: ({ onair } = $page.props);
 
     onMount(() => {
         startMetadataPolling();
@@ -22,11 +26,11 @@
         <!-- svelte-ignore a11y_distracting_elements -->
         <marquee class="w-5xl relative flex overflow-x-hidden marquee-container">
             <div class="whitespace-nowrap w-full md:w-auto text-neutral-aurora py-4 text-3xl font-noto-sans font-bold uppercase italic">
-                <span class="mx-4">{$metadata?.onair.phrase}</span>
+                <span class="mx-4">{onair.phrase}</span>
             </div>
         </marquee>
         <div class="hidden lg:block absolute bottom-0 right-4 z-10">
-            <img src={$metadata?.onair.image} alt="" aria-hidden="true" class="w-[8rem]" loading="lazy"/>
+            <img src={onair.image} alt="" aria-hidden="true" class="w-[8rem]" loading="lazy"/>
         </div>
         <div class="hidden lg:block absolute -top-8 right-0 z-10">
             <img src="/img/default/playerRains.webp" alt="" aria-hidden="true" class="w-[5rem]" loading="lazy"/>
@@ -42,29 +46,29 @@
             <!--Programa e locutor-->
             <dl class="flex flex-wrap xl:flex-nowrap items-center gap-5">
                 <dt class="w-[16rem]">
-                    <img src={$metadata?.onair.program.image} alt={`Programa ${$metadata?.onair.program.name}`} loading="lazy"/>
+                    <img src={onair.program.image} alt={`Programa ${onair.program.name}`} loading="lazy"/>
                 </dt>
                 <dd class="text-gray-500">
                     <img src="/svg/default/arrowRightTwo.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-gray" loading="lazy"/>
                 </dd>
                 <dt>
                     <div class="text-orange-amber font-noto-sans uppercase">
-                        {#if $metadata?.onair.user.gender === "male"}
+                        {#if onair.program.user.gender === "male"}
                             Com o DJ:
                         {:else}
                             Com a DJ:
                         {/if}
                     </div>
                     <div class="w-full text-neutral-aurora text-3xl font-noto-sans font-bold uppercase italic line-clamp-1">
-                        {$metadata?.onair.user.nickname}
+                        {onair.program.user.nickname}
                     </div>
-                    <div class={`${$metadata?.onair.category === "auto" ? "bg-purple-mystic" : $metadata?.onair.category === "record" ? "bg-orange-amber" : "bg-green-forest"} mt-[0.4rem] w-[6rem] rounded-xl text-center text-sm text-neutral-aurora font-noto-sans font-bold italic uppercase`}>
-                        {#if $metadata?.onair.category === "auto"}
+                    <div class={`${onair.category === "auto" ? "bg-purple-mystic" : onair.category === "record" ? "bg-orange-amber" : "bg-green-forest"} mt-[0.4rem] w-[6rem] rounded-xl text-center text-sm text-neutral-aurora font-noto-sans font-bold italic uppercase`}>
+                        {#if onair.category === "auto"}
                             Robô
-                        {:else if $metadata?.onair.category === "record"}
+                        {:else if onair.category === "record"}
                             Gravado
                         {:else}
-                            {#if $metadata?.onair.user.gender === "male"}
+                            {#if onair.program.user.gender === "male"}
                                 Humano
                             {:else}
                                 Humana
@@ -79,11 +83,7 @@
             <!--Música tocando-->
             <dl class="flex gap-3 items-end mt-14 lg:mt-10">
                 <dt class="w-[5rem] shrink-0">
-                    {#if $metadata?.stream.capa_musica === "https://player.painelcast.com/img/img-capa-artista-padrao.png"}
-                        <img src="/img/default/defaultCover.webp" on:error={(e) => e.target.src = '/img/default/defaultCover.webp'} alt="" aria-hidden="true" class="rounded-lg" loading="lazy"/>
-                    {:else}
-                        <img src={$metadata?.stream.capa_musica} on:error={(e) => e.target.src = '/img/default/defaultCover.webp'} alt="" aria-hidden="true" class="rounded-lg" loading="lazy"/>
-                    {/if}
+                    <img src={$metadata?.stream.capa_musica} alt="" aria-hidden="true" class="rounded-lg" loading="lazy"/>
                 </dt>
                 <dd>
                     <div class="text-orange-amber font-noto-sans uppercase italic">
@@ -98,37 +98,37 @@
         <!-- Segunda parte do player ( Avatar )-->
         <div class="hidden lg:block mt-5">
             <div class="w-[20rem] h-[25rem]">
-                <img src={$metadata?.onair.user.avatar} alt="" aria-label="hidden" class="object-cover w-full h-full" loading="lazy"/>
+                <img src={onair.program.user.avatar} alt="" aria-label="hidden" class="object-contain w-full h-full" loading="lazy"/>
             </div>
         </div>
         <!-- Terceira parte do player ( Controles e botão de pedidos )-->
         <div class="w-[14rem] hidden xl:flex flex-col justify-end items-center gap-3 mb-8">
             <!--Bloco informativo sobre o status do programa ("Programa gravado, locutor no ar etc")-->
             <div class="w-full px-3 mb-8">
-                <dl class={`${$metadata?.onair.category === "auto" ? "bg-purple-mystic" : $metadata?.onair.category === "record" ? "bg-orange-amber" : "bg-green-forest"} p-3 flex gap-2 justify-center items-center rounded-md`}>
+                <dl class={`${onair.category === "auto" ? "bg-purple-mystic" : onair.category === "record" ? "bg-orange-amber" : "bg-green-forest"} p-3 flex gap-2 justify-center items-center rounded-md`}>
                     <dt>
-                        {#if $metadata?.onair.category === "auto"}
+                        {#if onair.category === "auto"}
                             <img src="/svg/default/robot.svg" alt="" aria-hidden="true" class="w-15" loading="lazy"/>
                         {/if}
-                        {#if $metadata?.onair.category === "record"}
+                        {#if onair.category === "record"}
                             <img src="/svg/default/disc.svg" alt="" aria-hidden="true" class="w-10" loading="lazy"/>
                         {/if}
-                        {#if $metadata?.onair.category === "live"}
+                        {#if onair.category === "live"}
                             <img src="/svg/default/stream.svg" alt="" aria-hidden="true" class="w-10" loading="lazy"/>
                         {/if}
                     </dt>
                     <dd class="font-noto-sans font-medium italic uppercase text-center leading-[1rem]">
-                        {#if $metadata?.onair.category === "auto"}
+                        {#if onair.category === "auto"}
                             Programação automática
                         {/if}
-                        {#if $metadata?.onair.category === "record"}
+                        {#if onair.category === "record"}
                             Programa gravado
                         {/if}
-                        {#if $metadata?.onair.category === "live"}
-                            {#if $metadata?.onair.user.gender === "male"}
+                        {#if onair.category === "live"}
+                            {#if onair.program.user.gender === "male"}
                                 Locutor <br/> ao vivo agora
                             {/if}
-                            {#if $metadata?.onair.user.gender === "female"}
+                            {#if onair.program.user.gender === "female"}
                                 Locutora <br/> ao vivo agora
                             {/if}
                         {/if}

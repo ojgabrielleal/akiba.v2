@@ -1,33 +1,16 @@
 <script>
-    import { onMount, onDestroy } from "svelte";
-    import { page, router } from "@inertiajs/svelte";
+    import { page, router, usePoll } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin/";
-    import { listenerRequests, startListenerRequestPolling, stopListenerRequestPolling, refetchListenerRequests } from "@/store"
 
-    $: ({ verify } = $page.props);
-
-    onMount(() => {
-       startListenerRequestPolling();
-    });
-
-    onDestroy(() => {
-        stopListenerRequestPolling();
-    })
+    usePoll(60*1000)
+    $: ({ listenerRequests, verify } = $page.props);
 
     function markToGranted(id){
-        router.put(`/painel/locucao/set/granted/listener/requests/${id}`, {}, {
-            onSuccess: ()=>{
-                refetchListenerRequests();
-            }
-        })
+        router.put(`/painel/locucao/set/granted/listener/requests/${id}`)
     }
 
     function markToCanceled(id){
-        router.put(`/painel/locucao/set/cancel/listener/requests/${id}`, {}, {
-            onSuccess: ()=>{
-                refetchListenerRequests();
-            }
-        })
+        router.put(`/painel/locucao/set/cancel/listener/requests/${id}`)
     }
 
     function changeStatus(){
@@ -48,9 +31,9 @@
                 </button>
             {/if}
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 mt-10">
-            {#each $listenerRequests.requests as item}
-                <article class={`w-full lg:w-[23.6rem] rounded-lg p-3 ${item.status === "granted" ? "bg-green-forest" : item.status ==="canceled" ? "bg-red-crimson" : "bg-blue-skywave"}`}>
+        <div class="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 gap-2 mt-10">
+            {#each listenerRequests as item}
+                <article class={`w-full 2xl:w-[23.6rem] rounded-lg p-3 ${item.status === "granted" ? "bg-green-forest" : item.status ==="canceled" ? "bg-red-crimson" : "bg-blue-skywave"}`}>
                     <div class="w-70 flex items-center gap-1.5 text-neutral-aurora text-[1.2rem] font-noto-sans font-bold italic truncate">
                         <img src="/svg/default/profile.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                         {item.listener}
@@ -72,16 +55,16 @@
                             <div class="absolute right-0 w-2/5 h-[0.1rem] bg-white rounded-full top-1/2 -translate-y-1/2"></div>
                         </div>
                     </div>
-                    <div class="flex gap-3">
+                    <div class="flex flex-wrap xl:flex-nowrap gap-3">
                         <img src={item.music.image} alt={`Capa do anime ${item.music.production}`} class="w-15 h-15 rounded-lg object-cover object-top shrink-0" loading="lazy"/>
                         <div>
-                            <div class="w-70 block text-neutral-aurora text-sm font-noto-sans truncate text-ellipsis">
+                            <div class="w-full lg:w-50 xl:w-full block text-neutral-aurora text-sm font-noto-sans truncate text-ellipsis">
                                 Anime: {item.music.production}
                             </div>
-                            <div class="w-70 block text-neutral-aurora text-sm font-noto-sans truncate text-ellipsis">
+                            <div class="w-full lg:w-50 xl:w-full block text-neutral-aurora text-sm font-noto-sans truncate text-ellipsis">
                                 Artista: {item.music.artist}
                             </div>
-                            <div class="w-70 block text-neutral-aurora text-sm font-noto-sans truncate text-ellipsis">
+                            <div class="w-full lg:w-50 xl:w-full block text-neutral-aurora text-sm font-noto-sans truncate text-ellipsis">
                                 Música: {item.music.music}
                             </div>
                         </div>

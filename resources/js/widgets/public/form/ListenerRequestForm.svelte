@@ -1,8 +1,9 @@
 <script>
     import axios from "axios";
-    import { useForm } from "@inertiajs/svelte";
+    import { useForm, page } from "@inertiajs/svelte";
     import { debounce } from "@/utils";
-    import { metadata } from "@/store"
+
+    $: ({ onair } = $page.props);
 
     // ------------------------------
     // Formulário
@@ -78,7 +79,7 @@
     }
 </script>
 
-{#if $metadata.onair.listener_request_status === 1 && !success}
+{#if onair.listener_request_status === 1 && !success}
     <form on:submit|preventDefault={onSubmit} class="w-full">
         <div class="mb-3">
             <label class="text-md text-gray-700 font-noto-sans block mb-1" for="listener">
@@ -232,13 +233,13 @@
         </button>
     </form>
 
-{:else if $metadata.onair.listener_request_status === 0}
+{:else if onair.listener_request_status === 0}
     <dl class="h-[25rem] py-3">
         <dt class="mb-4 text-sm font-noto-sans text-gray-500">
             😭 Ai… não dá pra mandar pedido agora!
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            O programa não tá rolando ou {$metadata.onair.user.gender === "male" ? "o DJ" : "a DJ"} {$metadata.onair.user.nickname} tá dando uma pausa, tá?  
+            O programa não tá rolando ou {onair.program.user.gender === "male" ? "o DJ" : "a DJ"} {onair.program.user.nickname} tá dando uma pausa, tá?  
             Mas relaxa, daqui a pouco você consegue mandar sua música! 💬🎶
         </dd>
     </dl>
@@ -248,7 +249,7 @@
             💌 Yay! Pedido enviado!
         </dt>
         <dd class="text-sm font-noto-sans text-gray-500">
-            Seu pedido já tá a caminho! {$metadata.onair.user.gender === "male" ? "O DJ" : "A DJ"} {$metadata.onair.user.nickname} vai ver rapidinho.  
+            Seu pedido já tá a caminho! {onair.program.user.gender === "male" ? "O DJ" : "A DJ"} {onair.program.user.nickname} vai ver rapidinho.  
             Fica por aqui e curte a vibe da programação! ✨🔥
         </dd>
     </dl>
