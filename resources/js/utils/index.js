@@ -1,2 +1,2 @@
-export { debounce } from "./Debounce.js";
-export { scrollx } from "./Scroll.js";
+export { debounce } from "./debounce.js";
+export { scrollx } from "./scroll.js";
