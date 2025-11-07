@@ -14,10 +14,18 @@ use App\Traits\Response\ProvideSuccess;
 use App\Models\Onair;
 use App\Models\Music;
 use App\Models\ListenerRequest;
+use App\Services\RadioAPIService;
 
 class HomeProvisoryController extends Controller
 {
     use ProvideException;
+
+    protected $radio;
+
+    public function __construct(RadioAPIService $radio)
+    {
+        $this->radio = $radio;
+    }
 
     public function createListenerRequest(Request $request)
     {
@@ -96,9 +104,19 @@ class HomeProvisoryController extends Controller
     public function getOnair()
     {
         try{
-            return Onair::with('program.user')->where('is_live', true)->firstOrFail();
+            $radio = $this->radio->getMetadata();
+            $musica = $radio['musica_atual'] ?? null;
+            $capa = $radio['capa_musica'] ?? null;
+
+            $onair = Onair::with('program.user')->where('is_live', true)->firstOrFail();
+            $onair->musica = [
+                'musica_atual' => $musica,
+                'capa_musica' => $capa
+            ];
+
+            return $onair;
         }  catch (\Throwable $e) {
-            return $this->provideException($e);
+            return null;
         }
     }
 

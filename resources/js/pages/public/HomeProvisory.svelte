@@ -1,7 +1,6 @@
 <script>
     import { Meta } from "@/meta";
     import { CorePlayer, DockPlayer } from "@/widgets/public/player"
-    import { metadata } from "@/store" 
 
     document.body.style.backgroundColor = "var(--color-blue-midnight)";
     document.body.style.overflowX = "hidden";

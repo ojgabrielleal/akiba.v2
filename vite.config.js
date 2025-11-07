@@ -18,4 +18,13 @@ export default defineConfig({
         tailwindcss(),
         svelte(),
     ],
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ['svelte', 'svelte/transition', 'svelte/store'],
+                }
+            }
+        }
+    }
 });

@@ -22,7 +22,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return to_route('render.painel.dashboard');
+            return redirect()->route('render.painel.dashboard');
         }
 
         return back(303)->with('flash', [

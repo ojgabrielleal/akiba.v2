@@ -6,8 +6,8 @@
 </head>
 <body>
     @inertia
-    <audio id="stream">
-        <source src="/api/cast/stream" type="audio/mp3" />
+    <audio id="radio">
+        <source src="/api/radio/stream" type="audio/mp3" />
         seu navegador não suporta HTML5
     </audio>
 </body>

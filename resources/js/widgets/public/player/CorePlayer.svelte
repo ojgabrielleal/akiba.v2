@@ -1,20 +1,12 @@
 <script>
-    import { onMount, onDestroy } from "svelte"
     import { page, usePoll } from "@inertiajs/svelte";
     import { Modal } from "@/components/public"
     import { ListenerRequestForm } from "@/widgets/public/form"
-    import { player, togglePlayPause, setVolume, metadata, startMetadataPolling, stopMetadataPolling } from "@/store"
+    import { player, togglePlayPause, setVolume } from "@/store"
 
     usePoll(60*1000);
     $: ({ onair } = $page.props);
 
-    onMount(() => {
-        startMetadataPolling();
-    });
-
-    onDestroy(() => {
-        stopMetadataPolling();
-    });
 </script>
 
 <!--Frase do locutor acima do player principal-->
@@ -83,14 +75,14 @@
             <!--Música tocando-->
             <dl class="flex gap-3 items-end mt-14 lg:mt-10">
                 <dt class="w-[5rem] shrink-0">
-                    <img src={$metadata?.stream.capa_musica} alt="" aria-hidden="true" class="rounded-lg" loading="lazy"/>
+                    <img src={onair.musica.capa_musica} alt="" aria-hidden="true" class="rounded-lg" loading="lazy"/>
                 </dt>
                 <dd>
                     <div class="text-orange-amber font-noto-sans uppercase italic">
                         Tocando agora:
                     </div>
                     <div class="text-neutral-aurora text-xl font-noto-sans font-bold uppercase italic line-clamp-2">
-                        {decodeURIComponent(escape($metadata?.stream.musica_atual))}
+                        {decodeURIComponent(escape(onair.musica.musica_atual))}
                     </div>
                 </dd>
             </dl>

@@ -30,7 +30,7 @@ Route::prefix('painel')->group(function () {
         Route::post('/authenticate', 'authenticate');
     });
 
-    Route::middleware(['inertia', 'auth'])->group(function () {
+    Route::middleware(['inertiaMiddleware', 'authMiddleware'])->group(function () {
         Route::prefix('/dashboard')->group(function () {
             Route::controller(DashboardController::class)->group(function () {
                 Route::get('/', 'render')->name('render.painel.dashboard');

@@ -3,11 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Api\CastController;
+use App\Http\Controllers\Api\RadioController;
 
-Route::group(['prefix' => 'cast'], function () {
-    Route::controller(CastController::class)->group(function () {
-        Route::get('/metadata', 'metadata');
+Route::group(['prefix' => 'radio'], function () {
+    Route::controller(RadioController::class)->group(function () {
         Route::get('/stream', 'stream');
     });
 });
