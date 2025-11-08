@@ -29,14 +29,19 @@ class HandleInertiaRequestsMiddleware extends Middleware
     {
         $radio = app(\App\Services\RadioAPIService::class);
         $metadata = $radio->getMetadata(); 
+        $filteredMetadata = [
+            'ouvintes_conectados' => $metadata['ouvintes_conectados'] ?? null,
+            'plano_bitrate'       => $metadata['plano_bitrate'] ?? null,
+            'status'              => $metadata['status'] ?? null,
+        ];
 
         return array_merge(parent::share($request), [
             'authenticated' => function () {
                 return Auth::check() ? Auth::user() : null;
             },
 
-            'radio' => function() use ($metadata){
-                return Auth::check() ? $metadata : null;
+            'radio' => function() use ($filteredMetadata){
+                return Auth::check() ? $filteredMetadata : null;
             },
     
             'flash' => [
