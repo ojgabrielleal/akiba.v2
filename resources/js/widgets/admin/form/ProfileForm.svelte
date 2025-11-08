@@ -242,7 +242,7 @@
                 3 Gêneros de anime que você mais gosta
             </label>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                {#each $form.likes.filter(item => item.category === "like") as item}
+                {#each $form.likes?.filter(item => item.category === "like") as item}
                     <input
                         id={item.id}
                         type="text"
