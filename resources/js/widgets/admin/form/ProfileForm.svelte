@@ -258,7 +258,7 @@
                 3 Gêneros de anime que você menos gosta
             </label>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                {#each $form.likes.filter(item => item.category === "unlike") as item, index}
+                {#each $form.likes?.filter(item => item.category === "unlike") as item}
                     <input
                         id={item.id}
                         type="text"
