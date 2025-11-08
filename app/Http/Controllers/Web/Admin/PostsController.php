@@ -41,7 +41,7 @@ class PostsController extends Controller
 
             $query = Post::orderBy('created_at', 'desc');
             $query->with('user');
-            $query->when(!$authenticated->permissions_keys->contains('administrator'), function ($q) use ($authenticated) {
+            $query->when(!$authenticated->permissions_keys->intersect(['administrator', 'dev'])->isNotEmpty(), function ($q) use ($authenticated) {
                 $q->where('user_id', $authenticated->id);
             });
             $posts = $query->paginate(10);
