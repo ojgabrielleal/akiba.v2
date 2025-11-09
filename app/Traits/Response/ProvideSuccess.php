@@ -73,7 +73,7 @@ trait ProvideSuccess
         $base = $messages[$action] ?? $default_message;
         $final = $base['message'];
 
-        return back(303)->with('flash', [
+        return redirect()->back()->withInput()->with('flash', [
             'type' => $base['type'],
             'message' => $final,
         ]);
