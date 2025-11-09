@@ -1,0 +1,23 @@
+{
+  "_vendor-CX-v2nku.js": {
+    "file": "assets/vendor-CX-v2nku.js",
+    "name": "vendor"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-DAO92Cjs.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-r7SyEjxF.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_vendor-CX-v2nku.js"
+    ],
+    "css": [
+      "assets/app-7oN3-GhD.css"
+    ]
+  }
+}
