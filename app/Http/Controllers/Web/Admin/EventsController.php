@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
-
 use App\Exceptions\AlreadyExistsException;
 
 use Inertia\Inertia;

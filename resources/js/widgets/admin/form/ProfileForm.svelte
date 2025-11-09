@@ -7,20 +7,19 @@
 
     $: ({ profile } = $page.props);
 
-    let form = useForm({
+    $: form = useForm({
         _method: null,
         name: null,
         nickname: null,
         gender: null,
         avatar: null,
         birthday: null,
-        email: null,
         city: null,
         state: null,
         country: null,
         bibliography: null,
         external_links: null,
-        likes: null,
+        likes: [],
     })
 
     onMount(()=>{
@@ -31,7 +30,6 @@
             $form.gender = profile.gender,
             $form.avatar = profile.avatar,
             $form.birthday = profile.birthday,
-            $form.email = profile.email,
             $form.city = profile.city,
             $form.state = profile.state,
             $form.country = profile.country,
@@ -53,7 +51,7 @@
         $form.external_links.splice(index, 1);
         $form.external_links = $form.external_links
     }
-
+    
     function onSubmit(){
         $form.post(`/painel/profile/update/${profile?.id}`);
     }
@@ -130,19 +128,6 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 mb-8">
-                    <div>
-                        <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="email">
-                            Email
-                        </label>
-                        <input
-                            id="email"
-                            type="email"
-                            name="email"
-                            class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.email}    
-                            required                    
-                        />
-                    </div>
                     <div>
                         <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="city">
                             Cidade
@@ -242,14 +227,18 @@
                 3 Gêneros de anime que você mais gosta
             </label>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                {#each $form.likes?.filter(item => item.category === "like") as item}
-                    <input
+                {#each $form.likes?.like as item}
+                    <select
                         id={item.id}
-                        type="text"
                         name={item.id}
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                         bind:value={item.content}
-                    />
+                        required
+                    >
+                        {#each Default.anime_gender as gender}
+                            <option value={gender.value}>{gender.name}</option>
+                        {/each}
+                    </select>
                 {/each}
             </div>
         </div>
@@ -258,14 +247,18 @@
                 3 Gêneros de anime que você menos gosta
             </label>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                {#each $form.likes?.filter(item => item.category === "unlike") as item}
-                    <input
+                {#each $form.likes?.unlike as item}
+                    <select
                         id={item.id}
-                        type="text"
                         name={item.id}
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                         bind:value={item.content}
-                    />
+                        required
+                    >
+                        {#each Default.anime_gender as gender}
+                            <option value={gender.value}>{gender.name}</option>
+                        {/each}
+                    </select>
                 {/each}
             </div>
         </div>

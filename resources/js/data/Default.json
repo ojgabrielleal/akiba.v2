@@ -75,5 +75,177 @@
       "name": "Site",
       "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='#888'/><path d='M8 12h8M12 8v8' stroke='#fff' stroke-width='2'/></svg>"
     }
+  ],
+  "anime_gender": [
+    {
+      "value": "acao",
+      "name": "Ação"
+    },
+    {
+      "value": "aventura",
+      "name": "Aventura"
+    },
+    {
+      "value": "comedia",
+      "name": "Comédia"
+    },
+    {
+      "value": "drama",
+      "name": "Drama"
+    },
+    {
+      "value": "fantasia",
+      "name": "Fantasia"
+    },
+    {
+      "value": "ficcao_cientifica",
+      "name": "Ficção científica"
+    },
+    {
+      "value": "horror",
+      "name": "Horror"
+    },
+    {
+      "value": "misterio",
+      "name": "Mistério"
+    },
+    {
+      "value": "romance",
+      "name": "Romance"
+    },
+    {
+      "value": "slice_of_life",
+      "name": "Slice of Life"
+    },
+    {
+      "value": "esporte",
+      "name": "Esporte"
+    },
+    {
+      "value": "historico",
+      "name": "Histórico"
+    },
+    {
+      "value": "psicologico",
+      "name": "Psicológico"
+    },
+    {
+      "value": "musical",
+      "name": "Musical"
+    },
+    {
+      "value": "mecha",
+      "name": "Mecha"
+    },
+    {
+      "value": "isekai",
+      "name": "Isekai"
+    },
+    {
+      "value": "shoujo",
+      "name": "Shoujo"
+    },
+    {
+      "value": "shounen",
+      "name": "Shounen"
+    },
+    {
+      "value": "seinen",
+      "name": "Seinen"
+    },
+    {
+      "value": "josei",
+      "name": "Josei"
+    },
+    {
+      "value": "magical_girl",
+      "name": "Magical Girl"
+    },
+    {
+      "value": "ecchi",
+      "name": "Ecchi"
+    },
+    {
+      "value": "harem",
+      "name": "Harem"
+    },
+    {
+      "value": "reverse_harem",
+      "name": "Reverse Harem"
+    },
+    {
+      "value": "yaoi",
+      "name": "Yaoi"
+    },
+    {
+      "value": "boys_love",
+      "name": "Boys’ Love"
+    },
+    {
+      "value": "yuri",
+      "name": "Yuri"
+    },
+    {
+      "value": "girls_love",
+      "name": "Girls’ Love"
+    },
+    {
+      "value": "thriller",
+      "name": "Thriller"
+    },
+    {
+      "value": "supernatural",
+      "name": "Supernatural"
+    },
+    {
+      "value": "cyberpunk",
+      "name": "Cyberpunk"
+    }
+  ],
+  "tags": [
+    {
+      "value": "#",
+      "label": "Selecione uma tag"
+    },
+    {
+      "value": "noticias",
+      "label": "Notícias"
+    },
+    {
+      "value": "novidades",
+      "label": "Novidades"
+    },
+    {
+      "value": "anime",
+      "label": "Anime"
+    },
+    {
+      "value": "eventos",
+      "label": "Eventos"
+    },
+    {
+      "value": "manga",
+      "label": "Mangá"
+    },
+    {
+      "value": "light-novel",
+      "label": "Light Novel"
+    },
+    {
+      "value": "listas",
+      "label": "Listas"
+    },
+    {
+      "value": "curiosidades",
+      "label": "Curiosidades"
+    },
+    {
+      "value": "tops",
+      "label": "Top’s"
+    },
+    {
+      "value": "primeira-impressao",
+      "label": "1ª Impressão"
+    }
   ]
 }

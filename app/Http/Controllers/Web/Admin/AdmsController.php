@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use App\Exceptions\AlreadyExistsException;
 
 use Inertia\Inertia;
 
@@ -86,6 +87,9 @@ class AdmsController extends Controller
                 'gender.required' => 'Gênero',
                 'permission.required' => "Cargo principal"
             ]);
+
+            $exists = User::where('username', $request->input('username'))->exists();
+            if($exists) throw new AlreadyExistsException();
 
             $user = User::create([
                 'slug' => Str::slug($request->input('nickname')),

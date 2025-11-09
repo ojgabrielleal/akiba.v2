@@ -3,7 +3,7 @@
     import { useForm, page, Link } from "@inertiajs/svelte";
     import { Section } from "@/layouts/admin";
     import { Preview, Wysiwyg } from "@/components/admin";
-    import Tags from "@/data/admin/Tags";
+    import Default from "@/data/Default";
     
     $: ({ screenPermissions, publication } = $page.props);
 
@@ -126,7 +126,7 @@
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
                         bind:value={$form.first_category}
                     >
-                        {#each Tags as tag}
+                        {#each Default.tags as tag}
                             <option value={tag.value}>{tag.label}</option>
                         {/each}
                     </select>
@@ -141,7 +141,7 @@
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
                         bind:value={$form.second_category}
                     >
-                        {#each Tags as tag}
+                        {#each Default.tags as tag}
                             <option value={tag.value}>{tag.label}</option>
                         {/each}
                     </select>
