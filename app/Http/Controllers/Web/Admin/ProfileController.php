@@ -27,37 +27,12 @@ class ProfileController extends Controller
             if($slug){
                 $authenticated = request()->user();
 
-                function organizedLikes($item){
-                    return [
-                        'avatar' => $item->avatar,
-                        'bibliography' => $item->bibliography,
-                        'birthday' => \Carbon\Carbon::parse($item->birthday)->format('Y-m-d'),
-                        'city' => $item->city,
-                        'country' => $item->country,
-                        'created_at' => $item->created_at,
-                        'external_links' => $item->external_links,
-                        'gender' => $item->gender,
-                        'id' => $item->id,
-                        'is_active' => $item->is_active,
-                        'likes' =>  [
-                            'like' => $item->likes->where('category', 'like')->values()->toArray(),
-                            'unlike' => $item->likes->where('category', 'unlike')->values()->toArray()
-                        ],
-                        'name' => $item->name,
-                        'nickname' => $item->nickname,
-                        'permissions_keys' => $item->permissions_keys,
-                        'slug' => $item->slug,
-                        'state' => $item->state,
-                        'updated_at' => $item->updated_at
-                    ];
-                }
                 
                 if ($authenticated->permissions_keys->intersect(['administrator', 'dev'])->isNotEmpty()) {
-                    $user = User::where('slug', $slug)->firstOrFail();
-                    return organizedLikes($user);
+                    return User::where('slug', $slug)->firstOrFail();
                 }
 
-                return organizedLikes($authenticated);
+                return $authenticated;
             }
         }catch(\Throwable $e){
             return $this->provideException($e);
@@ -127,13 +102,7 @@ class ProfileController extends Controller
             // Gostos
             $likes = $request->input('likes', []);
             if($likes){
-                foreach($likes['like'] as $item){
-                    UserLike::where('id', $item['id'])->update([
-                        'category' => $item['category'],
-                        'content' => $item['content']
-                    ]);
-                }
-                foreach($likes['unlike'] as $item){
+                foreach($likes as $item){
                     UserLike::where('id', $item['id'])->update([
                         'category' => $item['category'],
                         'content' => $item['content']

@@ -7,6 +7,10 @@
 
     $: ({ profile } = $page.props);
 
+    $:if(profile){
+        console.log(profile)
+    }
+
     $: form = useForm({
         _method: null,
         name: null,
@@ -18,7 +22,7 @@
         state: null,
         country: null,
         bibliography: null,
-        external_links: null,
+        external_links: [],
         likes: [],
     })
 
@@ -200,6 +204,7 @@
                         name={item.name}
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                         bind:value={item.url}
+                        required
                     />
                     <button on:click={() => removeExternalLink(index)} type="button" class="cursor-pointer absolute right-2 top-[3.5rem] transform -translate-y-1/2 bg-red-500 p-2 rounded-md">
                         <img src="/svg/default/trash.svg" class="w-4 filter-neutral-aurora" alt="Remover">
@@ -227,7 +232,7 @@
                 3 Gêneros de anime que você mais gosta
             </label>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                {#each $form.likes?.like as item}
+                {#each $form.likes.filter((item)=> item.category === 'like') as item}
                     <select
                         id={item.id}
                         name={item.id}
@@ -247,7 +252,7 @@
                 3 Gêneros de anime que você menos gosta
             </label>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                {#each $form.likes?.unlike as item}
+                {#each $form.likes.filter((item)=> item.category === 'unlike') as item}
                     <select
                         id={item.id}
                         name={item.id}
