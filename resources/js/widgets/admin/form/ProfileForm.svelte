@@ -202,7 +202,7 @@
                         id={item.name}
                         type="url"
                         name={item.name}
-                        class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
+                        class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4 pr-14"
                         bind:value={item.url}
                         required
                     />
