@@ -7,10 +7,6 @@
 
     $: ({ profile } = $page.props);
 
-    $:if(profile){
-        console.log(profile)
-    }
-
     $: form = useForm({
         _method: null,
         name: null,
