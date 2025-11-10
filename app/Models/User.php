@@ -39,21 +39,19 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    /*
-     * Relationships from models
-     */
     public function userExternalLinks()
     {
         return $this->hasMany(UserExternalLink::class, 'user_id');
     }
 
-    public function userPermissions()
-    {
-        return $this->hasMany(UserPermission::class, 'user_id');
-    }
-
+    
     public function userLikes()
     {
         return $this->hasMany(UserLike::class, 'user_id');
+    }
+
+    public function roles()
+    {
+        return $this->hasMany(Role::class, 'user_id');
     }
 }

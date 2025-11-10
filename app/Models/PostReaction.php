@@ -12,4 +12,8 @@ class PostReaction extends Model
         'post_id',
         'reaction_type',
     ];
+
+    protected $hidden = [
+        'post_id'
+    ];
 }

@@ -13,4 +13,8 @@ class AutodjPhrase extends Model
         'image',
         'phrase',
     ];
+
+    protected $hidden = [
+        'autodj_id'
+    ];
 }

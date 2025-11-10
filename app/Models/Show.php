@@ -9,8 +9,8 @@ class Show extends Model
     protected $table = 'shows';
 
     protected $fillable = [
-        'is_active',
         'user_id',
+        'is_active',
         'slug',
         'name',
         'image',

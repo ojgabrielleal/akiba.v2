@@ -4,21 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Podcast extends Model
+class Role extends Model
 {
-    protected $table = 'podcasts';
+    protected $table = 'roles';
 
     protected $fillable = [
         'user_id',
-        'slug',
-        'is_active',
-        'image',
-        'season',
-        'episode',
-        'title',
-        'summary',
-        'description',
-        'audio'
+        'name',
+        'description'
     ];
 
     protected $hidden = [
@@ -28,5 +21,10 @@ class Podcast extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function permissions()
+    {
+        return $this->belongsTo(Permission::class, 'role_id');
     }
 }
