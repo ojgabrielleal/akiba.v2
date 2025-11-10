@@ -31,17 +31,9 @@ class Show extends Model
     }
 
     /**
-     * Relationship from model 'Onair'
-     */
-    public function onair()
-    {
-        return $this->morphMany(Onair::class, 'program');
-    }
-
-    /**
      * Relationship from model 'ProgramSchedule'
      */
-    public function schedules()
+    public function programSchedule()
     {
         return $this->hasMany(ProgramSchedule::class);
     }

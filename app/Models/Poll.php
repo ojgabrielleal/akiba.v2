@@ -17,7 +17,7 @@ class Poll extends Model
         'status' => 'boolean',
     ];
 
-    public function options()
+    public function pollOptions()
     {
         return $this->hasMany(PollOption::class, 'poll_id');
     }

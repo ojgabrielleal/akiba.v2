@@ -28,7 +28,7 @@ class Alert extends Model
     /**
      * Relationship with the 'AlertSignature' model.
      */
-    public function signatures()
+    public function alertSignature()
     {
         return $this->hasMany(AlertSignature::class, 'alert_id');
     }

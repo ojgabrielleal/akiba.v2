@@ -17,12 +17,4 @@ class ProgramSchedule extends Model
     protected $hidden = [
         'show_id',
     ];
-
-    /**
-     * Relationship with the 'Shows' model.
-     */
-    public function show()
-    {
-        return $this->belongsTo(Show::class);
-    }
 }

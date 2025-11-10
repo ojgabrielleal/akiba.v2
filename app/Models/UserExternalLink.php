@@ -17,12 +17,4 @@ class UserExternalLink extends Model
     protected $hidden = [
         'user_id'
     ];
-
-    /**
-     * Relationship from model 'Users'
-     */
-    public function users()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

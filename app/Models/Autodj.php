@@ -17,28 +17,20 @@ class Autodj extends Model
     protected $hidden = [
         'user_id',
     ];
-
-    /**
-     * Relationship from model 'AutodjPhrases'
-     */
-    public function phrases()
-    {
-        return $this->hasMany(AutodjPhrase::class);
-    }
-
+    
     /**
      * Relationship from model 'Users'
-     */
+    */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * Relationship from model 'Onair'
+     * Relationship from model 'AutodjPhrases'
      */
-    public function onair()
+    public function autoDjPhrases()
     {
-        return $this->morphMany(Onair::class, 'program');
+        return $this->hasMany(AutodjPhrase::class);
     }
 }

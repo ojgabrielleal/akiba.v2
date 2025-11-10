@@ -26,12 +26,4 @@ class ReviewContent extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    /**
-     * Relationship with the 'Reviews' model.
-     */
-    public function reviews()
-    {
-        return $this->belongsTo(Review::class);
-    }
 }

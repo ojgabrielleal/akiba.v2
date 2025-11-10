@@ -19,7 +19,7 @@ class Review extends Model
     /**
      * Relationship with the 'ReviewsContents' model.
      */
-    public function reviews()
+    public function reviewContent()
     {
         return $this->hasMany(ReviewContent::class);
     }

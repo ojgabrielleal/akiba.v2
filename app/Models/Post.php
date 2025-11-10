@@ -33,7 +33,7 @@ class Post extends Model
     /**
      * Relationship with the 'PostsReferences' model.
      */
-    public function references()
+    public function postReferences()
     {
         return $this->hasMany(PostReference::class, 'post_id');
     }
@@ -41,7 +41,7 @@ class Post extends Model
     /**
      * Relationship with the 'PostsReactions' model.
      */
-    public function reactions()
+    public function postReactions()
     {
         return $this->hasMany(PostReaction::class, 'post_id');
     }
@@ -49,7 +49,7 @@ class Post extends Model
     /**
      * Relationship with the 'PostsCategories' model.
      */
-    public function categories()
+    public function postCategories()
     {
         return $this->hasMany(PostCategory::class, 'post_id');
     }

@@ -59,98 +59,13 @@ class User extends Authenticatable
     /**
      * Relationships from models 'UsersExternalLink' and 'UsersPermissions'
      */
-    public function externalLinks()
+    public function userExternalLinks()
     {
         return $this->hasMany(UserExternalLink::class, 'user_id');
     }
 
-    public function permissions()
+    public function userPermissions()
     {
         return $this->hasMany(UserPermission::class, 'user_id');
-    }
-
-    public function likes()
-    {
-        return $this->hasMany(UserLike::class, 'user_id');
-    }
-
-    /** 
-     * Relationship from model 'Shows'
-    */
-    public function shows()
-    {
-        return $this->hasMany(Show::class, 'user_id');
-    }
-
-    /**
-     * Relationship from model 'Autodj'
-     */
-    public function autodj()
-    {
-        return $this->hasOne(Autodj::class, 'user_id');
-    }
-
-    /**
-     * Relationship from model 'Podcasts'
-     */
-    public function podcasts()
-    {
-        return $this->hasMany(Podcast::class, 'user_id');
-    }
-
-    /**
-     * Relationship from model 'ReviewsContents'
-     */
-    public function reviewsContents()
-    {
-        return $this->hasMany(ReviewContent::class, 'user_id');
-    }
-
-    /**
-     * Relationship from model 'Posts'
-     */
-    public function posts()
-    {
-        return $this->hasMany(Post::class, 'user_id');
-    }
-
-    /**
-     * Relationship from model 'Events'
-     */
-    public function events()
-    {
-        return $this->hasMany(Event::class, 'user_id');
-    }
-
-    /**
-     * Relationship from model 'Tasks'
-     */
-    public function tasks()
-    {
-        return $this->hasMany(Task::class, 'user_id');
-    }
-
-    /**
-     * Relationship from model 'Calendar'
-     */
-    public function calendar()
-    {
-        return $this->hasMany(Calendar::class, 'user_id');
-    }
-
-    /**
-     * Relationship from model 'Alerts'
-     */
-    public function alerts()
-    {
-        return $this->hasMany(Alert::class, 'user_id');
-    }
-
-    /**
-     * Relationship from model 'AlertsSignatures'
-     */
-    public function alertsSignatures()
-    {
-        return $this->hasMany(AlertSignature::class, 'user_id');
     }
 }

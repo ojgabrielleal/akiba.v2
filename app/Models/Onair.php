@@ -31,11 +31,4 @@ class Onair extends Model
         return $this->morphTo();
     }
 
-    /**
-     * Relationship from model 'ListenersRequests'
-     */
-    public function listenersRequests()
-    {
-        return $this->hasMany(ListenerRequest::class);
-    }
 }

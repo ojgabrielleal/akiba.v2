@@ -13,12 +13,4 @@ class AutodjPhrase extends Model
         'image',
         'phrase',
     ];
-
-    /**
-     * Relationship from model 'Autodj'
-     */
-    public function autodj()
-    {
-        return $this->belongsTo(Autodj::class);
-    }
 }

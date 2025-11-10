@@ -12,12 +12,4 @@ class UserPermission extends Model
         'user_id',
         'permission',
     ];
-
-    /**
-     * Relationship from model 'Users'
-     */
-    public function users()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

@@ -25,12 +25,4 @@ class AlertSignature extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    /**
-     * Relationship with 'Alert' model.
-     */
-    public function alert()
-    {
-        return $this->belongsTo(Alert::class);
-    }
 }

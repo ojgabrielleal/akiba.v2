@@ -18,12 +18,4 @@ class Music extends Model
         'is_ranking',
         'type'
     ];
-
-    /**
-     * Relationship with 'ListenersRequests' model
-     */
-    public function listenersRequests()
-    {
-        return $this->hasMany(ListenerRequest::class, 'music_id');
-    }
 }

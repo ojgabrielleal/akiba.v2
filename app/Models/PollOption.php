@@ -21,9 +21,4 @@ class PollOption extends Model
     protected $casts = [
         'votes' => 'integer',
     ];
-
-    public function polls()
-    {
-        return $this->belongsTo(Poll::class, 'poll_id');
-    }
 }

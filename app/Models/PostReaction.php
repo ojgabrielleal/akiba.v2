@@ -12,12 +12,4 @@ class PostReaction extends Model
         'post_id',
         'reaction_type',
     ];
-
-    /**
-     * Relationship with the 'Posts' model.
-     */
-    public function posts()
-    {
-        return $this->belongsTo(Post::class, 'post_id');
-    }
 }

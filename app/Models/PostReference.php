@@ -17,12 +17,4 @@ class PostReference extends Model
     protected $hidden = [
         'post_id'
     ];
-
-    /**
-     * Relationship with the 'Posts' model.
-     */
-    public function posts()
-    {
-        return $this->belongsTo(Post::class, 'post_id');
-    }
 }
