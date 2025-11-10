@@ -19,9 +19,6 @@ class ReviewContent extends Model
         'review_id'
     ];
 
-    /**
-     * Relationship with the 'Users' model.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);

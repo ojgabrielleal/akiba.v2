@@ -22,13 +22,9 @@ class Onair extends Model
     protected $hidden = [
         'program_id'
     ];
-    
-    /**
-     * Relationship from model 'Shows' and 'AutoDJ'
-     */
+
     public function program()
     {
         return $this->morphTo();
     }
-
 }

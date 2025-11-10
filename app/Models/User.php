@@ -39,25 +39,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected $with = [
-        'permissions', 
-        'externalLinks',
-        'likes'
-    ];
-
-    protected $appends = ['permissions_keys'];
-    
-    /**
-    * Set accessor 'permissions_keys' in response
-    */
-    public function getPermissionsKeysAttribute()
-    {
-        $permissions = $this->getRelationValue('permissions');
-        return $permissions ? $permissions->pluck('permission') : collect();
-    }
-
-    /**
-     * Relationships from models 'UsersExternalLink' and 'UsersPermissions'
+    /*
+     * Relationships from models
      */
     public function userExternalLinks()
     {
@@ -67,5 +50,10 @@ class User extends Authenticatable
     public function userPermissions()
     {
         return $this->hasMany(UserPermission::class, 'user_id');
+    }
+
+    public function userLikes()
+    {
+        return $this->hasMany(UserLike::class, 'user_id');
     }
 }

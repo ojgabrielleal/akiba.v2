@@ -23,17 +23,11 @@ class ListenerRequest extends Model
         'music_id'
     ];
 
-    /**
-     * Relationship with 'Onair' model
-     */
     public function onair()
     {
         return $this->belongsTo(Onair::class, 'onair_id');
     }
-
-    /**
-     * Relationship with 'Musics' model
-     */
+    
     public function music()
     {
         return $this->belongsTo(Music::class, 'music_id');

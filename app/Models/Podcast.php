@@ -21,9 +21,6 @@ class Podcast extends Model
         'audio'
     ];
 
-    /**
-     * Relationship with 'Users' model
-     */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

@@ -22,19 +22,13 @@ class Show extends Model
         'user_id',
     ];
 
-    /**
-     * Relationship from model 'Users'
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Relationship from model 'ProgramSchedule'
-     */
     public function programSchedule()
     {
         return $this->hasMany(ProgramSchedule::class);
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

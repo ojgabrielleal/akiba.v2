@@ -16,9 +16,6 @@ class Review extends Model
         'sinopse',
     ];
 
-    /**
-     * Relationship with the 'ReviewsContents' model.
-     */
     public function reviewContent()
     {
         return $this->hasMany(ReviewContent::class);

@@ -16,20 +16,14 @@ class Alert extends Model
     protected $hidden = [
         'user_id',
     ];
-
-    /**
-     * Relationship with the 'Users' model.
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
-    /**
-     * Relationship with the 'AlertSignature' model.
-     */
+    
     public function alertSignature()
     {
         return $this->hasMany(AlertSignature::class, 'alert_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

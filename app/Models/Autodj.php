@@ -18,19 +18,13 @@ class Autodj extends Model
         'user_id',
     ];
     
-    /**
-     * Relationship from model 'Users'
-    */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Relationship from model 'AutodjPhrases'
-     */
     public function autoDjPhrases()
     {
         return $this->hasMany(AutodjPhrase::class);
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
