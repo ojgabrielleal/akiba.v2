@@ -10,6 +10,7 @@ class Task extends Model
     protected $table = 'tasks';
 
     protected $fillable = [
+        'is_active',
         'user_id',
         'deadline',
         'content',
@@ -17,6 +18,7 @@ class Task extends Model
     ];
 
     protected $casts = [
+        'is_active' => 'boolean',
         'deadline' => 'datetime',
         'completed' => 'boolean',
     ];

@@ -9,6 +9,7 @@ class Post extends Model
     protected $table = 'posts';
 
     protected $fillable = [
+        'is_active',
         'user_id',
         'image',
         'slug',
@@ -16,6 +17,10 @@ class Post extends Model
         'content',
         'cover',
         'status',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean'
     ];
 
     protected $hidden = [

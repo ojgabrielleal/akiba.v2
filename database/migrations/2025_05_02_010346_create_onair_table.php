@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('onair', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('show_id')->constrained('shows')->cascadeOnDelete()->nullable();
-            $table->foreignId('autodj_id')->constrained('autodj')->cascadeOnDelete()->nullable();
+            $table->boolean('is_live')->default(true);
+            $table->morphs('show');
+            $table->string('image');
+            $table->string('phrase');
             $table->string('category');
+            $table->boolean('listener_request_status')->default(false);
+            $table->integer('listener_request_total')->default(0);
             $table->timestamps();
         });
     }

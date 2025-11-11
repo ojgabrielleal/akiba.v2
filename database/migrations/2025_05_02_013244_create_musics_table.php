@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('musics', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
+            $table->string('production');
             $table->string('image')->nullable();
-            $table->string('production')->nullable();
-            $table->string('singer')->nullable();
-            $table->string('music')->nullable();
-            $table->string('album')->nullable();
-            $table->string('cover')->nullable();
-            $table->string('max_solicitation')->default('0');
+            $table->string('artist');
+            $table->string('music');
+            $table->boolean('is_ranking')->default(false);
+            $table->string('image_ranking')->nullable();
+            $table->integer('listener_request_total')->default('0');
             $table->timestamps();
         });
     }

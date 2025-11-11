@@ -9,6 +9,7 @@ class Event extends Model
     protected $table = 'events';
 
     protected $fillable = [
+        'is_active',
         'user_id',
         'image',
         'cover',
@@ -17,6 +18,10 @@ class Event extends Model
         'content',
         'dates',
         'address'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean'
     ];
 
     protected $hidden = [

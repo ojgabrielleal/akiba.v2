@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('podcasts', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_active')->default(true);
+            $table->string('slug');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('title');
             $table->string('image');
             $table->string('season');
             $table->string('episode');
-            $table->string('title');
             $table->string('summary');
             $table->string('description');
             $table->string('audio');

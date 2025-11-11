@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_active')->default(true);
             $table->string('slug');
             $table->string('username')->unique();
             $table->string('password');
-            $table->string('name')->default('Miyuki Miyazaki');
-            $table->string('nickname')->default('Miyu');
-            $table->string('avatar')->default("https://i.postimg.cc/XqrFtjpJ/77cdefa9-4158-4a4a-82d0-5dec4ba5a165.png");
-            $table->string('email')->default("miyuki@gmail.com");
-            $table->string('birthday')->default("2000-01-01");
-            $table->string('city')->default("Tokyo");
-            $table->string('state')->default("Tokyo");
-            $table->string('country')->default("Japan");
+            $table->string('name');
+            $table->string('nickname');
+            $table->string('gender')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('birthday')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('country')->nullable();
             $table->text('bibliography')->nullable();
             $table->timestamps();
         });

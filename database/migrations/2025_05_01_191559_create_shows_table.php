@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('shows', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->boolean('is_active')->default(true);
             $table->string('slug');
+            $table->boolean('has_schedule');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('name')->unique();
-            $table->string('phrase');
             $table->string('image');
             $table->boolean('is_all');
             $table->timestamps();

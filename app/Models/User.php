@@ -13,6 +13,7 @@ class User extends Authenticatable
     protected $table = 'users';
 
     protected $fillable = [
+        'is_active',
         'slug',
         'username',
         'password',
@@ -20,7 +21,6 @@ class User extends Authenticatable
         'nickname',
         'gender',
         'avatar',
-        'email',
         'birthday',
         'city',
         'state',
@@ -34,6 +34,7 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
+        'is_active' => 'boolean',
         'birthday' => 'date:Y-m-d',
     ];
 
@@ -79,9 +80,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function userExternalLinks()
+    public function userSocial()
     {
-        return $this->hasMany(UserExternalLink::class, 'user_id');
+        return $this->hasMany(UserSocial::class, 'user_id');
     }
 
     
@@ -92,6 +93,6 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_assigned', 'user_id', 'role_id');
+        return $this->belongsToMany(Role::class, 'roles_pivot', 'user_id', 'role_id');
     }
 }

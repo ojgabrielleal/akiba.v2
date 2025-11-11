@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_active')->default(true);
+            $table->string('slug');
+            $table->string('cover')->nullable(); 
             $table->string('image')->nullable();
             $table->string('title');
             $table->string('sinopse');

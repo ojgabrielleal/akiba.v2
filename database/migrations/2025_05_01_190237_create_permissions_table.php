@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('musics', function (Blueprint $table) {
-            $table->string('image_ranking')->after('image');
+        Schema::create('permissions', function (Blueprint $table) {
+            $table->id();
+            $table->string('permission');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('musics', function (Blueprint $table) {
-            $table->dropColumn('image_ranking');
-        });
+        Schema::dropIfExists('permissions');
     }
 };

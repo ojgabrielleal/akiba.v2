@@ -9,21 +9,25 @@ class Onair extends Model
     protected $table = 'onair';
 
     protected $fillable = [
-        'program_id',
-        'program_type',
+        'is_played',
+        'show_id',
+        'show_type',
         'category',
-        'is_live',
         'phrase',
         'image',
         'listener_request_status',
         'listener_request_total'
     ];
 
-    protected $hidden = [
-        'program_id'
+    protected $casts = [
+        'is_played' => 'boolean'
     ];
 
-    public function program()
+    protected $hidden = [
+        'show_id'
+    ];
+
+    public function show()
     {
         return $this->morphTo();
     }

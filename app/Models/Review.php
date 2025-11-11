@@ -9,11 +9,16 @@ class Review extends Model
     protected $table = 'reviews';
 
     protected $fillable = [
+        'is_active',
         'slug',
         'cover',
         'image',
         'title',
         'sinopse',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean'
     ];
 
     public function reviewContent()

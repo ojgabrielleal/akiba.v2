@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserExternalLink extends Model
+class UserSocial extends Model
 {
-    protected $table = 'users_externals_links';
+    protected $table = 'users_social';
 
     protected $fillable = [
         'user_id',

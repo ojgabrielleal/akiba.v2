@@ -9,9 +9,9 @@ class Podcast extends Model
     protected $table = 'podcasts';
 
     protected $fillable = [
+        'is_active',
         'user_id',
         'slug',
-        'is_active',
         'image',
         'season',
         'episode',
@@ -19,6 +19,10 @@ class Podcast extends Model
         'summary',
         'description',
         'audio'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean'
     ];
 
     protected $hidden = [

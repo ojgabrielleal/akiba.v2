@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('autodj', function (Blueprint $table) {
-            $table->boolean('is_default')->default(false)->after('image');
+        Schema::create('permissions_pivot', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('permission_id')->constrained('permissions');
+            $table->foreignId('role_id')->constrained('roles');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('autodj', function (Blueprint $table) {
-            $table->dropColumn('is_default')->after('image');
-        });
+        Schema::dropIfExists('permissions_pivot');
     }
 };

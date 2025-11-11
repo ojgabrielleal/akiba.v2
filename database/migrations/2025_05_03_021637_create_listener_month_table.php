@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('listener_month', function (Blueprint $table) {
             $table->id();
             $table->string('image');
-            $table->string('listener_name');
+            $table->string('listener');
             $table->string('address');
-            $table->string('favorite_program');
-            $table->string('quantity_of_requests');
+            $table->string('favorite_show');
+            $table->string('requests_total');
             $table->timestamps();
         });
     }

@@ -15,4 +15,8 @@ class Repository extends Model
         'category',
         'name',
     ];
+
+    protected $casts = [
+        'is_active' => 'boolean'
+    ];
 }

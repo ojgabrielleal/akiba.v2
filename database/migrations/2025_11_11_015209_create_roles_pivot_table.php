@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('musics', function (Blueprint $table) {
-            $table->string('type')->after('production');
+        Schema::create('roles_pivot', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('role_id')->constrained('roles');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('musics', function (Blueprint $table) {
-            $table->dropColumn('type');
-        });
+        Schema::dropIfExists('roles_pivot');
     }
 };
