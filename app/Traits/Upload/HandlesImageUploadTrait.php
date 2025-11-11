@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
-trait HandlesImageUpload
+trait HandlesImageUploadTrait
 {
     public function uploadImage(string $subfolder, UploadedFile $file, string $disk = 'public', ?string $oldImagePath = null): string
     {

@@ -6,20 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use App\Exceptions\AlreadyExistsException;
 
 use Inertia\Inertia;
 
-use App\Traits\Response\ProvideException;
-use App\Traits\Response\ProvideSuccess;
+use App\Traits\Response\ProvideExceptionTrait;
+use App\Traits\Response\ProvideSuccessTrait;
 
 use App\Models\User;
 use App\Models\UserPermission;
 
 class AdmsController extends Controller
 {
-    use ProvideSuccess, ProvideException;
+    use ProvideSuccessTrait, ProvideExceptionTrait;
 
     public function listUsers()
     {

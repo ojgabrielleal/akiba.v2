@@ -21,14 +21,13 @@ use Illuminate\Http\Response;
 use RuntimeException;
 use LogicException;
 
-trait ProvideException
+trait ProvideExceptionTrait
 {
     public function provideException(Throwable $e): Response|RedirectResponse|\Illuminate\Http\JsonResponse
     {
-        // Log detalhado
         Log::error('[LaravelException] ' . get_class($e) . ': ' . $e->getMessage());
 
-        // Mensagens randômicas por tipo de exceção
+        // Mensagens padrões
         $messages = [
             ModelNotFoundException::class => [
                 '👀 Nada aqui… ou está se escondendo só pra ver se você desiste?',
@@ -85,7 +84,7 @@ trait ProvideException
         $exceptionClass = get_class($e);
 
         // Prioriza mensagem personalizada, depois padrão
-        $message = $e->getMessage(); // Mensagem personalizada
+        $message = $e->getMessage();
         if (empty($message)) {
             if (!empty($messages[$exceptionClass])) {
                 $message = $messages[$exceptionClass][array_rand($messages[$exceptionClass])];
@@ -94,7 +93,7 @@ trait ProvideException
             }
         }
 
-        // Tratamento especial ValidationException
+        // Caso seja um erro de validation 
         if ($e instanceof ValidationException) {
             $errors = collect($e->errors())->flatMap(function ($messages) {
                 return array_map(function ($msg) {

@@ -2,7 +2,7 @@
 
 namespace App\Traits\Response;
 
-trait ProvideSuccess
+trait ProvideSuccessTrait
 {
     public function provideSuccess(string $action)
     {
