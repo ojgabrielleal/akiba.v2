@@ -10,61 +10,44 @@ use App\Exceptions\AlreadyExistsException;
 
 use Inertia\Inertia;
 
-use App\Traits\Response\ProvideExceptionTrait;
+use App\Traits\Response\ProvideGenericExceptionTrait;
 use App\Traits\Response\ProvideSuccessTrait;
 
 use App\Models\User;
-use App\Models\UserPermission;
+use App\Models\Role;
 
 class AdmsController extends Controller
 {
-    use ProvideSuccessTrait, ProvideExceptionTrait;
+    use ProvideSuccessTrait, ProvideGenericExceptionTrait;
 
     public function listUsers()
     {
         try{
-            $users = User::where('is_active', true)->get();
-
-            function highestRole($collect, $gender){
-                $weightPermissions = [
-                    "dev" => 10,
-                    "administrator" => 5,
-                    "streamer" => 4,
-                    "writer" => 3,
-                    "podcaster" => 2,
-                    "social" => 1
-                ];
-
-                $translate = [
-                    "dev" => $gender === "male" ? "Desenvolvedor" : "Desenvolvedora",
-                    "administrator" => $gender === "male" ? "Administrador" : "Administradora",
-                    "streamer" => $gender === "male" ? "Locutor" : "Locutora",
-                    "writer" => "Colunista",
-                    "podcaster" => "Podcaster",
-                    "social" => "Social Media"
-                ];
-
-                return $translate[collect($collect)->sortByDesc(fn($perm) => $weightPermissions[$perm] ?? 0)[0]];
-            }
-
-            $users->transform(function($user){
-                $data = $user->toArray();
-                $data['highest_role'] = highestRole($user->permissions_keys, $user->gender);
-                return $data;
-            });
-
-            return $users;
+            $query = User::where('is_active', true);
+            $query->with('roles');
+            $user = $query->get();
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'nickname' => $user->nickname,
+                'avatar' => $user->avatar,
+                'highest_role' => $user->highest_role,
+            ];
         } catch (\Throwable $e) {
-            return $this->provideException($e);
+            return $this->provideGenericException($e);
         }
     }
 
     public function getUser($id)
     {
         try{
-            return User::where('id', $id)->firstOrFail();
+            $query = User::where('id', $id);
+            $query->with(['userExternalLinks', 'userLikes', 'roles']);
+            $user = $query->firstOrFail();
+
+            return $user;
         } catch (\Throwable $e) {
-            return $this->provideException($e);
+            return $this->provideGenericException($e);
         }
     }
 
@@ -107,7 +90,7 @@ class AdmsController extends Controller
 
             return $this->provideSuccess('save');
         } catch (\Throwable $e) {
-            return $this->provideException($e);
+            return $this->provideGenericException($e);
         }
     }
 
@@ -127,7 +110,7 @@ class AdmsController extends Controller
 
             return $this->provideSuccess('save');
         }catch(\Throwable $e){
-            return $this->provideException($e);
+            return $this->provideGenericException($e);
         }
     }
 
@@ -146,7 +129,7 @@ class AdmsController extends Controller
 
             return $this->provideSuccess('save');
         }catch(\Throwable $e){
-            return $this->provideException($e);
+            return $this->provideGenericException($e);
         }
     }
 
@@ -159,7 +142,7 @@ class AdmsController extends Controller
 
             return $this->provideSuccess('deactivate');
         }catch(\Throwable $e){
-            return $this->provideException($e);
+            return $this->provideGenericException($e);
         }
     }
 

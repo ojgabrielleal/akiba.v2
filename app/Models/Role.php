@@ -9,22 +9,17 @@ class Role extends Model
     protected $table = 'roles';
 
     protected $fillable = [
-        'user_id',
         'name',
         'description'
     ];
 
-    protected $hidden = [
-        'user_id'
-    ];
-
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsToMany(User::class, 'roles_assigned', 'role_id', 'user_id');
     }
 
     public function permissions()
     {
-        return $this->belongsTo(Permission::class, 'role_id');
+        return $this->belongsToMany(Permission::class, 'permission_role', 'role_id', 'permission_id');
     }
 }

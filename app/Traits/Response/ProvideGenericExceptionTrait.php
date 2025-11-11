@@ -13,7 +13,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
-use App\Exceptions\AlreadyExistsException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\RedirectResponse;
@@ -21,9 +20,9 @@ use Illuminate\Http\Response;
 use RuntimeException;
 use LogicException;
 
-trait ProvideExceptionTrait
+trait ProvideGenericExceptionTrait
 {
-    public function provideException(Throwable $e): Response|RedirectResponse|\Illuminate\Http\JsonResponse
+    public function provideGenericException(Throwable $e): Response|RedirectResponse|\Illuminate\Http\JsonResponse
     {
         Log::error('[LaravelException] ' . get_class($e) . ': ' . $e->getMessage());
 
@@ -76,24 +75,16 @@ trait ProvideExceptionTrait
             LogicException::class => [
                 'Algo estranho… mas vamos fingir que está tudo sob controle 😏',
             ],
-            AlreadyExistsException::class => [
-                '🚫 Esse item já existe! O universo odeia duplicatas 😤',
-                '👀 Já tem um igualzinho por aqui, tenta outro nome 😉',
-            ],
         ];
         $exceptionClass = get_class($e);
 
-        // Prioriza mensagem personalizada, depois padrão
+        // Mensagem padrão caso nenhuma exeception padrão seja escolhida
         $message = $e->getMessage();
         if (empty($message)) {
-            if (!empty($messages[$exceptionClass])) {
-                $message = $messages[$exceptionClass][array_rand($messages[$exceptionClass])];
-            } else {
-                $message = app()->environment('production') ? '💥 Erro estranho… tenta de novo depois… ou finge que nunca aconteceu 😉' : '⚠️ Erro desconhecido: ' . $exceptionClass . ' — mas relaxa, isso é só dev mode 😎';            
-            }
+            $message = '💥 Erro estranho… tenta de novo depois… ou finge que nunca aconteceu 😉';            
         }
 
-        // Caso seja um erro de validation 
+        // Montando mensagem de erro de validaçao de campos
         if ($e instanceof ValidationException) {
             $errors = collect($e->errors())->flatMap(function ($messages) {
                 return array_map(function ($msg) {

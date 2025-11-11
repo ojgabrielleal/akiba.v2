@@ -31,13 +31,53 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'permissions',
     ];
 
     protected $casts = [
         'birthday' => 'date:Y-m-d',
-        'password' => 'hashed',
     ];
+
+    protected $appends = [
+        'highest_role'
+    ];
+
+    public function getHighestRoleAttribute()
+    {
+        $weightRole = [
+            "dev" => 10,
+            "administrator" => 5,
+            "streamer" => 4,
+            "writer" => 3,
+            "podcaster" => 2,
+            "social" => 1
+        ];
+
+        $translate = [
+            "dev" => $this->gender === "male" ? "Desenvolvedor" : "Desenvolvedora",
+            "administrator" => $this->gender === "male" ? "Administrador" : "Administradora",
+            "streamer" => $this->gender === "male" ? "Locutor" : "Locutora",
+            "writer" => $this->gender === "male" ? "Redator" : "Redatora",
+            "chat_moderator" => $this->gender === "male" ? "Moderador" : "Moderadora",
+            "podcaster" => "Podcaster",
+            "social" => "Social Media"
+        ];
+
+        $roles = $this->roles->roles->pluck('name');
+        
+        if ($roles->isEmpty()) {
+            return [
+                "name" => null,
+                "label" => null
+            ];
+        }
+
+        $highestRole = $roles->sortByDesc(fn($role) => $weightRole[$role] ?? 0)->first();
+
+        return [
+            "name" => $highestRole,
+            "label" => $translate[$highestRole] ?? $highestRole
+        ];
+    }
 
     public function userExternalLinks()
     {
@@ -52,6 +92,6 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->hasMany(Role::class, 'user_id');
+        return $this->belongsToMany(Role::class, 'role_assigned', 'user_id', 'role_id');
     }
 }
