@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Autodj extends Model
+class AutoDJ extends Model
 {
     protected $table = 'autodj';
 
@@ -18,7 +18,7 @@ class Autodj extends Model
         'user_id',
     ];
     
-    public function autoDjPhrases()
+    public function autoDJPhrases()
     {
         return $this->hasMany(AutodjPhrase::class);
     }
