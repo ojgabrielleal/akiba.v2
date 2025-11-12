@@ -9,13 +9,13 @@ class Music extends Model
     protected $table = 'musics';
 
     protected $fillable = [
+        'type',
         'production',
-        'artist',
-        'music',
-        'listener_request_total',
         'image',
-        'image_ranking',
+        'artist',
+        'name',
         'is_ranking',
-        'type'
+        'image_ranking',
+        'listener_request_total',
     ];
 }

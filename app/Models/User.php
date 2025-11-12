@@ -35,7 +35,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'is_active' => 'boolean',
-        'birthday' => 'date:Y-m-d',
+        'birthday' => 'date',
     ];
 
     protected $appends = [
@@ -86,9 +86,9 @@ class User extends Authenticatable
     }
 
     
-    public function userLikes()
+    public function userPreference()
     {
-        return $this->hasMany(UserLike::class, 'user_id');
+        return $this->hasMany(UserPreference::class, 'user_id');
     }
 
     public function roles()

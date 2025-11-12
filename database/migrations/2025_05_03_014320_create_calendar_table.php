@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('activity_id')->nullable()->constrained('activities')->cascadeOnDelete();
             $table->dateTime('start_time');
             $table->dateTime('end_time');
-            $table->string('category');
+            $table->string('type');
             $table->string('content');
             $table->timestamps();
         });

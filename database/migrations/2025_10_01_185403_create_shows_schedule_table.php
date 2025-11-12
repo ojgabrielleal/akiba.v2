@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('show_id')->constrained('shows')->cascadeOnDelete();
             $table->string('day');
-            $table->string('time');
+            $table->time('time');
             $table->timestamps();
         });
     }

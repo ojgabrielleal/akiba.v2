@@ -11,14 +11,14 @@ class Activity extends Model
     protected $fillable = [
         'user_id',
         'is_activity',
+        'activity_limit',
         'title',
         'content',
-        'limite_confirm'
     ];
 
     protected $casts = [
+        'activity_limit' => 'date',
         'is_activity' => 'boolean',
-        'limit_confirm' => 'date'
     ];
 
     protected $hidden = [

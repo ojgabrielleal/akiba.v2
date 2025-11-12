@@ -16,7 +16,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->string('image')->nullable();
             $table->string('file');
-            $table->string('category');
+            $table->string('type');
             $table->string('name');
             $table->timestamps();
         });

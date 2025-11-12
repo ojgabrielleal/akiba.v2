@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->boolean('is_active')->default(true);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->boolean('is_completed')->default(false);
             $table->string('title');
             $table->datetime('deadline');
             $table->string('content');
-            $table->boolean('completed')->default(false);
             $table->timestamps();
         });
     }

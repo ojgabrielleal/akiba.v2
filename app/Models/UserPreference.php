@@ -4,14 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserLike extends Model
+class UserPreference extends Model
 {
     protected $table = 'users_likes';
 
     protected $fillable = [
         'user_id',
-        'category',
+        'is_like',
         'content'
+    ];
+
+    protected $casts = [
+        'is_like' => 'boolean'
     ];
 
     protected $hidden = [

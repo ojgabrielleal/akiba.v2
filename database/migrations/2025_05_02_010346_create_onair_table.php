@@ -17,7 +17,7 @@ return new class extends Migration
             $table->morphs('show');
             $table->string('image')->nullable();
             $table->string('phrase');
-            $table->string('category');
+            $table->string('type');
             $table->boolean('listener_request_status')->default(false);
             $table->integer('listener_request_total')->default(0);
             $table->timestamps();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('onairs');
+        Schema::dropIfExists('onair');
     }
 };

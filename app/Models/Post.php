@@ -16,7 +16,7 @@ class Post extends Model
         'title',
         'content',
         'cover',
-        'status',
+        'type'
     ];
 
     protected $casts = [

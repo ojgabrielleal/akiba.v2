@@ -9,18 +9,22 @@ class ListenerRequest extends Model
     protected $table = 'listeners_requests';
 
     protected $fillable = [
+        'is_played',
         'onair_id',
         'music_id',
-        'listener',
-        'listener_ip',
+        'ip',
+        'name',
         'address',
         'message',
-        'status'
     ];
 
     protected $hidden = [
         'onair_id',
         'music_id'
+    ];
+
+    protected $casts = [
+        'is_played' => 'boolean'
     ];
 
     public function onair()

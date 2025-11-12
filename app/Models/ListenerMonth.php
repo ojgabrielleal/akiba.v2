@@ -9,8 +9,8 @@ class ListenerMonth extends Model
     protected $table = 'listener_month';
 
     protected $fillable = [
-        'image',
-        'listener',
+        'name',
+        'avatar',
         'address',
         'favorite_show',
         'requests_total',

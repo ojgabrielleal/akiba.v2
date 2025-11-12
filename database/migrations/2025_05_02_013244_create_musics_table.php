@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('production');
             $table->string('image')->nullable();
             $table->string('artist');
-            $table->string('music');
+            $table->string('name');
             $table->boolean('is_ranking')->default(false);
             $table->string('image_ranking')->nullable();
             $table->integer('listener_request_total')->default('0');

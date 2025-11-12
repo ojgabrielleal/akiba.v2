@@ -9,18 +9,18 @@ class Onair extends Model
     protected $table = 'onair';
 
     protected $fillable = [
-        'is_played',
+        'is_live',
         'show_id',
         'show_type',
-        'category',
         'phrase',
+        'type',
         'image',
         'listener_request_status',
         'listener_request_total'
     ];
 
     protected $casts = [
-        'is_played' => 'boolean'
+        'is_live' => 'boolean'
     ];
 
     protected $hidden = [

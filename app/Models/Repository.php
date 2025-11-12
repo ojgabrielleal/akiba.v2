@@ -12,7 +12,7 @@ class Repository extends Model
         'is_active',
         'image',
         'file',
-        'category',
+        'type',
         'name',
     ];
 

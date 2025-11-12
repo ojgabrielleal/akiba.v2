@@ -12,15 +12,16 @@ class Task extends Model
     protected $fillable = [
         'is_active',
         'user_id',
+        'is_completed',
+        'title',
         'deadline',
         'content',
-        'completed'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
         'deadline' => 'datetime',
-        'completed' => 'boolean',
+        'is_completed' => 'boolean',
     ];
 
     protected $hidden = [

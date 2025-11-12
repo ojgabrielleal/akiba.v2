@@ -9,12 +9,12 @@ class Poll extends Model
     protected $table = 'polls';
 
     protected $fillable = [
+        'is_active',
         'question',
-        'status',
     ];
 
     protected $casts = [
-        'status' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
     public function pollOptions()

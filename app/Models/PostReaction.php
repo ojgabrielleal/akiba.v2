@@ -10,7 +10,7 @@ class PostReaction extends Model
 
     protected $fillable = [
         'post_id',
-        'reaction_type',
+        'type',
     ];
 
     protected $hidden = [

@@ -10,12 +10,12 @@ class Podcast extends Model
 
     protected $fillable = [
         'is_active',
-        'user_id',
         'slug',
+        'user_id',
+        'title',
         'image',
         'season',
         'episode',
-        'title',
         'summary',
         'description',
         'audio'

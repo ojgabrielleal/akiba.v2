@@ -16,8 +16,8 @@ return new class extends Migration
             $table->boolean('is_played')->default(false);
             $table->foreignId('onair_id')->constrained('onair')->cascadeOnDelete();
             $table->foreignId('music_id')->constrained('musics')->cascadeOnDelete();
-            $table->string('listener');
-            $table->string('listener_ip');
+            $table->string('ip');
+            $table->string('name');
             $table->string('address');
             $table->string('message');
             $table->timestamps();

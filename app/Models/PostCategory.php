@@ -10,7 +10,7 @@ class PostCategory extends Model
 
     protected $fillable = [
         'post_id',
-        'category_name',
+        'type',
     ];
 
     protected $hidden = [
