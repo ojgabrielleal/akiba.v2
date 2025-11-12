@@ -12,6 +12,7 @@ class Calendar extends Model
         'user_id',
         'activity_id',
         'start_time',
+        'end_time',
         'category',
         'content',
     ];
@@ -23,6 +24,7 @@ class Calendar extends Model
 
     protected $casts = [
         'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     

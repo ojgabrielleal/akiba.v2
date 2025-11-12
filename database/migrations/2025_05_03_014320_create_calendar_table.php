@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('activity_id')->nullable()->constrained('activities')->cascadeOnDelete();
             $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->string('category');
             $table->string('content');
             $table->timestamps();
