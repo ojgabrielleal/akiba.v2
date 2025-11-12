@@ -10,18 +10,19 @@ class Calendar extends Model
 
     protected $fillable = [
         'user_id',
-        'hour',
-        'day',
+        'activity_id',
+        'start_time',
         'category',
         'content',
     ];
 
     protected $hidden = [
         'user_id',
+        'activity_id',
     ];
 
     protected $casts = [
-        'hour' => 'datetime',
+        'start_time' => 'datetime',
     ];
 
     public function user()

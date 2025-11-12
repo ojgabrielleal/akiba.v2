@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alerts_signatures', function (Blueprint $table) {
+        Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('alert_id')->constrained('alerts')->cascadeOnDelete();
+            $table->boolean('is_activity');
+            $table->string('title')->nullable();
+            $table->string('content');
+            $table->date('limit_confirm');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alerts_signatures');
+        Schema::dropIfExists('activities');
     }
 };

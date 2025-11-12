@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('permission_id')->constrained('permissions');
             $table->foreignId('role_id')->constrained('roles');
-            $table->timestamps();
         });
     }
 
