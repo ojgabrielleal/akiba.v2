@@ -29,21 +29,21 @@ class Post extends Model
 
     public function postReferences()
     {
-        return $this->hasMany(PostReference::class, 'post_id');
+        return $this->hasMany(PostReference::class);
     }
     
     public function postReactions()
     {
-        return $this->hasMany(PostReaction::class, 'post_id');
+        return $this->hasMany(PostReaction::class);
     }
     
     public function postCategories()
     {
-        return $this->hasMany(PostCategory::class, 'post_id');
+        return $this->hasMany(PostCategory::class);
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 }

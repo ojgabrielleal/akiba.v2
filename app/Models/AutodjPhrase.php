@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AutodjPhrase extends Model
+class AutoDJPhrase extends Model
 {
     protected $table = 'autodj_phrases';
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('activities_confirmations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('activities_id')->constrained('activities')->cascadeOnDelete();
+            $table->foreignId('activity_id')->constrained('activities')->cascadeOnDelete();
             $table->timestamps();
         });
     }

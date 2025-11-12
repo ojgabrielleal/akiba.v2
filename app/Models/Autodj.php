@@ -20,7 +20,7 @@ class AutoDJ extends Model
     
     public function autoDJPhrases()
     {
-        return $this->hasMany(AutodjPhrase::class);
+        return $this->hasMany(AutoDJPhrase::class);
     }
     
     public function user()

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Activities extends Model
+class Activity extends Model
 {
     protected $table = 'activities';
 
@@ -27,11 +27,11 @@ class Activities extends Model
     
     public function activitiesConfirmations()
     {
-        return $this->hasMany(ActivitiesConfirmations::class, 'activiti');
+        return $this->hasMany(ActivityConfirmation::class);
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 }
