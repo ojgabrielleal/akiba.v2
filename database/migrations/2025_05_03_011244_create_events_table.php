@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->boolean('is_active')->default(true);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('cover');
-            $table->string('image');
+            $table->string('cover')->nullable();
+            $table->string('image')->nullable();
             $table->string('slug');
             $table->string('title');
             $table->string('content');

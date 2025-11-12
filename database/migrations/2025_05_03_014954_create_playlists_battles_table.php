@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('playlists_battles', function (Blueprint $table) {
             $table->id();
             $table->string('day');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

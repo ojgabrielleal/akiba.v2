@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->boolean('is_active')->default(true);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('slug');
             $table->string('title');
             $table->longText('content');
-            $table->string('cover');
+            $table->string('cover')->nullable();
             $table->string('status');
             $table->timestamps();
         });

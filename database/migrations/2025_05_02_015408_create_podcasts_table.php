@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('season');
             $table->string('episode');
             $table->string('summary');

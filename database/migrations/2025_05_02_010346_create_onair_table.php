@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('is_live')->default(true);
             $table->morphs('show');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('phrase');
             $table->string('category');
             $table->boolean('listener_request_status')->default(false);

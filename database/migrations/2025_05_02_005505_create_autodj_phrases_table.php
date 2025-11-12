@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('autodj_phrases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('autodj_id')->constrained('autodj')->cascadeOnDelete();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('phrase');
             $table->timestamps();
         });

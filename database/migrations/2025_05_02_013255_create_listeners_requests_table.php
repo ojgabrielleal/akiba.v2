@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('listener_ip');
             $table->string('address');
             $table->string('message');
-            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
