@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('listeners_requests', function (Blueprint $table) {
+        Schema::create('song_requests', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_played')->default(false);
             $table->foreignId('onair_id')->constrained('onair')->cascadeOnDelete();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('listeners_requests');
+        Schema::dropIfExists('song_requests');
     }
 };

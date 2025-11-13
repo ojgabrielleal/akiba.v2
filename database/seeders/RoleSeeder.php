@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 use App\Models\Role;
+use App\Models\Permission;
 
 class RoleSeeder extends Seeder
 {
@@ -52,12 +53,19 @@ class RoleSeeder extends Seeder
             ],
         ];
 
+        
         foreach($roles as $item){
             Role::create([
                 'name' => $item['name'],
                 'label' => $item['label'],
                 'description' => $item['description'],
             ]);
+        }
+
+        $role = Role::where('name', 'administrator')->first();
+        $permissions = Permission::all();
+        foreach($permissions as $item){
+            $role->permissions()->attach($item->id);
         }
     }
 }

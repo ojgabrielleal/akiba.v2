@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ListenerRequest extends Model
+class SongRequest extends Model
 {
-    protected $table = 'listeners_requests';
+    protected $table = 'song_requests';
 
     protected $fillable = [
         'is_played',
