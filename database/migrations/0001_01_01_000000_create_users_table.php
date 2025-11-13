@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('name');
             $table->string('nickname');
-            $table->string('gender')->nullable();
+            $table->string('gender');
             $table->string('avatar')->nullable();
             $table->string('birthday')->nullable();
             $table->string('city')->nullable();

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserPreference extends Model
 {
-    protected $table = 'users_likes';
+    protected $table = 'users_preferences';
 
     protected $fillable = [
         'user_id',
