@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Task extends Model
 {
+    use HasFactory;
+    
     protected $table = 'tasks';
 
     protected $fillable = [
@@ -20,7 +22,7 @@ class Task extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
-        'deadline' => 'datetime',
+        'deadline' => 'date',
         'is_completed' => 'boolean',
     ];
 

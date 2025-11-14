@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Show extends Model
 {
+    use HasFactory;
+    
     protected $table = 'shows';
 
     protected $fillable = [
@@ -26,9 +29,9 @@ class Show extends Model
         'user_id',
     ];
 
-    public function programSchedule()
+    public function showSchedule()
     {
-        return $this->hasMany(ProgramSchedule::class);
+        return $this->hasMany(ShowSchedule::class);
     }
     
     public function user()

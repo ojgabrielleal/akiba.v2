@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('shows_schedule', function (Blueprint $table) {
             $table->id();
             $table->foreignId('show_id')->constrained('shows')->cascadeOnDelete();
-            $table->string('day');
+            $table->integer('day');
             $table->time('time');
             $table->timestamps();
         });

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ProgramSchedule extends Model
+class ShowSchedule extends Model
 {
+    use HasFactory;
+    
     protected $table = 'shows_schedule';
 
     protected $fillable = [
@@ -13,8 +16,13 @@ class ProgramSchedule extends Model
         'day',
         'time',
     ];
-
+    
+    protected $casts = [
+        'day' => 'integer'
+    ];
+    
     protected $hidden = [
         'show_id',
     ];
+
 }
