@@ -9,8 +9,6 @@ class Poll extends Model
 {
     use HasFactory;
     
-    protected $table = 'polls';
-
     protected $fillable = [
         'is_active',
         'question',
@@ -20,7 +18,7 @@ class Poll extends Model
         'is_active' => 'boolean',
     ];
 
-    public function pollOptions()
+    public function pollOption()
     {
         return $this->hasMany(PollOption::class);
     }

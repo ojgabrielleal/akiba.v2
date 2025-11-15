@@ -9,8 +9,6 @@ class Post extends Model
 {
     use HasFactory;
     
-    protected $table = 'posts';
-
     protected $fillable = [
         'is_active',
         'user_id',
@@ -30,17 +28,17 @@ class Post extends Model
         'user_id',
     ];
 
-    public function postReferences()
+    public function postReference()
     {
         return $this->hasMany(PostReference::class);
     }
     
-    public function postReactions()
+    public function postReaction()
     {
         return $this->hasMany(PostReaction::class);
     }
     
-    public function postCategories()
+    public function postCategory()
     {
         return $this->hasMany(PostCategory::class);
     }

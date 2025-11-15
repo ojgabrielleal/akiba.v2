@@ -9,8 +9,6 @@ class ListenerMonth extends Model
 {
     use HasFactory;
     
-    protected $table = 'listener_month';
-
     protected $fillable = [
         'name',
         'avatar',

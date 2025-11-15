@@ -9,10 +9,12 @@ class PlaylistBattle extends Model
 {
     use HasFactory;
     
-    protected $table = 'playlists_battles';
-
     protected $fillable = [
         'day',
         'image',
+    ];
+
+    protected $casts = [
+        'day' => 'integer'
     ];
 }

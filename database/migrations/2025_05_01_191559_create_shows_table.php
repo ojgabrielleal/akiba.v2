@@ -16,7 +16,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->string('slug');
             $table->boolean('has_schedule');
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('name')->unique();
             $table->string('image');
             $table->boolean('is_all');

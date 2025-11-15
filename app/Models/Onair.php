@@ -9,21 +9,19 @@ class Onair extends Model
 {
     use HasFactory;
     
-    protected $table = 'onair';
-
     protected $fillable = [
-        'is_live',
+        'is_playlist',
         'show_id',
         'show_type',
         'phrase',
         'type',
         'image',
-        'listener_request_status',
+        'listener_request_toggle',
         'listener_request_total'
     ];
 
     protected $casts = [
-        'is_live' => 'boolean'
+        'is_playlist' => 'boolean'
     ];
 
     protected $hidden = [

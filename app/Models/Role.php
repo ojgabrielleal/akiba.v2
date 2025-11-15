@@ -9,15 +9,18 @@ class Role extends Model
 {
     use HasFactory;
 
-    protected $table = 'roles';
-
     protected $fillable = [
         'label',
         'name',
-        'description'
+        'description',
+        'weight'
     ];
 
-    public function permissions()
+    protected $casts = [
+        'weight' => 'integer'  
+    ];
+
+    public function permission()
     {
         return $this->belongsToMany(Permission::class, 'permissions_pivot', 'role_id', 'permission_id');
     }

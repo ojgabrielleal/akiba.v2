@@ -9,15 +9,13 @@ class AutoDJPhrase extends Model
 {
     use HasFactory;
     
-    protected $table = 'autodj_phrases';
-
     protected $fillable = [
-        'autodj_id',
+        'auto_dj_id',
         'image',
         'phrase',
     ];
 
     protected $hidden = [
-        'autodj_id'
+        'auto_dj_id'
     ];
 }

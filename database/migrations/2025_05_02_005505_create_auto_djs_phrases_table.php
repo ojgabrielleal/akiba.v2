@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('autodj_phrases', function (Blueprint $table) {
+        Schema::create('auto_djs_phrases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('autodj_id')->constrained('autodj')->cascadeOnDelete();
+            $table->foreignId('auto_dj_id')->constrained('auto_djs')->cascadeOnDelete();
             $table->string('image')->nullable();
             $table->string('phrase');
             $table->timestamps();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('autodj_phrases');
+        Schema::dropIfExists('auto_djs_phrases');
     }
 };

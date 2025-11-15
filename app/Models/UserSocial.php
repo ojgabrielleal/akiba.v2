@@ -9,8 +9,6 @@ class UserSocial extends Model
 {
     use HasFactory;
     
-    protected $table = 'users_social';
-
     protected $fillable = [
         'user_id',
         'name',

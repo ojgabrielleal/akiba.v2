@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('autodj', function (Blueprint $table) {
+        Schema::create('shows_schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('name')->unique();
-            $table->string('image')->nullable();
+            $table->foreignId('show_id')->constrained('shows')->cascadeOnDelete();
+            $table->integer('day');
+            $table->time('time');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('autodjs');
+        Schema::dropIfExists('shows_schedules');
     }
 };

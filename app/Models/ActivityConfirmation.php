@@ -9,16 +9,14 @@ class ActivityConfirmation extends Model
 {
     use HasFactory;
     
-    protected $table = 'activities_confirmations';
-
     protected $fillable = [
         'user_id',
-        'activities_id',
+        'activity_id',
     ];
 
     protected $hidden = [
         'user_id',
-        'activities_id',
+        'activity_id',
     ];
 
     public function user()

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('playlists_battles', function (Blueprint $table) {
             $table->id();
-            $table->string('day');
+            $table->integer('day');
             $table->string('image')->nullable();
             $table->timestamps();
         });

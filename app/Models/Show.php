@@ -9,8 +9,6 @@ class Show extends Model
 {
     use HasFactory;
     
-    protected $table = 'shows';
-
     protected $fillable = [
         'is_active',
         'user_id',

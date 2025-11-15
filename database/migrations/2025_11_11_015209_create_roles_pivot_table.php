@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('roles_pivot', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('role_id')->constrained('roles');
+            $table->foreignId('role_id')->constrained('roles')->cascadeOnDelete();
         });
     }
 

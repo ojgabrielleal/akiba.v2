@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('permissions_pivot', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('permission_id')->constrained('permissions');
-            $table->foreignId('role_id')->constrained('roles');
+            $table->foreignId('permission_id')->constrained('permissions')->cascadeOnDelete();
+            $table->foreignId('role_id')->constrained('roles')->cascadeOnDelete();
         });
     }
 

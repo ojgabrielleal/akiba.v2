@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('onair', function (Blueprint $table) {
+        Schema::create('onairs', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_live')->default(true);
+            $table->boolean('is_playlist')->default(true);
             $table->morphs('show');
             $table->string('image')->nullable();
             $table->string('phrase');
-            $table->string('type');
-            $table->boolean('listener_request_status')->default(false);
+            $table->string('type')->nullable();
+            $table->boolean('listener_request_toggle')->default(false);
             $table->integer('listener_request_total')->default(0);
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('onair');
+        Schema::dropIfExists('onairs');
     }
 };

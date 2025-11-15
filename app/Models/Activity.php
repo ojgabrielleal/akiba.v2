@@ -9,8 +9,6 @@ class Activity extends Model
 {
     use HasFactory;
     
-    protected $table = 'activities';
-
     protected $fillable = [
         'user_id',
         'is_activity',
@@ -28,7 +26,7 @@ class Activity extends Model
         'user_id',
     ];
     
-    public function activitiesConfirmations()
+    public function activityConfirmation()
     {
         return $this->hasMany(ActivityConfirmation::class);
     }

@@ -9,8 +9,6 @@ class SongRequest extends Model
 {
     use HasFactory;
     
-    protected $table = 'song_requests';
-
     protected $fillable = [
         'is_played',
         'onair_id',

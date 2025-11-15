@@ -9,8 +9,6 @@ class AutoDJ extends Model
 {
     use HasFactory;
     
-    protected $table = 'autodj';
-
     protected $fillable = [
         'user_id',
         'name',
@@ -21,7 +19,7 @@ class AutoDJ extends Model
         'user_id',
     ];
     
-    public function autoDJPhrases()
+    public function autoDJPhrase()
     {
         return $this->hasMany(AutoDJPhrase::class);
     }

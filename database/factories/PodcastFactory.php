@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Podcast>
  */
-class PostFactory extends Factory
+class PodcastFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,12 +18,14 @@ class PostFactory extends Factory
     {
         return [
             'is_active' => true,
-            'image' => fake()->url(),
             'slug' => fake()->slug(),
             'title' => fake()->title(),
-            'content' => fake()->paragraph(),
-            'cover' => fake()->url(),
-            'type' => fake()->randomElement(['published', 'revision', 'sketch'])
+            'image' => fake()->url(),
+            'season' => fake()->randomNumber(),
+            'episode' => fake()->randomNumber(),
+            'summary' => fake()->paragraph(),
+            'description' => fake()->paragraph(),
+            'audio' => fake()->url(),
         ];
     }
 }

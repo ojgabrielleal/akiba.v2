@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Repository;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Repository>
@@ -15,9 +14,6 @@ class RepositoryFactory extends Factory
      *
      * @return array<string, mixed>
      */
-
-    protected $model = Repository::class; 
-
     public function definition(): array
     {
         return [

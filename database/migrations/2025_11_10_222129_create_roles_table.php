@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('label');
             $table->string('name');
             $table->string('description');
+            $table->integer('weight')->default(0);
             $table->timestamps();
         });
     }

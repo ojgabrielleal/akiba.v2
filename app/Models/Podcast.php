@@ -9,8 +9,6 @@ class Podcast extends Model
 {
     use HasFactory;
     
-    protected $table = 'podcasts';
-
     protected $fillable = [
         'is_active',
         'slug',

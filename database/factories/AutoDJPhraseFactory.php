@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PostReaction>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AutoDJPhrase>
  */
-class PostReactionFactory extends Factory
+class AutoDJPhraseFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,8 @@ class PostReactionFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => fake()->randomElement(['like', 'unlike', 'sad'])
+            'image' => fake()->url(),
+            'phrase' => fake()->sentence(),
         ];
     }
 }

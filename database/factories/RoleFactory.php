@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PostReaction>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Role>
  */
-class PostReactionFactory extends Factory
+class RoleFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,10 @@ class PostReactionFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => fake()->randomElement(['like', 'unlike', 'sad'])
+            'label' => fake()->word(),
+            'name' => fake()->slug(),
+            'description' => fake()->sentence(),
+            'weight' => fake()->number(),
         ];
     }
 }
