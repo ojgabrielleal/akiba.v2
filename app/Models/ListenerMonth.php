@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ListenerMonth extends Model
 {
     use HasFactory;
+
+    protected $table = 'listener_month';
     
     protected $fillable = [
         'name',

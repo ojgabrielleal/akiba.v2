@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('auto_djs', function (Blueprint $table) {
+        Schema::create('onair', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('name')->unique();
+            $table->boolean('is_playlist')->default(true);
+            $table->morphs('show');
             $table->string('image')->nullable();
+            $table->string('phrase');
+            $table->string('type')->nullable();
+            $table->boolean('listener_request_toggle')->default(false);
+            $table->integer('listener_request_total')->default(0);
             $table->timestamps();
         });
     }
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('auto_djs');
+        Schema::dropIfExists('onair');
     }
 };

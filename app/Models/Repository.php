@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Repository extends Model
 {
     use HasFactory;
+
+    protected $table = 'repositories';
     
     protected $fillable = [
         'is_active',

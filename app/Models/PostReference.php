@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class PostReference extends Model
 {
     use HasFactory;
+
+protected $table = 'posts_references';
     
     protected $fillable = [
         'post_id',

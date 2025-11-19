@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Poll extends Model
 {
     use HasFactory;
+
+    protected $table = 'polls';
     
     protected $fillable = [
         'is_active',
@@ -20,6 +22,6 @@ class Poll extends Model
 
     public function pollOption()
     {
-        return $this->hasMany(PollOption::class);
+        return $this->hasMany(PollOption::class, 'poll_id');
     }
 }

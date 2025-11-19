@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('playlists_battles', function (Blueprint $table) {
+        Schema::create('autodj_phrases', function (Blueprint $table) {
             $table->id();
-            $table->integer('day');
+            $table->foreignId('autodj_id')->constrained('autodj')->cascadeOnDelete();
             $table->string('image')->nullable();
+            $table->string('phrase');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('playlists_battles');
+        Schema::dropIfExists('autodj_phrases');
     }
 };

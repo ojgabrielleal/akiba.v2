@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class PollOption extends Model
 {
     use HasFactory;
+
+    protected $table = 'polls_option';
     
     protected $fillable = [
         'poll_id',

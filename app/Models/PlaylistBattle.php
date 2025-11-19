@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class PlaylistBattle extends Model
 {
     use HasFactory;
+
+    protected $table = 'playlist_battle';
     
     protected $fillable = [
         'day',

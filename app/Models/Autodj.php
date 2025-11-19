@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class AutoDJ extends Model
 {
     use HasFactory;
+
+    protected $table = 'autodj';
     
     protected $fillable = [
         'user_id',
@@ -19,13 +21,13 @@ class AutoDJ extends Model
         'user_id',
     ];
     
-    public function autoDJPhrase()
+    public function autoDJPhrases()
     {
-        return $this->hasMany(AutoDJPhrase::class);
+        return $this->hasMany(AutoDJPhrase::class, 'autodj_id');
     }
     
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class SongRequest extends Model
 {
     use HasFactory;
+
+    protected $table = 'songs_requests';
     
     protected $fillable = [
         'is_played',
@@ -30,11 +32,11 @@ class SongRequest extends Model
 
     public function onair()
     {
-        return $this->belongsTo(Onair::class);
+        return $this->belongsTo(Onair::class, 'onair_id');
     }
     
     public function music()
     {
-        return $this->belongsTo(Music::class);
+        return $this->belongsTo(Music::class, 'music_id');
     }
 }

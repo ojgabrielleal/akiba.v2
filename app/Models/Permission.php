@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Permission extends Model
 {
     use HasFactory;
+
+    protected $table = 'permissions';
     
     protected $fillable = [
         'label',

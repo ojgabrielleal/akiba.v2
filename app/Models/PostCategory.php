@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class PostCategory extends Model
 {
     use HasFactory;
+
+    protected $table = 'posts_categories';
     
     protected $fillable = [
         'post_id',

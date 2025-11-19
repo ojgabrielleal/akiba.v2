@@ -8,14 +8,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class AutoDJPhrase extends Model
 {
     use HasFactory;
+
+    protected $table = 'autodj_phrases';
     
     protected $fillable = [
-        'auto_dj_id',
+        'autodj_id',
         'image',
         'phrase',
     ];
 
     protected $hidden = [
-        'auto_dj_id'
+        'autodj_id'
     ];
 }

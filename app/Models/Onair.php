@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Onair extends Model
 {
     use HasFactory;
+
+    protected $table = 'onair';
     
     protected $fillable = [
         'is_playlist',

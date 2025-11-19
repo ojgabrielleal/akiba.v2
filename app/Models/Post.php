@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Post extends Model
 {
     use HasFactory;
+
+    protected $table = 'posts';
     
     protected $fillable = [
         'is_active',
@@ -30,21 +32,21 @@ class Post extends Model
 
     public function postReference()
     {
-        return $this->hasMany(PostReference::class);
+        return $this->hasMany(PostReference::class, 'post_id');
     }
     
     public function postReaction()
     {
-        return $this->hasMany(PostReaction::class);
+        return $this->hasMany(PostReaction::class, 'post_id');
     }
     
     public function postCategory()
     {
-        return $this->hasMany(PostCategory::class);
+        return $this->hasMany(PostCategory::class, 'post_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

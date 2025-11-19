@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Activity extends Model
 {
     use HasFactory;
-    
+
+    protected $table = 'activities';
+
     protected $fillable = [
         'user_id',
         'is_activity',
@@ -26,13 +28,13 @@ class Activity extends Model
         'user_id',
     ];
     
-    public function activityConfirmation()
+    public function activityConfirmations()
     {
-        return $this->hasMany(ActivityConfirmation::class);
+        return $this->hasMany(ActivityConfirmation::class, 'activity_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

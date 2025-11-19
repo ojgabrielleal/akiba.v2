@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('listeners_months', function (Blueprint $table) {
+        Schema::create('playlist_battle', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('avatar');
-            $table->string('address');
-            $table->string('favorite_show');
-            $table->string('requests_total');
+            $table->integer('day');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('listeners_months');
+        Schema::dropIfExists('playlist_battle');
     }
 };

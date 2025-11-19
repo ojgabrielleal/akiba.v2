@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Review extends Model
 {
     use HasFactory;
+
+    protected $table = 'reviews';
     
     protected $fillable = [
         'is_active',
@@ -24,6 +26,6 @@ class Review extends Model
 
     public function reviewContent()
     {
-        return $this->hasMany(ReviewContent::class);
+        return $this->hasMany(ReviewContent::class, 'review_id');
     }
 }

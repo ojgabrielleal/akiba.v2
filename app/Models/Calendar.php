@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Calendar extends Model
 {
     use HasFactory;
+
+    protected $table = 'calendar';
     
     protected $fillable = [
         'user_id',
@@ -31,11 +33,11 @@ class Calendar extends Model
     
     public function activity()
     {
-        return $this->belongsTo(Activity::class);
+        return $this->belongsTo(Activity::class, 'activity_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

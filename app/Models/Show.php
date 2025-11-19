@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Show extends Model
 {
     use HasFactory;
+
+    protected $table = 'shows';
     
     protected $fillable = [
         'is_active',
@@ -29,11 +31,11 @@ class Show extends Model
 
     public function showSchedule()
     {
-        return $this->hasMany(ShowSchedule::class);
+        return $this->hasMany(ShowSchedule::class, 'show_id');
     }
     
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

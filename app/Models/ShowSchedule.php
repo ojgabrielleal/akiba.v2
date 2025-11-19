@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ShowSchedule extends Model
 {
     use HasFactory;
+
+    protected $table = 'shows_schedules';
     
     protected $fillable = [
         'show_id',
