@@ -23,7 +23,7 @@ class EventFactory extends Factory
             'slug' => fake()->slug(),
             'title' => fake()->title(),
             'content' => fake()->paragraph(),
-            'dates' => fake()->words(3),
+            'dates' => fake()->word(),
             'address' => fake()->address(),
         ];
     }

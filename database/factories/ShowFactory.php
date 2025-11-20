@@ -19,7 +19,7 @@ class ShowFactory extends Factory
         return [
             'is_active' => true,
             'slug' => fake()->slug(),
-            'name' => fake()->nickName(),
+            'name' => fake()->name(),
             'image' => fake()->url(),
             'is_all' => false,
             'has_schedule' => true,

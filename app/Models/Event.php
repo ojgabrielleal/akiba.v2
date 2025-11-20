@@ -24,7 +24,7 @@ class Event extends Model
     ];
 
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
     ];
 
     protected $hidden = [
