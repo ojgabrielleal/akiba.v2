@@ -7,17 +7,17 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Models\User;
-use App\Models\Podcast;
+use App\Models\Task;
 
-class PodcastTest extends TestCase
+class TaskTest extends TestCase
 {
-    use RefreshDatabase;
-
+    use RefreshDatabase; 
+    
     public function testContainsTheUserOnReturn(): void
     {
         $user = User::factory()->create();
-        $podcast = Podcast::factory()->for($user)->create();
+        $task = Task::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $podcast->user->first());
+        $this->assertInstanceOf(User::class, $task->user->first());
     }
 }

@@ -28,7 +28,7 @@ class Activity extends Model
         'user_id',
     ];
     
-    public function activityConfirmations()
+    public function activityConfirmation()
     {
         return $this->hasMany(ActivityConfirmation::class, 'activity_id');
     }

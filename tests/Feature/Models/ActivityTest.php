@@ -31,7 +31,7 @@ class ActivityTest extends TestCase
             'activity_id' => $activity->id,
         ]);
 
-        $this->assertInstanceOf(ActivityConfirmation::class, $activity->activityConfirmations->first());
-        $this->assertCount(5, $activity->activityConfirmations);
+        $this->assertInstanceOf(ActivityConfirmation::class, $activity->activityConfirmation->first());
+        $this->assertCount(5, $activity->activityConfirmation);
     }
 }

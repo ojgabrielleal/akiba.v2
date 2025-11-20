@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,7 +13,7 @@ class PollTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_example(): void
+    public function testContainsPollsOptionsOnReturn(): void
     {
         $poll = Poll::factory()->create();
         PollOption::factory()->count(3)->create([

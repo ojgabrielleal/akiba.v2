@@ -31,8 +31,8 @@ class AutoDJTest extends TestCase
             'autodj_id' => $autoDJ->id,
         ]);
 
-        $this->assertInstanceOf(AutoDJPhrase::class, $autoDJ->autoDJPhrases->first());
-        $this->assertCount(5, $autoDJ->autoDJPhrases);
+        $this->assertInstanceOf(AutoDJPhrase::class, $autoDJ->autoDJPhrase->first());
+        $this->assertCount(5, $autoDJ->autoDJPhrase);
     }
 
 }

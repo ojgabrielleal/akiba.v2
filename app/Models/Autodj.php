@@ -21,7 +21,7 @@ class AutoDJ extends Model
         'user_id',
     ];
     
-    public function autoDJPhrases()
+    public function autoDJPhrase()
     {
         return $this->hasMany(AutoDJPhrase::class, 'autodj_id');
     }
