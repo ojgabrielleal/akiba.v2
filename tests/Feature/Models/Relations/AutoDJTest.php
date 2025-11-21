@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature\Models\Relations;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -25,11 +25,7 @@ class AutoDJTest extends TestCase
     public function testContainsThePhrasesOnReturn(): void
     {
         $user = User::factory()->create();
-        $autoDJ = AutoDJ::factory()->for($user)->create();
-
-        AutoDJPhrase::factory()->count(5)->create([
-            'autodj_id' => $autoDJ->id,
-        ]);
+        $autoDJ = AutoDJ::factory()->for($user)->has(AutoDJPhrase::factory()->count(5), 'autoDJPhrase')->create();
 
         $this->assertInstanceOf(AutoDJPhrase::class, $autoDJ->autoDJPhrase->first());
         $this->assertCount(5, $autoDJ->autoDJPhrase);

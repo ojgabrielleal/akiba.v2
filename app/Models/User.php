@@ -49,7 +49,7 @@ class User extends Authenticatable
         return $this->hasMany(UserPreference::class, 'user_id');
     }
 
-    public function roles()
+    public function role()
     {
         return $this->belongsToMany(Role::class, 'roles_pivot', 'user_id', 'role_id');
     }

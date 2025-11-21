@@ -1,23 +1,23 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature\Models\Relations;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Models\User;
-use App\Models\Task;
+use App\Models\Podcast;
 
-class TaskTest extends TestCase
+class PodcastTest extends TestCase
 {
-    use RefreshDatabase; 
-    
+    use RefreshDatabase;
+
     public function testContainsTheUserOnReturn(): void
     {
         $user = User::factory()->create();
-        $task = Task::factory()->for($user)->create();
+        $podcast = Podcast::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $task->user->first());
+        $this->assertInstanceOf(User::class, $podcast->user->first());
     }
 }

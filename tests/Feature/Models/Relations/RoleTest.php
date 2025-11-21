@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature\Models\Relations;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -15,12 +15,9 @@ class RoleTest extends TestCase
     
     public function testContainsPermissionsOnReturn(): void
     {
-        $role = Role::factory()->create();
+        $role = Role::factory()->hasAttached(Permission::factory()->count(3), [], 'permission')->create();
 
-        Permission::factory()->create([
-            'role_id' => $role->id,
-        ]);
-
-        $this->assertInstanceOf(Permission::class, $role->permissions->first());
+        $this->assertInstanceOf(Permission::class, $role->permission->first());
+        $this->assertCount(3, $role->permission);
     }
 }

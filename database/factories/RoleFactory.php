@@ -20,7 +20,7 @@ class RoleFactory extends Factory
             'label' => fake()->word(),
             'name' => fake()->slug(),
             'description' => fake()->sentence(),
-            'weight' => fake()->number(),
+            'weight' => fake()->randomDigit(),
         ];
     }
 }

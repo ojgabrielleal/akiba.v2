@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature\Models\Relations;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -15,10 +15,7 @@ class PollTest extends TestCase
 
     public function testContainsPollsOptionsOnReturn(): void
     {
-        $poll = Poll::factory()->create();
-        PollOption::factory()->count(3)->create([
-            'poll_id' => $poll->id
-        ]);
+        $poll = Poll::factory()->has(PollOption::factory()->count(3), 'pollOption')->create();
 
         $this->assertInstanceOf(PollOption::class, $poll->pollOption->first());
     }

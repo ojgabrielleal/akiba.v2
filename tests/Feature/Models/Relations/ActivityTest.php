@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature\Models\Relations;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -25,11 +25,7 @@ class ActivityTest extends TestCase
     public function testContainsTheConfirmationsOnReturn(): void
     {
         $user = User::factory()->create();
-        $activity = Activity::factory()->for($user)->create();
-
-        ActivityConfirmation::factory()->count(5)->for($user)->create([
-            'activity_id' => $activity->id,
-        ]);
+        $activity = Activity::factory()->for($user)->has(ActivityConfirmation::factory()->for($user)->count(5), 'activityConfirmation')->create();
 
         $this->assertInstanceOf(ActivityConfirmation::class, $activity->activityConfirmation->first());
         $this->assertCount(5, $activity->activityConfirmation);

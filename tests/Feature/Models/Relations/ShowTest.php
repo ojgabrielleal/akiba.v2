@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature\Models\Relations;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -25,11 +25,7 @@ class ShowTest extends TestCase
     public function testContainsTheShowSchedulesOnReturn(): void 
     {
         $user = User::factory()->create();
-        $show = Show::factory()->for($user)->create();
-
-        ShowSchedule::factory()->count(3)->create([
-            'show_id' => $show->id,
-        ]);
+        $show = Show::factory()->for($user)->has(ShowSchedule::factory()->count(3), 'showSchedule')->create();
 
         $this->assertInstanceOf(ShowSchedule::class, $show->showSchedule->first());
         $this->assertCount(3, $show->showSchedule);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models;
+namespace Tests\Feature\Models\Relations;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,11 +17,7 @@ class ReviewTest extends TestCase
     public function testContainsReviewContentsOnReturn(): void
     {
         $user = User::factory()->create();
-        $review = Review::factory()->create();
-
-        ReviewContent::factory()->for($user)->create([
-            'review_id' => $review->id,
-        ]);
+        $review = Review::factory()->has(ReviewContent::factory()->for($user), 'reviewContent')->create();
 
         $this->assertInstanceOf(ReviewContent::class, $review->reviewContent->first());
     }
