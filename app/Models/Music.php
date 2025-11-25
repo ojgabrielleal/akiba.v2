@@ -19,6 +19,6 @@ class Music extends Model
         'name',
         'is_ranking',
         'image_ranking',
-        'listener_request_total',
+        'song_request_total',
     ];
 }

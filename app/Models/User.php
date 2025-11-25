@@ -38,18 +38,17 @@ class User extends Authenticatable
         'birthday' => 'date',
     ];
 
-    public function userSocial()
+    public function socials()
     {
         return $this->hasMany(UserSocial::class, 'user_id');
     }
 
-    
-    public function userPreference()
+    public function preferences()
     {
         return $this->hasMany(UserPreference::class, 'user_id');
     }
 
-    public function role()
+    public function roles()
     {
         return $this->belongsToMany(Role::class, 'roles_pivot', 'user_id', 'role_id');
     }

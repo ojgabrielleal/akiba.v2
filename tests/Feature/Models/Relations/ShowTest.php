@@ -22,12 +22,12 @@ class ShowTest extends TestCase
         $this->assertInstanceOf(User::class, $show->user->first());
     }
 
-    public function testContainsTheShowSchedulesOnReturn(): void 
+    public function testContainsTheSchedulesOnReturn(): void 
     {
         $user = User::factory()->create();
-        $show = Show::factory()->for($user)->has(ShowSchedule::factory()->count(3), 'showSchedule')->create();
+        $show = Show::factory()->for($user)->has(ShowSchedule::factory()->count(3), 'schedules')->create();
 
-        $this->assertInstanceOf(ShowSchedule::class, $show->showSchedule->first());
-        $this->assertCount(3, $show->showSchedule);
+        $this->assertInstanceOf(ShowSchedule::class, $show->schedules->first());
+        $this->assertCount(3, $show->schedules);
     }
 }

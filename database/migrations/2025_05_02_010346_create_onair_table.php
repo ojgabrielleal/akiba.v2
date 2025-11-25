@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('phrase');
             $table->string('type')->nullable();
-            $table->boolean('listener_request_toggle')->default(false);
-            $table->integer('listener_request_total')->default(0);
+            $table->boolean('song_request_status')->default(false);
+            $table->integer('song_request_total')->default(0);
             $table->timestamps();
         });
     }

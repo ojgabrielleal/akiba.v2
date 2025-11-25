@@ -21,8 +21,8 @@ class OnairFactory extends Factory
             'phrase' => fake()->sentence(),
             'type' => 'human',
             'image' => fake()->url(),
-            'listener_request_toggle' => true,
-            'listener_request_total' => fake()->randomNumber()
+            'song_request_status' => true,
+            'song_request_total' => fake()->randomNumber()
         ];
     }
 }

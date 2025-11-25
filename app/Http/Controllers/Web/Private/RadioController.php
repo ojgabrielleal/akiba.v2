@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\Admin;
+namespace App\Http\Controllers\Web\Private;
 
 use App\Http\Controllers\Controller;
 use App\Models\ListenerMonth;
@@ -197,7 +197,7 @@ class RadioController extends Controller
     public function listRankingMusics()
     {
         try {
-            return Music::orderBy('listener_request_total', 'desc')->limit(3)->get();
+            return Music::orderBy('song_request_total', 'desc')->limit(3)->get();
         } catch (\Throwable $e) {
             return $this->provideException($e);
         }
@@ -210,7 +210,7 @@ class RadioController extends Controller
                 'is_ranking' => false,
             ]);
 
-            $musics = Music::orderBy('listener_request_total', 'desc')->limit(10)->get();
+            $musics = Music::orderBy('song_request_total', 'desc')->limit(10)->get();
             foreach ($musics as $music) {
                 $music->update([
                     'is_ranking' => true

@@ -15,24 +15,24 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testContainsTheUserPreferenceOnReturn(): void
+    public function testContainsThePreferencesOnReturn(): void
     {
-        $user = User::factory()->has(UserPreference::factory(), 'userPreference')->create();
+        $user = User::factory()->has(UserPreference::factory(), 'preferences')->create();
 
-        $this->assertInstanceOf(UserPreference::class, $user->userPreference->first());
+        $this->assertInstanceOf(UserPreference::class, $user->preferences->first());
     }
 
-    public function testContainsTheUserSocialOnReturn(): void
+    public function testContainsTheSocialsOnReturn(): void
     {
-        $user = User::factory()->has(UserSocial::factory(), 'userSocial')->create();
+        $user = User::factory()->has(UserSocial::factory(), 'socials')->create();
 
-        $this->assertInstanceOf(UserSocial::class, $user->userSocial->first());
+        $this->assertInstanceOf(UserSocial::class, $user->socials->first());
     }
 
-    public function testContainsTheRoleOnReturn(): void
+    public function testContainsTheRolesOnReturn(): void
     {
-        $user = User::factory()->hasAttached(Role::factory()->count(3), [], 'role')->create();
+        $user = User::factory()->hasAttached(Role::factory()->count(3), [], 'roles')->create();
 
-        $this->assertInstanceOf(Role::class, $user->role->first());
+        $this->assertInstanceOf(Role::class, $user->roles->first());
     }
 }

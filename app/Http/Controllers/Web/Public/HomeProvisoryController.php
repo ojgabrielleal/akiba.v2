@@ -64,7 +64,7 @@ class HomeProvisoryController extends Controller
             $onair = Onair::where('is_live', true)->first();
             if ($onair) {
                 $onair->update([
-                    'listener_request_total' => $onair->listener_request_total + 1,
+                    'song_request_total' => $onair->song_request_total + 1,
                 ]);
             }
 
@@ -77,11 +77,11 @@ class HomeProvisoryController extends Controller
                     'artist' => $artist_name,
                     'music' => $music_name,
                     'image' => $image,
-                    'listener_request_total' => 1,
+                    'song_request_total' => 1,
                 ]);
             } else {
                 $musicObj->update([
-                    'listener_request_total' => $musicObj->listener_request_total + 1,
+                    'song_request_total' => $musicObj->song_request_total + 1,
                 ]);
             }
 

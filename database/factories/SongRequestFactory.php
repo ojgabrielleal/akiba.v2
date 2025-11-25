@@ -18,6 +18,7 @@ class SongRequestFactory extends Factory
     {
         return [
             'is_played' => false,
+            'is_canceled' => false,
             'ip' => fake()->ipv4(),
             'name' => fake()->nickName(),
             'address' => fake()->address(),

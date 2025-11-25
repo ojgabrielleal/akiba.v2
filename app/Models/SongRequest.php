@@ -13,6 +13,7 @@ class SongRequest extends Model
     
     protected $fillable = [
         'is_played',
+        'is_canceled',
         'onair_id',
         'music_id',
         'ip',
@@ -27,7 +28,8 @@ class SongRequest extends Model
     ];
 
     protected $casts = [
-        'is_played' => 'boolean'
+        'is_played' => 'boolean',
+        'is_canceled' => 'boolean'
     ];
 
     public function onair()

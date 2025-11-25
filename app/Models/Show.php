@@ -29,7 +29,7 @@ class Show extends Model
         'user_id',
     ];
 
-    public function showSchedule()
+    public function schedules()
     {
         return $this->hasMany(ShowSchedule::class, 'show_id');
     }

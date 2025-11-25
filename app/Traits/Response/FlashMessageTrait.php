@@ -2,9 +2,9 @@
 
 namespace App\Traits\Response;
 
-trait ProvideSuccessTrait
+trait FlashMessageTrait
 {
-    public function provideSuccess(string $action)
+    public function flashMessage(string $action)
     {
         $messages = [
             'save' => [
@@ -23,10 +23,6 @@ trait ProvideSuccessTrait
                 'type' => 'warning',
                 'message' => '🗑️ Apagado! Às vezes começar do zero é melhor que quebrar a cabeça 🤷‍♂️'
             ],
-            'error' => [
-                'type' => 'error',
-                'message' => '🙀 Erro! Parece que o universo quis apimentar seu dia 🔥'
-            ],
             'deactivate' => [
                 'type' => 'info',
                 'message' => '🌙 Desativado! Foi dormir, mas promete voltar… ou não 😴'
@@ -35,7 +31,7 @@ trait ProvideSuccessTrait
                 'type' => 'success',
                 'message' => '☀️ Ativado! Preparado pra brilhar… e causar umas confusões ✨'
             ],
-            'listener_request_granted' => [
+            'songRequestPlayed' => [
                 'type' => 'success',
                 'message' => '🎧 Pedido atendido! Sem drama, o que já é um pequeno milagre moderno 😌'
             ],
@@ -43,19 +39,19 @@ trait ProvideSuccessTrait
                 'type' => 'info',
                 'message' => '❌ Pedido cancelado! Melhor isso do que fingir que ia dar certo, né? 😏'
             ],
-            'listener_request_open' => [
+            'songRequestOpen' => [
                 'type' => 'success',
                 'message' => '📢 Pedidos abertos! Prepare-se para a avalanche… e tente não se perder 😅'
             ],
-            'listener_request_close' => [
+            'songRequestClose' => [
                 'type' => 'info',
                 'message' => '🔒 Pedidos fechados! Até o bom senso precisa tirar férias de vez em quando 😉'
             ],
-            'start_broadcast' => [
+            'startBroadcast' => [
                 'type' => 'success',
                 'message' => '📡 Programa iniciado! Vamos torcer para tudo sair do jeito certo… ou quase 😎'
             ],
-            'end_broadcast' => [
+            'finishBroadcast' => [
                 'type' => 'info',
                 'message' => '📡 Programa encerrado! E a gente finge que tudo saiu do jeito certo 😏'
             ],

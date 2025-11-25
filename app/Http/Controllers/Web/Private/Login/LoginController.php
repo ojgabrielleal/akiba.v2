@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\Admin;
+namespace App\Http\Controllers\Web\Private\Login;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,20 +8,19 @@ use Illuminate\Support\Facades\Auth;
 
 use Inertia\Inertia;
 
-class AuthController extends Controller
+class LoginController extends Controller
 {
-    public function authenticate(Request $request)
+    public function login(Request $request)
     {
         $credentials = $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
+            'username' => 'required',
+            'password' => 'required',
         ]);
 
         $credentials['is_active'] = true;
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
             return redirect()->route('render.painel.dashboard');
         }
 

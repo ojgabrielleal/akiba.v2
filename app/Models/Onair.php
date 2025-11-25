@@ -18,8 +18,8 @@ class Onair extends Model
         'phrase',
         'type',
         'image',
-        'listener_request_toggle',
-        'listener_request_total'
+        'song_request_status',
+        'song_request_total'
     ];
 
     protected $casts = [
