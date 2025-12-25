@@ -22,7 +22,7 @@ class Role extends Model
         'weight' => 'integer'  
     ];
 
-    public function permission()
+    public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'permissions_pivot', 'role_id', 'permission_id');
     }

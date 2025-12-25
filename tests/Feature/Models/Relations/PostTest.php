@@ -27,28 +27,28 @@ class PostTest extends TestCase
     public function testContainsPostReferencesOnReturn(): void
     {
         $user = User::factory()->create();
-        $post = Post::factory()->for($user)->has(PostReference::factory()->count(3), 'postReference')->create();
+        $post = Post::factory()->for($user)->has(PostReference::factory()->count(3), 'references')->create();
 
-        $this->assertInstanceOf(PostReference::class, $post->postReference->first());
-        $this->assertCount(3, $post->postReference);
+        $this->assertInstanceOf(PostReference::class, $post->references->first());
+        $this->assertCount(3, $post->references);
     }
 
     public function testContainsPostReactionsOnReturn(): void
     {
         $user = User::factory()->create();
-        $post = Post::factory()->for($user)->has(PostReaction::factory()->count(3), 'postReaction')->create();
+        $post = Post::factory()->for($user)->has(PostReaction::factory()->count(3), 'reactions')->create();
 
-        $this->assertInstanceOf(PostReaction::class, $post->postReaction->first());
-        $this->assertCount(3, $post->postReaction);
+        $this->assertInstanceOf(PostReaction::class, $post->reactions->first());
+        $this->assertCount(3, $post->reactions);
     }
 
     public function testContainsPostCategoriesOnReturn(): void
     {
         $user = User::factory()->create();
-        $post = Post::factory()->for($user)->has(PostCategory::factory()->count(3), 'postCategory')->create();
+        $post = Post::factory()->for($user)->has(PostCategory::factory()->count(3), 'categories')->create();
 
 
-        $this->assertInstanceOf(PostCategory::class, $post->postCategory->first());
-        $this->assertCount(3, $post->postCategory);
+        $this->assertInstanceOf(PostCategory::class, $post->categories->first());
+        $this->assertCount(3, $post->categories);
     }
 }

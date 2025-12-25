@@ -18,6 +18,6 @@ class TaskTest extends TestCase
         $user = User::factory()->create();
         $task = Task::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $task->user->first());
+        $this->assertInstanceOf(User::class, $task->responsible);
     }
 }

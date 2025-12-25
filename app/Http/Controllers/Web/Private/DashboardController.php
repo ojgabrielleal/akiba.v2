@@ -3,188 +3,51 @@
 namespace App\Http\Controllers\Web\Private;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
-
 use Inertia\Inertia;
 
-use App\Traits\Response\ProvideException;
-use App\Traits\Response\ProvideSuccess;
+use App\Traits\FlashMessageTrait;
 
-use App\Models\Alert;
-use App\Models\AlertSignature;
-use App\Models\Task;
-use App\Models\Post;
-use App\Models\Calendar;
+use App\Services\Domain\ActivityService;
+use App\Services\Domain\TaskService;
+use App\Services\Domain\PostService;
+use App\Services\Domain\CalendarService;
 
 class DashboardController extends Controller
 {
-    use ProvideException, ProvideSuccess;
+    use FlashMessageTrait;
 
-    public function listAlerts()
+    public function createActivityConfirmation($activityId)
     {
-        try {
-            $authenticated = request()->user();
+        $authenticated = request()->user();
 
-            $query = Alert::limit(6);
-            $query->orderBy('created_at', 'desc');
-            $query->whereDoesntHave('signatures', function ($query) use ($authenticated) { $query->where('user_id', $authenticated->id); });
-            $query->with(['user', 'signatures' => function ($query) { $query->limit(4)->with('user'); }]);
-            $alerts = $query->get();
+        $activity = new ActivityService();
+        $activity->createConfirmation($authenticated, $activityId);
 
-            $alerts = $alerts->map(function ($alert) use ($authenticated) {
-                $data = $alert->toArray();
-                $data['actions'] = [ 'confirm' => $authenticated->id === $alert->user->id ];
-                return $data;
-            });
-
-            return $alerts;
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
+        return $this->flashMessage('save');
     }
 
-    public function createAlertSignature(Request $request, $id)
+    public function setTaskComplete($taskId)
     {
-        try {
-            $authenticated = $request->user();
-            $alert = Alert::where('id', $id)->firstOrFail();
+        $task = new TaskService();
+        $task->markAsCompleted($taskId);
 
-            AlertSignature::create([
-                'user_id' => $authenticated->id,
-                'alert_id' => $alert->id,
-            ]);
-
-            return $this->provideSuccess('save');
-        } catch (\Throwable  $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function listTasks()
-    {
-        try {
-            $authenticated = request()->user();
-
-            $query = Task::orderBy('created_at', 'desc');
-            $query->where('user_id', $authenticated->id);
-            $query->with('user');
-            $query->where('completed', 0);
-            $query->where('user_id', $authenticated->id);
-            $tasks = $query->get();
-
-            function resolveTaskAppearance($task)
-            {
-                $deadline = Carbon::parse($task->deadline);
-                $now = Carbon::now();
-
-                $style = [
-                    "bg" => "var(--color-blue-skywave)",
-                    "bg_date" => [
-                        "title" => "var(--color-blue-indigo)",
-                        "title_text_color" => "var(--color-neutral-aurora)",
-                        "date" => "var(--color-neutral-aurora)",
-                        "date_text_color" => "var(--color-blue-indigo)"
-                    ]
-                ];
-
-                if ($deadline->greaterThan($now) && $deadline->lessThanOrEqualTo($now->copy()->addDays(7))) {
-                    $style = [
-                        "bg" => "var(--color-orange-amber)",
-                        "bg_date" => [
-                            "title" => "var(--color-red-crimson)",
-                            "date" => "var(--color-blue-indigo)",
-                            "date_text_color" => "var(--color-orange-amber)"
-                        ]
-                    ];
-                }
-
-                return $style;
-            }
-
-            function resolveTaskDueSoon($task)
-            {
-                $deadline = Carbon::parse($task->deadline);
-                $now = Carbon::now();
-
-                return $deadline->greaterThan($now) && $deadline->lessThanOrEqualTo($now->copy()->addDays(7));
-            }
-
-            $tasks = $tasks->map(function ($task) {
-                $data = $task->toArray();
-                $data['styles'] = resolveTaskAppearance($task);
-                $data['due_soon'] = resolveTaskDueSoon($task);
-                $data['deadline'] = $task->deadline->format('d/m');
-                return $data;
-            });
-
-            return $tasks;
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function setTaskComplete($id)
-    {
-        try {
-            $task = Task::where('id', $id)->firstOrFail();
-            $task->update([
-                'completed' => true,
-            ]);
-            
-            return $this->provideSuccess('save');
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function listLastsPosts()
-    {
-        try {
-            $authenticated = request()->user();
-
-            $query = Post::orderBy('created_at', 'desc');
-            $query->where('status', 'published');
-            $query->with('user');
-            $posts = $query->paginate(5);
-
-            $posts->getCollection()->transform(function ($post) use ($authenticated) {
-                $data = $post->toArray();
-                $data['styles'] = [ 
-                    'bg' => 'var(--color-blue-skywave)' 
-                ];
-                $data['actions'] = [
-                    'editable' => $authenticated->permissions_keys->contains('administrator') || $post->user_id == $authenticated->id
-                ];
-                return $data;
-            });
-
-            return $posts;
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function listCalendar()
-    {
-        try {
-            $query = Calendar::with('user');
-            $query->orderBy('hour');
-            $calendar = $query->get();
-
-            return $calendar;
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
+        return $this->flashMessage('save');
     }
 
     public function render()
     {
+        $activities = new ActivityService();
+        $tasks = new TaskService();
+        $publications = new PostService();
+        $calendar = new CalendarService();
+
         return Inertia::render('admin/Dashboard', [
-            'alerts' => $this->listAlerts(),
-            'tasks' => $this->listTasks(),
-            'publications' => $this->listLastsPosts(),
-            'calendar' => $this->listCalendar(),
+            'activities' => $activities->list([
+                'limit' => 6
+            ]),
+            'tasks' => $tasks->list(),
+            'calendar' => $calendar->list(),
+            'publications' => $publications->list(),
         ]);
     }
 }

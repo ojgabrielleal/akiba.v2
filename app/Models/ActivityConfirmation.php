@@ -21,7 +21,7 @@ class ActivityConfirmation extends Model
         'activity_id',
     ];
 
-    public function user()
+    public function confirmer()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

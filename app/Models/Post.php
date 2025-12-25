@@ -30,22 +30,22 @@ class Post extends Model
         'user_id',
     ];
 
-    public function postReference()
+    public function references()
     {
         return $this->hasMany(PostReference::class, 'post_id');
     }
     
-    public function postReaction()
+    public function reactions()
     {
         return $this->hasMany(PostReaction::class, 'post_id');
     }
     
-    public function postCategory()
+    public function categories()
     {
         return $this->hasMany(PostCategory::class, 'post_id');
     }
 
-    public function user()
+    public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

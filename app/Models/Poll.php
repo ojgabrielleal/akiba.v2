@@ -20,7 +20,7 @@ class Poll extends Model
         'is_active' => 'boolean',
     ];
 
-    public function pollOption()
+    public function options()
     {
         return $this->hasMany(PollOption::class, 'poll_id');
     }

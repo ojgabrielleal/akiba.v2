@@ -19,15 +19,15 @@ class ActivityTest extends TestCase
         $user = User::factory()->create();
         $activity = Activity::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $activity->user->first());
+        $this->assertInstanceOf(User::class, $activity->responsible);
     }
     
     public function testContainsTheConfirmationsOnReturn(): void
     {
         $user = User::factory()->create();
-        $activity = Activity::factory()->for($user)->has(ActivityConfirmation::factory()->for($user)->count(5), 'activityConfirmation')->create();
+        $activity = Activity::factory()->for($user)->has(ActivityConfirmation::factory()->for($user)->count(5), 'confirmations')->create();
 
-        $this->assertInstanceOf(ActivityConfirmation::class, $activity->activityConfirmation->first());
-        $this->assertCount(5, $activity->activityConfirmation);
+        $this->assertInstanceOf(ActivityConfirmation::class, $activity->confirmations->first());
+        $this->assertCount(5, $activity->confirmations);
     }
 }

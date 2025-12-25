@@ -21,13 +21,14 @@ class AutoDJ extends Model
         'user_id',
     ];
     
-    public function autoDJPhrase()
+    public function host()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function phrases()
     {
         return $this->hasMany(AutoDJPhrase::class, 'autodj_id');
     }
     
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 }

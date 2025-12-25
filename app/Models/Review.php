@@ -24,7 +24,7 @@ class Review extends Model
         'is_active' => 'boolean'
     ];
 
-    public function reviewContent()
+    public function contents()
     {
         return $this->hasMany(ReviewContent::class, 'review_id');
     }

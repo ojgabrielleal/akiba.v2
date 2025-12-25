@@ -18,6 +18,6 @@ class EventTest extends TestCase
         $user = User::factory()->create();
         $event = Event::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $event->user->first());
+        $this->assertInstanceOf(User::class, $event->author);
     }
 }

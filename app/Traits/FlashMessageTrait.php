@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\Response;
+namespace App\Traits;
 
 trait FlashMessageTrait
 {

@@ -23,6 +23,6 @@ class OnairTest extends TestCase
             'show_type' => Show::class
         ]);
 
-        $this->assertInstanceOf(Show::class, $onair->show->first());
+        $this->assertInstanceOf(Show::class, $onair->show);
     }
 }

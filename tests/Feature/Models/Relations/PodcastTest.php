@@ -18,6 +18,6 @@ class PodcastTest extends TestCase
         $user = User::factory()->create();
         $podcast = Podcast::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $podcast->user->first());
+        $this->assertInstanceOf(User::class, $podcast->author);
     }
 }

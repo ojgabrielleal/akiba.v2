@@ -3,289 +3,105 @@
 namespace App\Http\Controllers\Web\Private;
 
 use App\Http\Controllers\Controller;
-use App\Models\ListenerMonth;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-
-use App\Exceptions\AlreadyExistsException;
-
 use Inertia\Inertia;
 
-use App\Traits\Upload\HandlesImageUpload;
-use App\Traits\Response\ProvideException;
-use App\Traits\Response\ProvideSuccess;
+use App\Traits\FlashMessageTrait;
 
-use App\Models\User;
-use App\Models\Show;
-use App\Models\ProgramSchedule;
-use App\Models\Music;
+use App\Services\Domain\MusicService;
+use App\Services\Domain\ShowService;
+use App\Services\Domain\ListenerMonthService;
+use App\Services\Domain\ShowScheduleService;
+use App\Services\Domain\UserService;
 
 class RadioController extends Controller
 {
-    use HandlesImageUpload, ProvideSuccess, ProvideException;
+    use FlashMessageTrait;
 
-    public function listStreamers()
+    public function getShow($showId)
     {
-        try {
-            $users = User::all();
-            $streamers = $users->filter(function ($user) {
-                return array_intersect(['streamer', 'administrator'], $user->permissions_keys->toArray() ?? []);
-            });
-
-            return $streamers->values()->toArray();
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function listProgramsSchedules()
-    {
-        try {
-            return ProgramSchedule::orderBy('created_at', 'desc')->with('show.user')->get();
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function listShows()
-    {
-        try {
-            return Show::orderBy('created_at', 'desc')->with(['user', 'schedules'])->where('is_active', true)->get();
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function getShow($id)
-    {
-        try {
-            if($id){
-                return Show::where('id', $id)->with(['schedules', 'user'])->firstOrFail();
-            }
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
+        $showService = new ShowService();
+        return $showService->get($showId);
     }
 
     public function createShow(Request $request)
     {
-        try {
-            $request->validate([
-                'name' => 'required',
-                'image' => 'required|image',
-            ], [
-                'name.required' => 'Programa',
-                'image.required' => 'Logo do programa',
-            ]);
+        $request->validate([
+            'name' => 'required',
+            'image' => 'required',
+        ]);
 
-            $authenticated = request()->user();
+        $authenticated = request()->user();
+        
+        $showService = new ShowService();
+        $showCreate = $showService->create($authenticated, $request->all());
 
-            $exist = Show::where('name', $request->input('name'))->exists();
-            if ($exist) throw new AlreadyExistsException();
-            
-            $create = Show::create([
-                'user_id' => $request->input('user_id') ? $request->input('user_id') : $authenticated->id,
-                'slug' => Str::slug($request->input('name')),
-                'name' => $request->input('name'),
-                'image' => $this->uploadImage('shows', $request->file('image'), 'public'),
-                'is_all' => $request->input('is_all'),
-                'has_schedule' => $request->input('has_schedule')
-            ]);
-
-            if($create->wasRecentlyCreated){
-                if ($request->input('has_schedule')) {
-                    foreach ($request->input('schedules') as $schedule) {
-                        ProgramSchedule::create([
-                            'show_id' => $create->id,
-                            'day' => $schedule['day'],
-                            'time' => $schedule['time'],
-                        ]);
-                    }
-                }
-            }
-
-            return $this->provideSuccess('save');
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
+        if($showCreate) return $this->flashMessage('save');
     }
 
-    public function updateShow(Request $request, $id)
+    public function updateShow(Request $request, $showId)
     {
-        try {
-            $request->validate([
-                'name' => 'required',
-            ], [
-                'name.required' => 'Programa',
-            ]);
+        $request->validate([
+            'name' => 'required',
+        ]);
 
-            $show = Show::where('id', $id)->firstOrFail();
-            $show->update([
-                'user_id' => $request->input('user_id') ? $request->input('user_id') : $show->user_id,
-                'slug' => $request->input('name') !== $show->name ? Str::slug($request->input('name')) : $show->slug,
-                'name' => $request->input('name', $show->name),
-                'image' => $request->hasFile('image') ? $this->uploadImage('shows', $request->file('image'), 'public', $show->image) : $show->image,
-                'is_all' => $request->input('is_all', $show->is_all),
-                'has_schedule' => $request->input('has_schedule', $show->has_schedule),
-            ]);
+        $showService = new ShowService();
+        $showUpdate = $showService->update($showId, $request->all());
 
-            if ($request->input('has_schedule')) {
-                ProgramSchedule::where('show_id', $show->id)->delete();
-                foreach ($request->input('schedules') as $schedule) {
-                    ProgramSchedule::create([
-                        'show_id' => $show->id,
-                        'day' => $schedule['day'],
-                        'time' => $schedule['time'],
-                    ]);
-                }
-            }
-            
-            return $this->provideSuccess('update');
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
+        if($showUpdate) return $this->flashMessage('update');
     }
 
-    public function deactivateShow($id)
+    public function deactivateShow($showId)
     {
-        try {
-            $show = Show::where('id', $id)->firstOrFail();
-            $show->update([
-                'is_active' => false
-            ]);
-            ProgramSchedule::where('show_id', $show->id)->delete();
+        $showService = new ShowService();
+        $showDeactivate = $showService->deactivate($showId);
 
-            return $this->provideSuccess('update');
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function getListenerMonthRegistered()
-    {
-        try {
-            return ListenerMonth::where('id', 1)->first();
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function getListenerMonthFound()
-    {
-        try {
-            $startOfMonth = Carbon::now()->startOfMonth();
-            $endOfMonth = Carbon::now()->endOfMonth();
-
-            $query = DB::table('listeners_requests');
-            $query->where('status', 'granted');
-            $query->join('onair', 'listeners_requests.onair_id', '=', 'onair.id');
-            $query->join('shows', 'onair.program_id', '=', 'shows.id');
-            $query->whereBetween('listeners_requests.created_at', [$startOfMonth, $endOfMonth]);
-            $query->select('listener', 'listeners_requests.address', 'shows.name as favorite_show', DB::raw('COUNT(*) as total'));
-            $query->groupBy('listener', 'listeners_requests.address', 'shows.name');
-            $query->orderByDesc('total');
-            $listener = $query->first();
-
-            return $listener;
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
-    }
-
-    public function listRankingMusics()
-    {
-        try {
-            return Music::orderBy('song_request_total', 'desc')->limit(3)->get();
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
+        if($showDeactivate) return $this->flashMessage('deactivate');
     }
 
     public function setRankingMusic()
     {
-        try {
-            Music::where('is_ranking', true)->update([
-                'is_ranking' => false,
-            ]);
+        $musicService = new MusicService();
+        $musicUpdate = $musicService->setRanking();
 
-            $musics = Music::orderBy('song_request_total', 'desc')->limit(10)->get();
-            foreach ($musics as $music) {
-                $music->update([
-                    'is_ranking' => true
-                ]);
-            }
-
-            return $this->provideSuccess('save');
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
+        if($musicUpdate) return $this->flashMessage('save');
     }
 
     public function createListenerMonth(Request $request)
     {
-        try {
-            $request->validate([
-                'image' => 'required',
-            ], [    
-                'image.required' => 'Imagem do ranking'
-            ]);
-                        
-            $exist = ListenerMonth::exists();
-            $found = $this->getListenerMonthFound();
+        $request->validate([
+            'image' => 'required',
+        ]);
 
-            if ($exist) {
-                $listenerMonth = ListenerMonth::where('id', 1)->firstOrFail();
-                $listenerMonth->update([
-                    'image' => $this->uploadImage('listener-month', $request->file('image'), 'public', $listenerMonth->image ?? null),
-                    'listener' => $found->listener,
-                    'address' => $found->address,
-                    'favorite_show' => $found->favorite_show,
-                    'requests_total' => $found->total,
-                ]);
+        $listenerMonthService = new ListenerMonthService();
+        $listenerMonthCreate = $listenerMonthService->create($request->all());
 
-                return $this->provideSuccess('update');
-            } else {
-                DB::statement('ALTER TABLE listener_month AUTO_INCREMENT = 1');
-                ListenerMonth::create([
-                    'image' => $this->uploadImage('listener-month', $request->file('image'), 'public'),
-                    'listener' => $found->listener,
-                    'address' => $found->address,
-                    'favorite_show' => $found->favorite_show,
-                    'requests_total' => $found->total,
-                ]);
-
-                return $this->provideSuccess('save');
-            }
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
+        if($listenerMonthCreate) return $this->flashMessage('save');
     }
 
-    public function updateRankingMusicImage(Request $request, $id)
+    public function updateRankingMusicImage(Request $request, $musicId)
     {
-        try {
-            $music = Music::where('id', $id)->firstOrFail();
-            $music->update([
-                'image_ranking' => $this->uploadImage('musics/ranking', $request->file('image_ranking'), 'public', $music->image_ranking ?? null),
-            ]);
+        $musicService = new MusicService();
+        $musicUpdate = $musicService->setRankingImage($musicId, $request->all());
 
-            return $this->provideSuccess('save');
-        } catch (\Throwable $e) {
-            return $this->provideException($e);
-        }
+        if($musicUpdate) return $this->flashMessage('update');
     }
 
     public function render()
     {
+        $shows = new ShowService();
+        $music = new MusicService();
+        $listenerMonth = new ListenerMonthService();
+        $showSchedule = new ShowScheduleService();
+        $user = new UserService();
+
         return Inertia::render('admin/Radio', [
-            "shows" => $this->listShows(),
-            "streamers" => $this->listStreamers(),
-            "programSchedule" => $this->listProgramsSchedules(),
-            "rankingMusics" => $this->listRankingMusics(),
-            "listenerMonthRegistered" => $this->getListenerMonthRegistered(),
-            'listenerMonthFound' => $this->getListenerMonthFound(),
+            "shows" => $shows->list(),
+            "streamers" => $user->list(),
+            "schedules" => $showSchedule->list(),
+            "ranking" => $music->listRanking(),
+            "listenerMonthRegistered" => $listenerMonth->get(),
+            'listenerMonthFound' => $listenerMonth->found(),
         ]);
     }
 }

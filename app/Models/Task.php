@@ -30,7 +30,7 @@ class Task extends Model
         'user_id',
     ];
 
-    public function user()
+    public function responsible()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

@@ -19,7 +19,7 @@ class ShowTest extends TestCase
         $user = User::factory()->create();
         $show = Show::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $show->user->first());
+        $this->assertInstanceOf(User::class, $show->user);
     }
 
     public function testContainsTheSchedulesOnReturn(): void 

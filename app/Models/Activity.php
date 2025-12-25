@@ -28,13 +28,14 @@ class Activity extends Model
         'user_id',
     ];
     
-    public function activityConfirmation()
+    public function responsible()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function confirmations()
     {
         return $this->hasMany(ActivityConfirmation::class, 'activity_id');
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 }

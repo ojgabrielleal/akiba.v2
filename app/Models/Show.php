@@ -29,13 +29,14 @@ class Show extends Model
         'user_id',
     ];
 
+    public function host()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    
     public function schedules()
     {
         return $this->hasMany(ShowSchedule::class, 'show_id');
     }
     
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 }

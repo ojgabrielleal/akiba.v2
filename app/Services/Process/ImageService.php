@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Traits\Upload;
-
+namespace App\Services\Process;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
-trait HandlesImageUploadTrait
+class ImageService
 {
-    public function uploadImage(string $subfolder, UploadedFile $file, string $disk = 'public', ?string $oldImagePath = null): string
+    public function upload(string $subfolder, UploadedFile $file, string $disk = 'public', ?string $oldImagePath = null): string
     {
         if ($oldImagePath) {
-            $this->deleteImage($oldImagePath, $disk);
+            $this->delete($oldImagePath, $disk);
         }
 
         $folder = 'images/' . trim($subfolder, '/');
@@ -36,7 +35,7 @@ trait HandlesImageUploadTrait
         return '/storage/' . $path;
     }
 
-    public function deleteImage(string $imagePath, string $disk = 'public'): bool
+    public function delete(string $imagePath, string $disk = 'public'): bool
     {
         $filePath = str_replace('/storage/', '', $imagePath);
         

@@ -17,8 +17,8 @@ class ReviewTest extends TestCase
     public function testContainsReviewContentsOnReturn(): void
     {
         $user = User::factory()->create();
-        $review = Review::factory()->has(ReviewContent::factory()->for($user), 'reviewContent')->create();
+        $review = Review::factory()->has(ReviewContent::factory()->for($user), 'contents')->create();
 
-        $this->assertInstanceOf(ReviewContent::class, $review->reviewContent->first());
+        $this->assertInstanceOf(ReviewContent::class, $review->contents->first());
     }
 }

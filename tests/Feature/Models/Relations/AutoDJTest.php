@@ -19,16 +19,16 @@ class AutoDJTest extends TestCase
         $user = User::factory()->create();
         $autoDJ = AutoDJ::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $autoDJ->user->first());
+        $this->assertInstanceOf(User::class, $autoDJ->host);
     }
 
     public function testContainsThePhrasesOnReturn(): void
     {
         $user = User::factory()->create();
-        $autoDJ = AutoDJ::factory()->for($user)->has(AutoDJPhrase::factory()->count(5), 'autoDJPhrase')->create();
+        $autoDJ = AutoDJ::factory()->for($user)->has(AutoDJPhrase::factory()->count(5), 'phrases')->create();
 
-        $this->assertInstanceOf(AutoDJPhrase::class, $autoDJ->autoDJPhrase->first());
-        $this->assertCount(5, $autoDJ->autoDJPhrase);
+        $this->assertInstanceOf(AutoDJPhrase::class, $autoDJ->phrases->first());
+        $this->assertCount(5, $autoDJ->phrases);
     }
 
 }

@@ -19,7 +19,7 @@ class CalendarTest extends TestCase
         $user = User::factory()->create();
         $calendar = Calendar::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $calendar->user->first());
+        $this->assertInstanceOf(User::class, $calendar->user);
     }
 
     public function testContainsTheActivityOnReturn(): void
@@ -28,6 +28,6 @@ class CalendarTest extends TestCase
         $activity = Activity::factory()->for($user)->create();
         $calendar = Calendar::factory()->for($user)->for($activity)->create();
 
-        $this->assertInstanceOf(Activity::class, $calendar->activity->first());
+        $this->assertInstanceOf(Activity::class, $calendar->activity);
     }
 }

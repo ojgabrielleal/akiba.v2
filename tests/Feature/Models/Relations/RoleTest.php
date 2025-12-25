@@ -15,9 +15,9 @@ class RoleTest extends TestCase
     
     public function testContainsPermissionsOnReturn(): void
     {
-        $role = Role::factory()->hasAttached(Permission::factory()->count(3), [], 'permission')->create();
+        $role = Role::factory()->hasAttached(Permission::factory()->count(3), [], 'permissions')->create();
 
-        $this->assertInstanceOf(Permission::class, $role->permission->first());
-        $this->assertCount(3, $role->permission);
+        $this->assertInstanceOf(Permission::class, $role->permissions->first());
+        $this->assertCount(3, $role->permissions);
     }
 }
