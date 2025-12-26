@@ -50,10 +50,8 @@ class PodcastService
         return $podcastQuery->paginate(5);
     }
 
-    public function get($podcastId, $options = [])
-    {
-        if($podcastId) return;
-        
+    public function get($podcastSlug, $options = [])
+    {        
         $podcastQuery = Podcast::query();
 
         if (!empty($options['fields'])) {
@@ -69,7 +67,8 @@ class PodcastService
                 $podcastQuery->with([$relation => fn($q) => $q->select($cols)]);
             } 
         }
-        return $podcastQuery->findOrFail($podcastQuery);
+
+        return $podcastQuery->where('slug', $podcastSlug)->firstOrFail();
     }
 
     public function create($authenticated = [], $data = [])

@@ -105,7 +105,7 @@ class ReviewService
         ]);
 
         if( $reviewUpdate ) {
-            $reviewQuery->reviews()->updateOrCreate(
+            $reviewQuery->reviews()->update(
                 ['user_id' => $data['user_id']],
                 ['content' => $data['content']]
             );

@@ -13,12 +13,10 @@ class MusicService
 
     public function setRanking()
     {
-        // Reset previous ranking
         Music::where('is_ranking', true)->update([
             'is_ranking' => false
         ]);
 
-        // Set new ranking
         $musicQuery = Music::orderBy('song_request_total', 'desc')->limit(10)->get();
         $musicUpdate = $musicQuery->each(function ($music) {
             $music->update(['is_ranking' => true]);

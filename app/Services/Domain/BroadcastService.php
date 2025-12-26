@@ -12,21 +12,23 @@ class BroadcastService
 {
     public function start($authenticated = [], $data = [])
     {
-        Onair::where('is_live', true)->update([
-            'is_live' => false,
-            'listener_request_status' => false,
-        ]);
+        $onairQuery = Onair::where('is_live', true)->firstOrFail();
+        $showQuery = Show::findOrFail($data['show']);
 
-        $show = Show::findOrFail($data['show']);
-        if ($show->is_all) {
-            if ($show->user_id !== $authenticated['id']) {
-                $show->update([
+        if ($showQuery->is_all) {
+            if ($showQuery->user_id !== $authenticated['id']) {
+                $showQuery->update([
                     'user_id' => $authenticated['id']
                 ]);
             }
         }
 
-        $onairCreate = $show->onair()->create([
+        $onairQuery->update([
+            'is_live' => false,
+            'listener_request_status' => false,
+        ]);
+
+        $onairCreate = $showQuery->onair()->create([
             'phrase' => $data['phrase'],
             'image' => $data['image'],
             'listener_request_status' => true,
@@ -34,7 +36,7 @@ class BroadcastService
         ]);
 
         $discordWebhook = new DiscordWebhookService();
-        $discordWebhook->sendBroadcastNotification($authenticated, $show);
+        $discordWebhook->sendBroadcastNotification($authenticated, $showQuery);
 
         return $onairCreate;
     }
@@ -43,11 +45,12 @@ class BroadcastService
     {
         $onairQuery = Onair::where('is_live', true)->firstOrFail();
         $autoDJQuery = AutoDJ::with('phrases')->firstOrFail();
+        $songRequestQuery = SongRequest::where('is_played', false)->where('onair_id', $onairQuery->id)->get();
 
-        SongRequest::where('is_played', false)->where('onair_id', $onairQuery->id)->update([
+        $songRequestQuery->update([
             'is_canceled' => true,
         ]);
-        
+
         $onairQuery->update([
             'is_live' => false,
             'listener_request_status' => false

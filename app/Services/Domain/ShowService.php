@@ -66,7 +66,7 @@ class ShowService
                 $showQuery->with([$relation => fn($q) => $q->select($cols)]);
             }
         }
-        return $showQuery->where('id', $showId)->first();
+        return $showQuery->findOrFail($showId);
     }
 
     public function create($authenticated = [], $data = [])

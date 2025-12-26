@@ -49,9 +49,8 @@ class PollService
         return $pollQuery->get();
     }
 
-    public function get($pollId,  $options = []){
-        if($pollId) return;
-
+    public function get($pollId,  $options = [])
+    {
         $pollQuery = Poll::query();
 
         if (!empty($options['fields'])) {

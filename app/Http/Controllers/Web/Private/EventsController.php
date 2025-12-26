@@ -28,7 +28,7 @@ class EventsController extends Controller
         $authenticated = request()->user();
 
         $event = new EventService();
-        $create = $event->create($request->all(), $authenticated);
+        $create = $event->create($authenticated, $request->all());
 
         if($create){
             return $this->flashMessage('save');
@@ -45,20 +45,20 @@ class EventsController extends Controller
         ]);
 
         $event = new EventService();
-        $update = $event->update($request->all(), $eventId);
+        $update = $event->update($eventId, $request->all());
 
         if($update){
             return $this->flashMessage('update');
         }
     }
 
-    public function render($slug = null)
+    public function render($eventSlug = null)
     {
         $event = new EventService();
 
         return Inertia::render('admin/Events', [
             "publications" => $event->list(),
-            "publication" => $event->get($slug)
+            "publication" => $event->get($eventSlug)
         ]);
     }
 }

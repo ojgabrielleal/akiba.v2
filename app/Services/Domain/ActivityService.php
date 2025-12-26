@@ -3,7 +3,6 @@
 namespace App\Services\Domain;
 
 use App\Models\Activity;
-use App\Models\ActivityConfirmation;
 
 class ActivityService
 {
@@ -50,12 +49,10 @@ class ActivityService
 
     public function createConfirmation($authenticated = [], $activityId)
     {
-        $confirmationCreate = ActivityConfirmation::create([
+        $activityQuery = Activity::findOrFail($activityId);
+        return $activityQuery->confirmations()->create([
             'user_id' => $authenticated['id'],
-            'activity_id' => $activityId
         ]);
-
-        return $confirmationCreate;
     }
 
 }

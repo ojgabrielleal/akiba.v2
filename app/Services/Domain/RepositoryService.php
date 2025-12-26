@@ -49,9 +49,7 @@ class RepositoryService
     }
 
     public function get($repositoryId, $options = [])
-    {
-        if($repositoryId) return;
-        
+    {        
         $repositoryQuery = Repository::query();
 
         if (!empty($options['fields'])) {

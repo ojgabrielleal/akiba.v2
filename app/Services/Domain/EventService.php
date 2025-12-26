@@ -50,12 +50,27 @@ class EventService
         return $eventQuery->paginate(5);
     }
 
-    public function get($slug)
-    {
-        if($slug) return Event::where('slug', $slug)->firstOrFail();
+    public function get($eventSlug)
+    {        
+        $podcastQuery = Event::query();
+
+        if (!empty($options['fields'])) {
+            if (!in_array('id', $options['fields'])) {
+                $options['fields'][] = 'id';
+            }
+            $podcastQuery->select($options['fields']);
+        }
+        
+        if(!empty($options['relations'])){
+            foreach ($options['relations'] as $relation => $cols) {
+                if (!in_array('id', $cols)) $cols[] = 'id'; 
+                $podcastQuery->with([$relation => fn($q) => $q->select($cols)]);
+            } 
+        }
+        return $podcastQuery->where('slug', $eventSlug)->firstOrFail();
     }
 
-    public function create($data = [], $authenticated = [])
+    public function create($authenticated = [], $data = [])
     {
         $exists = Event::where('title', $data['title'])->exists();
         if($exists) throw new AlreadyExistsException();
@@ -76,7 +91,7 @@ class EventService
         return $eventCreate;
     }
 
-    public function update($data = [], $eventId)
+    public function update($eventId, $data = [])
     {
         $image = new ImageService();
 
