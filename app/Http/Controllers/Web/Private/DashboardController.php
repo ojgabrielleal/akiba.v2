@@ -26,7 +26,7 @@ class DashboardController extends Controller
         return $this->flashMessage('save');
     }
 
-    public function setTaskComplete($taskId)
+    public function setTaskCompleted($taskId)
     {
         $task = new TaskService();
         $task->markAsCompleted($taskId);

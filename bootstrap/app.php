@@ -13,8 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'inertiaMiddleware' => \App\Http\Middleware\HandleInertiaRequestsMiddleware::class,
-            'authMiddleware' => \App\Http\Middleware\AuthenticateMiddleware::class,
+            'inertia' => \App\Http\Middleware\HandleInertiaRequestsMiddleware::class,
+            'authentication' => \App\Http\Middleware\AuthenticateMiddleware::class,
         ]);
         
         $middleware->validateCsrfTokens(except: ['*']); // Desativa CSRF globalmente

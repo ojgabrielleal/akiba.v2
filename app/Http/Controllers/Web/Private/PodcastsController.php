@@ -51,10 +51,10 @@ class PodcastsController extends Controller
         if($podcastUpdate) return $this->flashMessage('update');
     }
 
-    public function deactivatePodcast($id)
+    public function deactivatePodcast($podcastId)
     {
         $podcastService = new PodcastService();
-        $podcastDeactivate = $podcastService->deactivate($id);
+        $podcastDeactivate = $podcastService->deactivate($podcastId);
        
         if($podcastDeactivate) return $this->flashMessage('deactivate');
     }

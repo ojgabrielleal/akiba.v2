@@ -130,9 +130,9 @@ class PollService
 
     public function createVote($pollOptionId)
     {
-        $option = PollOption::findOrFail($pollOptionId);
-        $pollOptionsIncrement = $option->increment('votes');
+        $pollOptionQuery = PollOption::findOrFail($pollOptionId);
+        $pollOptionQueryIncrement = $pollOptionQuery->increment('votes');
 
-        return $pollOptionsIncrement;
+        return $pollOptionQueryIncrement;
     }
 }
