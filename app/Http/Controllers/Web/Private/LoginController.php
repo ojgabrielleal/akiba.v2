@@ -32,6 +32,6 @@ class LoginController extends Controller
 
     public function render()
     {
-        return Inertia::render('admin/Auth');
+        return Inertia::render('private/Auth');
     }
 }

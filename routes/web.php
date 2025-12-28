@@ -16,10 +16,16 @@ use App\Http\Controllers\Web\Private\ProfileController;
 
 
 /**
+ * Redirects
+ * These routes are used to redirect old URLs to new ones.
+ */
+Route::redirect('/login', '/painel', 301);
+
+
+/**
  * Public routes
  * These routes are open for public access.
  */
-Route::get('/login', [LoginController::class, 'render']);
 
 
 /**

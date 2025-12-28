@@ -1,0 +1,11 @@
+<script>
+    import { Meta } from "@/meta";
+    import { Layout } from "@/layouts/private";
+    import { PollsGrid, EventsGrid } from "@/widgets/private/grid";
+</script>
+
+<Meta meta={{ title: "Mídias" }} />
+<Layout>
+    <PollsGrid/>
+    <EventsGrid/>
+</Layout>
