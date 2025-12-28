@@ -34,8 +34,8 @@ Route::redirect('/login', '/painel', 301);
  */
 Route::prefix('painel')->group(function () {
     Route::controller(LoginController::class)->group(function () {
-        Route::get('/', 'render')->name('render.painel.auth');
-        Route::post('authenticate', 'authenticate');
+        Route::get('/', 'render')->name('render.painel.login');
+        Route::post('/', 'login');
     });
     Route::middleware(['inertia', 'auth'])->group(function () {
         Route::prefix('dashboard')->group(function () {

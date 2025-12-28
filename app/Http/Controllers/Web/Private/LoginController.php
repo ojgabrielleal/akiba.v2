@@ -10,6 +10,8 @@ use Inertia\Inertia;
 
 class LoginController extends Controller
 {
+    private $render = 'private/Login';
+
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -21,10 +23,11 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('render.painel.dashboard');
+
+            return Inertia::location('/painel/dashboard');
         }
 
-        return back(303)->with('flash', [
+        return Inertia::render($this->render)->with('flash', [
             'type' => 'error',
             'message' => "Login ou senha incorretos",
         ]);
@@ -32,6 +35,6 @@ class LoginController extends Controller
 
     public function render()
     {
-        return Inertia::render('private/Auth');
+        return Inertia::render($this->render);
     }
 }

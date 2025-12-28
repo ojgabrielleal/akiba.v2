@@ -29,12 +29,11 @@ class HandleInertiaRequestsMiddleware extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            'authenticated' => function () {
-                return Auth::check() ? Auth::user() : null;
-            },
-            'flash' => [
-                'type' => fn () => session('flash.type'),
-                'message' => fn () => session('flash.message'),
+            'authenticated' => fn() => Auth::check() ? Auth::user() : null,
+
+            'flash' => fn() => [
+                'type' => session('flash.type'),
+                'message' => session('flash.message'),
             ],
         ]);
     }

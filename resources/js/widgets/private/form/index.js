@@ -1,4 +1,4 @@
-export { default as AuthForm } from './AuthForm.svelte'
+export { default as LoginForm } from './LoginForm.svelte'
 export { default as PostsForm } from './PostsForm.svelte'
 export { default as ReviewsForm } from './ReviewsForm.svelte'
 export { default as EventsForm } from './EventsForm.svelte'

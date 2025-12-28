@@ -41,7 +41,7 @@ class DashboardController extends Controller
         $publications = new PostService();
         $calendar = new CalendarService();
 
-        return Inertia::render('admin/Dashboard', [
+        return Inertia::render('private/Dashboard', [
             'activities' => $activities->list([
                 'limit' => 6
             ]),
