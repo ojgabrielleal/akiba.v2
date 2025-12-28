@@ -26,11 +26,29 @@ class HandleInertiaRequestsMiddleware extends Middleware
     /**
      * Define the props that are shared by default.
      */
+
     public function share(Request $request): array
     {
-        return array_merge(parent::share($request), [
-            'authenticated' => fn() => Auth::check() ? Auth::user() : null,
+        function loadPermissions()
+        {
+            if (!Auth::check()) {
+                return null;
+            }
 
+            /** @var User $user */
+            $user = Auth::user();
+
+            return $user
+                ->load('roles.permissions')
+                ->roles
+                ->flatMap->permissions
+                ->pluck('name')
+                ->unique()
+                ->values();
+        }
+
+        return array_merge(parent::share($request), [
+            'permissions' => fn() => loadPermissions(),
             'flash' => fn() => [
                 'type' => session('flash.type'),
                 'message' => session('flash.message'),

@@ -14,70 +14,104 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        $permissions = [
-            // 🔹 Usuários
-            ['name' => 'can_list_users', 'label' => 'Listar membros'],
-            ['name' => 'can_view_user', 'label' => 'Visualizar um membro específico'],
-            ['name' => 'can_create_user', 'label' => 'Cadastrar um membro novo'],
-            ['name' => 'can_deactivate_user', 'label' => 'Desativar um membro específico'],
-            ['name' => 'can_update_user_password', 'label' => 'Atualizar senha de um membro específico'],
-            ['name' => 'can_update_user_permissions', 'label' => 'Atualizar permissões de um membro específico'],
-            ['name' => 'can_view_own_user', 'label' => 'Visualizar o próprio perfil'],
-            ['name' => 'can_update_own_user', 'label' => 'Atualizar o próprio perfil'],
+                $permissions = [
 
-            // 🔹 Posts
-            ['name' => 'can_list_posts', 'label' => 'Listar posts'],
-            ['name' => 'can_view_post', 'label' => 'Visualizar um post específico'],
-            ['name' => 'can_create_post', 'label' => 'Criar novo post'],
-            ['name' => 'can_update_post', 'label' => 'Atualizar um post específico'],
-            ['name' => 'can_delete_post', 'label' => 'Excluir um post específico'],
-            ['name' => 'can_view_own_post', 'label' => 'Visualizar seus próprios posts'],
-            ['name' => 'can_update_own_post', 'label' => 'Atualizar seus próprios posts'],
+            /*
+            |--------------------------------------------------------------------------
+            | 👤 Usuários
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'user.list', 'label' => 'Listar membros'],
+            ['name' => 'user.view', 'label' => 'Visualizar membro'],
+            ['name' => 'user.create', 'label' => 'Cadastrar membro'],
+            ['name' => 'user.update', 'label' => 'Atualizar membro'],
+            ['name' => 'user.deactivate', 'label' => 'Desativar membro'],
+            ['name' => 'user.update.password', 'label' => 'Atualizar senha de membro'],
+            ['name' => 'user.update.permissions', 'label' => 'Atualizar permissões de membro'],
+            ['name' => 'user.view.own', 'label' => 'Visualizar próprio perfil'],
+            ['name' => 'user.update.own', 'label' => 'Atualizar próprio perfil'],
 
-            // 🔹 Reviews
-            ['name' => 'can_list_reviews', 'label' => 'Listar reviews'],
-            ['name' => 'can_view_review', 'label' => 'Visualizar um review específico'],
-            ['name' => 'can_create_review', 'label' => 'Criar um novo review'],
-            ['name' => 'can_update_review', 'label' => 'Atualizar um review específico'],
-            ['name' => 'can_delete_review', 'label' => 'Excluir um review específico'],
-            ['name' => 'can_view_own_review', 'label' => 'Visualizar seu próprio review'],
-            ['name' => 'can_update_own_review', 'label' => 'Atualizar seu próprio review'],
+            /*
+            |--------------------------------------------------------------------------
+            | 📝 Posts
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'post.list', 'label' => 'Listar posts'],
+            ['name' => 'post.view', 'label' => 'Visualizar post'],
+            ['name' => 'post.create', 'label' => 'Criar post'],
+            ['name' => 'post.update', 'label' => 'Atualizar post'],
+            ['name' => 'post.delete', 'label' => 'Excluir post'],
+            ['name' => 'post.view.own', 'label' => 'Visualizar próprios posts'],
+            ['name' => 'post.update.own', 'label' => 'Atualizar próprios posts'],
 
-            // 🔹 Programas
-            ['name' => 'can_list_programs', 'label' => 'Listar programas'],
-            ['name' => 'can_view_program', 'label' => 'Visualizar um programa específico'],
-            ['name' => 'can_create_program', 'label' => 'Criar um novo programa'],
-            ['name' => 'can_update_program', 'label' => 'Atualizar um programa específico'],
-            ['name' => 'can_delete_program', 'label' => 'Excluir um programa específico'],
-            ['name' => 'can_view_own_program', 'label' => 'Visualizar seus próprios programas'],
-            ['name' => 'can_update_own_program', 'label' => 'Atualizar seus próprios programas'],
+            /*
+            |--------------------------------------------------------------------------
+            | ⭐ Reviews
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'review.list', 'label' => 'Listar reviews'],
+            ['name' => 'review.view', 'label' => 'Visualizar review'],
+            ['name' => 'review.create', 'label' => 'Criar review'],
+            ['name' => 'review.update', 'label' => 'Atualizar review'],
+            ['name' => 'review.delete', 'label' => 'Excluir review'],
+            ['name' => 'review.view.own', 'label' => 'Visualizar próprio review'],
+            ['name' => 'review.update.own', 'label' => 'Atualizar próprio review'],
 
-            // 🔹 Pedidos musicais
-            ['name' => 'can_list_song_requests', 'label' => 'Listar pedidos musicais'],
-            ['name' => 'can_view_song_request', 'label' => 'Visualizar um pedido musical específico'],
-            ['name' => 'can_mark_song_request_as_played', 'label' => 'Marcar pedido musical como tocado'],
+            /*
+            |--------------------------------------------------------------------------
+            | 📺 Programas
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'program.list', 'label' => 'Listar programas'],
+            ['name' => 'program.view', 'label' => 'Visualizar programa'],
+            ['name' => 'program.create', 'label' => 'Criar programa'],
+            ['name' => 'program.update', 'label' => 'Atualizar programa'],
+            ['name' => 'program.delete', 'label' => 'Excluir programa'],
+            ['name' => 'program.view.own', 'label' => 'Visualizar próprios programas'],
+            ['name' => 'program.update.own', 'label' => 'Atualizar próprios programas'],
 
-            // 🔹 Calendário / Agenda
-            ['name' => 'can_list_calendar_events', 'label' => 'Listar eventos da agenda'],
-            ['name' => 'can_view_calendar_event', 'label' => 'Visualizar um evento da agenda'],
-            ['name' => 'can_create_calendar_event', 'label' => 'Criar novo evento na agenda'],
-            ['name' => 'can_update_calendar_event', 'label' => 'Atualizar um evento da agenda'],
-            ['name' => 'can_delete_calendar_event', 'label' => 'Excluir um evento da agenda'],
-            ['name' => 'can_view_own_calendar_event', 'label' => 'Visualizar seus próprios eventos'],
-            ['name' => 'can_update_own_calendar_event', 'label' => 'Atualizar seus próprios eventos'],
+            /*
+            |--------------------------------------------------------------------------
+            | 🎵 Pedidos musicais
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'song-request.list', 'label' => 'Listar pedidos musicais'],
+            ['name' => 'song-request.view', 'label' => 'Visualizar pedido musical'],
+            ['name' => 'song-request.mark-played', 'label' => 'Marcar pedido como tocado'],
 
-            // 🔹 Gerenciamento de Cargos (Roles)
-            ['name' => 'can_list_roles', 'label' => 'Listar cargos'],
-            ['name' => 'can_view_role', 'label' => 'Visualizar um cargo específico'],
-            ['name' => 'can_create_role', 'label' => 'Cadastrar um novo cargo'],
-            ['name' => 'can_update_role', 'label' => 'Atualizar um cargo específico'],
-            ['name' => 'can_delete_role', 'label' => 'Excluir um cargo específico'],
+            /*
+            |--------------------------------------------------------------------------
+            | 📅 Agenda / Calendário
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'calendar-event.list', 'label' => 'Listar eventos da agenda'],
+            ['name' => 'calendar-event.view', 'label' => 'Visualizar evento da agenda'],
+            ['name' => 'calendar-event.create', 'label' => 'Criar evento na agenda'],
+            ['name' => 'calendar-event.update', 'label' => 'Atualizar evento da agenda'],
+            ['name' => 'calendar-event.delete', 'label' => 'Excluir evento da agenda'],
+            ['name' => 'calendar-event.view.own', 'label' => 'Visualizar próprios eventos'],
+            ['name' => 'calendar-event.update.own', 'label' => 'Atualizar próprios eventos'],
 
-            // 🔹 Gerenciamento de Permissões
-            ['name' => 'can_list_permissions', 'label' => 'Listar permissões'],
-            ['name' => 'can_view_permission', 'label' => 'Visualizar uma permissão específica'],
+            /*
+            |--------------------------------------------------------------------------
+            | 🧩 Cargos (Roles)
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'role.list', 'label' => 'Listar cargos'],
+            ['name' => 'role.view', 'label' => 'Visualizar cargo'],
+            ['name' => 'role.create', 'label' => 'Criar cargo'],
+            ['name' => 'role.update', 'label' => 'Atualizar cargo'],
+            ['name' => 'role.delete', 'label' => 'Excluir cargo'],
 
+            /*
+            |--------------------------------------------------------------------------
+            | 🔐 Permissões
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'permission.list', 'label' => 'Listar permissões'],
+            ['name' => 'permission.view', 'label' => 'Visualizar permissão'],
         ];
+        
         foreach($permissions as $item){
             Permission::create([
                 'label' => $item['label'],

@@ -73,7 +73,7 @@ class RoleSeeder extends Seeder
         $role = Role::where('name', 'administrator')->first();
         $permissions = Permission::all();
         foreach($permissions as $item){
-            $role->permission()->attach($item->id);
+            $role->permissions()->attach($item->id);
         }
     }
 }

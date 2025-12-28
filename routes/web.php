@@ -16,13 +16,6 @@ use App\Http\Controllers\Web\Private\ProfileController;
 
 
 /**
- * Redirects
- * These routes are used to redirect old URLs to new ones.
- */
-Route::redirect('/login', '/painel', 301);
-
-
-/**
  * Public routes
  * These routes are open for public access.
  */
@@ -34,7 +27,7 @@ Route::redirect('/login', '/painel', 301);
  */
 Route::prefix('painel')->group(function () {
     Route::controller(LoginController::class)->group(function () {
-        Route::get('/', 'render')->name('render.painel.login');
+        Route::get('/', 'render')->name('login');
         Route::post('/', 'login');
     });
     Route::middleware(['inertia', 'auth'])->group(function () {

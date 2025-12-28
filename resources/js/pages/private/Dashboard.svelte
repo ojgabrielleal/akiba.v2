@@ -8,6 +8,8 @@
 
     $: ({ authenticated } = $page.props);
 
+    $: console.log($page.props);
+
     function phraseSwitchHero(nickname) {
         const phrases = [
             `Oi, ${nickname}! Que bom te ver.`,
