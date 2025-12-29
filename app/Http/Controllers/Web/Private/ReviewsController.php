@@ -24,10 +24,10 @@ class ReviewsController extends Controller
             'content' => 'required'
         ]);
 
-        $authenticated = request()->user();
+        $logged = request()->user();
 
         $reviewService = new ReviewService();
-        $reviewCreate = $reviewService->create($authenticated, $request->all());
+        $reviewCreate = $reviewService->create($logged, $request->all());
 
         if($reviewCreate) return $this->flashMessage('save');
     }

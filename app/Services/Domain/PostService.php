@@ -69,12 +69,12 @@ class PostService
         return $postQuery->findOrFail($postId);
     }
 
-    public function create($authenticated = [], $data = [])
+    public function create($logged = [], $data = [])
     {
         $image = new ImageService();
 
         $postCreate = Post::create([
-            'user_id' => $authenticated['user']->id,
+            'user_id' => $logged['user']->id,
             'slug' => Str::slug($data['title']),
             'title' => $data['title'],
             'content' => $data['content'],

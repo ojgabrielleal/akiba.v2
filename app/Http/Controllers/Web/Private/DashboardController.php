@@ -18,10 +18,10 @@ class DashboardController extends Controller
 
     public function createActivityConfirmation($activityId)
     {
-        $authenticated = request()->user();
+        $logged = request()->user();
 
         $activity = new ActivityService();
-        $activity->createConfirmation($authenticated, $activityId);
+        $activity->createConfirmation($logged, $activityId);
 
         return $this->flashMessage('save');
     }

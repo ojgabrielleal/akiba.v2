@@ -26,10 +26,10 @@ class PodcastsController extends Controller
             'audio' => 'required'
         ]);
 
-        $authenticated = request()->user();
+        $logged = request()->user();
 
         $podcastService = new PodcastService();
-        $podcastCreate = $podcastService->create($authenticated, $request->all());
+        $podcastCreate = $podcastService->create($logged, $request->all());
 
         if($podcastCreate) return $this->flashMessage('save');
     }

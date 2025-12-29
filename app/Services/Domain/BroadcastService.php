@@ -10,15 +10,15 @@ use App\Models\AutoDJ;
 
 class BroadcastService
 {
-    public function start($authenticated = [], $data = [])
+    public function start($logged = [], $data = [])
     {
         $onairQuery = Onair::where('is_live', true)->firstOrFail();
         $showQuery = Show::findOrFail($data['show']);
 
         if ($showQuery->is_all) {
-            if ($showQuery->user_id !== $authenticated['id']) {
+            if ($showQuery->user_id !== $logged['id']) {
                 $showQuery->update([
-                    'user_id' => $authenticated['id']
+                    'user_id' => $logged['id']
                 ]);
             }
         }
@@ -36,7 +36,7 @@ class BroadcastService
         ]);
 
         $discordWebhook = new DiscordWebhookService();
-        $discordWebhook->sendBroadcastNotification($authenticated, $showQuery);
+        $discordWebhook->sendBroadcastNotification($logged, $showQuery);
 
         return $onairCreate;
     }

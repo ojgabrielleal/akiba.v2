@@ -2,7 +2,9 @@
     import { page, Link } from "@inertiajs/svelte";
     import Items from "@/data/private/Navbar";
 
-    $: ({ authenticated } = $page.props);
+    $: ({ logged } = $page.props);
+
+    $: console.log(logged);
 
     let mobilenavbar = false;
 </script>
@@ -12,7 +14,7 @@
     <div class="container relative">
         <ul class="flex justify-center items-center gap-10">
         {#each Items as item}
-            {#if item.permissions_keys.includes('all') || item.permissions_keys.some(p => authenticated.permissions_keys.includes(p))}
+            {#if item.permissions.some(p => logged.permissions.some(lp => lp.name === p))}
                 <li>
                     <Link href={item.address} aria-label={item.name} class="flex items-center gap-2 text-neutral-aurora hover:text-[var(--color-neutral-aurora-dark)]">
                         <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>
@@ -22,8 +24,8 @@
         {/each}
         </ul>
         <div class="absolute -bottom-[1.45rem] right-0 flex items-center gap-2">
-            <Link href={`/painel/profile/${authenticated.slug}`} aria-label={authenticated.nickname}>
-                <img src={authenticated.avatar} alt={`Avatar de ${authenticated.nickname}`} class="w-16 h-16 rounded-full object-cover object-top border-8 border-neutral-aurora" loading="lazy"/>
+            <Link href={`/painel/profile/${logged.slug}`} aria-label={logged.nickname}>
+                <img src={logged.avatar} alt={`Avatar de ${logged.nickname}`} class="w-16 h-16 rounded-full object-cover object-top border-8 border-neutral-aurora" loading="lazy"/>
             </Link>
         </div>
     </div>
@@ -36,7 +38,7 @@
             <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
     </button>
-    <img src={authenticated.avatar} alt={`Avatar de ${authenticated.nickname}`} class="w-10 h-10 rounded-full object-cover object-top" loading="lazy"/>
+    <img src={logged.avatar} alt={`Avatar de ${logged.nickname}`} class="w-10 h-10 rounded-full object-cover object-top" loading="lazy"/>
 </nav>
 
 <!-- Sidebar Menu -->
@@ -52,7 +54,7 @@
 
     <ul class="p-5 pt-3 space-y-4">
         {#each Items as item}
-            {#if item.permissions_keys.includes('all') || item.permissions_keys.some(p => authenticated.permissions_keys.includes(p))}
+            {#if item.permissions.some(p => logged.permissions.some(lp => lp.name === p))}
                 <li>
                     <Link href={item.address} aria-label={item.name} class="flex items-center gap-3 text-gray-800 hover:text-blue-600">
                         <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>

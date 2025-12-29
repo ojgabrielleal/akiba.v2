@@ -14,9 +14,11 @@
 <main class="container">
     <slot />
 </main>
+<!--
 <footer>
     <div class="h-[5rem]"></div>
     <div class="w-full fixed bottom-0">
         <Status />
     </div>
 </footer>
+-->

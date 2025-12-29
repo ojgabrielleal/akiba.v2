@@ -2,80 +2,80 @@
     {
         "name": "Dashboard",
         "icon": "/svg/default/dashboard.svg",
-        "permissions_keys": [
-            "all"
+        "permissions": [
+            "access.page.dashboard"
         ],
         "address": "/painel/dashboard"
     },
     {
         "name": "Materias",
         "icon": "/svg/default/materials.svg",
-        "permissions_keys": [
-            "administrator", "dev", "writer"
+        "permissions": [
+            "access.page.posts"
         ],
         "address": "/painel/materias"
     },
     {
         "name": "Locução",
         "icon": "/svg/default/broadcast.svg",
-        "permissions_keys": [
-            "administrator", "dev", "streamer"
+        "permissions": [
+            "access.page.broadcast"
         ],
         "address": "/painel/locucao"
     },
     {
         "name": "Rádio",
         "icon": "/svg/default/radio.svg",
-        "permissions_keys": [
-            "administrator", "dev"
+        "permissions": [
+            "access.page.radio"
         ],
         "address": "/painel/radio"
     },
     {
         "name": "Podcasts",
         "icon": "/svg/default/podcasts.svg",
-        "permissions_keys": [
-            "administrator", "dev", "podcaster"
+        "permissions": [
+            "access.page.podcasts"
         ],
         "address": "/painel/podcasts"
     },
     {
         "name": "Marketing",
         "icon": "/svg/default/marketing.svg",
-        "permissions_keys": [
-            "administrator", "dev", "social"
+        "permissions": [
+            "access.page.marketing"
         ],
         "address": "/painel/marketing"
     },
     {
         "name": "Mídias",
         "icon": "/svg/default/media.svg",
-        "permissions_keys": [
-            "administrator", "dev", "social"
+        "permissions": [
+            "access.page.media"
         ],
         "address": "/painel/medias"
     },
     {
         "name": "Administração",
         "icon": "/svg/default/adms.svg",
-        "permissions_keys": [
-            "administrator", "dev"
+        "permissions": [
+            "access.page.administration"
         ],
         "address": "/painel/adms"
     },
     {
         "name": "Logs",
         "icon": "/svg/default/logs.svg",
-        "permissions_keys": [
-            "administrator", "dev"
+        "permissions": [
+            "access.page.logs"
         ],
         "address": "/painel/logs"
     },
     {
         "name": "Avisos",
         "icon": "/svg/default/alerts.svg",
-        "permissions_keys": [
-            "all"
+        "permissions": [
+            "access.page.warnings"
         ],
         "address": "/painel/alerts"
     }

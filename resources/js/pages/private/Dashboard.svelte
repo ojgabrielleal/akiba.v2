@@ -6,9 +6,7 @@
     import { AlertsCarrousel, TasksCarrousel } from "@/widgets/private/carrousel";
     import { PublicationsGrid, CalendarGrid } from "@/widgets/private/grid";
 
-    $: ({ authenticated } = $page.props);
-
-    $: console.log($page.props);
+    $: ({ logged } = $page.props);
 
     function phraseSwitchHero(nickname) {
         const phrases = [
@@ -31,8 +29,9 @@
 
 <Meta meta={{ title: "Dashboard" }} />
 <Layout>
+    <!--
     <GreatingHero
-        phrase={phraseSwitchHero(authenticated.nickname)}
+        phrase={phraseSwitchHero(logged.nickname)}
         icon="/img/default/defaultHero.webp"
     />
     <AlertsCarrousel/>
@@ -43,4 +42,5 @@
         edit="/painel/materias/"
     />
     <CalendarGrid/>
+    -->
 </Layout>

@@ -25,10 +25,10 @@ class EventsController extends Controller
             'address' => 'required',
         ]);
 
-        $authenticated = request()->user();
+        $logged = request()->user();
 
         $event = new EventService();
-        $create = $event->create($authenticated, $request->all());
+        $create = $event->create($logged, $request->all());
 
         if($create){
             return $this->flashMessage('save');

@@ -70,7 +70,7 @@ class EventService
         return $podcastQuery->where('slug', $eventSlug)->firstOrFail();
     }
 
-    public function create($authenticated = [], $data = [])
+    public function create($logged = [], $data = [])
     {
         $exists = Event::where('title', $data['title'])->exists();
         if($exists) throw new AlreadyExistsException();
@@ -78,7 +78,7 @@ class EventService
         $image = new ImageService();
 
         $eventCreate = Event::create([
-            'user_id' => $authenticated['id'],
+            'user_id' => $logged['id'],
             'slug' => Str::slug($data['title']),
             'image' => $image->upload('events', $data['image']),
             'cover' => $image->upload('events', $data['cover']),

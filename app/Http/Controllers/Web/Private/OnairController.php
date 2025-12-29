@@ -24,10 +24,10 @@ class OnairController extends Controller
             'image' => 'required'
         ]);
 
-        $authenticated = $request->user();
+        $logged = $request->user();
 
         $broadcastService = new BroadcastService();
-        $broadcastService->start($authenticated, $request->all());
+        $broadcastService->start($logged, $request->all());
 
         return $this->flashMessage('save');
     }
@@ -58,7 +58,7 @@ class OnairController extends Controller
 
     public function render()
     {
-        $authenticated = request()->user();
+        $logged = request()->user();
         $songRequest = new SongRequestService();
         $show = new ShowService();
 
@@ -66,7 +66,7 @@ class OnairController extends Controller
             "shows" => $show->list([
                 'filters' => [
                     'is_active' => true, 
-                    'or' => fn($q) => $q->where('user_id', $authenticated->id)->orWhere('is_all', true)
+                    'or' => fn($q) => $q->where('user_id', $logged->id)->orWhere('is_all', true)
                 ],
                 'fields' => ['id', 'image'],
             ]),

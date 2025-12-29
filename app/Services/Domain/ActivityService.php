@@ -47,11 +47,11 @@ class ActivityService
         return $activityQuery->get();
     }
 
-    public function createConfirmation($authenticated = [], $activityId)
+    public function createConfirmation($logged = [], $activityId)
     {
         $activityQuery = Activity::findOrFail($activityId);
         return $activityQuery->confirmations()->create([
-            'user_id' => $authenticated['id'],
+            'user_id' => $logged['id'],
         ]);
     }
 

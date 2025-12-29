@@ -14,7 +14,22 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-                $permissions = [
+        $permissions = [
+            /*
+            |--------------------------------------------------------------------------
+            | ⚙️ Accessos as páginas Gerais
+            |-----
+            */
+            ['name' => 'access.page.dashboard', 'label' => 'Acessar página dashboard do painel'],
+            ['name' => 'access.page.warnings', 'label' => 'Acessar página avisos do sistema'],
+            ['name' => 'access.page.posts', 'label' => 'Acessar página matérias do sistema'],
+            ['name' => 'access.page.broadcast', 'label' => 'Acessar página locução do sistema'],
+            ['name' => 'access.page.radio', 'label' => 'Acessar página rádio do sistema'],
+            ['name' => 'access.page.podcasts', 'label' => 'Acessar página podcasts do sistema'],
+            ['name' => 'access.page.marketing', 'label' => 'Acessar página marketing do sistema'],
+            ['name' => 'access.page.media', 'label' => 'Acessar página mídias do sistema'],
+            ['name' => 'access.page.administration', 'label' => 'Acessar página administração do sistema'],
+            ['name' => 'access.page.logs', 'label' => 'Acessar página logs do sistema'],
 
             /*
             |--------------------------------------------------------------------------

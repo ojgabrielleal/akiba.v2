@@ -71,7 +71,7 @@ class PodcastService
         return $podcastQuery->where('slug', $podcastSlug)->firstOrFail();
     }
 
-    public function create($authenticated = [], $data = [])
+    public function create($logged = [], $data = [])
     {
         $exists = Podcast::where('season', $data['season'])->where('episode', $data['episode'])->exists();
         if($exists) throw new AlreadyExistsException();
@@ -79,7 +79,7 @@ class PodcastService
         $image = new ImageService();
 
         $podcastCreate = Podcast::create([
-            'user_id' => $authenticated['id'],
+            'user_id' => $logged['id'],
             'slug' => Str::slug($data['title']),
             'image' => $image->upload('podcasts', $data['image']),
             'season' => $data['season'],

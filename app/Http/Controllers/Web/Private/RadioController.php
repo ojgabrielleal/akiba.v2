@@ -31,10 +31,10 @@ class RadioController extends Controller
             'image' => 'required',
         ]);
 
-        $authenticated = request()->user();
+        $logged = request()->user();
         
         $showService = new ShowService();
-        $showCreate = $showService->create($authenticated, $request->all());
+        $showCreate = $showService->create($logged, $request->all());
 
         if($showCreate) return $this->flashMessage('save');
     }

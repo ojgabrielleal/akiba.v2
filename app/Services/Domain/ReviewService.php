@@ -69,7 +69,7 @@ class ReviewService
         return $reviewQuery->where('slug', $reviewSlug)->firstOrFail();
     }
 
-    public function create($authenticated = [], $data = [])
+    public function create($logged = [], $data = [])
     {
         $image = new ImageService();
 
@@ -83,7 +83,7 @@ class ReviewService
 
         if ($reviewCreate) {
             $reviewCreate->reviews()->create([
-                'user_id' => $authenticated['id'],
+                'user_id' => $logged['id'],
                 'content' => $data['content'],
             ]);
         }

@@ -29,26 +29,31 @@ class HandleInertiaRequestsMiddleware extends Middleware
 
     public function share(Request $request): array
     {
-        function loadPermissions()
+        function loadUser()
         {
             if (!Auth::check()) {
                 return null;
             }
 
-            /** @var User $user */
+            /** @var \App\Models\User $user */
             $user = Auth::user();
 
-            return $user
-                ->load('roles.permissions')
-                ->roles
-                ->flatMap->permissions
-                ->pluck('name')
-                ->unique()
-                ->values();
+            $user->load('roles.permissions');
+
+            return [
+                'slug' => $user->slug,
+                'name' => $user->name,
+                'nickname' => $user->nickname,
+                'avatar' => $user->avatar,
+                'permissions' => $user->roles
+                    ->flatMap(fn($role) => $role->permissions)
+                    ->unique('id')
+                    ->values(),
+            ];
         }
 
         return array_merge(parent::share($request), [
-            'permissions' => fn() => loadPermissions(),
+            'logged' => fn() => loadUser(),
             'flash' => fn() => [
                 'type' => session('flash.type'),
                 'message' => session('flash.message'),

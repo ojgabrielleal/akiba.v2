@@ -69,7 +69,7 @@ class ShowService
         return $showQuery->findOrFail($showId);
     }
 
-    public function create($authenticated = [], $data = [])
+    public function create($logged = [], $data = [])
     {
         $exist = Show::where('name', $data['name'])->exists();
         if ($exist) throw new AlreadyExistsException();
@@ -77,7 +77,7 @@ class ShowService
         $image = new ImageService();
 
         $showCreate = Show::create([
-            'user_id' => $data['user_id'] ? $data['user_id'] : $authenticated['id'],
+            'user_id' => $data['user_id'] ? $data['user_id'] : $logged['id'],
             'slug' => Str::slug($data['name']),
             'name' => $data['name'],
             'image' => $image->upload('shows', $data['image'], 'public'),
