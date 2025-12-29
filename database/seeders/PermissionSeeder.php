@@ -62,13 +62,12 @@ class PermissionSeeder extends Seeder
             | 📺 Programas
             |--------------------------------------------------------------------------
             */
-            ['name' => 'program.list', 'label' => 'Listar programas'],
-            ['name' => 'program.view', 'label' => 'Visualizar programa'],
-            ['name' => 'program.create', 'label' => 'Criar programa'],
-            ['name' => 'program.update', 'label' => 'Atualizar programa'],
-            ['name' => 'program.delete', 'label' => 'Excluir programa'],
-            ['name' => 'program.view.own', 'label' => 'Visualizar próprios programas'],
-            ['name' => 'program.update.own', 'label' => 'Atualizar próprios programas'],
+            ['name' => 'show.list', 'label' => 'Listar programas'],
+            ['name' => 'show.view', 'label' => 'Visualizar programa'],
+            ['name' => 'show.create', 'label' => 'Criar programa'],
+            ['name' => 'show.update', 'label' => 'Atualizar programa'],
+            ['name' => 'show.delete', 'label' => 'Excluir programa'],
+            ['name' => 'show.view.own', 'label' => 'Visualizar próprios programas'],
 
             /*
             |--------------------------------------------------------------------------
@@ -84,13 +83,11 @@ class PermissionSeeder extends Seeder
             | 📅 Agenda / Calendário
             |--------------------------------------------------------------------------
             */
-            ['name' => 'calendar-event.list', 'label' => 'Listar eventos da agenda'],
-            ['name' => 'calendar-event.view', 'label' => 'Visualizar evento da agenda'],
-            ['name' => 'calendar-event.create', 'label' => 'Criar evento na agenda'],
-            ['name' => 'calendar-event.update', 'label' => 'Atualizar evento da agenda'],
-            ['name' => 'calendar-event.delete', 'label' => 'Excluir evento da agenda'],
-            ['name' => 'calendar-event.view.own', 'label' => 'Visualizar próprios eventos'],
-            ['name' => 'calendar-event.update.own', 'label' => 'Atualizar próprios eventos'],
+            ['name' => 'calendar.list', 'label' => 'Listar eventos no calendário'],
+            ['name' => 'calendar.view', 'label' => 'Visualizar evento no calendário'],
+            ['name' => 'calendar.create', 'label' => 'Criar evento no calendário'],
+            ['name' => 'calendar.update', 'label' => 'Atualizar evento no calendário'],
+            ['name' => 'calendar.delete', 'label' => 'Excluir evento no calendário'],
 
             /*
             |--------------------------------------------------------------------------
