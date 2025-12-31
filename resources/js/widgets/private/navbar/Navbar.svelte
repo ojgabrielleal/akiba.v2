@@ -1,8 +1,7 @@
 <script>
     import { page, Link } from "@inertiajs/svelte";
-    import classNames from 'classnames';
-    import navbarJson from "@/data/navbar.json";
     import { policy } from "@/policies";
+    import navbarJson from "@/data/navbar.json";
 
     $: ({ logged } = $page.props);
 
@@ -42,10 +41,10 @@
 </nav>
 
 <!-- Sidebar Menu -->
-<div class={classNames('fixed top-0 left-0 h-full w-64 bg-neutral-aurora z-50 shadow-md transform transition-transform duration-300', {
-    'translate-x-0': mobilenavbar,
-    '-translate-x-full': !mobilenavbar
-})}>
+<div class={['fixed top-0 left-0 h-full w-64 bg-neutral-aurora z-50 shadow-md transform transition-transform duration-300', 
+    {'translate-x-0': mobilenavbar},
+    {'-translate-x-full': !mobilenavbar}
+]}>
     <div class="p-5 flex items-center justify-between">
         <img src="/favicon.ico" alt="Logo" class="w-8 h-8" loading="lazy"/>
         <button on:click={() => (mobilenavbar = false)} aria-label="Fechar menu">

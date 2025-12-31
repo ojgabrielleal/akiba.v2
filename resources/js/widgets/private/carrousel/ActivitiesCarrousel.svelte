@@ -16,11 +16,20 @@
         <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" on:wheel={scrollx} role="group">
             {#if activities.length > 0}
                 {#each activities as item}  
-                    <article class='w-100 h-50 lg:w-[29rem] bg-blue-skywave flex-shrink-0 rounded-lg p-4 relative'>
-                        <div class="font-noto-sans font-black italic uppercase text-neutral-aurora text-xl">
+                    <article class={['w-100 h-50 lg:w-[29rem] flex-shrink-0 rounded-lg p-4 relative', 
+                        {'bg-neutral-honeycream': item.is_activity},
+                        {'bg-blue-skywave': !item.is_activity}
+                    ]}>
+                        <div class={['font-noto-sans font-black italic uppercase text-xl', 
+                            {'text-blue-midnight': item.is_activity},
+                            {'text-neutral-aurora': !item.is_activity}
+                        ]}>
                             {item.responsible.nickname}
                         </div>
-                        <div class="font-noto-sans text-sm text-neutral-aurora line-clamp-5 mt-1">
+                        <div class={['font-noto-sans text-sm line-clamp-5 mt-1', 
+                            {'text-blue-midnight': item.is_activity},
+                            {'text-neutral-aurora': !item.is_activity}
+                        ]}>
                             {item.content}
                         </div>
                         {#if item.is_activity}
@@ -36,7 +45,7 @@
                                     {/each}
                                 {/if}
                             </div>
-                            {#if !item.confirmations.some(c => c.confirmer.id === logged.id)}
+                            {#if policy(logged.permissions, 'activity.participate') && !item.confirmations.some(c => c.confirmer.id === logged.id)}
                                 <button
                                     type="button"
                                     aria-label="Confirmar alerta"

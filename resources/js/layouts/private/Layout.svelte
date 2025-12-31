@@ -2,6 +2,7 @@
     import { Notification } from "@/components/private";
     import { Navbar } from "@/widgets/private/navbar";
     import { Status } from "@/widgets/private/status";
+
     document.body.style.backgroundColor = "var(--color-blue-indigo)";
 </script>
 
