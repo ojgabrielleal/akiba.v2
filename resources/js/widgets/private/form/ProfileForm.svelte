@@ -3,7 +3,7 @@
     import { useForm, page } from "@inertiajs/svelte"
     import { Section } from "@/layouts/private/";   
     import { Preview } from "@/components/private/"
-    import Default from "@/data/Default.json"
+    import socialJson from "@/data/social.json"
 
     $: ({ profile } = $page.props);
 
@@ -180,7 +180,7 @@
                 class="w-full lg:w-96 h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                 bind:value={selectedNewExternalLink} 
             >
-                {#each Default.social as item}
+                {#each socialJson as item}
                     <option value={item.name}>{item.name}</option>
                 {/each}
             </select>

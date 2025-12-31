@@ -21,13 +21,13 @@ class ActivityService
             $activityQuery->limit($options['limit']);
         }
 
-        if(!empty($options['filters'])){
+        if (!empty($options['filters'])) {
             foreach ($options['filters'] as $field => $value) {
                 $activityQuery->where($field, $value);
             }
         }
 
-        if(!empty($options['filters']['or'])){
+        if (!empty($options['filters']['or'])) {
             foreach ($options['filters']['or'] as $value) {
                 if ($value instanceof \Closure) {
                     $activityQuery->where($value);
@@ -36,12 +36,20 @@ class ActivityService
                 }
             }
         }
-        
-        if(!empty($options['relations'])){
+
+        if (!empty($options['relations'])) {
             foreach ($options['relations'] as $relation => $cols) {
-                if (!in_array('id', $cols)) $cols[] = 'id'; 
-                $activityQuery->with([$relation => fn($q) => $q->select($cols)]);
-            } 
+                if (empty($cols)) {
+                    $activityQuery->with($relation);
+                    continue;
+                }
+                if (!in_array('id', $cols)) {
+                    $cols[] = 'id';
+                }
+                $activityQuery->with([
+                    $relation => fn($q) => $q->select($cols)
+                ]);
+            }
         }
 
         return $activityQuery->get();
@@ -54,5 +62,4 @@ class ActivityService
             'user_id' => $logged['id'],
         ]);
     }
-
 }

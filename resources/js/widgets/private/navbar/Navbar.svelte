@@ -1,10 +1,10 @@
 <script>
     import { page, Link } from "@inertiajs/svelte";
-    import Items from "@/data/private/Navbar";
+    import classNames from 'classnames';
+    import navbarJson from "@/data/navbar.json";
+    import { policy } from "@/policies";
 
     $: ({ logged } = $page.props);
-
-    $: console.log(logged);
 
     let mobilenavbar = false;
 </script>
@@ -13,10 +13,10 @@
 <nav class="w-full h-[3rem] bg-neutral-aurora hidden items-center justify-center lg:flex">
     <div class="container relative">
         <ul class="flex justify-center items-center gap-10">
-        {#each Items as item}
-            {#if item.permissions.some(p => logged.permissions.some(lp => lp.name === p))}
+        {#each navbarJson as item}
+            {#if policy(logged.permissions, item.permission)}
                 <li>
-                    <Link href={item.address} aria-label={item.name} class="flex items-center gap-2 text-neutral-aurora hover:text-[var(--color-neutral-aurora-dark)]">
+                    <Link href={item.address} aria-label={item.name} class="flex items-center gap-2 text-neutral-aurora">
                         <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>
                     </Link>
                 </li>
@@ -42,7 +42,10 @@
 </nav>
 
 <!-- Sidebar Menu -->
-<div class={`fixed top-0 left-0 h-full w-64 bg-neutral-aurora z-50 shadow-md transform transition-transform duration-300 ${mobilenavbar ? 'translate-x-0' : '-translate-x-full'}`}>
+<div class={classNames('fixed top-0 left-0 h-full w-64 bg-neutral-aurora z-50 shadow-md transform transition-transform duration-300', {
+    'translate-x-0': mobilenavbar,
+    '-translate-x-full': !mobilenavbar
+})}>
     <div class="p-5 flex items-center justify-between">
         <img src="/favicon.ico" alt="Logo" class="w-8 h-8" loading="lazy"/>
         <button on:click={() => (mobilenavbar = false)} aria-label="Fechar menu">
@@ -51,10 +54,10 @@
             </svg>
         </button>
     </div>
-
+    
     <ul class="p-5 pt-3 space-y-4">
-        {#each Items as item}
-            {#if item.permissions.some(p => logged.permissions.some(lp => lp.name === p))}
+        {#each navbarJson as item}
+            {#if policy(logged.permissions, item.permission)}
                 <li>
                     <Link href={item.address} aria-label={item.name} class="flex items-center gap-3 text-gray-800 hover:text-blue-600">
                         <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>

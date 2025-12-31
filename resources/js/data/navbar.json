@@ -2,81 +2,61 @@
     {
         "name": "Dashboard",
         "icon": "/svg/default/dashboard.svg",
-        "permissions": [
-            "access.page.dashboard"
-        ],
+        "permission": "access.page.dashboard",
         "address": "/painel/dashboard"
     },
     {
         "name": "Materias",
         "icon": "/svg/default/materials.svg",
-        "permissions": [
-            "access.page.posts"
-        ],
+        "permission": "access.page.posts",
         "address": "/painel/materias"
     },
     {
         "name": "Locução",
         "icon": "/svg/default/broadcast.svg",
-        "permissions": [
-            "access.page.broadcast"
-        ],
+        "permission": "access.page.broadcast",
         "address": "/painel/locucao"
     },
     {
         "name": "Rádio",
         "icon": "/svg/default/radio.svg",
-        "permissions": [
-            "access.page.radio"
-        ],
+        "permission": "access.page.radio",
         "address": "/painel/radio"
     },
     {
         "name": "Podcasts",
         "icon": "/svg/default/podcasts.svg",
-        "permissions": [
-            "access.page.podcasts"
-        ],
+        "permission": "access.page.podcasts",
         "address": "/painel/podcasts"
     },
     {
         "name": "Marketing",
         "icon": "/svg/default/marketing.svg",
-        "permissions": [
-            "access.page.marketing"
-        ],
+        "permission": "access.page.marketing",
         "address": "/painel/marketing"
     },
     {
         "name": "Mídias",
         "icon": "/svg/default/media.svg",
-        "permissions": [
-            "access.page.media"
-        ],
+        "permission": "access.page.media",
         "address": "/painel/medias"
     },
     {
         "name": "Administração",
         "icon": "/svg/default/adms.svg",
-        "permissions": [
-            "access.page.administration"
-        ],
+        "permission": "access.page.administrations",
         "address": "/painel/adms"
     },
     {
         "name": "Logs",
         "icon": "/svg/default/logs.svg",
-        "permissions": [
-            "access.page.logs"
-        ],
+        "permission": "access.page.logs",
         "address": "/painel/logs"
     },
     {
         "name": "Avisos",
         "icon": "/svg/default/alerts.svg",
-        "permissions": [
-            "access.page.warnings"
-        ],
+        "permission": "access.page.warnings",
         "address": "/painel/alerts"
     }
 ]

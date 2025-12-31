@@ -18,7 +18,7 @@ class PermissionSeeder extends Seeder
             /*
             |--------------------------------------------------------------------------
             | ⚙️ Accessos as páginas Gerais
-            |-----
+            |--------------------------------------------------------------------------
             */
             ['name' => 'access.page.dashboard', 'label' => 'Acessar página dashboard do painel'],
             ['name' => 'access.page.warnings', 'label' => 'Acessar página avisos do sistema'],
@@ -30,6 +30,18 @@ class PermissionSeeder extends Seeder
             ['name' => 'access.page.media', 'label' => 'Acessar página mídias do sistema'],
             ['name' => 'access.page.administration', 'label' => 'Acessar página administração do sistema'],
             ['name' => 'access.page.logs', 'label' => 'Acessar página logs do sistema'],
+            
+            /*
+            |--------------------------------------------------------------------------
+            | ⚙️ Atividades e tarefas
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'activity.list', 'label' => 'Listar atividades e tarefas'],
+            ['name' => 'activity.view', 'label' => 'Visualizar atividades e tarefas'],
+            ['name' => 'activity.create', 'label' => 'Criar atividades e tarefas'],
+            ['name' => 'activity.update', 'label' => 'Atualizar atividades e tarefas'],
+            ['name' => 'activity.deactivate', 'label' => 'Desativar atividades e tarefas'],
+            ['name' => 'activity.participate', 'label' => 'Confirmar participação em uma atividade'],
 
             /*
             |--------------------------------------------------------------------------

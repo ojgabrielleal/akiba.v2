@@ -43,7 +43,11 @@ class DashboardController extends Controller
 
         return Inertia::render('private/Dashboard', [
             'activities' => $activities->list([
-                'limit' => 6
+                'limit' => 6,
+                'relations' => [
+                    'responsible' => ['nickname'],
+                    'confirmations.confirmer' => ['id']
+                ]
             ]),
             'tasks' => $tasks->list(),
             'calendar' => $calendar->list(),

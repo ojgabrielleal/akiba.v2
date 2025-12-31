@@ -1,11 +1,11 @@
 <script>
     import { useForm, page, router } from "@inertiajs/svelte";
     import { Section } from "@/layouts/private/";
-    import Onair from "@/data/private/Onair.json";
+    import onairJson from "@/data/onair.json";
 
     $: ({ shows, verify } = $page.props);
 
-    let form = useForm({
+let form = useForm({
         show: null,
         phrase: null,
         image: null,
@@ -49,7 +49,7 @@
                     Escolha um icone
                 </div>
                 <div class="flex flex-wrap justify-center lg:justify-start gap-30 lg:gap-y-30 lg:gap-x-5 mt-[7rem]">
-                    {#each Onair.icons as icon, index}
+                    {#each onairJson as icon, index}
                         <button on:click={() => ($form.image = icon.url)} type="button" aria-label={`Icone ${index}`}  class={`cursor-pointer w-[9.55rem] h-[3rem] flex justify-end items-end rounded-lg bg-neutral-aurora transition duration-300 ease-in-out ${$form.image === icon.url ? "opacity-50 scale-90" : "opacity-100"} `}>
                             <img src={icon.url} alt="" aria-hidden="true" class="w-[8.5rem] aspect-square" loading="lazy"/>
                         </button>

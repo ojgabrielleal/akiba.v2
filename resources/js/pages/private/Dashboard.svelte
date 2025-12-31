@@ -3,7 +3,7 @@
     import { Meta } from "@/meta";
     import { Layout } from "@/layouts/private/";
     import { GreatingHero } from "@/widgets/private/hero";
-    import { AlertsCarrousel, TasksCarrousel } from "@/widgets/private/carrousel";
+    import { ActivitiesCarrousel, TasksCarrousel } from "@/widgets/private/carrousel";
     import { PublicationsGrid, CalendarGrid } from "@/widgets/private/grid";
 
     $: ({ logged } = $page.props);
@@ -29,17 +29,17 @@
 
 <Meta meta={{ title: "Dashboard" }} />
 <Layout>
-    <!--
     <GreatingHero
-        phrase={phraseSwitchHero(logged.nickname)}
-        icon="/img/default/defaultHero.webp"
+    phrase={phraseSwitchHero(logged.nickname)}
+    icon="/img/default/defaultHero.webp"
     />
-    <AlertsCarrousel/>
+    <ActivitiesCarrousel/>
+    <!--
     <TasksCarrousel />
     <PublicationsGrid
-        title="Últimas Matérias"
-        view="https://akiba.com.br/materias/"
-        edit="/painel/materias/"
+    title="Últimas Matérias"
+    view="https://akiba.com.br/materias/"
+    edit="/painel/materias/"
     />
     <CalendarGrid/>
     -->

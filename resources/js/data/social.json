@@ -1,0 +1,77 @@
+[
+  {
+    "value": "instagram",
+    "name": "Instagram",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='5' fill='#E4405F'/><circle cx='12' cy='12' r='4.5' fill='#fff'/><circle cx='17.5' cy='6.5' r='1.5' fill='#fff'/></svg>"
+  },
+  {
+    "value": "whatsapp",
+    "name": "WhatsApp",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='12' fill='#25D366'/><path d='M7 17l1-3c-1-1 0-3 1-4l1-1c.5-.5 1-.5 1 0l1 2c.3.6 0 1-1 2 1 2 2 2 3 2l1-1c.5-.5 1-.5 1 0l1 1c.5.5.5 1 0 1l-1 1c-2 2-6 0-7-1l-1 1z' fill='#fff'/></svg>"
+  },
+  {
+    "value": "youtube",
+    "name": "YouTube",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect rx='4' width='24' height='24' fill='#FF0000'/><path d='M10 9l6 3-6 3V9z' fill='#fff'/></svg>"
+  },
+  {
+    "value": "tiktok",
+    "name": "TikTok",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='#000'/><path d='M15 7c1.2 1.4 2.2 2 4 2v2c-2 0-3.3-.8-4-2v6c0 2.3-2 4-4 4s-4-1.7-4-4 2-4 4-4v2c-1 0-2 .9-2 2s1 2 2 2 2-.9 2-2V7h2z' fill='#fff'/></svg>"
+  },
+  {
+    "value": "facebook",
+    "name": "Facebook",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='3' fill='#1877F2'/><path d='M13 8h2V6h-2c-2 0-3 1-3 3v2H8v2h2v6h2v-6h2l1-2h-3V9c0-.6.4-1 1-1z' fill='#fff'/></svg>"
+  },
+  {
+    "value": "twitter",
+    "name": "X (Twitter)",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' fill='#000'/><path d='M7 7l10 10M17 7L7 17' stroke='#fff' stroke-width='2'/></svg>"
+  },
+  {
+    "value": "threads",
+    "name": "Threads",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='5' fill='#000'/><path d='M12 7c3 0 5 2 5 5s-2 5-5 5-5-2-5-5' stroke='#fff' stroke-width='1.4' fill='none'/><circle cx='12' cy='12' r='2' fill='#fff'/></svg>"
+  },
+  {
+    "value": "telegram",
+    "name": "Telegram",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='12' fill='#229ED9'/><path d='M17 7L6 11l3 1 1 4 2-2 3 2 2-9z' fill='#fff'/></svg>"
+  },
+  {
+    "value": "discord",
+    "name": "Discord",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='#5865F2'/><path d='M7 9l2-1 2 1m6 0l-2-1-2 1m-6 6l1-5 1 1m8 4l-1-5-1 1' stroke='#fff' stroke-width='1.4'/><circle cx='10' cy='12' r='1' fill='#fff'/><circle cx='14' cy='12' r='1' fill='#fff'/></svg>"
+  },
+  {
+    "value": "snapchat",
+    "name": "Snapchat",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='#FFFC00'/><path d='M12 6c2 0 4 2 4 4v3c0 2-2 4-4 4s-4-2-4-4v-3c0-2 2-4 4-4z' stroke='#000' fill='#fff'/></svg>"
+  },
+  {
+    "value": "pinterest",
+    "name": "Pinterest",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='12' fill='#E60023'/><path d='M12 6c2.8 0 5 2.2 5 5 0 2-1 4-3 4-1 0-2-.8-2-2 0-1 1-2 1-3 0-1-1-2-2-2-2 0-3 2-3 4 0 2 1 4 3 5l-1 3' stroke='#fff' fill='none'/></svg>"
+  },
+  {
+    "value": "github",
+    "name": "GitHub",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='12' fill='#000'/><path d='M9 18c-2 1-3-.5-3-.5-.8-2-.5-3-.5-3 .6-1.2 0-1.5 0-1.5-1-.7 0-.7 0-.7 1.2.1 1.8 1.2 1.8 1.2 1 .1 1.7-.6 2-.9-.2-.1-.1-.8-.1-1.1-2.4-.3-4-1.6-4-3.7 0-.9.3-1.7.8-2.3-.1-.2-.4-1.1.1-2.2 0 0 .9-.3 2.4.9C10.2 7 11.1 7 12 7c.9 0 1.8.3 2.6.8 1.5-1.2 2.4-.9 2.4-.9.5 1.1.2 2 .1 2.2.5.6.8 1.4.8 2.3 0 2.1-1.6 3.3-4 3.7.1.3.2 1 .1 1.1.3.3 1 .9 2 .9 0 0 .6-1.1 1.8-1.2 0 0 1-.1 0 .7 0 0-.7.3 0 1.5 0 0 .3 1-.5 3 0 0-1 1.5-3 .5' fill='#fff'/></svg>"
+  },
+  {
+    "value": "behance",
+    "name": "Behance",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='3' fill='#1769FF'/><path d='M7 9h4v1H7v-1zm0 2h4v1H7v-1zm0 2h4v1H7v-1zm6-4h3v1h-3v-1zm0 2h3v1h-3v-1zm0 2h3v1h-3v-1zm-6 4h8v1H7v-1z' fill='#fff'/></svg>"
+  },
+  {
+    "value": "bluesky",
+    "name": "Bluesky",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='12' fill='#00BFFF'/><path d='M6 8l6 8 6-8H6z' fill='#fff'/></svg>"
+  },
+  {
+    "value": "site",
+    "name": "Site",
+    "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='#888'/><path d='M8 12h8M12 8v8' stroke='#fff' stroke-width='2'/></svg>"
+  }
+]

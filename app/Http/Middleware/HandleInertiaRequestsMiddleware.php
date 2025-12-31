@@ -41,6 +41,7 @@ class HandleInertiaRequestsMiddleware extends Middleware
             $user->load('roles.permissions');
 
             return [
+                'id' => $user->id,
                 'slug' => $user->slug,
                 'name' => $user->name,
                 'nickname' => $user->nickname,
