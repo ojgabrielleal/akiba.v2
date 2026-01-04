@@ -34,8 +34,8 @@
     icon="/img/default/defaultHero.webp"
     />
     <ActivitiesCarrousel/>
-    <!--
     <TasksCarrousel />
+    <!--
     <PublicationsGrid
     title="Últimas Matérias"
     view="https://akiba.com.br/materias/"

@@ -30,7 +30,7 @@ class Activity extends Model
     ];
 
     /**
-     * Verify limit from activity
+     * Booted to verify limit from activity
      */
     protected static function booted()
     {

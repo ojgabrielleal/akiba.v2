@@ -5,6 +5,8 @@
 
     $: ({ tasks } = $page.props);
 
+    $: console.log(tasks)
+
     let container;
 
     function setTaskComplete(id) {
@@ -16,7 +18,7 @@
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" bind:this={container} on:wheel={(e) => scrollx(e, container)} role="group">
         {#if tasks.length > 0}
             {#each tasks as item}
-                <article class="w-100 h-50 lg:w-[40rem] lg:h-43 shrink-0 rounded-lg p-4 relative" style="background-color: {item.styles.bg};">
+                <article class="w-100 h-50 lg:w-[40rem] lg:h-43 shrink-0 rounded-lg p-4 relative bg-blue-skywave">
                     <div class="uppercase font-noto-sans text-neutral-aurora italic font-bold text-2xl">
                         {item.title}
                     </div>
@@ -24,10 +26,10 @@
                         {item.content}
                     </div>
                     <dl class="absolute top-5 right-5 rounded-xl shadow-lg w-[7rem] text-center overflow-hidden bg-neutral-aurora">
-                        <dt class="font-noto-sans italic font-bold text-sm py-1 tracking-wide uppercase" style="background-color: {item.styles.bg_date.title}; color: {item.styles.bg_date.title_text_color}">
+                        <dt class="font-noto-sans italic font-bold text-sm py-1 uppercase tracking-wide bg-blue-midnight">
                             Data Limite
                         </dt>
-                        <dd class="font-noto-sans italic font-extrabold text-2xl py-1 tracking-widest" style="background-color: {item.styles.bg_date.date}; color: {item.styles.bg_date.date_text_color}">
+                        <dd class="font-noto-sans italic font-extrabold text-2xl py-1 tracking-widest">
                             {item.deadline}
                         </dd>
                     </dl>
