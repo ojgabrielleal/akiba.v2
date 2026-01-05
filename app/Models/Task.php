@@ -30,6 +30,18 @@ class Task extends Model
         'user_id',
     ];
 
+    protected $appends = ['is_due_soon'];
+
+    public function getIsDueSoonAttribute()
+    {
+        if (!$this->deadline) {
+            return false;
+        }
+
+        return now()->diffInDays($this->deadline, false) <= 7
+            && $this->deadline->isFuture();
+    }
+
     public function responsible()
     {
         return $this->belongsTo(User::class, 'user_id');

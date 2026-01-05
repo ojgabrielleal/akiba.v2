@@ -29,18 +29,15 @@
 
 <Meta meta={{ title: "Dashboard" }} />
 <Layout>
-    <GreatingHero
-    phrase={phraseSwitchHero(logged.nickname)}
-    icon="/img/default/defaultHero.webp"
-    />
+    <GreatingHero phrase={phraseSwitchHero(logged.nickname)} icon="/img/default/defaultHero.webp"/>
     <ActivitiesCarrousel/>
     <TasksCarrousel />
-    <!--
     <PublicationsGrid
-    title="Últimas Matérias"
-    view="https://akiba.com.br/materias/"
-    edit="/painel/materias/"
+        title="Últimas Matérias"
+        view="https://akiba.com.br/materias/"
+        edit="/painel/materias/"
     />
+    <!--
     <CalendarGrid/>
     -->
 </Layout>

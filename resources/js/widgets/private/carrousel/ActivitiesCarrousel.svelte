@@ -34,16 +34,14 @@
                         </div>
                         {#if item.is_activity}
                             <div class="flex gap-2 absolute bottom-3 left-4">
-                                {#if item.confirmations.length > 0}
-                                    {#each item.confirmations as confirmation}
-                                        <img
-                                            src={confirmation.confirmer.avatar}
-                                            alt={confirmation.confirmer.nickname}
-                                            class="w-9 h-9 rounded-full bg-neutral-aurora"
-                                            loading="lazy"
-                                        />
-                                    {/each}
-                                {/if}
+                                {#each item.confirmations as confirmation}
+                                    <img
+                                        src={confirmation.confirmer.avatar}
+                                        alt={confirmation.confirmer.nickname}
+                                        class="w-9 h-9 rounded-full bg-neutral-aurora"
+                                        loading="lazy"
+                                    />
+                                {/each}
                             </div>
                             {#if policy(logged.permissions, 'activity.participate') && !item.confirmations.some(c => c.confirmer.id === logged.id)}
                                 <button

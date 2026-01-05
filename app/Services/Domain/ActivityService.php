@@ -21,20 +21,36 @@ class ActivityService
             $activityQuery->limit($options['limit']);
         }
 
-        if (!empty($options['filters'])) {
+        if (!empty($options['filters']) && is_array($options['filters'])) {
             foreach ($options['filters'] as $field => $value) {
+                if ($field === 'or') {
+                    continue;
+                }
+
+                if (is_array($value)) {
+                    continue;
+                }
+
                 $activityQuery->where($field, $value);
             }
         }
 
         if (!empty($options['filters']['or'])) {
-            foreach ($options['filters']['or'] as $value) {
-                if ($value instanceof \Closure) {
-                    $activityQuery->where($value);
-                } else {
-                    $activityQuery->orWhere($value);
+            $activityQuery->where(function ($q) use ($options) {
+                foreach ($options['filters']['or'] as $condition) {
+                    if (count($condition) !== 3) {
+                        continue; 
+                    }
+
+                    [$field, $operator, $value] = $condition;
+
+                    if ($operator === 'IS' && $value === null) {
+                        $q->orWhereNull($field);
+                    } else {
+                        $q->orWhere($field, $operator, $value);
+                    }
                 }
-            }
+            });
         }
 
         if (!empty($options['relations'])) {

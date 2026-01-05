@@ -33,15 +33,27 @@ class PermissionSeeder extends Seeder
             
             /*
             |--------------------------------------------------------------------------
-            | ⚙️ Atividades e tarefas
+            | ⚙️ Atividades e avisos
             |--------------------------------------------------------------------------
             */
-            ['name' => 'activity.list', 'label' => 'Listar atividades e tarefas'],
-            ['name' => 'activity.view', 'label' => 'Visualizar atividades e tarefas'],
-            ['name' => 'activity.create', 'label' => 'Criar atividades e tarefas'],
-            ['name' => 'activity.update', 'label' => 'Atualizar atividades e tarefas'],
-            ['name' => 'activity.deactivate', 'label' => 'Desativar atividades e tarefas'],
+            ['name' => 'activity.list', 'label' => 'Listar atividades e avisos'],
+            ['name' => 'activity.view', 'label' => 'Visualizar atividade e aviso'],
+            ['name' => 'activity.create', 'label' => 'Criar atividades e avisos'],
+            ['name' => 'activity.update', 'label' => 'Atualizar atividades e avisos'],
+            ['name' => 'activity.deactivate', 'label' => 'Desativar atividades e avisos'],
             ['name' => 'activity.participate', 'label' => 'Confirmar participação em uma atividade'],
+
+            /*
+            |--------------------------------------------------------------------------
+            | ⚙️ Tarefas
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'task.list', 'label' => 'Listar tarefas'],
+            ['name' => 'task.view', 'label' => 'Visualizar tarefa'],
+            ['name' => 'task.create', 'label' => 'Criar tarefa'],
+            ['name' => 'task.update', 'label' => 'Atualizar tarefa'],
+            ['name' => 'task.deactivate', 'label' => 'Desativar tarefa'],
+            ['name' => 'task.complete', 'label' => 'Confirmar tarefa como concluída'],
 
             /*
             |--------------------------------------------------------------------------

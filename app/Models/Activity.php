@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Builder;
 
 class Activity extends Model
 {
@@ -29,19 +28,6 @@ class Activity extends Model
         'user_id',
     ];
 
-    /**
-     * Booted to verify limit from activity
-     */
-    protected static function booted()
-    {
-        static::addGlobalScope('valid', function (Builder $builder) {
-            $builder->where(function ($q) {
-                $q->whereNull('activity_limit')
-                  ->orWhereDate('activity_limit', '>=', today());
-            });
-        });
-    }
-    
     public function responsible()
     {
         return $this->belongsTo(User::class, 'user_id');
