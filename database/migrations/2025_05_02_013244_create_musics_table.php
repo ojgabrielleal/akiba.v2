@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->boolean('is_ranking')->default(false);
             $table->string('image_ranking')->nullable();
-            $table->integer('song_request_total')->default('0');
+            $table->integer('song_request_count')->default('0');
             $table->timestamps();
         });
     }

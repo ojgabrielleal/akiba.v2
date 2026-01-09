@@ -51,15 +51,27 @@ class DashboardController extends Controller
                 ],
                 'filters' => [
                     'or' => [
-                        ['activity_limit', '<', now()],
+                        ['allows_confirmations', '<', now()],
                     ]
                 ]
             ]),
             'tasks' => $tasks->list([
                 'filters' => ['is_active' => true, 'is_completed' => false]
             ]),
-            'calendar' => $calendar->list(),
-            'publications' => $publications->list(),
+            'publications' => $publications->list([
+                'filters' => [
+                    'is_active' => true,
+                ],
+                'relations' => [
+                    'author' => ['id', 'nickname']
+                ]
+            ]),
+            'calendar' => $calendar->list([
+                'relations' => [
+                    'activity' => ['id', 'title'],
+                    'responsible' => ['id', 'nickname'], 
+                ]
+            ]),
         ]);
     }
 }

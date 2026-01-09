@@ -63,9 +63,9 @@ class SongRequestService
     {
         $onair = Onair::where('is_live', true)->firstOrFail();
         $onair->update([
-            'song_request_status' => !$onair->song_request_status
+            'allows_songs_requests' => !$onair->allows_songs_requests
         ]);
 
-        return $onair->song_request_status;
+        return $onair->allows_songs_requests;
     }
 }

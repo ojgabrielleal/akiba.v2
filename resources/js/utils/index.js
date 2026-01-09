@@ -1,3 +1,3 @@
 export { debounce } from "./debounce.js";
 export { scrollx } from "./scroll.js"
-export { date } from "./date.js"
+export { date, time } from "./date.js"

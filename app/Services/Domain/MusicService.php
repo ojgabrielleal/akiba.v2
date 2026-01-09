@@ -8,7 +8,7 @@ class MusicService
 {
     public function listRanking()
     {
-        return Music::query()->where('is_ranking', true)->limit(3)->orderBy('song_request_total', 'desc')->get();
+        return Music::query()->where('is_ranking', true)->limit(3)->orderBy('song_request_count', 'desc')->get();
     }
 
     public function setRanking()
@@ -17,7 +17,7 @@ class MusicService
             'is_ranking' => false
         ]);
 
-        $musicQuery = Music::orderBy('song_request_total', 'desc')->limit(10)->get();
+        $musicQuery = Music::orderBy('song_request_count', 'desc')->limit(10)->get();
         $musicUpdate = $musicQuery->each(function ($music) {
             $music->update(['is_ranking' => true]);
         });

@@ -19,34 +19,54 @@ class PostService
             $postQuery->select($options['fields']);
         }
 
-        if (!empty($options['limit'])) {
-            $postQuery->limit($options['limit']);
-        }
-
-        if (!empty($options['filters'])) {
+        if (!empty($options['filters']) && is_array($options['filters'])) {
             foreach ($options['filters'] as $field => $value) {
+                if ($field === 'or') {
+                    continue;
+                }
+
+                if (is_array($value)) {
+                    continue;
+                }
+
                 $postQuery->where($field, $value);
             }
         }
 
         if (!empty($options['filters']['or'])) {
-            foreach ($options['filters']['or'] as $value) {
-                if ($value instanceof \Closure) {
-                    $postQuery->where($value);
-                } else {
-                    $postQuery->orWhere($value);
+            $postQuery->where(function ($q) use ($options) {
+                foreach ($options['filters']['or'] as $condition) {
+                    if (count($condition) !== 3) {
+                        continue; 
+                    }
+
+                    [$field, $operator, $value] = $condition;
+
+                    if ($operator === 'IS' && $value === null) {
+                        $q->orWhereNull($field);
+                    } else {
+                        $q->orWhere($field, $operator, $value);
+                    }
                 }
-            }
+            });
         }
 
         if (!empty($options['relations'])) {
             foreach ($options['relations'] as $relation => $cols) {
-                if (!in_array('id', $cols)) $cols[] = 'id';
-                $postQuery->with([$relation => fn($q) => $q->select($cols)]);
+                if (empty($cols)) {
+                    $postQuery->with($relation);
+                    continue;
+                }
+                if (!in_array('id', $cols)) {
+                    $cols[] = 'id';
+                }
+                $postQuery->with([
+                    $relation => fn($q) => $q->select($cols)
+                ]);
             }
         }
 
-        return $postQuery->paginate(5);
+        return $postQuery->paginate(10);
     }
 
     public function get($postId, $options = [])

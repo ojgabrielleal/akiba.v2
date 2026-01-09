@@ -20,7 +20,11 @@ return new class extends Migration
             $table->string('title');
             $table->longText('content');
             $table->string('cover')->nullable();
-            $table->string('type');
+            $table->enum('status',[
+                'published',
+                'revision',
+                'sketch'
+            ]);
             $table->timestamps();
         });
     }

@@ -12,22 +12,24 @@ class Calendar extends Model
     protected $table = 'calendar';
     
     protected $fillable = [
+        'is_active',
         'user_id',
         'activity_id',
-        'start_time',
-        'end_time',
+        'time',
+        'date',
         'type',
         'content',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'date' => 'date:Y-m-d',
+        'time' => 'date:h:i',
     ];
 
     protected $hidden = [
         'user_id',
         'activity_id',
-    ];
-
-    protected $casts = [
-        'start_time' => 'datetime',
-        'end_time' => 'datetime',
     ];
 
     public function responsible()

@@ -57,6 +57,29 @@ class PermissionSeeder extends Seeder
 
             /*
             |--------------------------------------------------------------------------
+            | 📝 Posts
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'post.list', 'label' => 'Listar posts'],
+            ['name' => 'post.view', 'label' => 'Visualizar post'],
+            ['name' => 'post.create', 'label' => 'Criar post'],
+            ['name' => 'post.update', 'label' => 'Atualizar post'],
+            ['name' => 'post.deactivate', 'label' => 'Desativar post'],
+            ['name' => 'post.update.own', 'label' => 'Atualizar próprio post'],
+
+            /*
+            |--------------------------------------------------------------------------
+            | 📅 Calendário
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'calendar.list', 'label' => 'Listar eventos no calendário'],
+            ['name' => 'calendar.view', 'label' => 'Visualizar evento no calendário'],
+            ['name' => 'calendar.create', 'label' => 'Criar evento no calendário'],
+            ['name' => 'calendar.update', 'label' => 'Atualizar evento no calendário'],
+            ['name' => 'calendar.deactivate', 'label' => 'Excluir evento no calendário'],
+
+            /*
+            |--------------------------------------------------------------------------
             | 👤 Usuários
             |--------------------------------------------------------------------------
             */
@@ -69,19 +92,6 @@ class PermissionSeeder extends Seeder
             ['name' => 'user.update.permissions', 'label' => 'Atualizar permissões de membro'],
             ['name' => 'user.view.own', 'label' => 'Visualizar próprio perfil'],
             ['name' => 'user.update.own', 'label' => 'Atualizar próprio perfil'],
-
-            /*
-            |--------------------------------------------------------------------------
-            | 📝 Posts
-            |--------------------------------------------------------------------------
-            */
-            ['name' => 'post.list', 'label' => 'Listar posts'],
-            ['name' => 'post.view', 'label' => 'Visualizar post'],
-            ['name' => 'post.create', 'label' => 'Criar post'],
-            ['name' => 'post.update', 'label' => 'Atualizar post'],
-            ['name' => 'post.delete', 'label' => 'Excluir post'],
-            ['name' => 'post.view.own', 'label' => 'Visualizar próprios posts'],
-            ['name' => 'post.update.own', 'label' => 'Atualizar próprios posts'],
 
             /*
             |--------------------------------------------------------------------------
@@ -116,17 +126,6 @@ class PermissionSeeder extends Seeder
             ['name' => 'song-request.list', 'label' => 'Listar pedidos musicais'],
             ['name' => 'song-request.view', 'label' => 'Visualizar pedido musical'],
             ['name' => 'song-request.mark-played', 'label' => 'Marcar pedido como tocado'],
-
-            /*
-            |--------------------------------------------------------------------------
-            | 📅 Agenda / Calendário
-            |--------------------------------------------------------------------------
-            */
-            ['name' => 'calendar.list', 'label' => 'Listar eventos no calendário'],
-            ['name' => 'calendar.view', 'label' => 'Visualizar evento no calendário'],
-            ['name' => 'calendar.create', 'label' => 'Criar evento no calendário'],
-            ['name' => 'calendar.update', 'label' => 'Atualizar evento no calendário'],
-            ['name' => 'calendar.delete', 'label' => 'Excluir evento no calendário'],
 
             /*
             |--------------------------------------------------------------------------

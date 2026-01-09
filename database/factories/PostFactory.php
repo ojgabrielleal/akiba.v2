@@ -23,7 +23,7 @@ class PostFactory extends Factory
             'title' => fake()->title(),
             'content' => fake()->paragraph(),
             'cover' => fake()->url(),
-            'type' => fake()->randomElement(['published', 'revision', 'sketch'])
+            'status' => fake()->randomElement(['published', 'revision', 'sketch'])
         ];
     }
 }

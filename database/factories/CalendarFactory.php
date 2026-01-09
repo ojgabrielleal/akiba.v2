@@ -17,9 +17,9 @@ class CalendarFactory extends Factory
     public function definition(): array
     {
         return [
-            'start_time' => fake()->dateTime(),
-            'end_time' => fake()->dateTime(),
-            'type' => fake()->randomElement(['show', 'live', 'video', 'podcast']),
+            'time' => fake()->time(),
+            'date' => fake()->date(),
+            'category' => fake()->randomElement(['show', 'live', 'youtube', 'podcast']),
             'content' => fake()->word()
         ];
     }

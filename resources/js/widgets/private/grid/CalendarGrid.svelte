@@ -1,87 +1,110 @@
 <script>
-    export let controls = false ;
-
     import { page } from "@inertiajs/svelte";
     import { Section } from "@/layouts/private/";
+    import { time } from "@/utils";
+    import { policy } from "@/policies";
 
-    $: ({ calendar } = $page.props);
+    $: ({ logged, calendar } = $page.props);
+    
+    let week = [];
+    
+    $: if (calendar) {
+        const today = new Date();
+        
+        const days = [ 
+            'dom',
+            'seg',
+            'ter',
+            'qua',
+            'qui',
+            'sex',
+            'sab'
+        ]
+
+        for(let i = 0; i < 7; i++){
+            const date = new Date(today);
+            date.setDate(today.getDate() + i);
+
+            week.push({
+                'date': `${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}/${(date.getMonth() + 1) < 10 ?  '0' + (date.getMonth() + 1) : date.getUTCMonth() + 1}`,
+                'day': days[date.getDay()],
+                'events': calendar.filter(item => item.date === date.toISOString().split('T')[0])
+            });
+        }
+    }
 
     const tags = [
-        { label: "Programas", color: "var(--color-blue-skywave)" },
-        { label: "Lives", color: "var(--color-purple-mystic)" },
-        { label: "Youtube", color: "var(--color-red-crimson)" },
-        { label: "Podcasts", color: "var(--color-green-forest)" },
-        { label: "", color: "var(--color-blue-skywave)" },
-        { label: "", color: "var(--color-blue-skywave)" },
-        { label: "", color: "var(--color-blue-skywave)" }
-
+        { label: "Programas", color: "bg-blue-skywave", textcolor: "text-neutral-aurora" },
+        { label: "Lives", color: "bg-purple-mystic", textcolor: "text-neutral-aurora"},
+        { label: "Youtube", color: "bg-red-crimson", textcolor: "text-neutral-aurora" },
+        { label: "Podcasts", color: "bg-green-forest", textcolor: "text-neutral-aurora" },
+        { label: "Atividades", color: "bg-neutral-honeycream", textcolor: "text-blue-midnight"},
+        { label: "", color: "bg-blue-skywave", textcolor: "text-neutral-aurora" },
+        { label: "", color: "bg-blue-skywave", textcolor: "text-neutral-aurora" }
     ];
-
-    let week = [];
-
-   $: if (calendar) {
-        const labels = {
-            sun: "Dom",
-            mon: "Seg",
-            tue: "Ter",
-            wed: "Qua",
-            thu: "Qui",
-            fri: "Sex",
-            sat: "Sáb",
-        };
-
-        week = Object.values(labels).map(label => ({
-            day: label,
-            items: calendar.filter(event => event.day === label)
-        }));
-    }
 </script>
 
-<Section title="Calendário">
-    <!-- Tags -->
-    <div class="w-full grid gap-5 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
-        {#each tags as tag}
-            <span class="h-10 text-neutral-aurora text-lg font-noto-sans font-bold uppercase italic rounded-lg flex justify-center items-center" style="background-color: {tag.color};">
-                {tag.label}
-            </span>
-        {/each}
-    </div>
-
-    <!-- Calendário -->
-    <div class="w-full grid gap-5 mt-5 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
-        {#each week as day}
-            <div class="flex flex-col gap-2 w-full">
-                <span class="text-neutral-aurora text-lg font-noto-sans text-center font-bold uppercase italic">
-                    {day.day}
+{#if policy(logged.permissions, 'calendar.list')}
+    <Section title="Calendário">
+        <div class="w-full grid gap-5 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
+            {#each tags as tag}
+                <span class={`h-10 text-lg font-noto-sans font-bold uppercase italic rounded-lg flex justify-center items-center ${tag.color} ${tag.textcolor}`}>
+                    {tag.label}
                 </span>
-                {#each day.items as item}
-                    <div class="w-full 2xl:w-[12.7rem] rounded-lg pt-4 pl-4 pr-4 pb-3" style="background-color: {item.styles?.bg || 'var(--color-blue-skywave)'};">
-                        <div class="flex items-center">
-                            <div class="w-full font-noto-sans text-2xl text-center text-neutral-aurora uppercase">
-                                {item.hour}
-                            </div>
-                        </div>
-                        <div class="w-full font-noto-sans font-bold text-2xl text-center text-neutral-aurora italic mt-6 mb-6">
-                            {item.content}
-                        </div>
-                        <div class={`flex justify-between ${controls ? "flex-row-reverse" : "flex-row"}`}>
-                            {#if controls}
-                                <div class="flex gap-2">
-                                    <button aria-label="Editar" class="cursor-pointer">
-                                        <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                                    </button>
-                                    <button aria-label="Editar" class="cursor-pointer">
-                                        <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                                    </button>
-                                </div>
-                            {/if}
-                            <div class={`w-full font-noto-sans text-md text-neutral-aurora ${controls ? "text-start" : "text-end"}`}>
-                                {item.user?.nickname}
-                            </div>
-                        </div>
+            {/each}
+        </div>
+        <div class="w-full grid gap-5 mt-5 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
+            {#each week as day}
+                <div class="flex flex-col gap-2 w-full">
+                    <div class="text-neutral-aurora text-lg font-noto-sans text-center font-bold uppercase italic">
+                        {day.day} - {day.date}
                     </div>
-                {/each}
-            </div>
-        {/each}
-    </div>
-</Section>
+                    {#each day.events as event}
+                        {@const isLive = event.category === 'live'}
+                        {@const isYoutube = event.category === 'youtube'}
+                        {@const isPodcast = event.category === 'podcast'}
+                        {@const isActivity = event.category === 'activity'}
+                        <div class={['w-full 2xl:w-[12.7rem] bg-blue-skywave rounded-lg pt-4 pl-4 pr-4 pb-3 mt-5', 
+                            {'bg-purple-mystic': isLive}, 
+                            {'bg-red-crimson': isYoutube}, 
+                            {'bg-green-forest': isPodcast},
+                            {'bg-neutral-honeycream': isActivity}
+                        ]}>
+                            <div class="flex events-center">
+                                <div class={['w-full font-noto-sans text-2xl text-center uppercase', 
+                                    {'text-blue-midnight': isActivity},
+                                    {'text-neutral-aurora': !isActivity}
+                                ]}>
+                                    {time(event.time)}
+                                </div>
+                            </div>
+                            <div class={['w-full font-noto-sans font-bold text-2xl text-center italic mt-6 mb-6', 
+                                {'text-blue-midnight': isActivity},
+                                {'text-neutral-aurora': !isActivity}
+                            ]}>
+                                {#if isActivity}
+                                    {event.activity.title}
+                                {:else}
+                                    {event.content}
+                                {/if}
+                            </div>
+                            <div class="flex justify-between flex-row">
+                                    {#if policy(logged.permissions, 'calendar.update')}
+                                        <button aria-label="Editar" class="cursor-pointer">
+                                            <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
+                                        </button>
+                                    {/if}
+                                <div class={['w-full font-noto-sans text-md text-end', 
+                                    {'text-blue-midnight': isActivity},
+                                    {'text-neutral-aurora': !isActivity}
+                                ]}>
+                                    {event.responsible.nickname}
+                                </div>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
+            {/each}
+        </div>
+    </Section>
+{/if}

@@ -13,11 +13,18 @@ return new class extends Migration
     {
         Schema::create('calendar', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_active')->default(true);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('activity_id')->nullable()->constrained('activities')->cascadeOnDelete();
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
-            $table->string('type');
+            $table->time('time');
+            $table->date('date');
+            $table->enum('category', [
+                'show',
+                'live',
+                'youtube',
+                'podcast',
+                'activity'
+            ]);
             $table->string('content');
             $table->timestamps();
         });
