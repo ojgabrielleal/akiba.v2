@@ -191,6 +191,9 @@
     .filter-neutral-gray{
         filter: invert(54%) sepia(12%) saturate(23%) hue-rotate(46deg) brightness(92%) contrast(88%);
     }
+    .filter-neutral-honeycream{ 
+        filter: invert(92%) sepia(5%) saturate(2300%) hue-rotate(327deg) brightness(104%) contrast(101%);
+    }
     .filter-blue-skywave {
         filter: invert(53%) sepia(84%) saturate(4530%) hue-rotate(185deg) brightness(99%) contrast(112%);
     }
@@ -199,6 +202,9 @@
     }
     .filter-blue-indigo{
         filter: invert(8%) sepia(27%) saturate(5191%) hue-rotate(227deg) brightness(96%) contrast(124%);
+    }
+    .filter-blue-midnight{
+        filter: invert(5%) sepia(9%) saturate(7430%) hue-rotate(191deg) brightness(102%) contrast(108%);
     }
     .filter-red-crimson{
         filter: invert(44%) sepia(59%) saturate(4904%) hue-rotate(335deg) brightness(88%) contrast(113%);

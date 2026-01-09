@@ -91,7 +91,9 @@
                             <div class="flex justify-between flex-row">
                                     {#if policy(logged.permissions, 'calendar.update')}
                                         <button aria-label="Editar" class="cursor-pointer">
-                                            <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
+                                            <img src="/svg/default/edit.svg" alt="" aria-hidden="true" loading="lazy" class={['w-5 filter-neutral-aurora', 
+                                                {'filter-blue-midnight': isActivity}
+                                            ]}/>
                                         </button>
                                     {/if}
                                 <div class={['w-full font-noto-sans text-md text-end', 

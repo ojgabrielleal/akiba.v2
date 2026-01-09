@@ -67,6 +67,9 @@ class DashboardController extends Controller
                 ]
             ]),
             'calendar' => $calendar->list([
+                'filters' => [
+                    'is_active' => true, 
+                ],
                 'relations' => [
                     'activity' => ['id', 'title'],
                     'responsible' => ['id', 'nickname'], 
