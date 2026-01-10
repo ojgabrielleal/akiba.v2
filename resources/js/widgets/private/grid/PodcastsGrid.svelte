@@ -1,6 +1,6 @@
 <script>
     import { router, page, Link } from "@inertiajs/svelte";
-    import { Section } from "@/layouts/private/";
+    import { Section } from "@/components/private/";
 
     $: ({ podcasts } = $page.props);
 

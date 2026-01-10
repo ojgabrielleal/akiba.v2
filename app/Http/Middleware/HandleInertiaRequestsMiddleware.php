@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Illuminate\Support\Facades\Auth;
 
+use App\Services\External\StreamingService;
+
 class HandleInertiaRequestsMiddleware extends Middleware
 {
     /**
@@ -53,8 +55,21 @@ class HandleInertiaRequestsMiddleware extends Middleware
             ];
         }
 
+        function loadStreaming()
+        {
+            $streaming  = new StreamingService();
+            $data = $streaming->metadata();
+
+            return [
+                'status' => $data['status'] === 'Ligado' ? 'Online' : 'Offline',
+                'listeners' => $data['ouvintes_conectados'],
+                'bitrate' => $data['plano_bitrate']
+            ];
+        }
+
         return array_merge(parent::share($request), [
             'logged' => fn() => loadUser(),
+            'streaming' => fn() => loadStreaming(),
             'flash' => fn() => [
                 'type' => session('flash.type'),
                 'message' => session('flash.message'),

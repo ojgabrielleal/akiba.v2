@@ -1,6 +1,6 @@
 <script>
     import { useForm, page, router } from "@inertiajs/svelte";
-    import { Section } from "@/layouts/private/";
+    import { Section } from "@/components/private/";
     import onairJson from "@/data/onair.json";
 
     $: ({ shows, verify } = $page.props);

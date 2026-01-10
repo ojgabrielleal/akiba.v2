@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import { page, useForm, Link } from "@inertiajs/svelte";
-    import { Section } from "@/layouts/private";
+    import { Section } from "@/components/private/";
     import { Preview, Wysiwyg } from "@/components/private";
 
     $: ({ authenticated, publication } = $page.props);

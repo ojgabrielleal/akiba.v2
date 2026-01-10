@@ -1,6 +1,6 @@
 <script>
     import { page, router, usePoll } from "@inertiajs/svelte";
-    import { Section } from "@/layouts/private/";
+    import { Section } from "@/components/private/";
 
     usePoll(60*1000)
     $: ({ listenerRequests, verify } = $page.props);

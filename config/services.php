@@ -32,7 +32,7 @@ return [
         ],
     ],
     'radio' => [
-        'metadata_url' => env('RADIO_URL_API_METADATA'),
+        'metadata' => env('STREAM_METADATA'),
     ],
 
 ];

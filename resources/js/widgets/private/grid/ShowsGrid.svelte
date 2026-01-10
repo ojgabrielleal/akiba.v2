@@ -1,6 +1,6 @@
 <script>
     import { page, router } from "@inertiajs/svelte";
-    import { Section } from "@/layouts/private/";
+    import { Section } from "@/components/private/";
     import { Offcanvas } from "@/components/private";
     import { ShowsForm } from "@/widgets/private/form";
 

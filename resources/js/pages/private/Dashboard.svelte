@@ -2,6 +2,7 @@
     import { page } from "@inertiajs/svelte";
     import { Meta } from "@/meta";
     import { Layout } from "@/layouts/private/";
+    import { CanRender } from "@/components/private/";
     import { GreatingHero } from "@/widgets/private/hero";
     import { ActivitiesCarrousel, TasksCarrousel } from "@/widgets/private/carrousel";
     import { PublicationsGrid, CalendarGrid } from "@/widgets/private/grid";
@@ -30,8 +31,16 @@
 <Meta meta={{ title: "Dashboard" }} />
 <Layout>
     <GreatingHero phrase={phraseSwitchHero(logged.nickname)} icon="/img/default/defaultHero.webp"/>
-    <ActivitiesCarrousel/>
-    <TasksCarrousel />
-    <PublicationsGrid title="Últimas Matérias" type="materias"/>
-    <CalendarGrid/>
+    <CanRender permission="activity.list">
+        <ActivitiesCarrousel title="Avisos e Atividades"/>
+    </CanRender>
+    <CanRender permission="task.list">
+        <TasksCarrousel title="Minhas Tarefas"/>
+    </CanRender>
+    <CanRender permission="post.list">
+        <PublicationsGrid title="Últimas Matérias" type="materias"/>
+    </CanRender>
+    <CanRender permission="calendar.list">
+        <CalendarGrid title="Calendário"/>
+    </CanRender>
 </Layout>

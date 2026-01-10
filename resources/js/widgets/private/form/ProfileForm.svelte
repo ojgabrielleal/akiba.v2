@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte"
     import { useForm, page } from "@inertiajs/svelte"
-    import { Section } from "@/layouts/private/";   
+    import { Section } from "@/components/private/";   
     import { Preview } from "@/components/private/"
     import socialJson from "@/data/social.json"
 

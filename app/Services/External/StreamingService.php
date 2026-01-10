@@ -1,16 +1,16 @@
 <?php 
 
-namespace App\Services;
+namespace App\Services\External;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class RadioAPIService
+class StreamingService
 {
-    public function getMetadata()
+    public function metadata()
     {
         try {
-            $url = config('services.radio.metadata_url');
+            $url = config('services.radio.metadata');
             $response = Http::timeout(5)->withOptions([
                 'verify' => false,
             ])->get($url);
