@@ -17,7 +17,7 @@ class OnairFactory extends Factory
     public function definition(): array
     {
         return [
-            'is_playlist' => false,
+            'is_live' => true,
             'phrase' => fake()->sentence(),
             'type' => 'human',
             'image' => fake()->url(),

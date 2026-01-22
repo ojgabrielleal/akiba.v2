@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -34,10 +36,35 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
+        'password' => 'hashed',
         'is_active' => 'boolean',
         'birthday' => 'date',
     ];
 
+    protected function slug(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value, $attributes) => Str::slug($attributes['nickname'] ?? $value)
+        );
+    }
+
+    /**
+     * Query scopes for this model.
+     *
+     * These methods define reusable query filters that can be
+     * applied to Eloquent queries (e.g., active()).
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * Define the relationships between this model and other models.
+     *
+     * Use these methods to access related data via Eloquent relationships
+     * (hasOne, hasMany, belongsTo, belongsToMany, etc.).
+     */
     public function socials()
     {
         return $this->hasMany(UserSocial::class, 'user_id');

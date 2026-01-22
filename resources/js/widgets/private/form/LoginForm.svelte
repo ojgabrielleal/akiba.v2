@@ -7,7 +7,7 @@
     });
 
     function onSubmit() {
-        $form.post("/painel");
+        $form.post("/painel/auth");
     }
 </script>                   
 

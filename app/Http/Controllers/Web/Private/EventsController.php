@@ -7,17 +7,40 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 use App\Traits\FlashMessageTrait;
+use App\Services\Process\ImageService;
 
-use App\Services\Domain\EventService;
+use App\Models\Event;
 
 class EventsController extends Controller
 {
     use FlashMessageTrait;
-   
+
+    private ImageService $image;
+    private $render = 'private/Events';
+
+    public function __construct(ImageService $image)
+    {
+        $this->image = $image;
+    }
+
+    public function indexEvents()
+    {
+        return Event::active()
+                ->with('author')
+                ->paginate(10);
+    }
+
+    public function showEvent(Event $event)
+    {
+        return Inertia::render($this->render, [
+            'event' => $event->load('author'),
+        ]);
+    }
+
     public function createEvent(Request $request)
     {
         $request->validate([
-            'title' => 'required',
+            'title' => 'required:events,title',
             'image' => 'required',
             'cover' => 'required',
             'content' => 'required',
@@ -25,40 +48,42 @@ class EventsController extends Controller
             'address' => 'required',
         ]);
 
-        $logged = request()->user();
-
-        $event = new EventService();
-        $create = $event->create($logged, $request->all());
-
-        if($create){
-            return $this->flashMessage('save');
-        }
-    }
-
-    public function updateEvent(Request $request, $eventId)
-    {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'dates' => 'required',
-            'address' => 'required',
+        Event::create([
+            'user_id' => request()->user()->id,
+            'image' => $this->image->store('events', $request->file('image')),
+            'cover' => $this->image->store('events', $request->file('cover')),
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+            'dates' => $request->input('dates'),
+            'address' => $request->input('address'),
         ]);
 
-        $event = new EventService();
-        $update = $event->update($eventId, $request->all());
-
-        if($update){
-            return $this->flashMessage('update');
-        }
+        return $this->flashMessage('save');
     }
 
-    public function render($eventSlug = null)
+    public function updateEvent(Request $request, Event $event)
     {
-        $event = new EventService();
+        $event->fill([
+            'image' => $this->image->store('events', $request->file('image'), 'public', $event->image),
+            'cover' => $this->image->store('events', $request->file('cover'), 'public', $event->cover),
+            'title' => $request->input('title', $event->title),
+            'content' => $request->input('content', $event->content),
+            'dates' => $request->input('dates', $event->dates),
+            'address' => $request->input('address', $event->address),
+        ]);
 
-        return Inertia::render('admin/Events', [
-            "publications" => $event->list(),
-            "publication" => $event->get($eventSlug)
+        if($event->isDirty()){
+            $event->save();
+        }
+
+        return $this->flashMessage('update');
+    }
+
+
+    public function render()
+    {
+        return Inertia::render($this->render, [
+            "publications" => $this->indexEvents(),
         ]);
     }
 }

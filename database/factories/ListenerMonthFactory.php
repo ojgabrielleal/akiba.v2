@@ -20,8 +20,8 @@ class ListenerMonthFactory extends Factory
             'name' => fake()->name(),
             'avatar' => fake()->url(),
             'address' => fake()->address(),
-            'favorite_show' => fake()->name(),
-            'requests_total' => fake()->number(),
+            'favorite_program' => fake()->name(),
+            'requests_count' => fake()->number(),
         ];
     }
 }

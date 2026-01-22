@@ -2,6 +2,7 @@
     import { page } from "@inertiajs/svelte";
 
     export let permission = null;
+    export let conditional = true;
     export let any = [];
     export let all = [];
 
@@ -29,7 +30,7 @@
     }
 </script>
 
-{#if hasPermission}
+{#if hasPermission && conditional}
     <slot />
 {:else}
     <slot name="fallback" />

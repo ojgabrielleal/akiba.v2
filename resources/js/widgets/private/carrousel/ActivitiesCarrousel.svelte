@@ -8,7 +8,7 @@
     $: ({ logged, activities } = $page.props);
     
     function createConfirmation(activityId) {
-        router.post(`/painel/dashboard/activity/confirm/${activityId}`);
+        router.post(`/painel/dashboard/activity/${activityId}/confirm`);
     }
 </script>
 
@@ -16,10 +16,11 @@
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" on:wheel={scrollx} role="group">
         {#if activities.length > 0}
             {#each activities as item}  
-                {@const isParticipate = !item.confirmations.some(c => c.confirmer.id === logged.id)}
+                {@const isParticipate = item.confirmations.some(c => c.confirmer.id === logged.id)}
                 {@const allowsConfirmations = item.allows_confirmations}
-                <article class={['w-100 h-50 lg:w-[29rem] bg-blue-skywave flex-shrink-0 rounded-lg p-4 relative', 
+                <article class={['w-100 h-50 lg:w-[29rem] flex-shrink-0 rounded-lg p-4 relative', 
                     {'bg-neutral-honeycream': allowsConfirmations},
+                    {'bg-blue-skywave': !allowsConfirmations}
                 ]}>
                     <div class={['font-noto-sans font-black italic uppercase text-xl', 
                         {'text-blue-midnight': allowsConfirmations},
@@ -44,13 +45,12 @@
                                 />
                             {/each}
                         </div>
-                        <CanRender permission="activity.participate">
+                        <CanRender permission="activity.participate" conditional={!isParticipate}>
                             <button
                                 type="button"
                                 aria-label="Confirmar alerta"
                                 class="w-[2rem] h-[2rem] bg-neutral-aurora absolute bottom-3 right-4 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer disabled:opacity-50"
                                 on:click={() => createConfirmation(item.id)}
-                                disabled={isParticipate}
                             >
                                 <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                             </button>

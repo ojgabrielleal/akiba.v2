@@ -12,7 +12,7 @@ class Onair extends Model
     protected $table = 'onair';
     
     protected $fillable = [
-        'is_playlist',
+        'is_live',
         'show_id',
         'show_type',
         'phrase',
@@ -23,13 +23,30 @@ class Onair extends Model
     ];
 
     protected $casts = [
-        'is_playlist' => 'boolean'
+        'is_live' => 'boolean'
     ];
 
     protected $hidden = [
         'show_id'
     ];
 
+    /**
+     * Query scopes for this model.
+     *
+     * These methods define reusable query filters that can be
+     * applied to Eloquent queries (e.g., active()).
+     */
+    public function scopeLive($query)
+    {
+        return $query->where('is_live', true);
+    }
+
+    /**
+     * Define the relationships between this model and other models.
+     *
+     * Use these methods to access related data via Eloquent relationships
+     * (hasOne, hasMany, belongsTo, belongsToMany, etc.).
+     */
     public function show()
     {
         return $this->morphTo();

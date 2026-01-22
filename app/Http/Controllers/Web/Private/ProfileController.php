@@ -7,38 +7,65 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 use App\Traits\FlashMessageTrait;
+use App\Services\Process\ImageService;
 
-use App\Services\Domain\UserService;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
     use FlashMessageTrait;
 
-    public function updateProfile(Request $request, $profileId)
+    private ImageService $image;
+    private $render = 'private/Profile';
+
+    public function __construct(ImageService $image)
     {
-        $request->validate([
-            'name' => 'required',
-            'nickname' => 'required',
-            'gender' => 'required',
-            'birthday' => 'required',
-            'city' => 'required',
-            'state' => 'required', 
-            'country' => 'required',
-            'bibliography' => 'required',
-        ]);
-
-        $userService = new UserService();
-        $userUpdate = $userService->update($profileId, $request->all());    
-
-        if($userUpdate) return $this->flashMessage('update');
+        $this->image = $image;
     }
 
-    public function render($profileSlug = null)
+    public function updateProfile(Request $request, User $user)
     {
-        $userService = new UserService();
+        $user->fill([
+            'avatar' =>  $this->image->store('users', $request->file('avatar'), 'public', $user->avatar),
+            'name' => $request->input('name', $user->name),
+            'nickname' => $request->input('nickname', $user->nickname),
+            'gender' => $request->input('gender', $user->gender),
+            'birthday' => $request->input('birthday', $user->birthday),
+            'city' => $request->input('city', $user->city),
+            'state' => $request->input('state', $user->state),
+            'country' => $request->input('country', $user->country),
+            'bibliography' => $request->input('bibliography', $user->bibliography),
+        ]);
 
-        return Inertia::render('admin/Profile', [
-            'profile' => $userService->get($profileSlug)
+        if ($user->isDirty()) {
+            $user->save();
+        }
+
+        if ($request->filled('socials')) {
+            foreach ($request->input('socials') as $social) {
+                $user->socials()->where('id', $social['id'])->update([
+                    'name' => $social['name'],
+                    'url' => $social['url']
+                ]);
+            }
+        }
+
+        if ($request->input('preferences')) {
+            foreach ($request->input('preferences') as $preference) {
+                $user->likes()->where('id', $preference['id'])->update([
+                    'category' => $preference['category'],
+                    'content' => $preference['content']
+                ]);
+            }
+        }
+
+        return $this->flashMessage('update');
+    }
+
+    public function render(User $user)
+    {
+        return Inertia::render($this->render, [
+            'profile' => $user->load('socials', 'likes')
         ]);
     }
 }

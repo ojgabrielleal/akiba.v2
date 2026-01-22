@@ -8,47 +8,73 @@ use Inertia\Inertia;
 
 use App\Traits\FlashMessageTrait;
 
-use App\Services\Domain\PollService;
-use App\Services\Domain\EventService;
+use App\Models\Event;
+use App\Models\Poll;
+use App\Models\PollOption;
 
 class MediasController extends Controller
 {
     use FlashMessageTrait;
 
-    public function deactivateEvent($eventId){
-        $eventService = new EventService();
-        $eventDeactivate = $eventService->deactivate($eventId);
+    private $render = 'private/Medias';
 
-        if($eventDeactivate){
-            return $this->flashMessage('deactivate');
-        }
+    public function indexPolls()
+    {
+        return Poll::active()->get();
     }
 
-    public function getPoll($pollId)
+    public function indexEvents()
     {
-        $pollService = new PollService();
-        return $pollService->get($pollId);
+        return Event::active()->get();
+    }
+
+    public function showPoll(Poll $poll)
+    {
+        return Inertia::render($this->render, [
+            'poll' => $poll,
+        ]);
+    }
+
+    public function createVote(PollOption $pollOption)
+    {
+        $pollOption->update([
+            'votes' => $pollOption->incrementing('votes'),
+        ]);
+
+        return $this->flashMessage('save');
     }
 
     public function createPoll(Request $request)
     {
         $request->validate([
-            'question' => 'required',
+            'question' => 'required|unique:polls,question',
             'option_one' => 'required',
             'option_two' => 'required', 
             'option_three' => 'required',
             'option_four' => 'required'
         ]);
 
-        $pollService = new PollService();
-        $pollCreate = $pollService->create($request->all());
+        $poll = Poll::create([
+            'question' => $request->input('question'),
+        ]);
 
-        if($pollCreate){
-            return $this->flashMessage('save');
+        $options = [
+            $request->input('option_one'),
+            $request->input('option_two'),
+            $request->input('option_three'),
+            $request->input('option_four'),
+        ];
+
+        foreach ($options as $text) {
+            $poll->load('options')->options()->create([
+                'option' => $text
+            ]);
         }
+
+        return $this->flashMessage('save');
     }
     
-    public function updatePoll(Request $request, $pollId)
+    public function updatePoll(Request $request, Poll $poll)
     {
         $request->validate([
             'question' => 'required',
@@ -58,42 +84,53 @@ class MediasController extends Controller
             'option_four' => 'required'
         ]);
 
-        $pollService = new PollService();
-        $pollUpdate = $pollService->update($pollId, $request->all());
+        $poll->update([
+            'question' => $request->input('question'),
+        ]);
 
-        if($pollUpdate){
-            return $this->flashMessage('save');
+        $poll->load('options');
+        $options = $poll->options->values();
+        $mapped = [
+            'option_one'   => $options->get(0),
+            'option_two'   => $options->get(1),
+            'option_three' => $options->get(2),
+            'option_four'  => $options->get(3),
+        ];
+
+        foreach ($mapped as $key => $option) {
+            if ($option) {
+                $option->update([
+                    'option' => $request->input($key)
+                ]);
+            }
         }
+     
+        return $this->flashMessage('update');
     }
     
-    public function deactivatePoll($pollId){
-
-        $pollService = new PollService();
-        $pollDeactivate = $pollService->deactivate($pollId);
-
-        if($pollDeactivate){
-            return $this->flashMessage('deactivate');
-        }
-    }
-    
-    public function createVote($pollOptionId)
+    public function deactivatePoll(Poll $poll)
     {
-        $pollService = new PollService();
-        $pollVoteCreate = $pollService->createVote($pollOptionId);
+        $poll->update([
+            'is_activate' => false,
+        ]);
 
-        if($pollVoteCreate){
-            return $this->flashMessage('save');
-        }
+        return $this->flashMessage('deactivate');
+    }
+
+    public function deactivateEvent(Event $event)
+    {
+        $event->update([
+            'is_active' => false,
+        ]);
+
+        return $this->flashMessage('deactivate');
     }
 
     public function render()
     {
-        $events = new EventService();
-        $polls = new PollService();
-
-        return Inertia::render('admin/Medias', [
-            'polls' => $polls->list(),
-            'events' => $events->list()
+        return Inertia::render($this->render, [
+            'polls' => $this->indexPolls(),
+            'events' => $this->indexEvents()
         ]);
     }
 }

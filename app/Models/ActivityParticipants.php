@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ActivityConfirmation extends Model
+class ActivityParticipants extends Model
 {
     use HasFactory;
 
-    protected $table = 'activities_confirmations';
+    protected $table = 'activities_participants';
     
     protected $fillable = [
         'user_id',

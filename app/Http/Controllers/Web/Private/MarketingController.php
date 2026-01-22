@@ -7,69 +7,83 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 use App\Traits\FlashMessageTrait;
+use App\Services\Process\ImageService;
 
-use App\Services\Domain\RepositoryService;
+use App\Models\Repository;
 
 class MarketingController extends Controller
 {
     use FlashMessageTrait;
 
-    public function getRepository($repositoryId)
+    private ImageService $image;
+    private $render = 'private/Marketing';
+
+    public function __construct(ImageService $image)
     {
-        $repository = new RepositoryService();
-        return $repository->get($repositoryId);
+        $this->image = $image;
+    }
+
+    public function indexRepositories()
+    {
+        return Repository::active()
+                ->get();
+    }
+
+    public function showRepository(Repository $repository)
+    {
+        return Inertia::render($this->render, [
+            'repository' => $repository,
+        ]);
     }
     
     public function createRepository(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:repositories,name',
+            'file' => 'required|unique:repositories,file',
             'image' => 'required',
-            'file' => 'required',
             'category' => 'required',
         ]);
 
-        $repository = new RepositoryService();
-        $create = $repository->create($request->all());
-
-        if($create){
-            return $this->flashMessage('save');
-        }
-    }
-
-    function updateRepository(Request $request, $repositoryId)
-    {
-        $request->validate([
-            'name' => 'required',
-            'image' => 'required',
-            'file' => 'required',
-            'category' => 'required',
+        Repository::create([
+            'name' => $request->input('name'),
+            'file' => $request->input('file'),
+            'image' => $this->image->store('repository', $request->input('image')),
+            'category' => $request->input('category'),
         ]);
 
-        $repository = new RepositoryService();
-        $update = $repository->update($repositoryId, $request->all());
-        
-        if($update){
-            return $this->flashMessage('update');
-        }
+        return $this->flashMessage('save');
     }
 
-    public function deactivateRepository($repositoryId)
+    function updateRepository(Request $request, Repository $repository)
     {
-        $repository = new RepositoryService();
-        $deactivate = $repository->deactivate($repositoryId);
+        $repository->fill([
+            'name' => $request->input('name', $repository->name),
+            'file' => $request->input('file', $repository->file),
+            'image' => $this->image->store('repository', $request->input('image'), 'public', $repository->image),
+            'category' => $request->input('category', $repository->category),
+        ]);
 
-        if($deactivate){
-            return $this->flashMessage('deactivate');
+        if($repository->isDirty()){
+            $repository->save();
         }
+
+        return $this->flashMessage('update');
+    }
+
+    public function deactivateRepository(Repository $repository)
+    {
+        $repository->update([
+            'is_active' => false,
+        ]);
+
+        return $this->flashMessage('deactivate');
     }
 
     public function render()
     {
-        $repository = new RepositoryService();
-        
-        return Inertia::render('admin/Marketing', [
-            'repositories' => $repository->list(),
+        return Inertia::render($this->render, [
+            'repositories' => $this->indexRepositories(),
         ]);
     }
 }

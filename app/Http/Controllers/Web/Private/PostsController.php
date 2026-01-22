@@ -7,12 +7,33 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 use App\Traits\FlashMessageTrait;
+use App\Services\Process\ImageService;
 
-use App\Services\Domain\PostService;
+use App\Models\Post;
 
 class PostsController extends Controller
 {
     use FlashMessageTrait;
+
+    private ImageService $image;
+    private $render = 'private/Posts';
+
+    public function __construct(ImageService $image)
+    {
+        $this->image = $image;
+    }
+
+    public function indexPosts()
+    {
+        return Post::with('author')->paginate(10);
+    }
+
+    public function showPost(Post $post)
+    {
+        return Inertia::render($this->render, [
+            'publication' => $post->load('categories', 'references', 'author')
+        ]);
+    }
 
     public function createPost(Request $request)
     {
@@ -22,47 +43,64 @@ class PostsController extends Controller
             "content" => 'required',
             'image' => 'required',
             'cover' => 'required',
-            'first_reference_name' => 'required',
-            'first_reference_url' => 'required',
-            'second_reference_name' => 'required',
-            'second_reference_url' => 'required',
-            'first_category' => 'required',
-            'second_category' => 'required',
+            'references' => 'required',
+            'categories' => 'required',
         ]);
 
-        $postService = new PostService();
-        $postCreate = $postService->create($request->all());
-
-        if($postCreate) return $this->flashMessage('save');
-    }
-
-    public function updatePost(Request $request, $postId)
-    {
-        $request->validate([
-            "status" => 'required',
-            "title" => 'required',
-            "content" => 'required',
-            'first_reference_name' => 'required',
-            'first_reference_url' => 'required',
-            'second_reference_name' => 'required',
-            'second_reference_url' => 'required',
-            'first_category' => 'required',
-            'second_category' => 'required',
+        $post = Post::create([
+            'user_id' => request()->user()->id,
+            'status' => $request->input('status'),
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+            'image' => $this->image->store('posts', $request->file('image')),
+            'cover' => $this->image->store('posts', $request->file('cover')),
         ]);
 
-        $postService = new PostService();
-        $postUpdate = $postService->update($postId, $request->all());
+        foreach($request->input('references') as $reference) {
+            $post->references()->create([
+                'name' => $reference['name'],
+                'url' => $reference['url'],
+            ]);
+        }
 
-        if($postUpdate) return $this->flashMessage('update');
+        foreach($request->input('categories') as $category){
+            $post->categories()->create([
+                'name' => $category,
+            ]);
+        }
+
+        return $this->flashMessage('save');
     }
 
-    public function render($postSlug = null)
+    public function updatePost(Request $request, Post $post)
     {
-        $postService = new PostService();
+        $post->fill([
+            'title' => $request->input('title', $post->title),
+            'content' => $request->input('content', $post->content),
+            'image' => $this->image->store('posts', $request->file('image'), 'public', $post->image),
+            'cover' => $this->image->store('posts', $request->file('cover'), 'public', $post->cover),
+        ]);
 
-        return Inertia::render('admin/Posts', [
-            "publications" => $postService->list(),
-            "publication" => $postService->get($postSlug)
+        foreach($request->input('categories') as $category) {
+            $post->categories()->where('id', $category['id'] )->update([
+                'name' => $category['name'],
+            ]);
+        }
+
+        foreach($request->input('references') as $reference) {
+            $post->references()->where('id', $reference['id'])->update([
+                'name' => $reference['name'],
+                'url' => $reference['url'],
+            ]);
+        }
+
+        return $this->flashMessage('update');
+    }
+
+    public function render()
+    {
+        return Inertia::render($this->render, [
+            "publications" => $this->indexPosts(),
         ]);
     }
 }

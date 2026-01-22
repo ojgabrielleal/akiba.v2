@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 
 class DiscordWebhookService
 {
-    public function sendBroadcastNotification($user, $show)
+    public function sendHookMessage($user, $program)
     {
         if (!app()->environment('production')) {
             return false;
@@ -22,7 +22,7 @@ class DiscordWebhookService
 
         $payload = [
             'content' => "@everyone @here  
-                🎧 {$genderTitle} **{$user->nickname}** está AO VIVO agora com o programa **{$show->name}**!
+                🎧 {$genderTitle} **{$user->nickname}** está AO VIVO agora com o programa **{$program->name}**!
                 👉 Ouça em https://akiba.com.br"
         ];
 

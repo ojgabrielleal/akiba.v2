@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('onair', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_playlist')->default(true);
+            $table->boolean('is_live')->default(false);
             $table->morphs('show');
             $table->string('image')->nullable();
             $table->string('phrase');

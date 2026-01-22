@@ -6,18 +6,19 @@
     import { Section, CanRender } from "@/components/private/";
     import { Pagination } from "@/components/private"
 
-    $: ({ publications } = $page.props);
+    $: ({ logged, publications } = $page.props);
 </script>
-
 
 <Section {title}>
     <div class="gap-6 grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5">
         {#if publications.data.length > 0}
             {#each publications.data as item}
                 {@const isAuthor = logged.nickname === item.author.nickname}
-                {@const isRevision = item.status === 'revision'},
+                {@const isPublished = item.status === 'published'}
+                {@const isRevision = item.status === 'revision'}
                 {@const isSketch = item.status === 'sketch'}
-                <article class={['w-full h-[14rem] bg-blue-skywave rounded-lg p-4 relative', 
+                <article class={['w-full h-[14rem] rounded-lg p-4 relative', 
+                    {'bg-blue-skywave': isPublished},
                     {'bg-orange-amber': isRevision},
                     {'bg-green-forest': isSketch}
                 ]}>
@@ -32,8 +33,8 @@
                             <Link href={`https://akiba.com.br/${type}/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
                                 <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                             </Link>
-                            <CanRender any={['post.update.own', 'post.update']}>
-                                <Link href={`https://akiba.com.br/painel/${type}/${item.slug}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50" disabled={isAuthor}>
+                            <CanRender any={['post.update.own', 'post.update']} conditional={isAuthor}>
+                                <Link href={`https://akiba.com.br/painel/${type}/${item.slug}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
                                 </Link>
                             </CanRender>

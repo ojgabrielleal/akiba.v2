@@ -32,6 +32,28 @@ class SongRequest extends Model
         'is_canceled' => 'boolean'
     ];
 
+        /**
+     * Query scopes for this model.
+     *
+     * These methods define reusable query filters that can be
+     * applied to Eloquent queries (e.g., active()).
+     */
+    public function scopePlayed($query)
+    {
+        return $query->where('is_played', true);
+    }
+
+    public function scopeQueued($query)
+    {
+        return $query->where('is_played', false);
+    }
+
+    /**
+     * Define the relationships between this model and other models.
+     *
+     * Use these methods to access related data via Eloquent relationships
+     * (hasOne, hasMany, belongsTo, belongsToMany, etc.).
+     */
     public function onair()
     {
         return $this->belongsTo(Onair::class, 'onair_id');

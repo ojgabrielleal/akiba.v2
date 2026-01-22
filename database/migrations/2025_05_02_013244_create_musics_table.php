@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('artist');
             $table->string('name');
-            $table->boolean('is_ranking')->default(false);
+            $table->boolean('in_ranking')->default(false);
             $table->string('image_ranking')->nullable();
             $table->integer('song_request_count')->default('0');
             $table->timestamps();

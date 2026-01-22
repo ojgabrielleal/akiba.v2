@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts_reactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('post_id')->constrained('posts')->cascadeOnDelete();
-            $table->string('type');
+            $table->string('name');
             $table->timestamps();
         });
     }

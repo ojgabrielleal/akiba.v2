@@ -3,78 +3,80 @@
 namespace App\Http\Controllers\Web\Private;
 
 use App\Http\Controllers\Controller;
+
 use Inertia\Inertia;
 
 use App\Traits\FlashMessageTrait;
 
-use App\Services\Domain\ActivityService;
-use App\Services\Domain\TaskService;
-use App\Services\Domain\PostService;
-use App\Services\Domain\CalendarService;
+use App\Models\Activity;
+use App\Models\Post;
+use App\Models\Task;
+use App\Models\Calendar;
 
 class DashboardController extends Controller
 {
     use FlashMessageTrait;
 
-    public function createActivityConfirmation($activityId)
-    {
-        $logged = request()->user();
+    private $render = 'private/Dashboard';
 
-        $activity = new ActivityService();
-        $activity->createConfirmation($logged, $activityId);
+    public function indexActivities()
+    {
+        return Activity::valid()
+            ->with(['responsible', 'confirmations.confirmer'])
+            ->limit(6)
+            ->get();
+    }
+
+    public function indexTasks()
+    {
+        return Task::active()
+            ->incompleted()
+            ->mine()
+            ->with(['responsible'])
+            ->get();
+    }
+
+    public function indexPublications()
+    {
+        return Post::active()
+            ->published()
+            ->latest()
+            ->with(['author'])
+            ->paginate(10);
+    }
+
+    public function indexCalendar()
+    {
+        return Calendar::active()
+            ->with(['activity', 'responsible'])
+            ->get();
+    }
+
+    public function confirmActivityParticipant(Activity $activity)
+    {
+        $activity->confirmations()->create([
+            'user_id' => request()->user()->id
+        ]);
 
         return $this->flashMessage('save');
     }
 
-    public function setTaskCompleted($taskId)
+    public function markTaskCompleted(Task $task)
     {
-        $task = new TaskService();
-        $task->markAsCompleted($taskId);
+        $task->update([
+            'is_completed' => true,
+        ]);
 
         return $this->flashMessage('save');
     }
 
     public function render()
     {
-        $activities = new ActivityService();
-        $tasks = new TaskService();
-        $publications = new PostService();
-        $calendar = new CalendarService();
-
-        return Inertia::render('private/Dashboard', [
-            'activities' => $activities->list([
-                'limit' => 6,
-                'relations' => [
-                    'responsible' => ['id', 'nickname'],
-                    'confirmations' => ['id', 'activity_id', 'confirmer_id'],
-                    'confirmations.confirmer' => ['id']
-                ],
-                'filters' => [
-                    'or' => [
-                        ['allows_confirmations', '<', now()],
-                    ]
-                ]
-            ]),
-            'tasks' => $tasks->list([
-                'filters' => ['is_active' => true, 'is_completed' => false]
-            ]),
-            'publications' => $publications->list([
-                'filters' => [
-                    'is_active' => true,
-                ],
-                'relations' => [
-                    'author' => ['id', 'nickname']
-                ]
-            ]),
-            'calendar' => $calendar->list([
-                'filters' => [
-                    'is_active' => true, 
-                ],
-                'relations' => [
-                    'activity' => ['id', 'title'],
-                    'responsible' => ['id', 'nickname'], 
-                ]
-            ]),
+        return Inertia::render($this->render, [
+            'activities' => $this->indexActivities(),
+            'tasks' => $this->indexTasks(),
+            'publications' => $this->indexPublications(),
+            'calendar' => $this->indexCalendar()
         ]);
     }
 }

@@ -22,7 +22,7 @@ class MusicFactory extends Factory
             'image' => fake()->url(),
             'artist' => fake()->name(),
             'name' => fake()->name(),
-            'is_ranking' => fake()->boolean(0.5),
+            'in_ranking' => fake()->boolean(0.5),
             'image_ranking' => fake()->url(),
             'song_request_count' => fake()->number(),
         ];

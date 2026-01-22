@@ -8,7 +8,7 @@
     $: ({ tasks } = $page.props);
 
     function setTaskComplete(taskId) {
-        router.post(`/painel/dashboard/task/complete/${taskId}`);
+        router.post(`/painel/dashboard/task/${taskId}/complete`);
     }
 </script>
 
@@ -18,9 +18,10 @@
             {#each tasks as item}
                 {@const isDueSoon = item.is_due_soon}
                 <article class={['w-100 h-50 lg:w-[40rem] bg-blue-skywave lg:h-43 shrink-0 rounded-lg p-4 relative',
-                    {'bg-orange-amber': isDueSoon}
+                    {'bg-orange-amber': isDueSoon},
+                    {'bg-blue-skywave': !isDueSoon}
                 ]}>
-                    <div class={['uppercase font-noto-sans italic font-bold text-2xl', 
+                    <div class={['uppercase font-noto-sans italic font-bold text-3xl', 
                         {'text-blue-midnight': isDueSoon},
                         {'text-neutral-aurora': !isDueSoon}
                     ]}>
@@ -33,15 +34,17 @@
                         {item.content}
                     </div>
                     <dl class="absolute top-5 right-5 rounded-xl shadow-lg w-[7rem] text-center overflow-hidden bg-neutral-aurora">
-                        <dt class={['bg-blue-midnight font-noto-sans italic font-black text-sm py-1 uppercase tracking-wide', 
+                        <dt class={['font-noto-sans italic font-black text-sm py-1 uppercase tracking-wide', 
                             {'bg-red-crimson': isDueSoon},
+                            {'bg-blue-midnight': !isDueSoon},
                             {'text-blue-midnight': isDueSoon},
                             {'text-neutral-aurora': !isDueSoon}
                         ]}>
                             Data Limite
                         </dt>
-                        <dd class={['bg-neutral-aurora font-noto-sans italic font-extrabold text-2xl py-1 tracking-widest', 
+                        <dd class={['font-noto-sans italic font-extrabold text-2xl py-1 tracking-widest', 
                             {'bg-blue-midnight': isDueSoon},
+                            {'bg-neutral-aurora': !isDueSoon},
                             {'text-orange-amber': isDueSoon},
                             {'text-blue-midnight': !isDueSoon}
                         ]}>

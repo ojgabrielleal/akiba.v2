@@ -32,6 +32,23 @@ class Calendar extends Model
         'activity_id',
     ];
 
+    /**
+     * Query scopes for this model.
+     *
+     * These methods define reusable query filters that can be
+     * applied to Eloquent queries (e.g., active()).
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * Define the relationships between this model and other models.
+     *
+     * Use these methods to access related data via Eloquent relationships
+     * (hasOne, hasMany, belongsTo, belongsToMany, etc.).
+     */
     public function responsible()
     {
         return $this->belongsTo(User::class, 'user_id');

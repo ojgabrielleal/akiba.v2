@@ -8,8 +8,12 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class ImageService
 {
-    public function upload(string $subfolder, UploadedFile $file, string $disk = 'public', ?string $oldImagePath = null): string
+    public function store(string $subfolder, ?UploadedFile $file, string $disk = 'public', ?string $oldImagePath = null): string
     {
+        if (!$file) {
+            return $oldImagePath ?? ''; 
+        }
+
         if ($oldImagePath) {
             $this->delete($oldImagePath, $disk);
         }

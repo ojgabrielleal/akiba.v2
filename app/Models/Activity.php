@@ -27,7 +27,24 @@ class Activity extends Model
     protected $hidden = [
         'user_id',
     ];
+    
+    /**
+     * Query scopes for this model.
+     *
+     * These methods define reusable query filters that can be
+     * applied to Eloquent queries (e.g., active()).
+     */
+    public function scopeValid($query)
+    {
+        return $query->where('limit', '<', now());
+    }
 
+    /**
+     * Define the relationships between this model and other models.
+     *
+     * Use these methods to access related data via Eloquent relationships
+     * (hasOne, hasMany, belongsTo, belongsToMany, etc.).
+     */
     public function responsible()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -35,7 +52,7 @@ class Activity extends Model
 
     public function confirmations()
     {
-        return $this->hasMany(ActivityConfirmation::class, 'activity_id');
+        return $this->hasMany(ActivityParticipants::class, 'activity_id');
     }
 
 }

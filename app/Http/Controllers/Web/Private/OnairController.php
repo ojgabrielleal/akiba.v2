@@ -8,71 +8,117 @@ use Inertia\Inertia;
 
 use App\Traits\FlashMessageTrait;
 
-use App\Services\Domain\BroadcastService;
-use App\Services\Domain\ShowService;
-use App\Services\Domain\SongRequestService;
+use App\Models\Onair;
+use App\Models\Program;
+use App\Models\AutoDJ;
+use App\Models\SongRequest;
+
+use App\Services\External\DiscordWebhookService;
 
 class OnairController extends Controller
 {
     use FlashMessageTrait;
 
+    private DiscordWebhookService $discord;
+    private $render = 'private/Medias';
+
+    public function __construct(DiscordWebhookService $discord)
+    {
+        $this->discord = $discord;
+    }
+
+    public function indexPrograms()
+    {
+        return Program::active()
+            ->where('user_id', request()->user()->id)
+            ->orWhere('allow_all', true)
+            ->get();
+    }
+
+    public function indexSongRequests()
+    {
+        $onair = Onair::live()->firstOrFail();
+        return SongRequest::queued()
+            ->where('onair_id', $onair->id)
+            ->get();
+    }
+
     public function startBroadcast(Request $request)
     {
         $request ->validate([
-            'show' => 'required',
+            'program' => 'required',
             'phrase' => 'required',
             'image' => 'required'
         ]);
 
-        $logged = $request->user();
+        $onair = Onair::live()->firstOrFail();
+        $program = Program::findOrFail($request->input('program'));
 
-        $broadcastService = new BroadcastService();
-        $broadcastService->start($logged, $request->all());
+        $onair->update([
+            'is_live' => false,
+            'allows_songs_requests' => false,
+        ]);
 
-        return $this->flashMessage('save');
+        $program->onair()->create([
+            'phrase' => $request->input('phrase'),
+            'image' => $request->input('image'),
+            'allows_songs_requests' => true,
+            'type' => 'live',
+        ]);
+
+        $this->discord->sendHookMessage(request()->user(), $program);
+        return $this->flashMessage('startBroadcast');
     }
 
     public function finishBroadcast()
     {
-        $broadcastService = new BroadcastService();
-        $broadcastService->finish();
+        $onair = Onair::live()->firstOrFail();
+        $songRequests = SongRequest::queued()->where('onair_id', $onair->id)->get();
+        $autoDJ = AutoDJ::with('phrases')->firstOrFail();
+        $autoDJPhrase = $autoDJ->phrases->random();
 
-        return $this->flashMessage('save');
+        $songRequests->update([
+            'is_canceled' => true,
+        ]);
+
+        $onair->update([
+            'is_live' => false,
+            'allows_songs_requests' => false,
+        ]);
+
+        $autoDJ->onair()->create([
+            'type' => 'auto_dj',
+            'phrase' => $autoDJPhrase->phrase,
+            'image' => $autoDJPhrase->image,
+        ]);
+
+        return $this->flashMessage('finishBroadcast');
     }
 
-    public function setSongRequestIsPlayed($songRequestId)
+    public function markSongRequestAsPlayed(SongRequest $songRequest)
     {
-        $songRequest = new SongRequestService();
-        $songRequest->setIsPlayed($songRequestId);
-    
-        return $this->flashMessage('save');
+        $songRequest->update([
+            'is_played' => true,
+        ]);
+
+        return $this->flashMessage('songRequestPlayed');
     }
 
-    public function toggleSongRequestBoxStatus()
+    public function toggleSongRequestBoxEnabled()
     {
-        $songRequest = new SongRequestService();
-        $songRequest->toggleStatus();
-    
+        $onair = Onair::live()->firstOrFail();
+        $onair->update([
+            'allows_songs_requests' => !$onair->allows_songs_requests,
+        ]);
+
         return $this->flashMessage('save');
     }
 
     public function render()
     {
-        $logged = request()->user();
-        $songRequest = new SongRequestService();
-        $show = new ShowService();
-
-        return Inertia::render('admin/Onair', [
-            "shows" => $show->list([
-                'filters' => [
-                    'is_active' => true, 
-                    'or' => fn($q) => $q->where('user_id', $logged->id)->orWhere('is_all', true)
-                ],
-                'fields' => ['id', 'image'],
-            ]),
-            "songRequests" => $songRequest->list([
-                'filters' => ['live' => true],
-            ])
+        return Inertia::render($this->render, [
+            "programs" => $this->indexPrograms(),
+            "songRequests" => $this->indexSongRequests(),
         ]);
     }
 }

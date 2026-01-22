@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('avatar');
             $table->string('address');
-            $table->string('favorite_show');
-            $table->string('requests_total');
+            $table->string('favorite_program');
+            $table->string('requests_count');
             $table->timestamps();
         });
     }

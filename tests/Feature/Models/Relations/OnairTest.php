@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Models\User;
-use App\Models\Show;
+use App\Models\Program;
 use App\Models\Onair;
 
 class OnairTest extends TestCase
@@ -17,12 +17,12 @@ class OnairTest extends TestCase
     public function testContainsTheShowOnReturn(): void
     {
         $user = User::factory()->create();
-        $show = Show::factory()->for($user)->create();
+        $program = Program::factory()->for($user)->create();
         $onair = Onair::factory()->create([
-            'show_id' => $show->id,
-            'show_type' => Show::class
+            'program_id' => $program->id,
+            'program_type' => Program::class
         ]);
 
-        $this->assertInstanceOf(Show::class, $onair->show);
+        $this->assertInstanceOf(Program::class, $onair->program);
     }
 }

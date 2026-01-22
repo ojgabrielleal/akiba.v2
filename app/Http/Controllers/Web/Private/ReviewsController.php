@@ -7,12 +7,33 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 use App\Traits\FlashMessageTrait;
+use App\Services\Process\ImageService;
 
-use App\Services\Domain\ReviewService;
+use App\Models\Review;
 
 class ReviewsController extends Controller
 {
     use FlashMessageTrait;
+
+    private ImageService $image;
+    private $render = 'private/Reviews';
+
+    public function __construct(ImageService $image)
+    {
+        $this->image = $image;
+    }
+
+    public function indexReviews()
+    {
+        return Review::with('contents')->get();
+    }
+
+    public function showReview(Review $review)
+    {
+        return Inertia::render($this->render, [
+            'publication' => $review->load('contents'),
+        ]);
+    }
 
     public function createReview(Request $request)
     {
@@ -24,35 +45,45 @@ class ReviewsController extends Controller
             'content' => 'required'
         ]);
 
-        $logged = request()->user();
-
-        $reviewService = new ReviewService();
-        $reviewCreate = $reviewService->create($logged, $request->all());
-
-        if($reviewCreate) return $this->flashMessage('save');
-    }
-
-    public function updateReview(Request $request, $reviewId)
-    {
-        $request->validate([
-            'title' => 'required',
-            'sinopse' => 'required',
-            'content' => 'required'
+        $review = Review::create([
+            'title' => $request->input('title'),
+            'sinopse' => $request->input('sinopse'),
+            'image' => $this->image->store('reviews', $request->file('image'), 'public'),
+            'cover' => $this->image->store('reviews', $request->file('cover'), 'public'),
+        ]);
+       
+        $review->reviews()->create([
+            'user_id' => request()->user()->id,
+            'content' => $request->input('content'),
         ]);
 
-        $reviewService = new ReviewService();
-        $reviewUpdate = $reviewService->update($reviewId, $request->all());
-
-        if($reviewUpdate) return $this->flashMessage('save');
+        return $this->flashMessage('save');
     }
 
-    public function render($reviewSlug = null)
+    public function updateReview(Request $request, Review $review)
     {
-        $reviewService = new ReviewService();
+        $review->fill([
+            'title' => $request->input('title'),
+            'sinopse' => $request->input('sinopse'),
+            'image' => $this->image->store('reviews', $request->file('image'), 'public', $review->image),
+            'cover' => $this->image->store('reviews', $request->file('cover'), 'public', $review->cover),
+        ]);
 
+        if($review->isDirty()) {
+            $review->save();
+
+            $review->reviews()->update([
+                'content' => $request->input('content'),
+            ]);
+        }
+
+        return $this->flashMessage('update');
+    }
+
+    public function render()
+    {
         return Inertia::render('admin/Reviews', [
-            "publications" => $reviewService->list(),
-            "publication" => $reviewService->get($reviewSlug),
+            "publications" => $this->indexReviews(),
         ]);
     }
 }
