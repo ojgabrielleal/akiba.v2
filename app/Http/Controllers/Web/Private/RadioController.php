@@ -107,7 +107,7 @@ class RadioController extends Controller
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'image' => $this->image->store('shows', $request->input('image'), 'public'),
-            'allow_all' => $request->input('allow_all', false),
+            'allows_all' => $request->input('allows_all', false),
         ]);
 
         if($request->has('schedules')) {
@@ -127,7 +127,7 @@ class RadioController extends Controller
         $program->fill([
             'name' => $request->input('name', $program->name),
             'image' => $this->image->store('shows', $request->input('image'), 'public', $program->image),
-            'allows_all' => $request->input('allow_all', $program->allows_all),
+            'allows_all' => $request->input('allows_all', $program->allows_all),
         ]);
 
         if($program->isDirty()) {

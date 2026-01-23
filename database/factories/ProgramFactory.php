@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Show>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Program>
  */
-class ShowFactory extends Factory
+class ProgramFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,8 +21,8 @@ class ShowFactory extends Factory
             'slug' => fake()->slug(),
             'name' => fake()->name(),
             'image' => fake()->url(),
-            'is_all' => false,
-            'has_schedule' => true,
+            'allows_all' => fake()->boolean(),
+            'has_schedule' => fake()->boolean(),
         ];
     }
 }

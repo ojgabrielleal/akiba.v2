@@ -31,7 +31,7 @@ class OnairController extends Controller
     {
         return Program::active()
             ->where('user_id', request()->user()->id)
-            ->orWhere('allow_all', true)
+            ->orWhere('allows_all', true)
             ->get();
     }
 

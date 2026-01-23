@@ -14,9 +14,9 @@ class Podcast extends Model
     protected $table = 'podcasts';
     
     protected $fillable = [
+        'user_id',
         'is_active',
         'slug',
-        'user_id',
         'title',
         'image',
         'season',

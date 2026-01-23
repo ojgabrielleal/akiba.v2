@@ -17,7 +17,7 @@ class PostCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => fake()->randomElement(['anime', 'manga', 'light-novel', 'news', 'events'])
+            'name' => fake()->randomElement(['anime', 'manga', 'light-novel', 'news', 'events'])
         ];
     }
 }

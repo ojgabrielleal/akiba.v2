@@ -19,6 +19,8 @@ class ActivityFactory extends Factory
         return [
             'title' => fake()->title(),
             'content' => fake()->paragraph(),
+            'limit' => fake()->dateTimeBetween('now', '+1 year')->format('Y-m-d'),
+            'allows_confirmations' => fake()->boolean(),
         ];
     }
 }

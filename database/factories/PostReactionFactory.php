@@ -17,7 +17,7 @@ class PostReactionFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => fake()->randomElement(['like', 'unlike', 'sad'])
+            'name' => fake()->randomElement(['like', 'unlike', 'sad'])
         ];
     }
 }

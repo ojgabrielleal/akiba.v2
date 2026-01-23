@@ -19,13 +19,13 @@ class Program extends Model
         'slug',
         'name',
         'image',
-        'allow_all',
+        'allows_all',
         'has_schedule'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'allow_all' => 'boolean'
+        'allows_all' => 'boolean'
     ];
 
     protected $hidden = [

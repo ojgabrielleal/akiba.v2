@@ -19,7 +19,7 @@ class CalendarFactory extends Factory
         return [
             'time' => fake()->time(),
             'date' => fake()->date(),
-            'category' => fake()->randomElement(['show', 'live', 'youtube', 'podcast']),
+            'type' => fake()->randomElement(['show', 'live', 'youtube', 'podcast']),
             'content' => fake()->word()
         ];
     }

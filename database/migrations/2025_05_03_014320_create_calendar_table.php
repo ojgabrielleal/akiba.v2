@@ -18,13 +18,7 @@ return new class extends Migration
             $table->foreignId('activity_id')->nullable()->constrained('activities')->cascadeOnDelete();
             $table->time('time');
             $table->date('date');
-            $table->enum('category', [
-                'show',
-                'live',
-                'youtube',
-                'podcast',
-                'activity'
-            ]);
+            $table->string('category');
             $table->string('content');
             $table->timestamps();
         });

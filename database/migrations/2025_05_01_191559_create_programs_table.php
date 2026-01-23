@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('name')->unique();
             $table->string('image');
-            $table->boolean('allow_all');
+            $table->boolean('allows_all');
             $table->timestamps();
         });
     }
