@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 use App\Models\User;
 use App\Models\Activity;
-use App\Models\ActivityConfirmation;
+use App\Models\ActivityParticipants;
 
 class ActivityTest extends TestCase
 {
@@ -17,17 +17,28 @@ class ActivityTest extends TestCase
     public function testContainsTheUserOnReturn(): void
     {
         $user = User::factory()->create();
-        $activity = Activity::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $activity->responsible);
+        $activity = Activity::factory()
+            ->for($user, 'responsible')
+            ->create();
+
+        $this->assertTrue($activity->responsible->is($user));
     }
-    
+
     public function testContainsTheConfirmationsOnReturn(): void
     {
         $user = User::factory()->create();
-        $activity = Activity::factory()->for($user)->has(ActivityConfirmation::factory()->for($user)->count(5), 'confirmations')->create();
+        $confirmers = ActivityParticipants::factory()->for($user, 'confirmer')->count(5);
 
-        $this->assertInstanceOf(ActivityConfirmation::class, $activity->confirmations->first());
+        $activity = Activity::factory()
+            ->for($user, 'responsible')
+            ->has($confirmers, 'confirmations')
+            ->create();
+
         $this->assertCount(5, $activity->confirmations);
+        $this->assertContainsOnlyInstancesOf(
+            ActivityParticipants::class, 
+            $activity->confirmations
+        );
     }
 }

@@ -20,7 +20,6 @@ class Program extends Model
         'name',
         'image',
         'allows_all',
-        'has_schedule'
     ];
 
     protected $casts = [

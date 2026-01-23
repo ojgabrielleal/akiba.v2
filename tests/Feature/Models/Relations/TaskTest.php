@@ -16,8 +16,11 @@ class TaskTest extends TestCase
     public function testContainsTheUserOnReturn(): void
     {
         $user = User::factory()->create();
-        $task = Task::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $task->responsible);
+        $task = Task::factory()
+            ->for($user, 'responsible')
+            ->create();
+
+        $this->assertTrue($task->responsible->is($user));
     }
 }

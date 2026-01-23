@@ -17,22 +17,43 @@ class UserTest extends TestCase
 
     public function testContainsThePreferencesOnReturn(): void
     {
-        $user = User::factory()->has(UserPreference::factory(), 'preferences')->create();
+        $preference = UserPreference::factory();
 
-        $this->assertInstanceOf(UserPreference::class, $user->preferences->first());
+        $user = User::factory()
+            ->has($preference, 'preferences')
+            ->create();
+
+        $this->assertContainsOnlyInstancesOf(
+            UserPreference::class,
+             $user->preferences
+        );
     }
 
     public function testContainsTheSocialsOnReturn(): void
     {
-        $user = User::factory()->has(UserSocial::factory(), 'socials')->create();
+        $social = UserSocial::factory();
 
-        $this->assertInstanceOf(UserSocial::class, $user->socials->first());
+        $user = User::factory()
+            ->has($social, 'socials')
+            ->create();
+
+        $this->assertContainsOnlyInstancesOf(
+            UserSocial::class,
+            $user->socials
+        );
     }
 
     public function testContainsTheRolesOnReturn(): void
     {
-        $user = User::factory()->hasAttached(Role::factory()->count(3), [], 'roles')->create();
+        $role = Role::factory();
+        
+        $user = User::factory()
+            ->hasAttached($role, [], 'roles')
+            ->create();
 
-        $this->assertInstanceOf(Role::class, $user->roles->first());
+        $this->assertContainsOnlyInstancesOf(
+            Role::class,
+            $user->roles
+        );
     }
 }

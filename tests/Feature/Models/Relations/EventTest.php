@@ -16,8 +16,11 @@ class EventTest extends TestCase
     public function testContainsTheUserOnReturn(): void
     {
         $user = User::factory()->create();
-        $event = Event::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $event->author);
+        $event = Event::factory()
+            ->for($user, 'author')
+            ->create();
+
+        $this->assertTrue($event->author->is($user));
     }
 }

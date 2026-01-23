@@ -12,12 +12,18 @@ use App\Models\Role;
 class RoleTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     public function testContainsPermissionsOnReturn(): void
     {
-        $role = Role::factory()->hasAttached(Permission::factory()->count(3), [], 'permissions')->create();
+        $permission = Permission::factory()->count(3);
+        $role = Role::factory()
+            ->hasAttached($permission, [], 'permissions')
+            ->create();
 
-        $this->assertInstanceOf(Permission::class, $role->permissions->first());
         $this->assertCount(3, $role->permissions);
+        $this->assertContainsOnlyInstancesOf(
+            Permission::class,
+            $role->permissions
+        );
     }
 }

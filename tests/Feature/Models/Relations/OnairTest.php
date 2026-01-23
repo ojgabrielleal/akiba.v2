@@ -14,15 +14,19 @@ class OnairTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testContainsTheShowOnReturn(): void
+    public function testContainsTheProgramOnReturn(): void
     {
         $user = User::factory()->create();
-        $program = Program::factory()->for($user)->create();
+
+        $program = Program::factory()
+            ->for($user, 'host')
+            ->create();
+
         $onair = Onair::factory()->create([
             'program_id' => $program->id,
             'program_type' => Program::class
         ]);
 
-        $this->assertInstanceOf(Program::class, $onair->program);
+        $this->assertTrue($onair->program->is($program));
     }
 }

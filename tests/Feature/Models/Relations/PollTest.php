@@ -15,9 +15,15 @@ class PollTest extends TestCase
 
     public function testContainsPollsOptionsOnReturn(): void
     {
-        $poll = Poll::factory()->has(PollOption::factory()->count(3), 'options')->create();
+        $options = PollOption::factory()->count(3);
 
-        $this->assertInstanceOf(PollOption::class, $poll->options->first());
+        $poll = Poll::factory()
+            ->has($options, 'options')
+            ->create();
+
         $this->assertCount(3, $poll->options);
+        $this->assertContainsOnlyInstancesOf(
+            PollOption::class, $poll->options
+        );
     }
 }

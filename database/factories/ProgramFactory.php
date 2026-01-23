@@ -22,7 +22,6 @@ class ProgramFactory extends Factory
             'name' => fake()->name(),
             'image' => fake()->url(),
             'allows_all' => fake()->boolean(),
-            'has_schedule' => fake()->boolean(),
         ];
     }
 }

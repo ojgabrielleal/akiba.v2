@@ -17,17 +17,28 @@ class ProgramTest extends TestCase
     public function testContainsTheUserOnReturn(): void
     {
         $user = User::factory()->create();
-        $program = Program::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $program->user);
+        $program = Program::factory()
+            ->for($user, 'host')
+            ->create();
+
+        $this->assertTrue($program->host->is($user));
     }
 
     public function testContainsTheSchedulesOnReturn(): void 
     {
         $user = User::factory()->create();
-        $program = Program::factory()->for($user)->has(ProgramSchedule::factory()->count(3), 'schedules')->create();
+        $schedules = ProgramSchedule::factory()->count(3);
 
-        $this->assertInstanceOf(ProgramSchedule::class, $program->schedules->first());
+        $program = Program::factory()
+            ->for($user, 'host')
+            ->has($schedules, 'schedules')
+            ->create();
+
         $this->assertCount(3, $program->schedules);
+        $this->assertContainsOnlyInstancesOf(
+            ProgramSchedule::class, 
+            $program->schedules
+        );
     }
 }

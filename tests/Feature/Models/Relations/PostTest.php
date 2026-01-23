@@ -19,36 +19,62 @@ class PostTest extends TestCase
     public function testContainsTheUserOnReturn(): void
     {
         $user = User::factory()->create();
-        $post = Post::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $post->user->first());
+        $post = Post::factory()
+            ->for($user, 'author')
+            ->create();
+
+        $this->assertTrue($post->author->is($user));
     }
 
     public function testContainsPostReferencesOnReturn(): void
     {
         $user = User::factory()->create();
-        $post = Post::factory()->for($user)->has(PostReference::factory()->count(3), 'references')->create();
+        $reference = PostReference::factory()->count(3);
 
-        $this->assertInstanceOf(PostReference::class, $post->references->first());
+        $post = Post::factory()
+            ->for($user, 'author')
+            ->has($reference, 'references')
+            ->create();
+
         $this->assertCount(3, $post->references);
+        $this->assertContainsOnlyInstancesOf(
+            PostReference::class, 
+            $post->references
+        );
     }
 
     public function testContainsPostReactionsOnReturn(): void
     {
         $user = User::factory()->create();
-        $post = Post::factory()->for($user)->has(PostReaction::factory()->count(3), 'reactions')->create();
+        $reaction = PostReaction::factory()->count(3);
 
-        $this->assertInstanceOf(PostReaction::class, $post->reactions->first());
+        $post = Post::factory()
+            ->for($user, 'author')
+            ->has($reaction, 'reactions')
+            ->create();
+
         $this->assertCount(3, $post->reactions);
+        $this->assertContainsOnlyInstancesOf(
+            PostReaction::class, 
+            $post->reactions
+        );
     }
 
     public function testContainsPostCategoriesOnReturn(): void
     {
         $user = User::factory()->create();
-        $post = Post::factory()->for($user)->has(PostCategory::factory()->count(3), 'categories')->create();
+        $category = PostCategory::factory()->count(3);
 
+        $post = Post::factory()
+            ->for($user, 'author')
+            ->has($category, 'categories')
+            ->create();
 
-        $this->assertInstanceOf(PostCategory::class, $post->categories->first());
         $this->assertCount(3, $post->categories);
+        $this->assertContainsOnlyInstancesOf(
+            PostCategory::class, 
+            $post->categories
+        );
     }
 }

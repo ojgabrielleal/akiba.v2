@@ -17,17 +17,27 @@ class CalendarTest extends TestCase
     public function testContainsTheUserOnReturn(): void
     {
         $user = User::factory()->create();
-        $calendar = Calendar::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $calendar->user);
+        $calendar = Calendar::factory()
+            ->for($user, 'responsible')
+            ->create();
+
+        $this->assertTrue($calendar->responsible->is($user));
     }
 
     public function testContainsTheActivityOnReturn(): void
     {
         $user = User::factory()->create();
-        $activity = Activity::factory()->for($user)->create();
-        $calendar = Calendar::factory()->for($user)->for($activity)->create();
 
-        $this->assertInstanceOf(Activity::class, $calendar->activity);
+        $activity = Activity::factory()
+            ->for($user, 'responsible')
+            ->create();
+
+        $calendar = Calendar::factory()
+            ->for($user, 'responsible')
+            ->for($activity, 'activity')
+            ->create();
+
+        $this->assertTrue($calendar->activity->is($activity));
     }
 }

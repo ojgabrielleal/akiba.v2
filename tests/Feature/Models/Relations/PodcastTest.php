@@ -16,8 +16,11 @@ class PodcastTest extends TestCase
     public function testContainsTheUserOnReturn(): void
     {
         $user = User::factory()->create();
-        $podcast = Podcast::factory()->for($user)->create();
 
-        $this->assertInstanceOf(User::class, $podcast->author);
+        $podcast = Podcast::factory()
+            ->for($user, 'author')
+            ->create();
+
+        $this->assertTrue($podcast->author->is($user));
     }
 }

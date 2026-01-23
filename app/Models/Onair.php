@@ -47,7 +47,7 @@ class Onair extends Model
      * Use these methods to access related data via Eloquent relationships
      * (hasOne, hasMany, belongsTo, belongsToMany, etc.).
      */
-    public function show()
+    public function program()
     {
         return $this->morphTo();
     }
