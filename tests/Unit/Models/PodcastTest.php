@@ -1,26 +1,26 @@
 <?php
 
-namespace Tests\Feature\Models\Relations;
+namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Models\User;
-use App\Models\Event;
+use App\Models\Podcast;
 
-class EventTest extends TestCase
+class PodcastTest extends TestCase
 {
     use RefreshDatabase;
-    
-    public function testContainsTheUserOnReturn(): void
+
+    public function testAuthorRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
 
-        $event = Event::factory()
+        $podcast = Podcast::factory()
             ->for($user, 'author')
             ->create();
 
-        $this->assertTrue($event->author->is($user));
+        $this->assertTrue($podcast->author->is($user));
     }
 }

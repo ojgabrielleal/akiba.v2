@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models\Relations;
+namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -16,7 +16,7 @@ class PostTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testContainsTheUserOnReturn(): void
+    public function testAuthorRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
 
@@ -27,7 +27,7 @@ class PostTest extends TestCase
         $this->assertTrue($post->author->is($user));
     }
 
-    public function testContainsPostReferencesOnReturn(): void
+    public function testReferencesRelationshipReturnsPostReferences(): void
     {
         $user = User::factory()->create();
         $reference = PostReference::factory()->count(3);
@@ -44,7 +44,7 @@ class PostTest extends TestCase
         );
     }
 
-    public function testContainsPostReactionsOnReturn(): void
+    public function testReactionsRelationshipReturnsPostReactions(): void
     {
         $user = User::factory()->create();
         $reaction = PostReaction::factory()->count(3);
@@ -61,7 +61,7 @@ class PostTest extends TestCase
         );
     }
 
-    public function testContainsPostCategoriesOnReturn(): void
+    public function testCategoriesRelationshipReturnsPostCategories(): void
     {
         $user = User::factory()->create();
         $category = PostCategory::factory()->count(3);

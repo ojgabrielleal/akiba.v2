@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models\Relations;
+namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,7 +13,7 @@ class RoleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testContainsPermissionsOnReturn(): void
+    public function testPermissionsRelationshipReturnsPermissions(): void
     {
         $permission = Permission::factory()->count(3);
         $role = Role::factory()

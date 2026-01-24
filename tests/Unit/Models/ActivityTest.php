@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models\Relations;
+namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,7 +14,7 @@ class ActivityTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testContainsTheUserOnReturn(): void
+    public function testResponsibleRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
 
@@ -25,7 +25,7 @@ class ActivityTest extends TestCase
         $this->assertTrue($activity->responsible->is($user));
     }
 
-    public function testContainsTheConfirmationsOnReturn(): void
+    public function testConfirmerRelationshipReturnsUsers(): void
     {
         $user = User::factory()->create();
         $confirmers = ActivityParticipants::factory()->for($user, 'confirmer')->count(5);

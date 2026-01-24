@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models\Relations;
+namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,7 +14,7 @@ class ProgramTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testContainsTheUserOnReturn(): void
+    public function testHostRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
 
@@ -25,7 +25,7 @@ class ProgramTest extends TestCase
         $this->assertTrue($program->host->is($user));
     }
 
-    public function testContainsTheSchedulesOnReturn(): void 
+    public function testSchedulesRelationshipReturnsProgramSchedules(): void 
     {
         $user = User::factory()->create();
         $schedules = ProgramSchedule::factory()->count(3);

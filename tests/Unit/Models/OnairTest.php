@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models\Relations;
+namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,7 +14,7 @@ class OnairTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testContainsTheProgramOnReturn(): void
+    public function testProgramRelationshipReturnsProgram(): void
     {
         $user = User::factory()->create();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models\Relations;
+namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,7 +13,7 @@ class PollTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testContainsPollsOptionsOnReturn(): void
+    public function testOptionsRelationshipReturnsPollOptions(): void
     {
         $options = PollOption::factory()->count(3);
 

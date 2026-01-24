@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models\Relations;
+namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,7 +13,7 @@ class TaskTest extends TestCase
 {
     use RefreshDatabase; 
     
-    public function testContainsTheUserOnReturn(): void
+    public function testResponsibleRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
 

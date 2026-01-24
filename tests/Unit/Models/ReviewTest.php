@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models\Relations;
+namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,7 +14,7 @@ class ReviewTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testContainsReviewContentsOnReturn(): void
+    public function testContentsRelationshipReturnsReviewContents(): void
     {
         $user = User::factory()->create();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models\Relations;
+namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,7 +14,7 @@ class CalendarTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testContainsTheUserOnReturn(): void
+    public function testResponsibleRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
 
@@ -25,7 +25,7 @@ class CalendarTest extends TestCase
         $this->assertTrue($calendar->responsible->is($user));
     }
 
-    public function testContainsTheActivityOnReturn(): void
+    public function testActivityRelationshipReturnsActivity(): void
     {
         $user = User::factory()->create();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Models\Relations;
+namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -15,7 +15,7 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testContainsThePreferencesOnReturn(): void
+    public function testPreferencesRelationshipReturnsUserPreferences(): void
     {
         $preference = UserPreference::factory();
 
@@ -29,7 +29,7 @@ class UserTest extends TestCase
         );
     }
 
-    public function testContainsTheSocialsOnReturn(): void
+    public function testSocialsRelationshipReturnsUserSocials(): void
     {
         $social = UserSocial::factory();
 
@@ -43,7 +43,7 @@ class UserTest extends TestCase
         );
     }
 
-    public function testContainsTheRolesOnReturn(): void
+    public function testRolesRelationshipReturnsRoles(): void
     {
         $role = Role::factory();
         
