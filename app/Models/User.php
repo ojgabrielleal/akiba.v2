@@ -41,10 +41,13 @@ class User extends Authenticatable
         'birthday' => 'date',
     ];
 
-    protected function slug(): Attribute
+    protected function title(): Attribute
     {
         return Attribute::make(
-            set: fn($value, $attributes) => Str::slug($attributes['nickname'] ?? $value)
+            set: function ($value) {
+                $this->attributes['slug'] = Str::slug($value);
+                return $value; 
+            }
         );
     }
 

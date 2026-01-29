@@ -13,6 +13,9 @@ class PollTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Tests from Poll model relationships.
+     */
     public function testOptionsRelationshipReturnsPollOptions(): void
     {
         $options = PollOption::factory()->count(3);
@@ -23,7 +26,25 @@ class PollTest extends TestCase
 
         $this->assertCount(3, $poll->options);
         $this->assertContainsOnlyInstancesOf(
-            PollOption::class, $poll->options
+            PollOption::class,
+            $poll->options
         );
+    }
+
+    /**
+     * Tests from Poll model scopes.
+     */
+    public function testScopeActiveReturnsOnlyActivePolls(): void
+    {
+        $activePoll = Poll::factory()
+            ->create(['is_active' => true]);
+
+        $inactivePoll = Poll::factory()
+            ->create(['is_active' => false]);
+
+        $polls = Poll::active()->get();
+
+        $this->assertTrue($polls->contains($activePoll));
+        $this->assertFalse($polls->contains($inactivePoll));
     }
 }

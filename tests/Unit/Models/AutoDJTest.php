@@ -14,6 +14,9 @@ class AutoDJTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Tests from AutoDJ model relationships.
+     */
     public function testHostRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();

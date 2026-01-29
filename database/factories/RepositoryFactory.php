@@ -21,7 +21,7 @@ class RepositoryFactory extends Factory
             'image' => fake()->url(),
             'url' => fake()->url(),
             'type' => fake()->randomElement(['tutorial, package, installer']),
-            'name' => fake()->nickName(),
+            'name' => fake()->userName(),
         ];
     }
 }

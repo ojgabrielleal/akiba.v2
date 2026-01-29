@@ -32,7 +32,7 @@ class SongRequest extends Model
         'is_canceled' => 'boolean'
     ];
 
-        /**
+    /**
      * Query scopes for this model.
      *
      * These methods define reusable query filters that can be

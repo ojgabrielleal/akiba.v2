@@ -19,9 +19,15 @@ class Role extends Model
     ];
 
     protected $casts = [
-        'weight' => 'integer'  
+        'weight' => 'integer'
     ];
 
+    /**
+     * Define the relationships between this model and other models.
+     *
+     * Use these methods to access related data via Eloquent relationships
+     * (hasOne, hasMany, belongsTo, belongsToMany, etc.).
+     */
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'permissions_pivot', 'role_id', 'permission_id');

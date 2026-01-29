@@ -15,6 +15,9 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Tests from User model relationships.
+     */
     public function testPreferencesRelationshipReturnsUserPreferences(): void
     {
         $preference = UserPreference::factory();
@@ -55,5 +58,19 @@ class UserTest extends TestCase
             Role::class,
             $user->roles
         );
+    }
+
+    /**
+     * Tests from User model scopes.
+     */
+    public function testScopeActiveReturnsOnlyActiveUsers(): void
+    {
+        $activeUser = User::factory()->create(['is_active' => true]);
+        $inactiveUser = User::factory()->create(['is_active' => false]);
+
+        $users = User::active()->get();
+
+        $this->assertTrue($users->contains($activeUser));
+        $this->assertFalse($users->contains($inactiveUser));
     }
 }

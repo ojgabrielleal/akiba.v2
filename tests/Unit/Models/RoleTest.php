@@ -13,6 +13,9 @@ class RoleTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Tests from Role model relationships.
+     */
     public function testPermissionsRelationshipReturnsPermissions(): void
     {
         $permission = Permission::factory()->count(3);

@@ -12,7 +12,10 @@ use App\Models\Event;
 class EventTest extends TestCase
 {
     use RefreshDatabase;
-    
+
+    /**
+     * Tests from Event model relationships.
+     */
     public function testAuthorRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
@@ -22,5 +25,26 @@ class EventTest extends TestCase
             ->create();
 
         $this->assertTrue($event->author->is($user));
+    }
+
+    /**
+     * Tests from Event model scopes.
+     */
+    public function testActiveScopeReturnsOnlyActiveEvents(): void
+    {
+        $user = User::factory()->create();
+
+        $activeEvents = Event::factory()
+            ->for($user, 'author')
+            ->create(['is_active' => true]);
+
+        $inactiveEvents = Event::factory()
+            ->for($user, 'author')
+            ->create(['is_active' => false]);
+
+        $events = Event::active()->get();
+
+        $this->assertTrue($events->contains($activeEvents));
+        $this->assertFalse($events->contains($inactiveEvents));
     }
 }

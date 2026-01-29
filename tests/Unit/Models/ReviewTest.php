@@ -14,6 +14,10 @@ class ReviewTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Tests from Review model relationships.
+     */
+
     public function testContentsRelationshipReturnsReviewContents(): void
     {
         $user = User::factory()->create();

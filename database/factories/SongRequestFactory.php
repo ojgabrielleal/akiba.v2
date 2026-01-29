@@ -20,7 +20,7 @@ class SongRequestFactory extends Factory
             'is_played' => false,
             'is_canceled' => false,
             'ip' => fake()->ipv4(),
-            'name' => fake()->nickName(),
+            'name' => fake()->userName(),
             'address' => fake()->address(),
             'message' => fake()->sentence()
         ];

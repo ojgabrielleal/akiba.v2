@@ -14,6 +14,9 @@ class CalendarTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Tests from Calendar model relationships.
+     */
     public function testResponsibleRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
@@ -39,5 +42,26 @@ class CalendarTest extends TestCase
             ->create();
 
         $this->assertTrue($calendar->activity->is($activity));
+    }
+
+    /**
+    * Tests from Calendar model scopes.
+    */
+    public function testActiveScopeReturnsOnlyActiveCalendars(): void
+    {
+        $user = User::factory()->create();
+
+        $calendarActive = Calendar::factory()
+            ->for($user, 'responsible')
+            ->create(['is_active' => true]);
+
+        $calendarInatictive = Calendar::factory()
+            ->for($user, 'responsible')
+            ->create(['is_active' => false]);
+
+        $calendar = Calendar::active()->get();
+
+        $this->assertTrue($calendar->contains($calendarActive));
+        $this->assertFalse($calendar->contains($calendarInatictive));
     }
 }

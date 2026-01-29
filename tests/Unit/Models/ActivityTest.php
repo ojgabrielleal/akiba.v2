@@ -14,6 +14,9 @@ class ActivityTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Tests from Activity model relationships.
+     */
     public function testResponsibleRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
@@ -37,8 +40,29 @@ class ActivityTest extends TestCase
 
         $this->assertCount(5, $activity->confirmations);
         $this->assertContainsOnlyInstancesOf(
-            ActivityParticipants::class, 
+            ActivityParticipants::class,
             $activity->confirmations
         );
+    }
+
+    /**
+     * Tests from Activity model scopes.
+     */
+    public function testScopeValidReturnsOnlyValidActivities(): void
+    {
+        $user = User::factory()->create();
+
+        $validActivity = Activity::factory()
+            ->for($user, 'responsible')
+            ->create(['limit' => now()->subDays(3)]);
+
+        $expiredActivity = Activity::factory()
+            ->for($user, 'responsible')
+            ->create(['limit' => now()->addDays(3)]);
+
+        $activities = Activity::valid()->get();
+
+        $this->assertTrue($activities->contains($validActivity));
+        $this->assertFalse($activities->contains($expiredActivity));
     }
 }

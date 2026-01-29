@@ -16,6 +16,9 @@ class PostTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Tests from Post model relationships.
+     */
     public function testAuthorRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
@@ -39,7 +42,7 @@ class PostTest extends TestCase
 
         $this->assertCount(3, $post->references);
         $this->assertContainsOnlyInstancesOf(
-            PostReference::class, 
+            PostReference::class,
             $post->references
         );
     }
@@ -56,7 +59,7 @@ class PostTest extends TestCase
 
         $this->assertCount(3, $post->reactions);
         $this->assertContainsOnlyInstancesOf(
-            PostReaction::class, 
+            PostReaction::class,
             $post->reactions
         );
     }
@@ -73,8 +76,51 @@ class PostTest extends TestCase
 
         $this->assertCount(3, $post->categories);
         $this->assertContainsOnlyInstancesOf(
-            PostCategory::class, 
+            PostCategory::class,
             $post->categories
         );
+    }
+
+    /**
+     * Tests from Post model scopes.
+     */
+    public function testScopeActiveReturnsOnlyActivePosts(): void
+    {
+        $user = User::factory()->create();
+
+        $activePost = Post::factory()
+            ->for($user, 'author')
+            ->state(['is_active' => true])
+            ->create();
+
+        $inactivePost = Post::factory()
+            ->for($user, 'author')
+            ->state(['is_active' => false])
+            ->create();
+
+        $activePosts = Post::active()->get();
+
+        $this->assertTrue($activePosts->contains($activePost));
+        $this->assertFalse($activePosts->contains($inactivePost));
+    }
+
+    public function testScopePublishedReturnsOnlyPublishedPosts(): void
+    {
+        $user = User::factory()->create();
+
+        $publishedPost = Post::factory()
+            ->for($user, 'author')
+            ->state(['status' => 'published'])
+            ->create();
+
+        $draftPost = Post::factory()
+            ->for($user, 'author')
+            ->state(['status' => 'draft'])
+            ->create();
+
+        $publishedPosts = Post::published()->get();
+
+        $this->assertTrue($publishedPosts->contains($publishedPost));
+        $this->assertFalse($publishedPosts->contains($draftPost));
     }
 }

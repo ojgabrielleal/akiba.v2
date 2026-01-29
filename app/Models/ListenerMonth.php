@@ -36,18 +36,18 @@ class ListenerMonth extends Model
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth   = Carbon::now()->endOfMonth();
 
-        return self::where('listeners_requests.status', 'granted')
-            ->join('onair', 'listeners_requests.onair_id', '=', 'onair.id')
-            ->join('programs', 'onair.program_id', '=', 'programs.id')
-            ->whereBetween('listeners_requests.created_at', [$startOfMonth, $endOfMonth])
-            ->select(
-                'listener',
-                'listeners_requests.address',
-                'programs.name as favorite_program',
-                DB::raw('COUNT(*) as request_count')
-            )
-            ->groupBy('listener', 'listeners_requests.address', 'programs.name')
-            ->orderByDesc('request_count')
-            ->first();
+        return DB::select('
+            SELECT songs_requests.name AS listener_name,
+                songs_requests.address AS address,
+                COUNT(*) AS total_requests,
+                programs.name AS favorite_program
+            FROM songs_requests
+            JOIN onair ON songs_requests.onair_id = onair.id
+            JOIN programs ON onair.program_id = programs.id
+            WHERE songs_requests.created_at BETWEEN ? AND ?
+            GROUP BY songs_requests.name, programs.name
+            ORDER BY total_requests DESC
+            LIMIT 1
+        ', [$startOfMonth, $endOfMonth]);
     }
 }

@@ -14,6 +14,9 @@ class ProgramTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Tests from Program model relationships.
+     */
     public function testHostRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
@@ -25,7 +28,7 @@ class ProgramTest extends TestCase
         $this->assertTrue($program->host->is($user));
     }
 
-    public function testSchedulesRelationshipReturnsProgramSchedules(): void 
+    public function testSchedulesRelationshipReturnsProgramSchedules(): void
     {
         $user = User::factory()->create();
         $schedules = ProgramSchedule::factory()->count(3);
@@ -37,8 +40,29 @@ class ProgramTest extends TestCase
 
         $this->assertCount(3, $program->schedules);
         $this->assertContainsOnlyInstancesOf(
-            ProgramSchedule::class, 
+            ProgramSchedule::class,
             $program->schedules
         );
+    }
+
+    /**
+     * Tests from Program model scopes.
+     */
+    public function testScopeActiveReturnsOnlyActivePrograms(): void
+    {
+        $user = User::factory()->create();
+
+        $activeProgram = Program::factory()
+            ->for($user, 'host')
+            ->create(['is_active' => true]);
+
+        $inactiveProgram = Program::factory()
+            ->for($user, 'host')
+            ->create(['is_active' => false]);
+
+        $activePrograms = Program::active()->get();
+
+        $this->assertTrue($activePrograms->contains($activeProgram));
+        $this->assertFalse($activePrograms->contains($inactiveProgram));
     }
 }

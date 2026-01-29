@@ -13,6 +13,9 @@ class PodcastTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Tests from Podcast model relationships.
+     */
     public function testAuthorRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
@@ -22,5 +25,26 @@ class PodcastTest extends TestCase
             ->create();
 
         $this->assertTrue($podcast->author->is($user));
+    }
+
+    /**
+     * Tests from Podcast model scopes.
+     */
+    public function testScopeActiveReturnsOnlyActivePodcasts(): void
+    {
+        $user = User::factory()->create();
+
+        $activePodcast = Podcast::factory()
+            ->for($user, 'author')
+            ->create(['is_active' => true]);
+
+        $inactivePodcast = Podcast::factory()
+            ->for($user, 'author')
+            ->create(['is_active' => false]);
+
+        $podcasts = Podcast::active()->get();
+
+        $this->assertTrue($podcasts->contains($activePodcast));
+        $this->assertFalse($podcasts->contains($inactivePodcast));
     }
 }
