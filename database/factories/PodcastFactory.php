@@ -18,7 +18,6 @@ class PodcastFactory extends Factory
     {
         return [
             'is_active' => true,
-            'slug' => fake()->slug(),
             'title' => fake()->title(),
             'image' => fake()->url(),
             'season' => fake()->randomNumber(),

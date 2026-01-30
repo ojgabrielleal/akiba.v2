@@ -19,7 +19,6 @@ class PostFactory extends Factory
         return [
             'is_active' => true,
             'image' => fake()->url(),
-            'slug' => fake()->slug(),
             'title' => fake()->title(),
             'content' => fake()->paragraph(),
             'cover' => fake()->url(),

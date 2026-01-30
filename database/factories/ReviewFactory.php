@@ -18,7 +18,6 @@ class ReviewFactory extends Factory
     {
         return [
             'is_active' => true, 
-            'slug' => fake()->slug(),
             'cover' => fake()->url(),
             'image' => fake()->url(),
             'title' => fake()->title(),
