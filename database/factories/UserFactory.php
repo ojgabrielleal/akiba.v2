@@ -21,9 +21,9 @@ class UserFactory extends Factory
 
         $avatar = null;
         if ($gender === 'male') {
-            $avatar = '/img/default/defaultAvatarMale.webp';
+            $avatar = '/img/default/users/avatarMale.webp';
         } else {
-            $avatar = '/img/default/defaultAvatarFemale.webp';
+            $avatar = '/img/default/users/avatarFemale.webp';
         }
 
         return [

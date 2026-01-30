@@ -36,9 +36,9 @@ class AdmsController extends Controller
 
         $avatar = null;
         if ($request->input('gender') === 'male') {
-            $avatar = '/img/default/defaultAvatarMale.webp';
+            $avatar = '/img/default/users/avatarMale.webp';
         } else {
-            $avatar = '/img/default/defaultAvatarFemale.webp';
+            $avatar = '/img/default/users/avatarFemale.webp';
         }
 
         User::create([

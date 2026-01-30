@@ -39,7 +39,7 @@
             {:else}
                 <article class="opacity-50">
                     <div class="aspect-square">
-                        <img class="w-full h-full object-cover object-center rounded-lg" src="/img/default/defaultLandscape.webp" alt="" aria-hidden="true"/>
+                        <img class="w-full h-full object-cover object-center rounded-lg" src="https://placehold.co/600x400?text=Akiba" alt="" aria-hidden="true"/>
                     </div>
                     <div class="flex justify-between mt-3">
                         <div class="text-orange-amber text-2xl font-noto-sans font-bold uppercase italic">
