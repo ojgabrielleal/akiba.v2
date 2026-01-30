@@ -12,11 +12,20 @@ class UserFactory extends Factory
 {
     /**
      * Define the model's default state.
-    *
-    * @return array<string, mixed>
-    */
+     *
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
+        $gender = fake()->randomElement(['male', 'female']);
+
+        $avatar = null;
+        if ($gender === 'male') {
+            $avatar = '/img/default/defaultAvatarMale.webp';
+        } else {
+            $avatar = '/img/default/defaultAvatarFemale.webp';
+        }
+
         return [
             'is_active' => true,
             'slug' => fake()->slug(),
@@ -24,8 +33,8 @@ class UserFactory extends Factory
             'password' => Hash::make(fake()->password()),
             'name' => fake()->name(),
             'nickname' => fake()->userName(),
-            'gender' => fake()->randomElement(['male', 'female']),
-            'avatar' => fake()->url(),
+            'gender' => $gender,
+            'avatar' => $avatar,
             'birthday' => fake()->date(),
             'city' => fake()->city(),
             'state' => fake()->state(),
