@@ -73,4 +73,16 @@ class UserTest extends TestCase
         $this->assertTrue($users->contains($activeUser));
         $this->assertFalse($users->contains($inactiveUser));
     }
+
+    /**
+     * Tests from User model mutators.
+     */
+    public function testUsernameMutatorSetsSlugCorrectly(): void
+    {
+        $user = User::factory()->create(
+            ['username' => 'sample-review-title']
+        );
+
+        $this->assertEquals('sample-review-title', $user->slug);
+    }
 }

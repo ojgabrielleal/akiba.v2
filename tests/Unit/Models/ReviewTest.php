@@ -17,7 +17,6 @@ class ReviewTest extends TestCase
     /**
      * Tests from Review model relationships.
      */
-
     public function testContentsRelationshipReturnsReviewContents(): void
     {
         $user = User::factory()->create();
@@ -30,8 +29,27 @@ class ReviewTest extends TestCase
             ->create();
 
         $this->assertContainsOnlyInstancesOf(
-            ReviewContent::class, 
+            ReviewContent::class,
             $review->contents
         );
+    }
+
+    /**
+     * Tests from Post model mutators.
+     */
+    public function testTitleMutatorSetsSlugCorrectly(): void
+    {
+        $user = User::factory()->create();
+
+        $content = ReviewContent::factory()
+            ->for($user, 'author');
+
+        $review = Review::factory()
+            ->has($content, 'contents')
+            ->create([
+                'title' => 'Sample Review Title'
+            ]);
+
+        $this->assertEquals('sample-review-title', $review->slug);
     }
 }

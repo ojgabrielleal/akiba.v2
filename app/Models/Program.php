@@ -31,13 +31,13 @@ class Program extends Model
         'user_id',
     ];
 
-    protected function title(): Attribute
+    protected function name(): Attribute
     {
         return Attribute::make(
-            set: function ($value) {
-                $this->attributes['slug'] = Str::slug($value);
-                return $value; 
-            }
+            set: fn(string $value) => [
+                'name' => $value,
+                'slug' => Str::slug($value),
+            ],
         );
     }
 

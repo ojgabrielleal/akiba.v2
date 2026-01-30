@@ -36,10 +36,10 @@ class Event extends Model
     protected function title(): Attribute
     {
         return Attribute::make(
-            set: function ($value) {
-                $this->attributes['slug'] = Str::slug($value);
-                return $value; 
-            }
+            set: fn(string $value) => [
+                'title' => $value,
+                'slug' => Str::slug($value),
+            ],
         );
     }
 

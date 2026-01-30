@@ -47,4 +47,20 @@ class PodcastTest extends TestCase
         $this->assertTrue($podcasts->contains($activePodcast));
         $this->assertFalse($podcasts->contains($inactivePodcast));
     }
+
+    /**
+     * Tests from Podcast model mutators.
+     */
+    public function testTitleMutatorSetsSlugCorrectly(): void
+    {
+        $user = User::factory()->create();
+
+        $podcast = Podcast::factory()
+            ->for($user, 'author')
+            ->create([
+                'title' => 'Sample Podcast Title'
+            ]);
+
+        $this->assertEquals('sample-podcast-title', $podcast->slug);
+    }
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Str;
 
 class Review extends Model
 {
@@ -23,6 +25,16 @@ class Review extends Model
     protected $casts = [
         'is_active' => 'boolean'
     ];
+
+    protected function title(): Attribute
+    {
+        return Attribute::make(
+            set: fn(string $value) => [
+                'title' => $value,
+                'slug' => Str::slug($value),
+            ],
+        );
+    }
 
     /**
      * Define the relationships between this model and other models.

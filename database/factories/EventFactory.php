@@ -20,7 +20,6 @@ class EventFactory extends Factory
             'is_active' => true,
             'cover' => fake()->url(),
             'image' => fake()->url(),
-            'slug' => fake()->slug(),
             'title' => fake()->title(),
             'content' => fake()->paragraph(),
             'dates' => fake()->word(),

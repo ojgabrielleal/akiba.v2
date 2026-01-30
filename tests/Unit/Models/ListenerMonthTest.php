@@ -15,7 +15,7 @@ use App\Models\ListenerMonth;
 class ListenerMonthTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     /**
      * Tests from Event model static methods.
      */
@@ -43,12 +43,52 @@ class ListenerMonthTest extends TestCase
         ]);
 
         $mostActiveListenerArray = ListenerMonth::mostActiveListenerOfCurrentMonth();
-        $mostActiveListener = $mostActiveListenerArray[0] ?? null; 
+        $mostActiveListener = $mostActiveListenerArray[0] ?? null;
 
         $this->assertNotNull($mostActiveListener);
         $this->assertEquals('John Doe', $mostActiveListener->listener_name);
-        $this->assertEquals('123 Main St', $mostActiveListener->address ?? ''); 
+        $this->assertEquals('123 Main St', $mostActiveListener->address ?? '');
         $this->assertEquals($program->name, $mostActiveListener->favorite_program);
         $this->assertEquals(5, $mostActiveListener->total_requests);
+    }
+
+    /**
+     * Tests from ListenerMonth model static methods.
+     */
+    public function testMethodMostActiveListenerReturnsCorrectData(): void
+    {
+        $user = User::factory()->create();
+        $program = Program::factory()->for($user, 'host')->create();
+
+        $onair = Onair::factory()->create([
+            'program_id' => $program->id,
+            'program_type' => Program::class
+        ]);
+
+        $music = Music::factory()->create();
+
+        SongRequest::factory()->count(5)->create([
+            'onair_id'   => $onair->id,
+            'music_id'   => $music->id,
+            'name'       => 'John Doe',
+            'address'    => 'Rua das Flores, 123',
+            'is_played'  => true,
+            'created_at' => now(),
+        ]);
+
+        SongRequest::factory()->count(2)->create([
+            'onair_id'   => $onair->id,
+            'music_id'   => $music->id,
+            'name'       => 'Outro Ouvinte',
+            'created_at' => now(),
+        ]);
+
+        $results = ListenerMonth::mostActiveListenerOfCurrentMonth();
+        $mostActive = $results[0] ?? null;
+
+        $this->assertNotNull($mostActive, 'O resultado não deveria ser nulo.');
+        $this->assertEquals('John Doe', $mostActive->listener_name);
+        $this->assertEquals(5, $mostActive->total_requests);
+        $this->assertEquals($program->name, $mostActive->favorite_program);
     }
 }

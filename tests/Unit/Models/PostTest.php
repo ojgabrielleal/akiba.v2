@@ -123,4 +123,20 @@ class PostTest extends TestCase
         $this->assertTrue($publishedPosts->contains($publishedPost));
         $this->assertFalse($publishedPosts->contains($draftPost));
     }
+
+    /**
+     * Tests from Post model mutators.
+     */
+    public function testTitleMutatorSetsSlugCorrectly(): void
+    {
+        $user = User::factory()->create();
+
+        $post = Post::factory()
+            ->for($user, 'author')
+            ->create([
+                'title' => 'Sample Post Title'
+            ]);
+
+        $this->assertEquals('sample-post-title', $post->slug);
+    }
 }

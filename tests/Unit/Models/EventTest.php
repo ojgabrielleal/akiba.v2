@@ -47,4 +47,20 @@ class EventTest extends TestCase
         $this->assertTrue($events->contains($activeEvents));
         $this->assertFalse($events->contains($inactiveEvents));
     }
+
+    /**
+     * Tests from Event model mutators.
+     */
+    public function testTitleMutatorSetsSlugCorrectly(): void
+    {
+        $user = User::factory()->create();
+
+        $event = Event::factory()
+            ->for($user, 'author')
+            ->create([
+                'title' => 'Sample Event Title'
+            ]);
+
+        $this->assertEquals('sample-event-title', $event->slug);
+    }
 }

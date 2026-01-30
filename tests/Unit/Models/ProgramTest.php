@@ -65,4 +65,20 @@ class ProgramTest extends TestCase
         $this->assertTrue($activePrograms->contains($activeProgram));
         $this->assertFalse($activePrograms->contains($inactiveProgram));
     }
+
+    /**
+     * Tests from Post model mutators.
+     */
+    public function testNameMutatorSetsSlugCorrectly(): void
+    {
+        $user = User::factory()->create();
+
+        $program = Program::factory()
+            ->for($user, 'host')
+            ->create([
+                'name' => 'Sample Program Title'
+            ]);
+
+        $this->assertEquals('sample-program-title', $program->slug);
+    }
 }
