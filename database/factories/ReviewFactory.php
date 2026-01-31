@@ -20,7 +20,7 @@ class ReviewFactory extends Factory
             'is_active' => true, 
             'cover' => fake()->url(),
             'image' => fake()->url(),
-            'title' => fake()->title(),
+            'title' => fake()->word(),
             'sinopse' => fake()->paragraph(),
         ];
     }

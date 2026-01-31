@@ -17,8 +17,8 @@ class AutoDJFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'image' => fake()->url(),
+            'name' => fake()->word(),
+            'image' => '/img/onair/default/program.webp',
         ];
     }
 }

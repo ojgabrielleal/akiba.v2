@@ -17,7 +17,7 @@ class AutoDJPhraseFactory extends Factory
     public function definition(): array
     {
         return [
-            'image' => fake()->url(),
+            'image' => '/img/onair/avatars/yuno.webp',
             'phrase' => fake()->sentence(),
         ];
     }

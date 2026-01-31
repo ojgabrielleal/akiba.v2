@@ -17,15 +17,15 @@ class ActivityTest extends TestCase
     /**
      * Tests from Activity model relationships.
      */
-    public function testResponsibleRelationshipReturnsUser(): void
+    public function testAuthorRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
 
         $activity = Activity::factory()
-            ->for($user, 'responsible')
+            ->for($user, 'author')
             ->create();
 
-        $this->assertTrue($activity->responsible->is($user));
+        $this->assertTrue($activity->author->is($user));
     }
 
     public function testConfirmerRelationshipReturnsUsers(): void
@@ -34,7 +34,7 @@ class ActivityTest extends TestCase
         $confirmers = ActivityParticipants::factory()->for($user, 'confirmer')->count(5);
 
         $activity = Activity::factory()
-            ->for($user, 'responsible')
+            ->for($user, 'author')
             ->has($confirmers, 'confirmations')
             ->create();
 
@@ -53,11 +53,11 @@ class ActivityTest extends TestCase
         $user = User::factory()->create();
 
         $validActivity = Activity::factory()
-            ->for($user, 'responsible')
+            ->for($user, 'author')
             ->create(['limit' => now()->subDays(3)]);
 
         $expiredActivity = Activity::factory()
-            ->for($user, 'responsible')
+            ->for($user, 'author')
             ->create(['limit' => now()->addDays(3)]);
 
         $activities = Activity::valid()->get();

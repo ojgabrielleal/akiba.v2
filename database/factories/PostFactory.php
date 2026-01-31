@@ -19,7 +19,7 @@ class PostFactory extends Factory
         return [
             'is_active' => true,
             'image' => fake()->url(),
-            'title' => fake()->title(),
+            'title' => fake()->word(),
             'content' => fake()->paragraph(),
             'cover' => fake()->url(),
             'status' => fake()->randomElement(['published', 'revision', 'sketch'])

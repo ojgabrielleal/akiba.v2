@@ -45,7 +45,7 @@ class Activity extends Model
      * Use these methods to access related data via Eloquent relationships
      * (hasOne, hasMany, belongsTo, belongsToMany, etc.).
      */
-    public function responsible()
+    public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

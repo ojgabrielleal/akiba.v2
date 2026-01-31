@@ -41,11 +41,11 @@ class User extends Authenticatable
         'birthday' => 'date',
     ];
 
-    protected function username(): Attribute
+    protected function nickname(): Attribute
     {
         return Attribute::make(
             set: fn(string $value) => [
-                'username' => $value,
+                'nickname' => $value,
                 'slug' => Str::slug($value),
             ],
         );

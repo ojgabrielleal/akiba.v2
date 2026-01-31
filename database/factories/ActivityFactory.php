@@ -17,10 +17,10 @@ class ActivityFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->title(),
+            'title' => fake()->word(),
             'content' => fake()->paragraph(),
             'limit' => fake()->dateTimeBetween('now', '+1 year')->format('Y-m-d'),
-            'allows_confirmations' => fake()->boolean(),
+            'allows_confirmations' => 0,
         ];
     }
 }

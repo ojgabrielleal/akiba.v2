@@ -80,7 +80,7 @@ class UserTest extends TestCase
     public function testUsernameMutatorSetsSlugCorrectly(): void
     {
         $user = User::factory()->create(
-            ['username' => 'sample-review-title']
+            ['nickname' => 'sample-review-title']
         );
 
         $this->assertEquals('sample-review-title', $user->slug);

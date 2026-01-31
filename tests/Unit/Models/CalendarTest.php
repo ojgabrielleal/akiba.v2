@@ -33,7 +33,7 @@ class CalendarTest extends TestCase
         $user = User::factory()->create();
 
         $activity = Activity::factory()
-            ->for($user, 'responsible')
+            ->for($user, 'author')
             ->create();
 
         $calendar = Calendar::factory()
