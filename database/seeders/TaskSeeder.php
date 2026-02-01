@@ -5,10 +5,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-use App\Models\User;    
-use App\Models\Activity;
+use App\Models\User;
+use App\Models\Task;
 
-class ActivitySeeder extends Seeder
+class TaskSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,8 +16,9 @@ class ActivitySeeder extends Seeder
     public function run(): void
     {
         $user = User::factory()->create();
-        Activity::factory()
-            ->for($user, 'author')
+
+        Task::factory()
+            ->for($user, 'responsible')
             ->create();
     }
 }

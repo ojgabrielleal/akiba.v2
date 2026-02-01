@@ -16,7 +16,7 @@ class CalendarSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::find(1);
+        $user = User::factory()->create();
 
         $activity = Activity::factory()
             ->for($user, 'author')
@@ -31,6 +31,8 @@ class CalendarSeeder extends Seeder
         Calendar::factory()
             ->for($user, 'responsible')
             ->for($activity, 'activity')
-            ->create();
+            ->create([
+                'has_activity' => true,
+            ]);
     }
 }

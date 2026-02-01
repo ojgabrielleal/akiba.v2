@@ -21,7 +21,7 @@ class ListenerMonthFactory extends Factory
             'avatar' => fake()->url(),
             'address' => fake()->address(),
             'favorite_program' => fake()->name(),
-            'requests_count' => fake()->number(),
+            'requests_count' => fake()->randomNumber(),
         ];
     }
 }

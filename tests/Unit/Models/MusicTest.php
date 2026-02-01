@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+
 use App\Models\Music;
 
 class MusicTest extends TestCase

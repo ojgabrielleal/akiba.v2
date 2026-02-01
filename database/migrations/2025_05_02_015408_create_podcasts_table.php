@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('season');
             $table->string('episode');
-            $table->string('summary');
-            $table->string('description');
+            $table->longText('summary');
+            $table->longText('description');
             $table->string('audio');
             $table->timestamps();
         });

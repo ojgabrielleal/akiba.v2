@@ -5,10 +5,11 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-use App\Models\User;    
-use App\Models\Activity;
+use App\Models\User;
+use App\Models\Program;
+use App\Models\ProgramSchedule;
 
-class ActivitySeeder extends Seeder
+class ProgramSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,8 +17,11 @@ class ActivitySeeder extends Seeder
     public function run(): void
     {
         $user = User::factory()->create();
-        Activity::factory()
-            ->for($user, 'author')
+        $schedules = ProgramSchedule::factory()->count(3);
+
+        Program::factory()
+            ->for($user, 'host')
+            ->has($schedules, 'schedules')
             ->create();
     }
 }

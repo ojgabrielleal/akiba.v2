@@ -13,6 +13,7 @@ class Calendar extends Model
     
     protected $fillable = [
         'is_active',
+        'has_activity',
         'user_id',
         'activity_id',
         'time',
@@ -23,6 +24,7 @@ class Calendar extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'has_activity' => 'boolean',
         'date' => 'date:Y-m-d',
         'time' => 'date:h:i',
     ];

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('calendar', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_active')->default(true);
+            $table->boolean('has_activity')->default(false);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('activity_id')->nullable()->constrained('activities')->cascadeOnDelete();
             $table->time('time');

@@ -39,7 +39,9 @@ class CalendarTest extends TestCase
         $calendar = Calendar::factory()
             ->for($user, 'responsible')
             ->for($activity, 'activity')
-            ->create();
+            ->create([
+                'has_activity' => true,
+            ]);
 
         $this->assertTrue($calendar->activity->is($activity));
     }
