@@ -1,5 +1,5 @@
 <script>
-    import { Meta } from "@/meta";
+    import { Meta } from "@/config/meta";
     import { Layout } from "@/layouts/private";
     import { PodcastsForm } from "@/ui/widgets/private/form"
     import { PodcastsGrid } from "@/ui/widgets/private/grid"

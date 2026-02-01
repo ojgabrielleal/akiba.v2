@@ -1,6 +1,6 @@
 <script>
     import { page } from "@inertiajs/svelte";
-    import { Meta } from "@/meta";
+    import { Meta } from "@/config/meta";
     import { Layout } from "@/layouts/private/";
     import { CanRender } from "@/ui/components/private/";
     import { GreatingHero } from "@/ui/widgets/private/hero";

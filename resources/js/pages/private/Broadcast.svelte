@@ -1,6 +1,6 @@
 <script>
     import { page, router } from "@inertiajs/svelte";
-    import { Meta } from "@/meta";
+    import { Meta } from "@/config/meta";
     import { Layout } from "@/layouts/private";
     import { BroadcastForm } from "@/ui/widgets/private/form";
     import { ListenerRequestGrid } from "@/ui/widgets/private/grid";

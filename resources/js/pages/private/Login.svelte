@@ -1,6 +1,6 @@
 <script>
     import { page } from "@inertiajs/svelte";
-    import { Meta } from "@/meta";
+    import { Meta } from "@/config/meta";
     import { Notification } from "@/ui/components/private";
     import { LoginForm } from "@/ui/widgets/private/form";
 </script>

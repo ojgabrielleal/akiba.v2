@@ -1,5 +1,5 @@
 <script>
-    import { Meta } from "@/meta";
+    import { Meta } from "@/config/meta";
     import { Layout } from "@/layouts/private";
     import { ShowsGrid, ProgramScheduleGrid, RankingGrid, ListenerMonthGrid } from "@/ui/widgets/private/grid"
 </script>
