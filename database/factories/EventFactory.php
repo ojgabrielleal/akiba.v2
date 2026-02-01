@@ -18,8 +18,8 @@ class EventFactory extends Factory
     {
         return [
             'is_active' => true,
-            'cover' => fake()->url(),
-            'image' => fake()->url(),
+            'cover' => 'https://placehold.co/600x400?text=Akiba',
+            'image' => 'https://placehold.co/600x400?text=Akiba',
             'title' => fake()->word(),
             'content' => fake()->paragraph(),
             'dates' => fake()->word(),

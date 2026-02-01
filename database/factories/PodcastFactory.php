@@ -19,7 +19,7 @@ class PodcastFactory extends Factory
         return [
             'is_active' => true,
             'title' => fake()->word(),
-            'image' => fake()->url(),
+            'image' => 'https://placehold.co/600x400?text=Akiba',
             'season' => fake()->randomNumber(),
             'episode' => fake()->randomNumber(),
             'summary' => fake()->paragraph(),

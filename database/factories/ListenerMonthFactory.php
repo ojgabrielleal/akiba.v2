@@ -18,7 +18,7 @@ class ListenerMonthFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'avatar' => fake()->url(),
+            'avatar' => '/img/default/avatar.webp',
             'address' => fake()->address(),
             'favorite_program' => fake()->name(),
             'requests_count' => fake()->randomNumber(),

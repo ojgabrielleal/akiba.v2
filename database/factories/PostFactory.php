@@ -18,10 +18,10 @@ class PostFactory extends Factory
     {
         return [
             'is_active' => true,
-            'image' => fake()->url(),
+            'image' => 'https://placehold.co/600x400?text=Akiba',
             'title' => fake()->word(),
             'content' => fake()->paragraph(),
-            'cover' => fake()->url(),
+            'cover' => 'https://placehold.co/600x400?text=Akiba',
             'status' => fake()->randomElement(['published', 'revision', 'sketch'])
         ];
     }
