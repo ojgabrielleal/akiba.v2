@@ -1,7 +1,7 @@
 <script>
-    import { Notification } from "@/components/private";
-    import { Navbar } from "@/widgets/private/navbar";
-    import { RadioMetrics } from "@/widgets/private/metrics";
+    import { Notification } from "@/ui/components/private";
+    import { Navbar } from "@/ui/widgets/private/navbar";
+    import { RadioMetrics } from "@/ui/widgets/private/metrics";
 
     document.body.style.backgroundColor = "var(--color-blue-indigo)";
 </script>

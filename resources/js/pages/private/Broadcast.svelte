@@ -2,8 +2,8 @@
     import { page, router } from "@inertiajs/svelte";
     import { Meta } from "@/meta";
     import { Layout } from "@/layouts/private";
-    import { BroadcastForm } from "@/widgets/private/form";
-    import { ListenerRequestGrid } from "@/widgets/private/grid";
+    import { BroadcastForm } from "@/ui/widgets/private/form";
+    import { ListenerRequestGrid } from "@/ui/widgets/private/grid";
 
     $: ({ verify } = $page.props);
 

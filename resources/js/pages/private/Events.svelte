@@ -1,8 +1,8 @@
 <script>    
     import { Meta } from "@/meta";
     import { Layout } from "@/layouts/private";
-    import { EventsForm } from "@/widgets/private/form";
-    import { PublicationsGrid } from "@/widgets/private/grid";
+    import { EventsForm } from "@/ui/widgets/private/form";
+    import { PublicationsGrid } from "@/ui/widgets/private/grid";
 </script>
 
 <Meta meta={{ title: "Eventos" }} />

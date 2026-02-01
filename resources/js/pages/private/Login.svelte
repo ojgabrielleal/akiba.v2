@@ -1,28 +1,19 @@
 <script>
     import { page } from "@inertiajs/svelte";
     import { Meta } from "@/meta";
-    import { LoginForm } from "@/widgets/private/form";
-
-    $: ({ flash } = $page.props);
+    import { Notification } from "@/ui/components/private";
+    import { LoginForm } from "@/ui/widgets/private/form";
 </script>
 
 <Meta meta={{ title: "Realize o Login" }} />
-<div class="relative flex min-h-screen items-center justify-center bg-cover bg-center" style="background-image: url('/img/default/authBackground.webp')">
-    <!-- Overlay escura -->
-    <div class="absolute inset-0 bg-black opacity-50"></div>
-
-    <!-- Conteúdo principal -->
-    <div class="relative flex w-full max-w-xs flex-col items-center px-4">
-        <img src="/img/default/logo.webp" alt="Logo" class="w-[11rem]" loading="lazy"/>
-        <strong class="font-noto-sans mb-4 mt-10 text-lg font-light text-neutral-aurora">
-            Faça login para acessar o sistema
-        </strong>
-        <LoginForm />
-        {#if flash}
-            <div class={`bg-[#B91C1C] flex justify-center items-center gap-2 w-full mt-5 p-4 rounded-lg font-noto-sans font-light text-neutral-aurora transition-opacity duration-500 ease-in-out ${flash.message ? "opacity-100" : "opacity-0"}`}>
-                <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                {@html flash.message}
-            </div>
-        {/if}
-    </div>
+<Notification/>
+<div class="w-screen h-screen flex justify-center items-center bg-blue-indigo p-5">
+    <section class="bg-neutral-aurora rounded-l-lg rounded-xl xl:w-[60rem] xl:h-[30rem] xl:grid xl:grid-cols-[2fr_3fr]">
+        <div class="flex items-center p-8">
+            <LoginForm/>
+        </div>
+        <div class="h-full overflow-hidden rounded-r-lg hidden xl:block">
+            <img class="w-full h-full object-cover" src="https://i.redd.it/8p8rq1tz2xjd1.gif" alt="" aria-hidden="true"/>
+        </div>
+    </section>
 </div>

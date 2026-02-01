@@ -2,7 +2,7 @@
     import { page } from "@inertiajs/svelte"
     import { Meta } from "@/meta";
     import { Layout } from "@/layouts/private";
-    import { ProfileForm } from "@/widgets/private/form";
+    import { ProfileForm } from "@/ui/widgets/private/form";
 
      $: ({ profile } = $page.props);
 
