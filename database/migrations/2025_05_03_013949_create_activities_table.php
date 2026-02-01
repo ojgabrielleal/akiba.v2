@@ -17,7 +17,7 @@ return new class extends Migration
             $table->boolean('allows_confirmations')->default(false);
             $table->date('limit')->nullable();
             $table->string('title')->nullable();
-            $table->string('content');
+            $table->longText('content');
             $table->timestamps();
         });
     }

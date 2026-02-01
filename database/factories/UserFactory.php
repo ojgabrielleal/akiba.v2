@@ -17,14 +17,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $gender = fake()->randomElement(['male', 'female']);
-
-        $avatar = null;
-        if ($gender === 'male') {
-            $avatar = '/img/default/users/avatarMale.webp';
-        } else {
-            $avatar = '/img/default/users/avatarFemale.webp';
-        }
+        $gender = $this->attributes['gender'] ?? fake()->randomElement(['male', 'female']);
 
         return [
             'is_active' => true,
@@ -33,12 +26,32 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'nickname' => fake()->userName(),
             'gender' => $gender,
-            'avatar' => $avatar,
+            'avatar' => $gender === 'male' ? '/img/users/default/avatarMale.webp' : '/img/users/default/avatarFemale.webp',
             'birthday' => fake()->date(),
             'city' => fake()->city(),
             'state' => fake()->state(),
             'country' => fake()->country(),
             'bibliography' => fake()->paragraph(),
         ];
+    }
+
+    /**
+     * State: male
+     */
+    public function male(): static
+    {
+        return $this->state([
+            'gender' => 'male',
+        ]);
+    }
+
+    /**
+     * State: female
+     */
+    public function female(): static
+    {
+        return $this->state([
+            'gender' => 'female',
+        ]);
     }
 }

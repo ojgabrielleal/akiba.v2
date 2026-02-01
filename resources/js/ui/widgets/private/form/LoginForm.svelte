@@ -1,6 +1,6 @@
 <script>
     import { useForm } from "@inertiajs/svelte";
-
+    
     let form = useForm({
         username: null,
         password: null,

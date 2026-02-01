@@ -36,7 +36,7 @@ class Activity extends Model
      */
     public function scopeValid($query)
     {
-        return $query->where('limit', '<', now());
+        return $query->where('limit', '>=', today());
     }
 
     /**

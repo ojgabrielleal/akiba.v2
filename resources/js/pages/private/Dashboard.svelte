@@ -7,7 +7,10 @@
     import { ActivitiesCarrousel, TasksCarrousel } from "@/ui/widgets/private/carrousel";
     import { PublicationsGrid, CalendarGrid } from "@/ui/widgets/private/grid";
 
-    $: ({ logged } = $page.props);
+    $: ({ 
+        logged,
+        activities
+    } = $page.props);
 
     function phraseSwitchHero(nickname) {
         const phrases = [
@@ -32,7 +35,11 @@
 <Layout>
     <GreatingHero phrase={phraseSwitchHero(logged.nickname)} icon="/img/default/defaultHero.webp"/>
     <CanRender permission="activity.list">
-        <ActivitiesCarrousel title="Avisos e Atividades"/>
+        <ActivitiesCarrousel 
+            title="Avisos e Atividades"
+            activities={activities}
+            logged={logged}
+        />
     </CanRender>
     <CanRender permission="task.list">
         <TasksCarrousel title="Minhas Tarefas"/>

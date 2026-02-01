@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-use App\Models\User;    
+use App\Models\User;
 use App\Models\Activity;
 
 class ActivitySeeder extends Seeder
@@ -15,9 +15,20 @@ class ActivitySeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory()->create();
+        $userAdmin = User::find(1);
+        
         Activity::factory()
-            ->for($user, 'author')
-            ->create();
+            ->count(5)
+            ->for($userAdmin, 'author')
+            ->create([
+                'allows_confirmations' => false,
+            ]);
+
+        Activity::factory()
+            ->count(5)
+            ->for($userAdmin, 'author')
+            ->create([
+                'allows_confirmations' => true,
+            ]);
     }
 }

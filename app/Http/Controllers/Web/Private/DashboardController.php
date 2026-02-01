@@ -22,8 +22,8 @@ class DashboardController extends Controller
     public function indexActivities()
     {
         return Activity::valid()
-            ->with(['responsible', 'confirmations.confirmer'])
-            ->limit(6)
+            ->with(['author', 'confirmations.confirmer'])
+            ->limit(10)
             ->get();
     }
 

@@ -18,8 +18,8 @@ class CalendarFactory extends Factory
     {
         return [
             'time' => fake()->time(),
-            'date' => fake()->date(),
-            'category' => fake()->randomElement(['show', 'live', 'youtube', 'podcast']),
+            'date' => fake()->dateTimeBetween(now()->startOfWeek(), now()->endOfWeek())->format('Y-m-d'),
+            'category' => fake()->randomElement(['show', 'live', 'youtube', 'podcast', 'activity']),
             'content' => fake()->word()
         ];
     }

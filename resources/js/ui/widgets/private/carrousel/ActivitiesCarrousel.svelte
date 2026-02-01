@@ -1,15 +1,11 @@
 <script>
     export let title = null; 
+    export let logged = null;
+    export let activities = null;
 
-    import { router, page } from "@inertiajs/svelte";
     import { Section, CanRender } from "@/ui/components/private/";
+    import { confirmActivityParticipant } from "@/lib/requests"
     import { scrollx } from "@/utils";
-
-    $: ({ logged, activities } = $page.props);
-    
-    function createConfirmation(activityId) {
-        router.post(`/painel/dashboard/activity/${activityId}/confirm`);
-    }
 </script>
 
 <Section title={title}>
@@ -26,7 +22,7 @@
                         {'text-blue-midnight': allowsConfirmations},
                         {'text-neutral-aurora': !allowsConfirmations}
                     ]}>
-                        {item.responsible.nickname}
+                        {item.author.nickname}
                     </div>
                     <div class={['font-noto-sans text-sm line-clamp-5 mt-1', 
                         {'text-blue-midnight': allowsConfirmations},
@@ -40,17 +36,17 @@
                                 <img
                                     src={confirmation.confirmer.avatar}
                                     alt={confirmation.confirmer.nickname}
-                                    class="w-9 h-9 rounded-full bg-neutral-aurora"
+                                    class="w-10 h-10 rounded-full bg-neutral-aurora object-cover object-top"
                                     loading="lazy"
                                 />
                             {/each}
                         </div>
-                        <CanRender permission="activity.participate" conditional={!isParticipate}>
+                        <CanRender permission="activity.participate" when={!isParticipate}>
                             <button
                                 type="button"
                                 aria-label="Confirmar alerta"
                                 class="w-[2rem] h-[2rem] bg-neutral-aurora absolute bottom-3 right-4 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer disabled:opacity-50"
-                                on:click={() => createConfirmation(item.id)}
+                                on:click={() => confirmActivityParticipant(item.id)}
                             >
                                 <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                             </button>

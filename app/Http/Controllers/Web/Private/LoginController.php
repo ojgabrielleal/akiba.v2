@@ -29,7 +29,7 @@ class LoginController extends Controller
 
         return Inertia::render($this->render)->with('flash', [
             'type' => 'error',
-            'message' => "Login ou senha incorretos",
+            'message' => "😠 Login ou senha incorretos",
         ]);
     }
 
