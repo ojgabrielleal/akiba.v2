@@ -3,27 +3,27 @@
 
     export let permission = null;
     export let when = true;
-    export let any = [];
-    export let all = [];
 
     $: ({ logged } = $page.props);
 
-    $: permissions = logged.permissions || [];
-    $: permissionNames = permissions.map((p) => p.name);
+    $: permissions = logged.permissions;
+    $: permissionsName = permissions.map((p) => p.name);
 
     $: hasPermission = checkPermission();
 
     function checkPermission() {
-        if (permission) {
-            return permissionNames.includes(permission);
-        }
+        if (!permission) return null;
 
-        if (any.length) {
-            return any.some((p) => permissionNames.includes(p));
-        }
-
-        if (all.length) {
-            return all.every((p) => permissionNames.includes(p));
+        if(Array.isArray(permission)){
+            for(const p of permission){
+                if(permissionsName.includes(p)){
+                    return true
+                }
+            }
+        }else{
+            if(permissionsName.includes(permission)){
+                return true
+            }
         }
 
         return false;

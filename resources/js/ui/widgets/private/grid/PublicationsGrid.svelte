@@ -33,7 +33,7 @@
                             <Link href={`https://akiba.com.br/${type}/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
                                 <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                             </Link>
-                            <CanRender any={['post.update.own', 'post.update']} conditional={isAuthor}>
+                            <CanRender permission={['post.update.own', 'post.update']} when={isAuthor}>
                                 <Link href={`https://akiba.com.br/painel/${type}/${item.slug}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
                                 </Link>
