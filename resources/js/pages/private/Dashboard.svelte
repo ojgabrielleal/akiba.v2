@@ -36,7 +36,7 @@
 
 <Meta meta={{ title: "Dashboard" }} />
 <Layout>
-    <GreatingHero phrase={phraseSwitchHero(logged.nickname)} icon="/img/default/defaultHero.webp"/>
+    <GreatingHero phrase={phraseSwitchHero(logged.nickname)} icon="/img/default/avatar.webp"/>
     <CanRender permission="activity.list">
         <ActivitiesCarrousel 
             title="Avisos e Atividades"
