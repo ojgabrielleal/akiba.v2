@@ -59,6 +59,14 @@ trait FlashMessageTrait
                 'type' => 'success',
                 'message' => '🗳️ Voto computado! Seu poder de decisão foi registrado… e ninguém explodiu, ufa 😎'
             ],
+            'confirmActivity' => [
+                'type' => 'success',
+                'message' => 'Presença marcada! Não se esquece, tá? 😬 Tá tudo registrado… até sua alma! 😇📌'
+            ],
+            'taskCompleted' => [
+                'type' => 'success',
+                'message' => 'Tarefa feita! ✅ Vou avisar a chefia… mesmo que estejam no mundo dos sonhos 🌙😎'
+            ]
         ];
 
         $default_message = [

@@ -1,12 +1,12 @@
 <script>
     export let title = null;
     export let type = null;
+    export let publications = null;
+    export let logged = null; 
 
-    import { page, Link } from "@inertiajs/svelte";
+    import { Link } from "@inertiajs/svelte";
     import { Section, CanRender } from "@/ui/components/private/";
     import { Pagination } from "@/ui/components/private"
-
-    $: ({ logged, publications } = $page.props);
 </script>
 
 <Section {title}>

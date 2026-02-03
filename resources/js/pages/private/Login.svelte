@@ -12,7 +12,7 @@
             <LoginForm/>
         </div>
         <div class="h-full overflow-hidden rounded-r-lg hidden xl:block">
-            <img class="w-full h-full object-cover" src="https://i.redd.it/8p8rq1tz2xjd1.gif" alt="" aria-hidden="true"/>
+            <img class="w-full h-full object-cover" src="https://a.storyblok.com/f/178900/1460x821/21059378e0/i-made-friends-with-the-second-prettiest-girl-in-my-class-hero.png/m/1200x0/filters:quality(95)format(webp)" alt="" aria-hidden="true"/>
         </div>
     </section>
 </div>

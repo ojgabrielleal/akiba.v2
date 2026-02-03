@@ -1,54 +1,74 @@
 <script>
     export let title = null;
-    
-    import { page } from "@inertiajs/svelte";
+    export let calendar = null;
+
     import { Section, CanRender } from "@/ui/components/private/";
     import { time } from "@/utils";
 
-    $: ({ calendar } = $page.props);
-    
     let week = [];
-    
+
     $: if (calendar) {
-        week = [];
-
         const today = new Date();
+        const days = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
         
-        const days = [ 
-            'dom',
-            'seg',
-            'ter',
-            'qua',
-            'qui',
-            'sex',
-            'sáb'
-        ]
-
-        for(let i = 0; i < 7; i++){
+        for (let i = 0; i < 7; i++) {
             const date = new Date(today);
             date.setDate(today.getDate() + i);
 
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            const dateString = `${year}-${month}-${day}`;
+
             week.push({
-                'date': `${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}/${(date.getMonth() + 1) < 10 ?  '0' + (date.getMonth() + 1) : date.getUTCMonth() + 1}`,
-                'day': days[date.getDay()],
-                'events': calendar.filter(item => item.date === date.toISOString().split('T')[0])
+                date: `${day}/${month}`,
+                day: days[date.getDay()],
+                events: calendar.filter((item) => item.date === dateString),
             });
         }
     }
 
     const tags = [
-        { label: "Programas", color: "bg-blue-skywave", textcolor: "text-neutral-aurora" },
-        { label: "Lives", color: "bg-purple-mystic", textcolor: "text-neutral-aurora"},
-        { label: "Youtube", color: "bg-red-crimson", textcolor: "text-neutral-aurora" },
-        { label: "Podcasts", color: "bg-green-forest", textcolor: "text-neutral-aurora" },
-        { label: "Atividades", color: "bg-neutral-honeycream", textcolor: "text-blue-midnight"},
-        { label: "", color: "bg-blue-skywave", textcolor: "text-neutral-aurora" },
-        { label: "", color: "bg-blue-skywave", textcolor: "text-neutral-aurora" }
+        {
+            label: "Programas",
+            color: "bg-blue-skywave",
+            textcolor: "text-neutral-aurora",
+        },
+        {
+            label: "Lives",
+            color: "bg-purple-mystic",
+            textcolor: "text-neutral-aurora",
+        },
+        {
+            label: "Youtube",
+            color: "bg-red-crimson",
+            textcolor: "text-neutral-aurora",
+        },
+        {
+            label: "Podcasts",
+            color: "bg-green-forest",
+            textcolor: "text-neutral-aurora",
+        },
+        {
+            label: "Atividades",
+            color: "bg-neutral-honeycream",
+            textcolor: "text-blue-midnight",
+        },
+        {
+            label: "",
+            color: "bg-blue-skywave",
+            textcolor: "text-neutral-aurora",
+        },
+        {
+            label: "",
+            color: "bg-blue-skywave",
+            textcolor: "text-neutral-aurora",
+        },
     ];
 </script>
 
-<Section title={title}>
-    <div class="w-full grid gap-5 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
+<Section {title}>
+    <div  class="w-full grid gap-5 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
         {#each tags as tag}
             <span class={`h-10 text-lg font-noto-sans font-bold uppercase italic rounded-lg flex justify-center items-center ${tag.color} ${tag.textcolor}`}>
                 {tag.label}
@@ -62,29 +82,29 @@
                     {day.day} - {day.date}
                 </div>
                 {#each day.events as event}
-                    {@const isLive = event.category === 'live'}
-                    {@const isYoutube = event.category === 'youtube'}
-                    {@const isPodcast = event.category === 'podcast'}
-                    {@const isActivity = event.category === 'activity'}
-                    <div class={['w-full 2xl:w-[12.7rem] bg-blue-skywave rounded-lg pt-4 pl-4 pr-4 pb-3 mt-5', 
-                        {'bg-purple-mystic': isLive}, 
-                        {'bg-red-crimson': isYoutube}, 
-                        {'bg-green-forest': isPodcast},
-                        {'bg-neutral-honeycream': isActivity}
+                    {@const isLive = event.category === "live"}
+                    {@const isYoutube = event.category === "youtube"}
+                    {@const isPodcast = event.category === "podcast"}
+                    {@const isActivity = event.category === "activity"}
+                    <div class={["w-full 2xl:w-[12.7rem] bg-blue-skywave rounded-lg pt-4 pl-4 pr-4 pb-3 mt-5",
+                        {"bg-purple-mystic": isLive },
+                        {"bg-red-crimson": isYoutube },
+                        {"bg-green-forest": isPodcast },
+                        {"bg-neutral-honeycream": isActivity },
                     ]}>
                         <div class="flex events-center">
-                            <div class={['w-full font-noto-sans text-2xl text-center uppercase', 
-                                {'text-blue-midnight': isActivity},
-                                {'text-neutral-aurora': !isActivity}
+                            <div class={["w-full font-noto-sans text-2xl text-center uppercase",
+                                {"text-blue-midnight": isActivity },
+                                {"text-neutral-aurora": !isActivity },
                             ]}>
                                 {time(event.time)}
                             </div>
                         </div>
-                        <div class={['w-full font-noto-sans font-bold text-2xl text-center italic mt-6 mb-6', 
-                            {'text-blue-midnight': isActivity},
-                            {'text-neutral-aurora': !isActivity}
+                        <div class={["w-full font-noto-sans font-bold text-2xl text-center italic mt-6 mb-6",
+                            { "text-blue-midnight": isActivity },
+                            { "text-neutral-aurora": !isActivity },
                         ]}>
-                            {#if isActivity}
+                            {#if event.has_activity}
                                 {event.activity.title}
                             {:else}
                                 {event.content}
@@ -93,14 +113,14 @@
                         <div class="flex justify-between flex-row">
                             <CanRender permission="calendar.update">
                                 <button aria-label="Editar" class="cursor-pointer">
-                                    <img src="/svg/default/edit.svg" alt="" aria-hidden="true" loading="lazy" class={['w-5 filter-neutral-aurora', 
-                                        {'filter-blue-midnight': isActivity}
+                                    <img src="/svg/default/edit.svg" alt="" aria-hidden="true" loading="lazy" class={["w-5 filter-neutral-aurora",
+                                        {"filter-blue-midnight": isActivity}
                                     ]}/>
                                 </button>
                             </CanRender>
-                            <div class={['w-full font-noto-sans text-md text-end', 
-                                {'text-blue-midnight': isActivity},
-                                {'text-neutral-aurora': !isActivity}
+                            <div class={["w-full font-noto-sans text-md text-end",
+                                { "text-blue-midnight": isActivity },
+                                { "text-neutral-aurora": !isActivity },
                             ]}>
                                 {event.responsible.nickname}
                             </div>

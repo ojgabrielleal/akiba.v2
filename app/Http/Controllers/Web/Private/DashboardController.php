@@ -58,7 +58,7 @@ class DashboardController extends Controller
             'user_id' => request()->user()->id
         ]);
 
-        return $this->flashMessage('save');
+        return $this->flashMessage('confirmActivity');
     }
 
     public function markTaskCompleted(Task $task)
@@ -67,7 +67,7 @@ class DashboardController extends Controller
             'is_completed' => true,
         ]);
 
-        return $this->flashMessage('save');
+        return $this->flashMessage('taskCompleted');
     }
 
     public function render()
@@ -75,7 +75,7 @@ class DashboardController extends Controller
         return Inertia::render($this->render, [
             'activities' => $this->indexActivities(),
             'tasks' => $this->indexTasks(),
-            'publications' => $this->indexPublications(),
+            'posts' => $this->indexPublications(),
             'calendar' => $this->indexCalendar()
         ]);
     }

@@ -1,18 +1,13 @@
 <script>
     export let title = null;
+    export let tasks = null;
     
-    import { router, page } from "@inertiajs/svelte";
     import { Section, CanRender } from "@/ui/components/private/";
+    import { markTaskCompleted } from "@/lib/requests";
     import { scrollx, date } from "@/utils";
-
-    $: ({ tasks } = $page.props);
-
-    function setTaskComplete(taskId) {
-        router.post(`/painel/dashboard/task/${taskId}/complete`);
-    }
 </script>
 
-<Section title={title}>
+<Section {title}>
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" on:wheel={scrollx} role="group">
         {#if tasks.length > 0}
             {#each tasks as item}
@@ -21,13 +16,13 @@
                     {'bg-orange-amber': isDueSoon},
                     {'bg-blue-skywave': !isDueSoon}
                 ]}>
-                    <div class={['uppercase font-noto-sans italic font-bold text-3xl', 
+                    <div class={['w-3/4 uppercase font-noto-sans italic font-bold text-2xl truncate', 
                         {'text-blue-midnight': isDueSoon},
                         {'text-neutral-aurora': !isDueSoon}
                     ]}>
                         {item.title}
                     </div>
-                    <div class={['w-60 lg:w-90 font-noto-sans text-sm line-clamp-5 mt-1', 
+                    <div class={['w-60 lg:w-90 font-noto-sans text-sm line-clamp-4 mt-1', 
                         {'text-blue-midnight': isDueSoon},
                         {'text-neutral-aurora': !isDueSoon}
                     ]}>
@@ -52,7 +47,7 @@
                         </dd>
                     </dl>
                     <CanRender permission="task.complete">
-                        <button type="button" aria-label="Concluir tarefa" on:click={() => setTaskComplete(item.id)} class={['font-noto-sans italic font-bold cursor-pointer',
+                        <button type="button" aria-label="Concluir tarefa" on:click={() => markTaskCompleted(item.id)} class={['font-noto-sans italic font-bold cursor-pointer',
                             {'bg-red-crimson rounded-xl text-neutral-aurora uppercase absolute right-5 bottom-3 py-2 px-6': isDueSoon},
                             {'bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center': !isDueSoon}
                         ]}>

@@ -27,7 +27,7 @@
         alert = queue.shift();
         await new Promise(r=>setTimeout(r, timeout));   // espera o tempo de exibição
         alert = null;
-        await new Promise(r=>setTimeout(r, 300)); // espera a animação sumir
+        await new Promise(r=>setTimeout(r, 500)); // espera a animação sumir
         processQueue();
     }
 
@@ -44,7 +44,7 @@
     function switchColor(type) {
         switch(type) {
             case 'success':
-                return '#6aad68'; 
+                return '#40693f'; 
             case 'error':
                 return '#962c3f'; 
             case 'warning':
@@ -58,7 +58,7 @@
 </script>
 
 {#if alert}
-    <div in:scale={{ duration: 300, start: 0.5 }} out:scale={{ duration: 300, end: 0.5 }} class="w-full lg:w-auto lg:max-w-4xl h-17 fixed top-0 lg:top-auto lg:bottom-5 lg:right-5 z-50 rounded-none lg:rounded-lg" style={`background-color: ${switchColor(alert?.type)};`}>
+    <div in:scale={{ duration: 500, start: 0.5 }} out:scale={{ duration: 500, end: 0.5 }} class="w-full lg:w-auto lg:max-w-4xl h-17 fixed top-0 lg:top-auto lg:bottom-5 lg:right-5 z-50 rounded-none lg:rounded-lg" style={`background-color: ${switchColor(alert?.type)};`}>
         <button on:click={closeAlert} class="text-neutral-aurora absolute top-1/2 right-5 -translate-y-1/2 cursor-pointer" aria-label="Fechar alerta">
             <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
         </button>

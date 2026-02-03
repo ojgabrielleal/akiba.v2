@@ -9,7 +9,9 @@
 
     $: ({ 
         logged,
-        activities
+        activities,
+        tasks,
+        posts
     } = $page.props);
 
     function phraseSwitchHero(nickname) {
@@ -37,17 +39,28 @@
     <CanRender permission="activity.list">
         <ActivitiesCarrousel 
             title="Avisos e Atividades"
-            activities={activities}
-            logged={logged}
+            {activities}
+            {logged}
         />
     </CanRender>
     <CanRender permission="task.list">
-        <TasksCarrousel title="Minhas Tarefas"/>
+        <TasksCarrousel 
+            title="Minhas Tarefas"
+            {tasks}
+        />
     </CanRender>
     <CanRender permission="post.list">
-        <PublicationsGrid title="Últimas Matérias" type="materias"/>
+        <PublicationsGrid 
+            title="Últimas Matérias" 
+            type="materias"
+            publications={posts}
+            {logged}
+        />
     </CanRender>
     <CanRender permission="calendar.list">
-        <CalendarGrid title="Calendário"/>
+        <CalendarGrid 
+            title="Calendário"
+            {calendar}
+        />
     </CanRender>
 </Layout>

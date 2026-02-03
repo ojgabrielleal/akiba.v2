@@ -8,7 +8,7 @@
     import { scrollx } from "@/utils";
 </script>
 
-<Section title={title}>
+<Section {title}>
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" on:wheel={scrollx} role="group">
         {#if activities.length > 0}
             {#each activities as item}  
