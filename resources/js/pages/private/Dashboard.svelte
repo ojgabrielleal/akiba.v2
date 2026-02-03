@@ -11,7 +11,8 @@
         logged,
         activities,
         tasks,
-        posts
+        posts,
+        calendar
     } = $page.props);
 
     function phraseSwitchHero(nickname) {
