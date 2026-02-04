@@ -1,7 +1,7 @@
 <script>
     export let title = null;
     export let tasks = null;
-    
+        
     import { Section, CanRender } from "@/ui/components/private/";
     import { markTaskCompleted } from "@/lib/requests";
     import { scrollx, date } from "@/utils";
@@ -11,47 +11,47 @@
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" on:wheel={scrollx} role="group">
         {#if tasks.length > 0}
             {#each tasks as item}
-                {@const isDueSoon = item.is_due_soon}
+                {@const isDueOrOverdue = item.is_over || item.is_due}
                 <article class={['w-100 h-50 lg:w-[40rem] bg-blue-skywave lg:h-43 shrink-0 rounded-lg p-4 relative',
-                    {'bg-orange-amber': isDueSoon},
-                    {'bg-blue-skywave': !isDueSoon}
+                    {'bg-orange-amber': isDueOrOverdue},
+                    {'bg-blue-skywave': !isDueOrOverdue}
                 ]}>
                     <div class={['w-3/4 uppercase font-noto-sans italic font-bold text-2xl truncate', 
-                        {'text-blue-midnight': isDueSoon},
-                        {'text-neutral-aurora': !isDueSoon}
+                        {'text-blue-midnight': isDueOrOverdue},
+                        {'text-neutral-aurora': !isDueOrOverdue}
                     ]}>
                         {item.title}
                     </div>
                     <div class={['w-60 lg:w-90 font-noto-sans text-sm line-clamp-4 mt-1', 
-                        {'text-blue-midnight': isDueSoon},
-                        {'text-neutral-aurora': !isDueSoon}
+                        {'text-blue-midnight': isDueOrOverdue},
+                        {'text-neutral-aurora': !isDueOrOverdue}
                     ]}>
                         {item.content}
                     </div>
                     <dl class="absolute top-5 right-5 rounded-xl shadow-lg w-[7rem] text-center overflow-hidden bg-neutral-aurora">
                         <dt class={['font-noto-sans italic font-black text-sm py-1 uppercase tracking-wide', 
-                            {'bg-red-crimson': isDueSoon},
-                            {'bg-blue-midnight': !isDueSoon},
-                            {'text-blue-midnight': isDueSoon},
-                            {'text-neutral-aurora': !isDueSoon}
+                            {'bg-red-crimson': isDueOrOverdue},
+                            {'bg-blue-midnight': !isDueOrOverdue},
+                            {'text-blue-midnight': isDueOrOverdue},
+                            {'text-neutral-aurora': !isDueOrOverdue}
                         ]}>
                             Data Limite
                         </dt>
                         <dd class={['font-noto-sans italic font-extrabold text-2xl py-1 tracking-widest', 
-                            {'bg-blue-midnight': isDueSoon},
-                            {'bg-neutral-aurora': !isDueSoon},
-                            {'text-orange-amber': isDueSoon},
-                            {'text-blue-midnight': !isDueSoon}
+                            {'bg-blue-midnight': isDueOrOverdue},
+                            {'bg-neutral-aurora': !isDueOrOverdue},
+                            {'text-orange-amber': isDueOrOverdue},
+                            {'text-blue-midnight': !isDueOrOverdue}
                         ]}>
-                            {date(item.deadline, 'd/m')}
+                            {item.deadline}
                         </dd>
                     </dl>
                     <CanRender permission="task.complete">
                         <button type="button" aria-label="Concluir tarefa" on:click={() => markTaskCompleted(item.id)} class={['font-noto-sans italic font-bold cursor-pointer',
-                            {'bg-red-crimson rounded-xl text-neutral-aurora uppercase absolute right-5 bottom-3 py-2 px-6': isDueSoon},
-                            {'bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center': !isDueSoon}
+                            {'bg-red-crimson rounded-xl text-neutral-aurora uppercase absolute right-5 bottom-3 py-2 px-6': isDueOrOverdue},
+                            {'bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center': !isDueOrOverdue}
                         ]}>
-                            {#if isDueSoon}
+                            {#if isDueOrOverdue}
                                 Solicitar conclusão
                             {:else}
                                 <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>

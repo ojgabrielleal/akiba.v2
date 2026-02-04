@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Carbon\Carbon;
 
 class Task extends Model
 {
@@ -24,7 +25,7 @@ class Task extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
-        'deadline' => 'date:Y-m-d',
+        'deadline' => 'date:d/m',
         'is_completed' => 'boolean',
     ];
 
@@ -32,12 +33,33 @@ class Task extends Model
         'user_id',
     ];
 
-    protected $appends = ['is_due_soon'];
+    protected $appends = ['is_over', 'is_due'];
 
-    protected function isDueSoon(): Attribute
+    protected function isOver(): Attribute
     {
         return Attribute::make(
-            get: fn() => ($this->deadline && !$this->is_completed) && $this->deadline->between(today(), today()->addDays(7))
+            get: function () {
+                if ($this->is_complete) {
+                    return false;
+                }
+
+                $deadline = $this->deadline;
+                return $deadline->isPast();
+            }
+        );
+    }
+
+    protected function isDue(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->is_complete) {
+                    return false;
+                }
+
+                $deadline = $this->deadline;
+                return $deadline->between(today(), today()->addDays(7));
+            }
         );
     }
 

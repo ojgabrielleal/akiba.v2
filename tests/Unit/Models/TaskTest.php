@@ -91,15 +91,15 @@ class TaskTest extends TestCase
     /**
      * Tests from Task model attributes.
      */
-    public function testAttributeIsDueSoonReturnsCorrectValue(): void
+    public function testAttributeIsOverReturnsCorrectValue(): void
     {
         $today = \Carbon\Carbon::parse('2026-01-20');
         \Carbon\Carbon::setTestNow($today);
 
         $user = User::factory()->create();
 
-        $dueSoonTask = Task::factory()->for($user, 'responsible')->create([
-            'deadline' => '2026-01-23',
+        $overTask = Task::factory()->for($user, 'responsible')->create([
+            'deadline' => '2026-01-15',
             'is_completed' => false
         ]);
 
@@ -108,14 +108,25 @@ class TaskTest extends TestCase
             'is_completed' => false
         ]);
 
-        $completedTask = Task::factory()->for($user, 'responsible')->create([
-            'deadline' => '2026-01-23',
-            'is_completed' => true
+        $this->assertTrue($overTask->is_over, 'Tarefa tem que ser dada como vencida.');
+        $this->assertFalse($farTask->is_over, 'Tarefa tem que ser dada como não vencida');
+
+        \Carbon\Carbon::setTestNow();
+    }
+
+    public function testAttributeIsDueReturnsCorrectValue(): void
+    {
+        $today = \Carbon\Carbon::parse('2026-01-20');
+        \Carbon\Carbon::setTestNow($today);
+
+        $user = User::factory()->create();
+
+        $dueTask = Task::factory()->for($user, 'responsible')->create([
+            'deadline' => '2026-01-25',
+            'is_completed' => false
         ]);
 
-        $this->assertTrue($dueSoonTask->is_due_soon, 'Tarefa não concluída vencendo em 3 dias deve ser true.');
-        $this->assertFalse($farTask->is_due_soon, 'Tarefa vencendo em 10 dias deve ser false.');
-        $this->assertFalse($completedTask->is_due_soon, 'Tarefa já concluída deve ser false mesmo se o prazo estiver perto.');
+        $this->assertTrue($dueTask->is_due, 'Tarefa vai vencer dentro dos próximos 7 dias.');
 
         \Carbon\Carbon::setTestNow();
     }
