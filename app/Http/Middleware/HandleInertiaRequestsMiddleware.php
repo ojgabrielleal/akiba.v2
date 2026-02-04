@@ -48,6 +48,7 @@ class HandleInertiaRequestsMiddleware extends Middleware
                 'name' => $user->name,
                 'nickname' => $user->nickname,
                 'avatar' => $user->avatar,
+                'roles' => $user->roles,
                 'permissions' => $user->roles
                     ->flatMap(fn($role) => $role->permissions)
                     ->unique('id')

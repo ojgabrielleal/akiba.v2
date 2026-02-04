@@ -29,6 +29,7 @@
             `${nickname}, como você está?`,
             `Hora de começar, ${nickname}!`,
         ];
+        
         const index = Math.floor(Math.random() * phrases.length);
         return phrases[index];
     }
@@ -40,28 +41,31 @@
     <CanRender permission="activity.list">
         <ActivitiesCarrousel 
             title="Avisos e Atividades"
-            {activities}
-            {logged}
+            activities={activities}
+            logged={logged}
         />
     </CanRender>
     <CanRender permission="task.list">
         <TasksCarrousel 
             title="Minhas Tarefas"
-            {tasks}
+            tasks={tasks}
         />
     </CanRender>
     <CanRender permission="post.list">
         <PublicationsGrid 
             title="Últimas Matérias" 
-            type="materias"
+            model="materias"
+            unrestricted={logged.roles.filter(item => item.name === 'administrator')}
             publications={posts}
-            {logged}
+            logged={logged}
         />
     </CanRender>
     <CanRender permission="calendar.list">
         <CalendarGrid 
             title="Calendário"
-            {calendar}
+            unrestricted={logged.roles.filter(item => item.name === 'administrator')}
+            calendar={calendar}
+            logged={logged}
         />
     </CanRender>
 </Layout>

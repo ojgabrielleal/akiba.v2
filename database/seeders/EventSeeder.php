@@ -15,10 +15,8 @@ class EventSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory()->create();
-
         Event::factory()
-            ->for($user, 'author')
+            ->for(User::factory()->create(), 'author')
             ->create();
     }
 }

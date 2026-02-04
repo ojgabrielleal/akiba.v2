@@ -16,10 +16,8 @@ class OnairSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory()->create();
-
         $program = Program::factory()
-            ->for($user, 'host')
+            ->for(User::factory()->create(), 'host')
             ->create();
 
         Onair::factory()->create([

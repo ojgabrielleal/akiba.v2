@@ -14,19 +14,17 @@ class ActivitySeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        $userAdmin = User::find(1);
-        
+    {        
         Activity::factory()
             ->count(5)
-            ->for($userAdmin, 'author')
+            ->for(User::find(1), 'author')
             ->create([
                 'allows_confirmations' => false,
             ]);
 
         Activity::factory()
             ->count(5)
-            ->for($userAdmin, 'author')
+            ->for(User::find(1), 'author')
             ->create([
                 'allows_confirmations' => true,
             ]);

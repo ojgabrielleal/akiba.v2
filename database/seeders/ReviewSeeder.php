@@ -15,11 +15,9 @@ class ReviewSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {       
-        $user = User::factory()->create();
-        
+    {               
         $content = ReviewContent::factory()
-            ->for($user, 'author');
+            ->for(User::factory()->create(), 'author');
 
         Review::factory()
             ->has($content, 'contents')

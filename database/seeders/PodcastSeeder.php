@@ -15,10 +15,8 @@ class PodcastSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory()->create();
-
         Podcast::factory()
-            ->for($user, 'author')
+            ->for(User::factory()->create(), 'author')
             ->create();
     }
 }

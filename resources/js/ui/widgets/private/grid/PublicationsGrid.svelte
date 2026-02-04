@@ -1,19 +1,20 @@
 <script>
     export let title = null;
-    export let type = null;
+    export let model = null;
+    export let unrestricted = false; 
     export let publications = null;
     export let logged = null; 
-
+    
     import { Link } from "@inertiajs/svelte";
     import { Section, CanRender } from "@/ui/components/private/";
     import { Pagination } from "@/ui/components/private"
 </script>
 
-<Section {title}>
+<Section title={title}>
     <div class="gap-6 grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5">
         {#if publications.data.length > 0}
             {#each publications.data as item}
-                {@const isAuthor = logged.nickname === item.author.nickname}
+                {@const isEditable = unrestricted ? true : logged.nickname === item.author.nickname}
                 {@const isPublished = item.status === 'published'}
                 {@const isRevision = item.status === 'revision'}
                 {@const isSketch = item.status === 'sketch'}
@@ -30,11 +31,11 @@
                             {item.author.nickname}
                         </dt>
                         <dd class="flex gap-3">
-                            <Link href={`https://akiba.com.br/${type}/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
+                            <Link href={`https://akiba.com.br/${model}/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
                                 <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                             </Link>
-                            <CanRender permission={['post.update.own', 'post.update']} when={isAuthor}>
-                                <Link href={`https://akiba.com.br/painel/${type}/${item.slug}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
+                            <CanRender permission={['post.update.own', 'post.update']} when={isEditable}>
+                                <Link href={`https://akiba.com.br/painel/${model}/${item.slug}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
                                 </Link>
                             </CanRender>

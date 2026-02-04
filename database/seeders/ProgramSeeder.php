@@ -16,12 +16,9 @@ class ProgramSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory()->create();
-        $schedules = ProgramSchedule::factory()->count(3);
-
         Program::factory()
-            ->for($user, 'host')
-            ->has($schedules, 'schedules')
+            ->for(User::factory()->create(), 'host')
+            ->has(ProgramSchedule::factory()->count(3), 'schedules')
             ->create();
     }
 }

@@ -15,16 +15,14 @@ class TaskSeeder extends Seeder
      */
     public function run(): void
     {
-        $userAdmin = User::find(1);
-
         Task::factory()
             ->count(5)
-            ->for($userAdmin, 'responsible')
+            ->for(User::find(1), 'responsible')
             ->create();
 
         Task::factory()
             ->count(5)
-            ->for($userAdmin, 'responsible')
+            ->for(User::find(1), 'responsible')
             ->create([
                 'deadline' => fn() => fake()->dateTimeBetween(now()->startOfWeek(), now()->endOfWeek())->format('Y-m-d')
             ]);

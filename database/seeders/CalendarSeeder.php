@@ -16,19 +16,16 @@ class CalendarSeeder extends Seeder
      */
     public function run(): void
     {
-        $userAdmin = User::find(1);
-        $activityConfirmations = Activity::where('allows_confirmations', true)->get();
-
-        // Create event without being activity
+        
         Calendar::factory()
-            ->for($userAdmin, 'responsible')
-            ->create();
-
-        // Create event with activity
-        foreach ($activityConfirmations as $activityConfirmation) {
+        ->for(User::find(1), 'responsible')
+        ->create();
+        
+        $confirmations = Activity::where('allows_confirmations', true)->get();
+        foreach ($confirmations as $confirmation) {
             Calendar::factory()
-                ->for($userAdmin, 'responsible')
-                ->for($activityConfirmation, 'activity')
+                ->for(User::find(1), 'responsible')
+                ->for($confirmation, 'activity')
                 ->create([
                     'category' => 'activity',
                     'has_activity' => true,

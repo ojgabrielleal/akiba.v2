@@ -1,5 +1,6 @@
 <script>
     export let title = null;
+    export let unrestricted = false; 
     export let calendar = null;
 
     import { Section, CanRender } from "@/ui/components/private/";
@@ -111,7 +112,7 @@
                             {/if}
                         </div>
                         <div class="flex justify-between flex-row">
-                            <CanRender permission="calendar.update">
+                            <CanRender permission="calendar.update" when={unrestricted}>
                                 <button aria-label="Editar" class="cursor-pointer">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" loading="lazy" class={["w-5 filter-neutral-aurora",
                                         {"filter-blue-midnight": isActivity}

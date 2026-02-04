@@ -17,15 +17,10 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $preference = UserPreference::factory();
-        $social = UserSocial::factory();
-        $roles = Role::where('name', 'administrator')->first();
-
-        // Create admin user
         User::factory()
-            ->has($preference, 'preferences')
-            ->has($social, 'socials')
-            ->hasAttached($roles, [], 'roles')
+            ->has(UserPreference::factory(), 'preferences')
+            ->has(UserSocial::factory(), 'socials')
+            ->hasAttached(Role::where('name', 'administrator')->first(), [], 'roles')
             ->create([
                 'username' => 'admin',
                 'password' => 'admin',

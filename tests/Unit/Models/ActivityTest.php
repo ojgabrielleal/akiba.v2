@@ -52,11 +52,11 @@ class ActivityTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $validActivity = Activity::factory()
+        $expiredActivity = Activity::factory()
             ->for($user, 'author')
             ->create(['limit' => now()->subDays(3)]);
 
-        $expiredActivity = Activity::factory()
+        $validActivity = Activity::factory()
             ->for($user, 'author')
             ->create(['limit' => now()->addDays(3)]);
 

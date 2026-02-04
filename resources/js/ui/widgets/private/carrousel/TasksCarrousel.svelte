@@ -7,7 +7,7 @@
     import { scrollx, date } from "@/utils";
 </script>
 
-<Section {title}>
+<Section title={title}>
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" on:wheel={scrollx} role="group">
         {#if tasks.length > 0}
             {#each tasks as item}
