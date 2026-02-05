@@ -1,11 +1,13 @@
 <script>
+    export let publication = null;
+
     import { onMount } from "svelte";
-    import { useForm, page, Link } from "@inertiajs/svelte";
+    import { useForm, Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
     import tagsJson from "@/data/tags.json";
-    
-    $: ({ screenPermissions, publication } = $page.props);
+
+    $: console.log(publication);
 
     let form = useForm({
         _method: null,
@@ -14,35 +16,39 @@
         title: null,
         cover: null,
         content: null,
-        first_category: null,
-        second_category: null,
-        first_reference_name: null,
-        first_reference_url: null,
-        second_reference_name: null,
-        second_reference_url:  null,
+        categories: [null, null],
+        references: [
+            {
+                name: null,
+                url: null,
+            },
+            {
+                name: null,
+                url: null,
+            }
+        ]
     });
 
     onMount(()=>{
         if(publication){
-            $form._method = "PUT",
-            $form.status = publication.status,
-            $form.image = publication.image,
-            $form.title = publication.title,
-            $form.cover = publication.cover,
-            $form.content = publication.content,
-            $form.first_category = publication.categories[0].category_name,
-            $form.second_category = publication.categories[1].category_name,
-            $form.first_reference_name = publication.references[0].name,
-            $form.first_reference_url = publication.references[0].url,
-            $form.second_reference_name = publication.references[1].name,
-            $form.second_reference_url =  publication.references[1].url
+            $form._method = 'PATCH';
+            $form.image = publication.image;
+            $form.title = publication.title;
+            $form.cover = publication.cover;
+            $form.content = publication.content;
+            $form.categories = publication.categories.map(({name}) => name )
+            $form.references = publication.references.map(({name, url}) => ({
+                name,
+                url
+            }))
         }
     })
     
     function onSubmit(event) {
-        let url = publication ? `/painel/materias/update/${publication.id}` : '/painel/materias/create';
+        let url = publication ? `/painel/materias/${publication.id}` : '/painel/materias';
         
         $form.status = event.submitter.value;
+
         $form.post(url, {
             preserveState: publication,
             onSuccess: () => {
@@ -74,7 +80,7 @@
                     name="image" 
                     src={$form.image} 
                     oninput={event => $form.image = event.target.files[0]} 
-                    required={publication ? false : true}
+                    required={!publication}
                 />
             </div>
             <div class="mb-3">
@@ -99,7 +105,7 @@
                         viewobject="object-cover"
                         src={$form.cover}  
                         oninput={event => $form.cover = event.target.files[0]} 
-                        required={publication ? false : true}
+                        required={!publication}
                     />
                 </div>
                 <div class="mb-8">
@@ -124,7 +130,7 @@
                         id="first_category"
                         name="first_category"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
-                        bind:value={$form.first_category}
+                        bind:value={$form.categories[0]}
                     >
                         {#each tagsJson as tag}
                             <option value={tag.value}>{tag.label}</option>
@@ -139,7 +145,7 @@
                         id="second_category"
                         name="second_category"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
-                        bind:value={$form.second_category}
+                        bind:value={$form.categories[1]}
                     >
                         {#each tagsJson as tag}
                             <option value={tag.value}>{tag.label}</option>
@@ -161,7 +167,7 @@
                             type="text"
                             name="first_reference_name"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.first_reference_name}
+                            bind:value={$form.references[0].name}
                         />
                     </div>
                     <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
@@ -173,7 +179,7 @@
                             type="text"
                             name="first_reference_url"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.first_reference_url}
+                            bind:value={$form.references[0].url}
                         />
                     </div>
                 </div>
@@ -190,7 +196,7 @@
                             type="text"
                             name="second_reference_name"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.second_reference_name}
+                            bind:value={$form.references[1].name}
                         />
                     </div>
                     <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
@@ -202,30 +208,34 @@
                             type="text"
                             name="second_reference_url"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.second_reference_url}
+                            bind:value={$form.references[1].url}
                         />
                     </div>
                 </div>
             </div>
         </div>
         <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
-            {#if publication && publication.status === "published"}
-                <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                    Atualizar
-                </button>
-            {:else}
+            {#if publication?.status !== 'sketch'}
                 <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
-                    Salvar como Rascunho
+                    {#if publication?.status === 'published' || publication?.status === 'revision'}
+                        Converter para rascunho
+                    {:else}
+                        Salvar como rascunho
+                    {/if}
                 </button>
+            {/if}
+            {#if publication?.status !== 'revision' && publication?.status !== 'published'}
                 <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
                     Mandar para revisão
                 </button>
-                {#if screenPermissions.publish}
-                    <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                        Publicar
-                    </button>
-                {/if}
             {/if}
+            <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+                {#if publication?.status === 'published'}
+                    Atualizar matéria 
+                {:else}
+                    Publicar matéria
+                {/if}
+            </button>
         </div>
     </form>
 </Section>

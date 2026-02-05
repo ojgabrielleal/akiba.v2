@@ -8,10 +8,10 @@
     import { PublicationsGrid, CalendarGrid } from "@/ui/widgets/private/grid";
 
     $: ({ 
-        logged,
+        user,
         activities,
         tasks,
-        posts,
+        publications,
         calendar
     } = $page.props);
 
@@ -37,12 +37,12 @@
 
 <Meta meta={{ title: "Dashboard" }} />
 <Layout>
-    <GreatingHero phrase={phraseSwitchHero(logged.nickname)} icon="/img/default/avatar.webp"/>
+    <GreatingHero phrase={phraseSwitchHero(user.nickname)} icon="/img/default/avatar.webp"/>
     <CanRender permission="activity.list">
         <ActivitiesCarrousel 
             title="Avisos e Atividades"
-            activities={activities}
-            logged={logged}
+            {activities}
+            {user}
         />
     </CanRender>
     <CanRender permission="task.list">
@@ -55,17 +55,17 @@
         <PublicationsGrid 
             title="Últimas Matérias" 
             model="materias"
-            unrestricted={logged.roles.filter(item => item.name === 'administrator')}
-            publications={posts}
-            logged={logged}
+            unrestricted={user.roles.filter(item => item.name === 'administrator')}
+            {publications}
+            {user}
         />
     </CanRender>
     <CanRender permission="calendar.list">
         <CalendarGrid 
             title="Calendário"
-            unrestricted={logged.roles.filter(item => item.name === 'administrator')}
-            calendar={calendar}
-            logged={logged}
+            unrestricted={user.roles.filter(item => item.name === 'administrator')}
+            {calendar}
+            {user}
         />
     </CanRender>
 </Layout>

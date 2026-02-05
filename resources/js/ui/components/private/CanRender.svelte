@@ -4,9 +4,9 @@
     export let permission = null;
     export let when = true;
 
-    $: ({ logged } = $page.props);
+    $: ({ user } = $page.props);
 
-    $: permissions = logged.permissions;
+    $: permissions = user.permissions;
     $: permissionsName = permissions.map((p) => p.name);
 
     $: hasPermission = checkPermission();

@@ -69,7 +69,7 @@ class HandleInertiaRequestsMiddleware extends Middleware
         }
 
         return array_merge(parent::share($request), [
-            'logged' => fn() => loadUser(),
+            'user' => fn() => loadUser(),
             'streaming' => fn() => loadStreaming(),
             'flash' => fn() => [
                 'type' => session('flash.type'),

@@ -31,7 +31,8 @@ class PostsController extends Controller
     public function showPost(Post $post)
     {
         return Inertia::render($this->render, [
-            'publication' => $post->load('categories', 'references', 'author')
+            'publication' => $post->load('categories', 'references', 'author'),
+            "publications" => $this->indexPosts()
         ]);
     }
 

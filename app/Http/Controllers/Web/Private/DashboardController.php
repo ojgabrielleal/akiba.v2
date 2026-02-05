@@ -75,7 +75,7 @@ class DashboardController extends Controller
         return Inertia::render($this->render, [
             'activities' => $this->indexActivities(),
             'tasks' => $this->indexTasks(),
-            'posts' => $this->indexPublications(),
+            'publications' => $this->indexPublications(),
             'calendar' => $this->indexCalendar()
         ]);
     }

@@ -3,7 +3,7 @@
     import { CanRender } from "@/ui/components/private/";
     import navbarJson from "@/data/navbar.json";
 
-    $: ({ logged } = $page.props);
+    $: ({ user } = $page.props);
 
     let mobilenavbar = false;
 </script>
@@ -23,8 +23,8 @@
         {/each}
         </ul>
         <div class="absolute -bottom-[1.45rem] right-0 flex items-center gap-2">
-            <Link href={`/painel/profile/${logged.slug}`} aria-label={logged.nickname}>
-                <img src={logged.avatar} alt={`Avatar de ${logged.nickname}`} class="w-16 h-16 rounded-full object-cover object-top border-8 border-neutral-aurora" loading="lazy"/>
+            <Link href={`/painel/profile/${user.slug}`} aria-label={user.nickname}>
+                <img src={user.avatar} alt={`Avatar de ${user.nickname}`} class="w-16 h-16 rounded-full object-cover object-top border-8 border-neutral-aurora" loading="lazy"/>
             </Link>
         </div>
     </div>
@@ -37,7 +37,7 @@
             <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
     </button>
-    <img src={logged.avatar} alt={`Avatar de ${logged.nickname}`} class="w-10 h-10 rounded-full object-cover object-top" loading="lazy"/>
+    <img src={user.avatar} alt={`Avatar de ${user.nickname}`} class="w-10 h-10 rounded-full object-cover object-top" loading="lazy"/>
 </nav>
 
 <!-- Sidebar Menu -->
