@@ -17,11 +17,11 @@
 <Layout>
     <PostsForm 
         {publication}
+        {user}
     />
     <PublicationsGrid 
         title="Todas as matérias" 
         model="materias" 
-        unrestricted={user.roles.filter(item => item.name === 'administrator')}
         {publications}    
         {user}
     />

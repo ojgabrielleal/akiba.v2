@@ -1,5 +1,6 @@
 <script>
     export let publication = null;
+    export let user = null;
 
     import { onMount } from "svelte";
     import { useForm, Link } from "@inertiajs/svelte";
@@ -7,25 +8,20 @@
     import { Preview, Wysiwyg } from "@/ui/components/private";
     import tagsJson from "@/data/tags.json";
 
-    $: console.log(publication);
-
     let form = useForm({
-        _method: null,
+        _method: 'POST',
         status: null,
         image: null,
         title: null,
         cover: null,
         content: null,
-        categories: [null, null],
+        categories:  [
+            {name: null},
+            {name: null},
+        ],
         references: [
-            {
-                name: null,
-                url: null,
-            },
-            {
-                name: null,
-                url: null,
-            }
+            {name: null, url: null},
+            {name: null, url: null}
         ]
     });
 
@@ -36,11 +32,8 @@
             $form.title = publication.title;
             $form.cover = publication.cover;
             $form.content = publication.content;
-            $form.categories = publication.categories.map(({name}) => name )
-            $form.references = publication.references.map(({name, url}) => ({
-                name,
-                url
-            }))
+            $form.categories = publication.categories.map(({id, name}) => ({ id, name }));
+            $form.references = publication.references.map(({id, name, url}) => ({ id, name, url }))
         }
     })
     
@@ -130,7 +123,7 @@
                         id="first_category"
                         name="first_category"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
-                        bind:value={$form.categories[0]}
+                        bind:value={$form.categories[0].name}
                     >
                         {#each tagsJson as tag}
                             <option value={tag.value}>{tag.label}</option>
@@ -145,7 +138,7 @@
                         id="second_category"
                         name="second_category"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
-                        bind:value={$form.categories[1]}
+                        bind:value={$form.categories[1].name}
                     >
                         {#each tagsJson as tag}
                             <option value={tag.value}>{tag.label}</option>
@@ -215,25 +208,29 @@
             </div>
         </div>
         <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
-            {#if publication?.status !== 'sketch'}
-                <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
-                    {#if publication?.status === 'published' || publication?.status === 'revision'}
-                        Converter para rascunho
-                    {:else}
-                        Salvar como rascunho
-                    {/if}
-                </button>
-            {/if}
+            <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
+                {#if publication?.status === 'sketch'}
+                    Atualizar rascunho
+                {:else if publication?.status !== 'published'}
+                    Converter para rascunho
+                {:else}
+                    Salvar como rascunho
+                {/if}
+            </button>
             {#if publication?.status !== 'revision' && publication?.status !== 'published'}
                 <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
-                    Mandar para revisão
+                    {#if publication?.status === 'sketch'}
+                        Pedir para revisar
+                    {:else}
+                        Mandar pra revisão
+                    {/if}
                 </button>
             {/if}
             <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
                 {#if publication?.status === 'published'}
-                    Atualizar matéria 
+                    Atualizar matéria
                 {:else}
-                    Publicar matéria
+                    Publicar matéria 
                 {/if}
             </button>
         </div>

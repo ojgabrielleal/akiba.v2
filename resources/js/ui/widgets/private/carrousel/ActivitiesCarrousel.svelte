@@ -1,18 +1,27 @@
 <script>
     export let title = null; 
-    export let user = null;
     export let activities = null;
+    export let user = null;
 
-    import { Section, CanRender } from "@/ui/components/private/";
-    import { confirmActivityParticipant } from "@/lib/requests"
-    import { scrollx } from "@/utils";
+    import { router } from "@inertiajs/svelte";
+    import { Section } from "@/ui/components/private/";
+    import { scrollx, hasPermissions } from "@/utils";
+
+    $: authorization = {
+        canParticipate: hasPermissions(user, 'activity.participate')
+    } 
+    
+    function confirmActivityParticipant(activity){
+        router.post(`/painel/dashboard/activity/${activity}/confirm`);
+    }
+
 </script>
 
 <Section {title}>
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" on:wheel={scrollx} role="group">
         {#if activities.length > 0}
             {#each activities as item}  
-                {@const isParticipate = item.confirmations.some(c => c.confirmer.id === user.id)}
+                {@const canParticipate = authorization.canParticipate && !item.confirmations.some(c => c.confirmer.id === user.id)}
                 {@const allowsConfirmations = item.allows_confirmations}
                 <article class={['w-100 h-50 lg:w-[29rem] flex-shrink-0 rounded-lg p-4 relative', 
                     {'bg-neutral-honeycream': allowsConfirmations},
@@ -41,7 +50,7 @@
                                 />
                             {/each}
                         </div>
-                        <CanRender permission="activity.participate" when={!isParticipate}>
+                        {#if canParticipate}
                             <button
                                 type="button"
                                 aria-label="Confirmar alerta"
@@ -50,7 +59,7 @@
                             >
                                 <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                             </button>
-                        </CanRender>
+                        {/if}
                     {/if}
                 </article>
             {/each}

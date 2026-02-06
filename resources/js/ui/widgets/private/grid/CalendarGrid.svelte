@@ -1,10 +1,15 @@
 <script>
     export let title = null;
-    export let unrestricted = false; 
     export let calendar = null;
+    export let user = null;
 
-    import { Section, CanRender } from "@/ui/components/private/";
-    import { time } from "@/utils";
+    import { Section } from "@/ui/components/private/";
+    import { time, hasPermissions, hasRoles } from "@/utils";
+
+    $: authorization = {
+        hasAdminRole: hasRoles(user, 'administrator'),
+        canUpdateEvent: hasPermissions(user, 'calendar.update')
+    }
 
     let week = [];
 
@@ -112,13 +117,13 @@
                             {/if}
                         </div>
                         <div class="flex justify-between flex-row">
-                            <CanRender permission="calendar.update" when={unrestricted}>
+                            {#if authorization.canUpdateEvent && authorization.hasAdminRole}
                                 <button aria-label="Editar" class="cursor-pointer">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" loading="lazy" class={["w-5 filter-neutral-aurora",
                                         {"filter-blue-midnight": isActivity}
                                     ]}/>
                                 </button>
-                            </CanRender>
+                            {/if}
                             <div class={["w-full font-noto-sans text-md text-end",
                                 { "text-blue-midnight": isActivity },
                                 { "text-neutral-aurora": !isActivity },

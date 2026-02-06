@@ -1,10 +1,21 @@
 <script>
     export let title = null;
     export let tasks = null;
+    export let user = null;
         
-    import { Section, CanRender } from "@/ui/components/private/";
-    import { markTaskCompleted } from "@/lib/requests";
-    import { scrollx, date } from "@/utils";
+    import { router } from "@inertiajs/svelte";
+    import { Section } from "@/ui/components/private/";
+    import { scrollx, hasPermissions, hasRoles } from "@/utils";
+
+    $: authorization = {
+        hasAdminRole: hasRoles(user, 'administrator'),
+        canCompleteTask: hasPermissions(user, 'task.complete')
+    }
+
+    function markTaskCompleted(task) {
+        router.post(`/painel/dashboard/task/${task}/complete`);
+    }
+
 </script>
 
 <Section {title}>
@@ -46,7 +57,7 @@
                             {item.deadline}
                         </dd>
                     </dl>
-                    <CanRender permission="task.complete">
+                    {#if authorization.canCompleteTask}
                         <button type="button" aria-label="Concluir tarefa" on:click={() => markTaskCompleted(item.id)} class={['font-noto-sans italic font-bold cursor-pointer',
                             {'bg-red-crimson rounded-xl text-neutral-aurora uppercase absolute right-5 bottom-3 py-2 px-6': isDueOrOverdue},
                             {'bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center': !isDueOrOverdue}
@@ -57,7 +68,7 @@
                                 <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                             {/if}
                         </button>
-                    </CanRender>
+                    {/if}
                 </article>
             {/each}
         {:else}

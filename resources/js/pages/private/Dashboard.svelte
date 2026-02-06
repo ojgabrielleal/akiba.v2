@@ -6,6 +6,7 @@
     import { GreatingHero } from "@/ui/widgets/private/hero";
     import { ActivitiesCarrousel, TasksCarrousel } from "@/ui/widgets/private/carrousel";
     import { PublicationsGrid, CalendarGrid } from "@/ui/widgets/private/grid";
+    import { hasPermissions } from "@/utils";
 
     $: ({ 
         user,
@@ -14,6 +15,13 @@
         publications,
         calendar
     } = $page.props);
+
+    $: authorization = {
+        canViewActivities: hasPermissions(user, 'activity.list'),
+        canViewTasks: hasPermissions(user, 'task.list'),
+        canViewPublications: hasPermissions(user, 'post.list'),
+        canViewCalendar: hasPermissions(user, 'calendar.list')
+    }
 
     function phraseSwitchHero(nickname) {
         const phrases = [
@@ -38,34 +46,33 @@
 <Meta meta={{ title: "Dashboard" }} />
 <Layout>
     <GreatingHero phrase={phraseSwitchHero(user.nickname)} icon="/img/default/avatar.webp"/>
-    <CanRender permission="activity.list">
+    {#if authorization.canViewActivities}
         <ActivitiesCarrousel 
             title="Avisos e Atividades"
             {activities}
             {user}
         />
-    </CanRender>
-    <CanRender permission="task.list">
+    {/if}
+    {#if authorization.canViewTasks}
         <TasksCarrousel 
             title="Minhas Tarefas"
-            tasks={tasks}
+            {tasks}
+            {user}
         />
-    </CanRender>
-    <CanRender permission="post.list">
+    {/if}
+    {#if authorization.canViewPublications}
         <PublicationsGrid 
             title="Últimas Matérias" 
             model="materias"
-            unrestricted={user.roles.filter(item => item.name === 'administrator')}
             {publications}
             {user}
         />
-    </CanRender>
-    <CanRender permission="calendar.list">
+    {/if}
+    {#if authorization.canViewCalendar}
         <CalendarGrid 
             title="Calendário"
-            unrestricted={user.roles.filter(item => item.name === 'administrator')}
             {calendar}
             {user}
         />
-    </CanRender>
+    {/if}
 </Layout>

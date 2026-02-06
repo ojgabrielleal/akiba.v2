@@ -10,6 +10,7 @@ use App\Traits\FlashMessageTrait;
 use App\Services\Process\ImageService;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\Log;
 
 class PostsController extends Controller
 {
@@ -25,7 +26,7 @@ class PostsController extends Controller
 
     public function indexPosts()
     {
-        return Post::with('author')->paginate(10);
+        return Post::with('author')->latest()->paginate(10);
     }
 
     public function showPost(Post $post)
@@ -53,8 +54,8 @@ class PostsController extends Controller
             'status' => $request->input('status'),
             'title' => $request->input('title'),
             'content' => $request->input('content'),
-            'image' => $this->image->store('posts', $request->file('image')),
-            'cover' => $this->image->store('posts', $request->file('cover')),
+            'image' => $this->image->store('posts', $request->file('image'), 'public'),
+            'cover' => $this->image->store('posts', $request->file('cover'), 'public'),
         ]);
 
         foreach($request->input('references') as $reference) {
@@ -66,7 +67,7 @@ class PostsController extends Controller
 
         foreach($request->input('categories') as $category){
             $post->categories()->create([
-                'name' => $category,
+                'name' => $category['name'],
             ]);
         }
 
@@ -74,13 +75,18 @@ class PostsController extends Controller
     }
 
     public function updatePost(Request $request, Post $post)
-    {
+    {        
         $post->fill([
+            'status' => $request->input('status', $post->status),
             'title' => $request->input('title', $post->title),
             'content' => $request->input('content', $post->content),
             'image' => $this->image->store('posts', $request->file('image'), 'public', $post->image),
             'cover' => $this->image->store('posts', $request->file('cover'), 'public', $post->cover),
         ]);
+
+        if($post->isDirty()){
+            $post->save();
+        }
 
         foreach($request->input('categories') as $category) {
             $post->categories()->where('id', $category['id'] )->update([

@@ -1,20 +1,26 @@
 <script>
     export let title = null;
     export let model = null;
-    export let unrestricted = false; 
-    export let user = null; 
     export let publications = null;
+    export let user = null; 
         
     import { Link } from "@inertiajs/svelte";
-    import { Section, CanRender } from "@/ui/components/private/";
+    import { Section } from "@/ui/components/private/";
     import { Pagination } from "@/ui/components/private"
+    import { hasPermissions, hasRoles } from "@/utils";
+
+    $: authorization = {
+        hasAdminRole: hasRoles(user, 'administrator'),
+        canUpdatePost: hasPermissions(user, ['post.update.own', 'post.update'])
+    }
+
 </script>
 
 <Section {title}>
     <div class="gap-6 grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5">
         {#if publications.data.length > 0}
             {#each publications.data as item}
-                {@const isEditable = unrestricted ? true : user.nickname === item.author.nickname}
+                {@const isEditable = authorization.hasAdminRole ? true : user.nickname === item.author.nickname}
                 {@const isPublished = item.status === 'published'}
                 {@const isRevision = item.status === 'revision'}
                 {@const isSketch = item.status === 'sketch'}
@@ -34,11 +40,11 @@
                             <Link href={`/${model}/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
                                 <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                             </Link>
-                            <CanRender permission={['post.update.own', 'post.update']} when={isEditable}>
+                            {#if authorization.canUpdatePost && isEditable}
                                 <Link href={`/painel/${model}/${item.slug}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
                                 </Link>
-                            </CanRender>
+                            {/if}
                         </dd>
                     </dl>
                 </article>
