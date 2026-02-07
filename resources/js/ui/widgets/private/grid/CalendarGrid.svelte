@@ -1,10 +1,10 @@
 <script>
-    export let title = null;
-    export let calendar = null;
-    export let user = null;
+    export let title;
+    export let calendar;
+    export let user;
 
     import { Section } from "@/ui/components/private/";
-    import { time, hasPermissions, hasRoles } from "@/utils";
+    import { hasPermissions, hasRoles } from "@/utils";
 
     $: authorization = {
         hasAdminRole: hasRoles(user, 'administrator'),
@@ -103,7 +103,7 @@
                                 {"text-blue-midnight": isActivity },
                                 {"text-neutral-aurora": !isActivity },
                             ]}>
-                                {time(event.time)}
+                                {event.time}
                             </div>
                         </div>
                         <div class={["w-full font-noto-sans font-bold text-2xl text-center italic mt-6 mb-6",

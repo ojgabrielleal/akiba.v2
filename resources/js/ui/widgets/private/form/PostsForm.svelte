@@ -1,6 +1,6 @@
 <script>
-    export let publication = null;
-    export let user = null;
+    export let publication;
+    export let user;
 
     import { onMount } from "svelte";
     import { useForm, Link } from "@inertiajs/svelte";

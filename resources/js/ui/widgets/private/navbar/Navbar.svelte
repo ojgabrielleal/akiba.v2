@@ -1,9 +1,9 @@
 <script>
-    import { page, Link } from "@inertiajs/svelte";
-    import { CanRender } from "@/ui/components/private/";
-    import navbarJson from "@/data/navbar.json";
+    export let user;
 
-    $: ({ user } = $page.props);
+    import { Link } from "@inertiajs/svelte";
+    import { hasPermissions } from "@/utils";
+    import navbarJson from "@/data/navbar.json";
 
     let mobilenavbar = false;
 </script>
@@ -13,13 +13,13 @@
     <div class="container relative">
         <ul class="flex justify-center items-center gap-10">
         {#each navbarJson as item}
-            <CanRender permission={item.permission}>
+            {#if hasPermissions(user, item.permission)}
                 <li>
                     <Link href={item.address} aria-label={item.name} class="flex items-center gap-2 text-neutral-aurora">
                         <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>
                     </Link>
                 </li>
-            </CanRender>
+            {/if}
         {/each}
         </ul>
         <div class="absolute -bottom-[1.45rem] right-0 flex items-center gap-2">
@@ -56,14 +56,14 @@
     
     <ul class="p-5 pt-3 space-y-4">
         {#each navbarJson as item}
-            <CanRender permission={item.permission}>
+            {#if hasPermissions(user, item.permission)}
                 <li>
                     <Link href={item.address} aria-label={item.name} class="flex items-center gap-3 text-gray-800 hover:text-blue-600">
                         <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>
                         <span>{item.name}</span>
                     </Link>
                 </li>
-            </CanRender>
+            {/if}
         {/each}
     </ul>
 </div>

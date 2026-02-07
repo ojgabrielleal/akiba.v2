@@ -1,8 +1,8 @@
 <script>
-    export let title = null;
-    export let model = null;
-    export let publications = null;
-    export let user = null; 
+    export let title;
+    export let model;
+    export let publications;
+    export let user; 
         
     import { Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";

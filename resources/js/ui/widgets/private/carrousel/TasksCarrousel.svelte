@@ -1,7 +1,7 @@
 <script>
-    export let title = null;
-    export let tasks = null;
-    export let user = null;
+    export let title;
+    export let tasks;
+    export let user;
         
     import { router } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";

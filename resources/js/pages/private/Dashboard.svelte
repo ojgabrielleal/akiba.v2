@@ -2,7 +2,6 @@
     import { page } from "@inertiajs/svelte";
     import { Meta } from "@/config/meta";
     import { Layout } from "@/layouts/private/";
-    import { CanRender } from "@/ui/components/private/";
     import { GreatingHero } from "@/ui/widgets/private/hero";
     import { ActivitiesCarrousel, TasksCarrousel } from "@/ui/widgets/private/carrousel";
     import { PublicationsGrid, CalendarGrid } from "@/ui/widgets/private/grid";
