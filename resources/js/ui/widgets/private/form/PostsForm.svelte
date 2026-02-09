@@ -10,8 +10,13 @@
     import tagsJson from "@/data/tags.json";
 
     $: authorization = {
-        canCreatePost: hasPermissions(user, 'post.create'),
-        canUpdatePost: hasPermissions(user, ['post.update', 'post.update.own'])
+        canCreate: hasPermissions(user, 'post.create'),
+        canUpdate: hasPermissions(user, 'post.update'),
+        canUpdateOwn: hasPermissions(user, 'post.update.own'),
+        canCreateSketch: hasPermissions(user, 'post.create.sketch'),
+        canUpdateSketch: hasPermissions(user, 'post.update.sketch'),
+        canUpdateSketchOwn: hasPermissions(user, 'post.update.sketch.own'),
+        canSendRevision: hasPermissions(user, 'post.create.revision'),
     } 
 
     let form = useForm({
@@ -69,7 +74,7 @@
             Eventos
         </Link>
     </div>
-    <form on:submit|preventDefault={onSubmit} class="mt-10 xl:mt-25">
+    <form on:submit|preventDefault={onSubmit} class="mt-10 xl:mt-15">
         <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
             <div class="mb-3">
                 <div class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
@@ -213,30 +218,28 @@
                 </div>
             </div>
         </div>
-        {#if authorization.canCreatePost || authorization.canUpdatePost}
-            <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
+        <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
+            {#if (authorization.canCreateSketch || authorization.canUpdateSketch) || (authorization.canUpdateSketchOwn && user.id === publication?.author.id)} 
                 <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
                     {#if publication?.status === 'sketch'}
                         Atualizar rascunho
-                    {:else if publication?.status !== 'published'}
-                        Converter para rascunho
+                    {:else if publication?.status === 'revision' || publication?.status === 'published'}
+                        Converter pra rascunho 
                     {:else}
                         Salvar como rascunho
                     {/if}
                 </button>
-                {#if publication?.status !== 'revision' && publication?.status !== 'published'}
-                    <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
-                        Mandar pra revisão
-                    </button>
-                {/if}
-                <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                    {#if publication?.status === 'published'}
-                        Atualizar matéria
-                    {:else}
-                        Publicar matéria 
-                    {/if}
+            {/if}
+            {#if authorization.canSendRevision && (publication?.status !== 'revision' && publication?.status !== 'published')}
+                <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
+                    Mandar pra revisão
                 </button>
-            </div>
-        {/if}
+            {/if}
+            {#if (authorization.canCreate || authorization.canUpdate) || (authorization.canUpdateOwn && user.id === publication?.author.id)}
+                <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+                    {publication?.status === 'published' ? 'Atualizar matéria' : 'Publicar matéria'}
+                </button>
+            {/if}
+        </div>
     </form>
 </Section>

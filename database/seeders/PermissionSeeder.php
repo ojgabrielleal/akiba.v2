@@ -78,6 +78,10 @@ class PermissionSeeder extends Seeder
             ['name' => 'post.deactivate', 'label' => 'Desativar post'],
             ['name' => 'post.list.own', 'label' => 'Listar próprios posts'],
             ['name' => 'post.update.own', 'label' => 'Atualizar próprio post'],
+            ['name' => 'post.create.sketch', 'label' => 'Cadastra rascunho'],
+            ['name' => 'post.update.sketch', 'label' => 'Atualiza revisão'],
+            ['name' => 'post.update.sketch.own', 'label' => 'Atualiza a própria revisão'],
+            ['name' => 'post.create.revision', 'label' => 'Cadastra revisão'],
 
             /*
             |--------------------------------------------------------------------------
