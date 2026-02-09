@@ -3,7 +3,7 @@
     import { Meta } from "@/config/meta";
     import { Layout } from "@/layouts/private";
     import { PostsForm } from "@/ui/widgets/private/form";
-    import { PublicationsGrid } from "@/ui/widgets/private/grid";
+    import { PostsGrid } from "@/ui/widgets/private/grid";
 
     $: ({ 
         user,
@@ -19,9 +19,8 @@
         {publication}
         {user}
     />
-    <PublicationsGrid 
+    <PostsGrid 
         title="Todas as matérias" 
-        model="materias" 
         {publications}    
         {user}
     />

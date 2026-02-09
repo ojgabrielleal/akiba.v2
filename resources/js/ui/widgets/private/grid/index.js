@@ -1,4 +1,4 @@
-export { default as PublicationsGrid } from "./PublicationsGrid.svelte"
+export { default as PostsGrid } from "./PostsGrid.svelte"
 export { default as CalendarGrid } from "./CalendarGrid.svelte"
 export { default as ListenerRequestGrid } from "./ListenerRequestGrid.svelte"
 export { default as ProgramScheduleGrid } from "./ProgramScheduleGrid.svelte"

@@ -124,6 +124,29 @@ class PostTest extends TestCase
         $this->assertFalse($publishedPosts->contains($draftPost));
     }
 
+    public function testScopeMineReturnsOnlyPostsOfAuthenticatedUser(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+        
+        $myPost = Post::factory()
+            ->for($user, 'author')
+            ->create();
+
+        $otherPost = Post::factory()
+            ->for($otherUser, 'author')
+            ->create();
+
+        $this->actingAs($user);
+
+        $myPosts = Post::mine()->get();
+
+        $this->assertTrue($myPosts->contains($myPost));
+        $this->assertFalse($myPosts->contains($otherPost));
+    }
+
+
     /**
      * Tests from Post model mutators.
      */

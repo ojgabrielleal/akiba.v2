@@ -1,17 +1,16 @@
 <script>
     export let title;
-    export let model;
     export let publications;
     export let user; 
         
     import { Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Pagination } from "@/ui/components/private"
-    import { hasPermissions, hasRoles } from "@/utils";
+    import { hasPermissions } from "@/utils";
 
     $: authorization = {
-        hasAdminRole: hasRoles(user, 'administrator'),
-        canUpdatePost: hasPermissions(user, ['post.update.own', 'post.update'])
+        canUpdate: hasPermissions(user, 'post.update'),
+        canUpdateOwn: hasPermissions(user, 'post.update.own')
     }
 
 </script>
@@ -20,7 +19,8 @@
     <div class="gap-6 grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5">
         {#if publications.data.length > 0}
             {#each publications.data as item}
-                {@const isEditable = authorization.hasAdminRole ? true : user.nickname === item.author.nickname}
+                {@const canEditAdmin = authorization.canUpdate}
+                {@const canEditOwn = authorization.canUpdateOwn && user.id === item.author.id}
                 {@const isPublished = item.status === 'published'}
                 {@const isRevision = item.status === 'revision'}
                 {@const isSketch = item.status === 'sketch'}
@@ -37,11 +37,11 @@
                             {item.author.nickname}
                         </dt>
                         <dd class="flex gap-3">
-                            <Link href={`/${model}/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
+                            <Link href={`/materias/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
                                 <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                             </Link>
-                            {#if authorization.canUpdatePost && isEditable}
-                                <Link href={`/painel/${model}/${item.slug}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
+                            {#if canEditAdmin || canEditOwn}
+                                <Link href={`/painel/materias/${item.slug}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
                                 </Link>
                             {/if}

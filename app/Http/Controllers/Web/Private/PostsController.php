@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Web\Private;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 use App\Traits\FlashMessageTrait;
 use App\Services\Process\ImageService;
 
 use App\Models\Post;
-use Illuminate\Support\Facades\Log;
 
 class PostsController extends Controller
 {
@@ -26,7 +26,17 @@ class PostsController extends Controller
 
     public function indexPosts()
     {
-        return Post::with('author')->latest()->paginate(10);
+        /**
+         * TODO: Refactor when implementing policies, move permission logic into the policy. 
+         */
+        $user = request()->user()->load('roles.permissions');
+        $canPermission = $user->roles->flatMap(fn($role) => $role->permissions)->contains('name', 'post.list');
+
+        if($canPermission){
+            return Post::with('author')->latest()->paginate(10);
+        }else{
+            return Post::mine()->with('author')->latest()->paginate(10);
+        }
     }
 
     public function showPost(Post $post)

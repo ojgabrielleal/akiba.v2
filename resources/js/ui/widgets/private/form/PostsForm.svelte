@@ -6,7 +6,13 @@
     import { useForm, Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
+    import { hasPermissions } from "@/utils";
     import tagsJson from "@/data/tags.json";
+
+    $: authorization = {
+        canCreatePost: hasPermissions(user, 'post.create'),
+        canUpdatePost: hasPermissions(user, ['post.update', 'post.update.own'])
+    } 
 
     let form = useForm({
         _method: 'POST',
@@ -207,32 +213,30 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
-            <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
-                {#if publication?.status === 'sketch'}
-                    Atualizar rascunho
-                {:else if publication?.status !== 'published'}
-                    Converter para rascunho
-                {:else}
-                    Salvar como rascunho
-                {/if}
-            </button>
-            {#if publication?.status !== 'revision' && publication?.status !== 'published'}
-                <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
+        {#if authorization.canCreatePost || authorization.canUpdatePost}
+            <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
+                <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
                     {#if publication?.status === 'sketch'}
-                        Pedir para revisar
+                        Atualizar rascunho
+                    {:else if publication?.status !== 'published'}
+                        Converter para rascunho
                     {:else}
-                        Mandar pra revisão
+                        Salvar como rascunho
                     {/if}
                 </button>
-            {/if}
-            <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                {#if publication?.status === 'published'}
-                    Atualizar matéria
-                {:else}
-                    Publicar matéria 
+                {#if publication?.status !== 'revision' && publication?.status !== 'published'}
+                    <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
+                        Mandar pra revisão
+                    </button>
                 {/if}
-            </button>
-        </div>
+                <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+                    {#if publication?.status === 'published'}
+                        Atualizar matéria
+                    {:else}
+                        Publicar matéria 
+                    {/if}
+                </button>
+            </div>
+        {/if}
     </form>
 </Section>

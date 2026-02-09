@@ -76,7 +76,7 @@ class AdmsController extends Controller
     }
 
     /*
-    *TODO: Verify method to change roles if needed
+    * TODO: Verify method to change roles if needed
     */
     public function changeUserRoles(Request $request, User $user)
     {

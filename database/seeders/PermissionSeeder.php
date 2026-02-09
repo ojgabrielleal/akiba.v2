@@ -57,18 +57,6 @@ class PermissionSeeder extends Seeder
 
             /*
             |--------------------------------------------------------------------------
-            | 📝 Posts
-            |--------------------------------------------------------------------------
-            */
-            ['name' => 'post.list', 'label' => 'Listar posts'],
-            ['name' => 'post.view', 'label' => 'Visualizar post'],
-            ['name' => 'post.create', 'label' => 'Criar post'],
-            ['name' => 'post.update', 'label' => 'Atualizar post'],
-            ['name' => 'post.deactivate', 'label' => 'Desativar post'],
-            ['name' => 'post.update.own', 'label' => 'Atualizar próprio post'],
-
-            /*
-            |--------------------------------------------------------------------------
             | 📅 Calendário
             |--------------------------------------------------------------------------
             */
@@ -77,6 +65,19 @@ class PermissionSeeder extends Seeder
             ['name' => 'calendar.create', 'label' => 'Criar evento no calendário'],
             ['name' => 'calendar.update', 'label' => 'Atualizar evento no calendário'],
             ['name' => 'calendar.deactivate', 'label' => 'Excluir evento no calendário'],
+
+            /*
+            |--------------------------------------------------------------------------
+            | 📝 Posts
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'post.list', 'label' => 'Listar posts'],
+            ['name' => 'post.view', 'label' => 'Visualizar post'],
+            ['name' => 'post.create', 'label' => 'Criar post'],
+            ['name' => 'post.update', 'label' => 'Atualizar post'],
+            ['name' => 'post.deactivate', 'label' => 'Desativar post'],
+            ['name' => 'post.list.own', 'label' => 'Listar próprios posts'],
+            ['name' => 'post.update.own', 'label' => 'Atualizar próprio post'],
 
             /*
             |--------------------------------------------------------------------------

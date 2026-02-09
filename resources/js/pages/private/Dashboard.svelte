@@ -4,7 +4,7 @@
     import { Layout } from "@/layouts/private/";
     import { GreatingHero } from "@/ui/widgets/private/hero";
     import { ActivitiesCarrousel, TasksCarrousel } from "@/ui/widgets/private/carrousel";
-    import { PublicationsGrid, CalendarGrid } from "@/ui/widgets/private/grid";
+    import { PostsGrid, CalendarGrid } from "@/ui/widgets/private/grid";
     import { hasPermissions } from "@/utils";
 
     $: ({ 
@@ -60,9 +60,8 @@
         />
     {/if}
     {#if authorization.canViewPublications}
-        <PublicationsGrid 
+        <PostsGrid 
             title="Últimas Matérias" 
-            model="materias"
             {publications}
             {user}
         />

@@ -8,8 +8,7 @@
     import { scrollx, hasPermissions, hasRoles } from "@/utils";
 
     $: authorization = {
-        hasAdminRole: hasRoles(user, 'administrator'),
-        canCompleteTask: hasPermissions(user, 'task.complete')
+        canComplete: hasPermissions(user, 'task.complete')
     }
 
     function markTaskCompleted(task) {
@@ -57,7 +56,7 @@
                             {item.deadline}
                         </dd>
                     </dl>
-                    {#if authorization.canCompleteTask}
+                    {#if authorization.canComplete}
                         <button type="button" aria-label="Concluir tarefa" on:click={() => markTaskCompleted(item.id)} class={['font-noto-sans italic font-bold cursor-pointer',
                             {'bg-red-crimson rounded-xl text-neutral-aurora uppercase absolute right-5 bottom-3 py-2 px-6': isDueOrOverdue},
                             {'bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center': !isDueOrOverdue}

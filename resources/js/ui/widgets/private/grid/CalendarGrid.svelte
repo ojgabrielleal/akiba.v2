@@ -4,11 +4,10 @@
     export let user;
 
     import { Section } from "@/ui/components/private/";
-    import { hasPermissions, hasRoles } from "@/utils";
+    import { hasPermissions } from "@/utils";
 
     $: authorization = {
-        hasAdminRole: hasRoles(user, 'administrator'),
-        canUpdateEvent: hasPermissions(user, 'calendar.update')
+        canUpdate: hasPermissions(user, 'calendar.update')
     }
 
     let week = [];
@@ -117,7 +116,7 @@
                             {/if}
                         </div>
                         <div class="flex justify-between flex-row">
-                            {#if authorization.canUpdateEvent && authorization.hasAdminRole}
+                            {#if authorization.canUpdate}
                                 <button aria-label="Editar" class="cursor-pointer">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" loading="lazy" class={["w-5 filter-neutral-aurora",
                                         {"filter-blue-midnight": isActivity}
