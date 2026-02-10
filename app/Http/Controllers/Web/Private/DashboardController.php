@@ -36,7 +36,7 @@ class DashboardController extends Controller
             ->get();
     }
 
-    public function indexPublications()
+    public function indexPosts()
     {
         return Post::active()
             ->published()
@@ -75,7 +75,7 @@ class DashboardController extends Controller
         return Inertia::render($this->render, [
             'activities' => $this->indexActivities(),
             'tasks' => $this->indexTasks(),
-            'publications' => $this->indexPublications(),
+            'posts' => $this->indexPosts(),
             'calendar' => $this->indexCalendar()
         ]);
     }

@@ -1,12 +1,26 @@
 <script>
+    import { page } from "@inertiajs/svelte";
     import { Meta } from "@/config/meta";
     import { Layout } from "@/layouts/private";
     import { ReviewsForm } from "@/ui/widgets/private/form";
-    import { PostsGrid } from "@/ui/widgets/private/grid";
+    import { ReviewsGrid } from "@/ui/widgets/private/grid";
+
+    $: ({ 
+        user,
+        reviews,
+        review
+    } = $page.props);
 </script>
 
 <Meta meta={{ title: "Reviews" }} />
 <Layout>
-    <ReviewsForm />
-    <PostsGrid title="Todos os reviews" view="https://akiba.com.br/reviews/" edit="/painel/reviews/" />
+        <ReviewsForm 
+            {review}
+            {user}
+        />
+        <ReviewsGrid 
+            title="Todos os reviews"
+            {reviews}
+            {user}
+        />
 </Layout>

@@ -1,19 +1,19 @@
 <script>
+    export let review;
+    export let user;
+
     import { onMount } from "svelte";
-    import { page, useForm, Link } from "@inertiajs/svelte";
+    import { useForm, Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
 
-    $: ({ authenticated, publication } = $page.props);
-
-    $: authorSelected = authenticated.id;
-    $: contentSelected = publication?.reviews?.find(
-        (item) => item.user.id === authorSelected,
+    $: selected = review?.reviews.find(
+        (item) => item.user.id === user.id,
     );
 
     let form = useForm({
         _method: null,
-        content_id: contentSelected.id,
+        content_id: null,
         image: null,
         title: null,
         sinopse: null,
@@ -22,28 +22,29 @@
     });
 
     onMount(()=>{
-        if(publication){
-            $form._method = "PUT",
-            $form.image = publication.image,
-            $form.title = publication.title,
-            $form.sinopse = publication.sinopse,
-            $form.cover = publication.cover,
-            $form.content = contentSelected.content
+        if(review){
+            $form._method = "patch",
+            $form.image = review.image,
+            $form.title = review.title,
+            $form.sinopse = review.sinopse,
+            $form.cover = review.cover,
+            $form.content = selected.content
         }
     })
 
     function onSubmit() {
-        let url = publication ? `/painel/reviews/update/${publication.id}` : `/painel/reviews/create`       
+        let url = review ? `/painel/reviews/${review.id}` : `/painel/reviews`       
+
         $form.post(url, {
-            preserveState: publication,
+            preserveState: review,
             onSuccess: () => {
-                publication ? null : $form.reset();
+                review ? null : $form.reset();
             },
         });
     }
 </script>
 
-<Section title={publication ? "Editar review" : "Criar review"}>
+<Section title={review ? "Editar review" : "Criar review"}>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         <Link preserveState={false} href="/painel/materias" class="cursor-pointer border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-center text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
             Matérias
@@ -55,7 +56,7 @@
             Eventos
         </Link>
     </div>        
-    <form on:submit|preventDefault={onSubmit} class="mt-10 xl:mt-25">
+    <form on:submit|preventDefault={onSubmit} class="mt-10 xl:mt-15">
         <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
             <div class="mb-3">
                 <div class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans mb-1">
@@ -65,7 +66,7 @@
                     name="image" 
                     src={$form.image} 
                     oninput={event => $form.image = event.target.files[0]} 
-                    required={publication ? false : true}
+                    required={review ? false : true}
                 />        
             </div>
             <div>
@@ -109,9 +110,8 @@
                     <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1" for="content">
                         Escreva sobre o anime
                     </label>
-                    {#if user.permissions_keys.includes("administrator") && publication}
                         <div class="flex mb-3 mt-2 gap-2">
-                            {#each publication?.reviews as item}
+                            {#each review && review.reviews as item}
                                 <div class="relative inline-block mb-2">
                                     <button type="button" class="py-2 px-6 rounded-md uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer relative {item.user.id === authorSelected ? 'bg-neutral-aurora text-blue-ocean' : 'bg-blue-ocean text-neutral-aurora'}" on:click={() => (authorSelected = item.user.id)}>
                                         {item.user.nickname}
@@ -123,18 +123,13 @@
                                 </div>
                             {/each}
                         </div>
-                    {/if}
                     <Wysiwyg name="content" bind:value={$form.content} required={true}/>
                 </div>
             </div>
         </div>
         <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-10">
             <button type="submit" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                {#if contentSelected?.content}
-                    Atualizar
-                {:else}
-                   Publicar
-                {/if}
+                {selected?.content ? 'Atualizar review' : 'Publicar review'}
             </button>
         </div>
     </form>

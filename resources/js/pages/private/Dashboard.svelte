@@ -11,7 +11,7 @@
         user,
         activities,
         tasks,
-        publications,
+        posts,
         calendar
     } = $page.props);
 
@@ -62,7 +62,7 @@
     {#if authorization.canViewPublications}
         <PostsGrid 
             title="Últimas Matérias" 
-            {publications}
+            {posts}
             {user}
         />
     {/if}

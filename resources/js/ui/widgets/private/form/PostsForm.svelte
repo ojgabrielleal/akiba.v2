@@ -1,5 +1,5 @@
 <script>
-    export let publication;
+    export let post;
     export let user;
 
     import { onMount } from "svelte";
@@ -10,13 +10,10 @@
     import tagsJson from "@/data/tags.json";
 
     $: authorization = {
+        canView: hasPermissions(user, 'post.view'),
         canCreate: hasPermissions(user, 'post.create'),
         canUpdate: hasPermissions(user, 'post.update'),
         canUpdateOwn: hasPermissions(user, 'post.update.own'),
-        canCreateSketch: hasPermissions(user, 'post.create.sketch'),
-        canUpdateSketch: hasPermissions(user, 'post.update.sketch'),
-        canUpdateSketchOwn: hasPermissions(user, 'post.update.sketch.own'),
-        canSendRevision: hasPermissions(user, 'post.create.revision'),
     } 
 
     let form = useForm({
@@ -37,32 +34,32 @@
     });
 
     onMount(()=>{
-        if(publication){
+        if(post){
             $form._method = 'PATCH';
-            $form.image = publication.image;
-            $form.title = publication.title;
-            $form.cover = publication.cover;
-            $form.content = publication.content;
-            $form.categories = publication.categories.map(({id, name}) => ({ id, name }));
-            $form.references = publication.references.map(({id, name, url}) => ({ id, name, url }))
+            $form.image = post.image;
+            $form.title = post.title;
+            $form.cover = post.cover;
+            $form.content = post.content;
+            $form.categories = post.categories.map(({id, name}) => ({ id, name }));
+            $form.references = post.references.map(({id, name, url}) => ({ id, name, url }))
         }
     })
     
     function onSubmit(event) {
-        let url = publication ? `/painel/materias/${publication.id}` : '/painel/materias';
+        let url = post ? `/painel/materias/${post.id}` : '/painel/materias';
         
         $form.status = event.submitter.value;
 
         $form.post(url, {
-            preserveState: publication,
+            preserveState: post,
             onSuccess: () => {
-                publication ? null : $form.reset()
+                post ? null : $form.reset()
             }
         });
     }
 </script>
 
-<Section title={publication ?  "Editar matéria" : "Criar matéria"}>
+<Section title={post ?  "Editar matéria" : "Criar matéria"}>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         <Link preserveState={false} href="/painel/materias" class="cursor-pointer border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-center text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
             Matérias
@@ -74,6 +71,7 @@
             Eventos
         </Link>
     </div>
+    {#if authorization.canView}
     <form on:submit|preventDefault={onSubmit} class="mt-10 xl:mt-15">
         <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
             <div class="mb-3">
@@ -84,7 +82,7 @@
                     name="image" 
                     src={$form.image} 
                     oninput={event => $form.image = event.target.files[0]} 
-                    required={!publication}
+                    required={!post}
                 />
             </div>
             <div class="mb-3">
@@ -109,7 +107,7 @@
                         viewobject="object-cover"
                         src={$form.cover}  
                         oninput={event => $form.cover = event.target.files[0]} 
-                        required={!publication}
+                        required={!post}
                     />
                 </div>
                 <div class="mb-8">
@@ -218,28 +216,27 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
-            {#if (authorization.canCreateSketch || authorization.canUpdateSketch) || (authorization.canUpdateSketchOwn && user.id === publication?.author.id)} 
+        {#if (authorization.canCreate || authorization.canUpdate) || (authorization.canUpdateOwn && user.id === post?.author.id)}
+            <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
                 <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
-                    {#if publication?.status === 'sketch'}
+                    {#if post?.status === 'sketch'}
                         Atualizar rascunho
-                    {:else if publication?.status === 'revision' || publication?.status === 'published'}
+                    {:else if post?.status === 'revision' || post?.status === 'published'}
                         Converter pra rascunho 
                     {:else}
                         Salvar como rascunho
                     {/if}
                 </button>
-            {/if}
-            {#if authorization.canSendRevision && (publication?.status !== 'revision' && publication?.status !== 'published')}
-                <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
-                    Mandar pra revisão
-                </button>
-            {/if}
-            {#if (authorization.canCreate || authorization.canUpdate) || (authorization.canUpdateOwn && user.id === publication?.author.id)}
+                {#if post?.status !== 'revision' && post?.status !== 'published'}
+                    <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
+                        Mandar pra revisão
+                    </button>
+                {/if}
                 <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                    {publication?.status === 'published' ? 'Atualizar matéria' : 'Publicar matéria'}
+                    {post && post.status === 'published' ? 'Atualizar matéria' : 'Publicar matéria'}
                 </button>
-            {/if}
-        </div>
+            </div>
+        {/if}
     </form>
+    {/if}
 </Section>

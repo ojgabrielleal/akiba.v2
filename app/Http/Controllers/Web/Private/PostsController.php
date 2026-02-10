@@ -117,7 +117,7 @@ class PostsController extends Controller
     public function render()
     {
         return Inertia::render($this->render, [
-            "publications" => $this->indexPosts(),
+            "posts" => $this->indexPosts(),
         ]);
     }
 }

@@ -1,8 +1,8 @@
 <script>
     export let title;
-    export let publications;
+    export let posts;
     export let user; 
-        
+    
     import { Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Pagination } from "@/ui/components/private"
@@ -17,8 +17,8 @@
 
 <Section {title}>
     <div class="gap-6 grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5">
-        {#if publications.data.length > 0}
-            {#each publications.data as item}
+        {#if posts.data.length > 0}
+            {#each posts.data as item}
                 {@const canEditAdmin = authorization.canUpdate}
                 {@const canEditOwn = authorization.canUpdateOwn && user.id === item.author.id}
                 {@const isPublished = item.status === 'published'}
@@ -62,5 +62,5 @@
             </article>
         {/if}
     </div>
-    <Pagination publications/>
+    <Pagination pages={posts}/>
 </Section>

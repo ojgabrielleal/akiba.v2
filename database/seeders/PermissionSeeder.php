@@ -75,13 +75,21 @@ class PermissionSeeder extends Seeder
             ['name' => 'post.view', 'label' => 'Visualizar post'],
             ['name' => 'post.create', 'label' => 'Criar post'],
             ['name' => 'post.update', 'label' => 'Atualizar post'],
+            ['name' => 'post.update.own', 'label' => 'Atualiza próprio post'],
             ['name' => 'post.deactivate', 'label' => 'Desativar post'],
-            ['name' => 'post.list.own', 'label' => 'Listar próprios posts'],
-            ['name' => 'post.update.own', 'label' => 'Atualizar próprio post'],
-            ['name' => 'post.create.sketch', 'label' => 'Cadastra rascunho'],
-            ['name' => 'post.update.sketch', 'label' => 'Atualiza revisão'],
-            ['name' => 'post.update.sketch.own', 'label' => 'Atualiza a própria revisão'],
-            ['name' => 'post.create.revision', 'label' => 'Cadastra revisão'],
+
+            /*
+            |--------------------------------------------------------------------------
+            | ⭐ Reviews
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'review.list', 'label' => 'Listar reviews'],
+            ['name' => 'review.view', 'label' => 'Visualizar review'],
+            ['name' => 'review.create', 'label' => 'Criar review'],
+            ['name' => 'review.update', 'label' => 'Atualizar review'],
+            ['name' => 'review.delete', 'label' => 'Excluir review'],
+            ['name' => 'review.view.own', 'label' => 'Visualizar próprio review'],
+
 
             /*
             |--------------------------------------------------------------------------
@@ -98,19 +106,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'user.view.own', 'label' => 'Visualizar próprio perfil'],
             ['name' => 'user.update.own', 'label' => 'Atualizar próprio perfil'],
 
-            /*
-            |--------------------------------------------------------------------------
-            | ⭐ Reviews
-            |--------------------------------------------------------------------------
-            */
-            ['name' => 'review.list', 'label' => 'Listar reviews'],
-            ['name' => 'review.view', 'label' => 'Visualizar review'],
-            ['name' => 'review.create', 'label' => 'Criar review'],
-            ['name' => 'review.update', 'label' => 'Atualizar review'],
-            ['name' => 'review.delete', 'label' => 'Excluir review'],
-            ['name' => 'review.view.own', 'label' => 'Visualizar próprio review'],
-            ['name' => 'review.update.own', 'label' => 'Atualizar próprio review'],
-
+        
             /*
             |--------------------------------------------------------------------------
             | 📺 Programas

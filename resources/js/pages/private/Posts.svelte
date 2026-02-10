@@ -7,8 +7,8 @@
 
     $: ({ 
         user,
-        publications,
-        publication
+        posts,
+        post
     } = $page.props);
 
 </script>
@@ -16,12 +16,12 @@
 <Meta meta={{ title: "Matérias" }} />
 <Layout>
     <PostsForm 
-        {publication}
+        {post}
         {user}
     />
     <PostsGrid 
         title="Todas as matérias" 
-        {publications}    
+        {posts}    
         {user}
     />
 </Layout>

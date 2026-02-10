@@ -1,4 +1,5 @@
 export { default as PostsGrid } from "./PostsGrid.svelte"
+export { default as ReviewsGrid } from "./ReviewsGrid.svelte"
 export { default as CalendarGrid } from "./CalendarGrid.svelte"
 export { default as ListenerRequestGrid } from "./ListenerRequestGrid.svelte"
 export { default as ProgramScheduleGrid } from "./ProgramScheduleGrid.svelte"
