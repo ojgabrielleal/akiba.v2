@@ -12,14 +12,14 @@
        permission: null,
     });
 
-    function onSubmit(){
+    function submit(){
         $form.post('/painel/adms/create/user', {
             onSuccess: () => close()
         });
     }
 </script>
 
-<form on:submit|preventDefault={onSubmit}>
+<form on:submit|preventDefault={submit}>
     <div class="flex items-center justify-center w-full mb-5">
         <div class="relative w-full">
             <div class="absolute left-0 w-1/3 h-[0.1rem] bg-blue-skywave rounded-full top-1/2 -translate-y-1/2"></div>

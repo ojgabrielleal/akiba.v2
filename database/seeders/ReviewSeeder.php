@@ -16,11 +16,11 @@ class ReviewSeeder extends Seeder
      */
     public function run(): void
     {               
-        $content = ReviewContent::factory()
+        $reviews = ReviewContent::factory()
             ->for(User::factory()->create(), 'author');
 
         Review::factory()
-            ->has($content, 'contents')
+            ->has($reviews, 'reviews')
             ->create();
     }
 }

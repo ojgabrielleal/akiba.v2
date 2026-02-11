@@ -24,14 +24,14 @@
         }
     })
 
-    function onSubmit(){
+    function submit(){
         $form.post('/painel/radio/create/listener/month', {
             onSuccess: () => close()
         })
     }
 </script>
 
-<form on:submit|preventDefault={onSubmit}>
+<form on:submit|preventDefault={submit}>
     <div class="mb-4">
         <Preview
             standard="w-full h-[10rem] rounded-lg"

@@ -6,7 +6,7 @@
         password: null,
     });
 
-    function onSubmit() {
+    function submit() {
         $form.post("/painel/auth");
     }
 </script>
@@ -18,7 +18,7 @@
     <strong class="w-full block mb-4 font-noto-sans font-light text-center text-gray-400">
         Realize o login para acessar o sistema
     </strong>
-    <form on:submit|preventDefault={onSubmit}>
+    <form on:submit|preventDefault={submit}>
         <input
             type="text"
             name="username"

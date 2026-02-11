@@ -17,20 +17,20 @@ class ReviewTest extends TestCase
     /**
      * Tests from Review model relationships.
      */
-    public function testContentsRelationshipReturnsReviewContents(): void
+    public function testReviewsRelationshipReturnsReviewContents(): void
     {
         $user = User::factory()->create();
 
-        $content = ReviewContent::factory()
+        $reviews = ReviewContent::factory()
             ->for($user, 'author');
 
         $review = Review::factory()
-            ->has($content, 'contents')
+            ->has($reviews, 'reviews')
             ->create();
 
         $this->assertContainsOnlyInstancesOf(
             ReviewContent::class,
-            $review->contents
+            $review->reviews
         );
     }
 
@@ -41,11 +41,11 @@ class ReviewTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $content = ReviewContent::factory()
+        $reviews = ReviewContent::factory()
             ->for($user, 'author');
 
         $review = Review::factory()
-            ->has($content, 'contents')
+            ->has($reviews, 'reviews')
             ->create([
                 'title' => 'Sample Review Title'
             ]);

@@ -5,6 +5,7 @@
 
     import { Section } from "@/ui/components/private/";
     import { hasPermissions } from "@/utils";
+    import tags from "@/data/calendar/tags.json";
 
     $: authorization = {
         canUpdate: hasPermissions(user, 'calendar.update')
@@ -32,51 +33,13 @@
             });
         }
     }
-
-    const tags = [
-        {
-            label: "Programas",
-            color: "bg-blue-skywave",
-            textcolor: "text-neutral-aurora",
-        },
-        {
-            label: "Lives",
-            color: "bg-purple-mystic",
-            textcolor: "text-neutral-aurora",
-        },
-        {
-            label: "Youtube",
-            color: "bg-red-crimson",
-            textcolor: "text-neutral-aurora",
-        },
-        {
-            label: "Podcasts",
-            color: "bg-green-forest",
-            textcolor: "text-neutral-aurora",
-        },
-        {
-            label: "Atividades",
-            color: "bg-neutral-honeycream",
-            textcolor: "text-blue-midnight",
-        },
-        {
-            label: "",
-            color: "bg-blue-skywave",
-            textcolor: "text-neutral-aurora",
-        },
-        {
-            label: "",
-            color: "bg-blue-skywave",
-            textcolor: "text-neutral-aurora",
-        },
-    ];
 </script>
 
 <Section {title}>
     <div  class="w-full grid gap-5 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
-        {#each tags as tag}
-            <span class={`h-10 text-lg font-noto-sans font-bold uppercase italic rounded-lg flex justify-center items-center ${tag.color} ${tag.textcolor}`}>
-                {tag.label}
+        {#each tags as item}
+            <span class={`h-10 text-lg font-noto-sans font-bold uppercase italic rounded-lg flex justify-center items-center ${item.color} ${item.textcolor}`}>
+                {item.label}
             </span>
         {/each}
     </div>

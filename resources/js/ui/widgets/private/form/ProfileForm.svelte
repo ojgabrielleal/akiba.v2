@@ -52,12 +52,12 @@
         $form.external_links = $form.external_links
     }
     
-    function onSubmit(){
+    function submit(){
         $form.post(`/painel/profile/update/${profile?.id}`);
     }
 </script>
 
-<form on:submit|preventDefault={onSubmit}>
+<form on:submit|preventDefault={submit}>
     <Section title="O básico">
         <div class="grid grid-cols-1 xl:grid-cols-[15rem_1fr] gap-5 items-center">
             <div class="mb-3">

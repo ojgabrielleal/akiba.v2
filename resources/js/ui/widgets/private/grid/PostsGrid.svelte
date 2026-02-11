@@ -12,7 +12,6 @@
         canUpdate: hasPermissions(user, 'post.update'),
         canUpdateOwn: hasPermissions(user, 'post.update.own')
     }
-
 </script>
 
 <Section {title}>

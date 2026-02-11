@@ -42,7 +42,7 @@ class Review extends Model
      * Use these methods to access related data via Eloquent relationships
      * (hasOne, hasMany, belongsTo, belongsToMany, etc.).
      */
-    public function contents()
+    public function reviews()
     {
         return $this->hasMany(ReviewContent::class, 'review_id');
     }

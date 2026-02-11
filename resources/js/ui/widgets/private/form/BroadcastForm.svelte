@@ -11,7 +11,7 @@ let form = useForm({
         image: null,
     });
     
-    function onSubmit() {
+    function submit() {
         $form.post("/painel/locucao/set/start/broadcast");
     }
 
@@ -22,7 +22,7 @@ let form = useForm({
 
 {#if verify.onair === false && verify.streamer === false}
     <Section title="Meus Programas">
-        <form on:submit|preventDefault={onSubmit}>
+        <form on:submit|preventDefault={submit}>
             {#if shows.length > 0}
                 <div class="flex flex-wrap justify-center gap-15 lg:gap-x-0 lg:gap-y-15 0 mt-10 mb-20">
                     {#each shows as item}

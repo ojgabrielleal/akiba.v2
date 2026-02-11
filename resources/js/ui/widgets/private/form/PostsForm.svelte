@@ -2,12 +2,11 @@
     export let post;
     export let user;
 
-    import { onMount } from "svelte";
     import { useForm, Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
     import { hasPermissions } from "@/utils";
-    import tagsJson from "@/data/tags.json";
+    import tags from "@/data/posts/tags.json";
 
     $: authorization = {
         canView: hasPermissions(user, 'post.view'),
@@ -33,23 +32,20 @@
         ]
     });
 
-    onMount(()=>{
-        if(post){
-            $form._method = 'PATCH';
-            $form.image = post.image;
-            $form.title = post.title;
-            $form.cover = post.cover;
-            $form.content = post.content;
-            $form.categories = post.categories.map(({id, name}) => ({ id, name }));
-            $form.references = post.references.map(({id, name, url}) => ({ id, name, url }))
-        }
-    })
+    $: if(post){
+        $form._method = 'PATCH';
+        $form.image = post.image;
+        $form.title = post.title;
+        $form.cover = post.cover;
+        $form.content = post.content;
+        $form.categories = post.categories.map(({id, name}) => ({ id, name }));
+        $form.references = post.references.map(({id, name, url}) => ({ id, name, url }))
+    }
     
-    function onSubmit(event) {
+    function submit(event) {
         let url = post ? `/painel/materias/${post.id}` : '/painel/materias';
         
         $form.status = event.submitter.value;
-
         $form.post(url, {
             preserveState: post,
             onSuccess: () => {
@@ -72,7 +68,7 @@
         </Link>
     </div>
     {#if authorization.canView}
-    <form on:submit|preventDefault={onSubmit} class="mt-10 xl:mt-15">
+    <form on:submit|preventDefault={submit} class="mt-10 xl:mt-15">
         <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
             <div class="mb-3">
                 <div class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
@@ -134,7 +130,7 @@
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
                         bind:value={$form.categories[0].name}
                     >
-                        {#each tagsJson as tag}
+                        {#each tags as tag}
                             <option value={tag.value}>{tag.label}</option>
                         {/each}
                     </select>
@@ -149,7 +145,7 @@
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
                         bind:value={$form.categories[1].name}
                     >
-                        {#each tagsJson as tag}
+                        {#each tags as tag}
                             <option value={tag.value}>{tag.label}</option>
                         {/each}
                     </select>

@@ -25,14 +25,14 @@ class ReviewsController extends Controller
 
     public function indexReviews()
     {
-        return Review::with('contents')->paginate(10);
+        return Review::with('reviews')->paginate(10);
     }
 
     public function showReview(Review $review)
     {
         return Inertia::render($this->render, [
             "reviews" => $this->indexReviews(),
-            'review' => $review->load('contents'),
+            'review' => $review->load('reviews.author'),
         ]);
     }
 

@@ -1,0 +1,37 @@
+[
+  {
+    "label": "Programas",
+    "color": "bg-blue-skywave",
+    "textcolor": "text-neutral-aurora"
+  },
+  {
+    "label": "Lives",
+    "color": "bg-purple-mystic",
+    "textcolor": "text-neutral-aurora"
+  },
+  {
+    "label": "Youtube",
+    "color": "bg-red-crimson",
+    "textcolor": "text-neutral-aurora"
+  },
+  {
+    "label": "Podcasts",
+    "color": "bg-green-forest",
+    "textcolor": "text-neutral-aurora"
+  },
+  {
+    "label": "Atividades",
+    "color": "bg-neutral-honeycream",
+    "textcolor": "text-blue-midnight"
+  },
+  {
+    "label": "",
+    "color": "bg-blue-skywave",
+    "textcolor": "text-neutral-aurora"
+  },
+  {
+    "label": "",
+    "color": "bg-blue-skywave",
+    "textcolor": "text-neutral-aurora"
+  }
+]

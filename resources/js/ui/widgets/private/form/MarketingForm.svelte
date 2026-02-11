@@ -26,7 +26,7 @@
         }
     });
 
-    function onSubmit(){
+    function submit(){
         let url = repositoryId ? `/painel/marketing/update/repository/${repositoryId}` : '/painel/marketing/create/repository';
         $form.post(url, {
             onSuccess: ()=>close()
@@ -34,7 +34,7 @@
     }
 </script>
 
-<form on:submit|preventDefault={onSubmit}>
+<form on:submit|preventDefault={submit}>
     <div class="mb-4">
         <Preview 
             name="image" 

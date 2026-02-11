@@ -26,7 +26,7 @@
         }
     })
     
-    function onSubmit(){
+    function submit(){
         const method = pollId ? 'put' : 'post';
         let url = pollId ? `/painel/medias/update/poll/${pollId}` : '/painel/medias/create/poll';
         $form[method](url, {
@@ -36,7 +36,7 @@
 
 </script>
 
-<form on:submit|preventDefault={onSubmit}>
+<form on:submit|preventDefault={submit}>
     <div class="mb-4">
         <label for="question" class="text-md text-gray-700 font-noto-sans block mb-1">
             Pergunta

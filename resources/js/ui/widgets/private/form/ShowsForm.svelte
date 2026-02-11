@@ -41,7 +41,7 @@
         }
     })
 
-    function onSubmit() {   
+    function submit() {   
         let url = showId ? `/painel/radio/update/show/${showId}` : '/painel/radio/create/show'
         $form.post(url, {
             onSuccess: () => close(),
@@ -49,7 +49,7 @@
     }
 </script>
 
-<form on:submit|preventDefault={onSubmit}>
+<form on:submit|preventDefault={submit}>
     <div class="mb-4">
         <Preview
             standard="w-full h-[10rem] rounded-lg"

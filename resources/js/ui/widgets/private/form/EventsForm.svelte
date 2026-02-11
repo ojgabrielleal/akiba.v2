@@ -28,7 +28,7 @@
         }
     })
 
-    function onSubmit() {
+    function submit() {
         let url = publication ? `/painel/eventos/update/${publication.id}` : '/painel/eventos/create';
         $form.post(url, {
             preserveState: publication,
@@ -52,7 +52,7 @@
             Eventos
         </Link>
     </div>
-    <form on:submit|preventDefault={onSubmit} class="mt-10 xl:mt-25">
+    <form on:submit|preventDefault={submit} class="mt-10 xl:mt-25">
         <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
             <div class="mb-3">
                 <span class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans mb-1">

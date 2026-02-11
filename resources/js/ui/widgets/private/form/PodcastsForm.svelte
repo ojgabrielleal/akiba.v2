@@ -30,7 +30,7 @@
         }
     })
 
-    function onSubmit(){
+    function submit(){
         let url = podcast ? `/painel/podcasts/update/${podcast.id}` : '/painel/podcasts/create/'
         $form.post(url, {
             preserveState: podcast,
@@ -43,7 +43,7 @@
 </script>
 
 <Section title={podcast ? "Editar Podcast" : "Adicionar Podcast"}>
-    <form on:submit|preventDefault={onSubmit} class="mt-10">
+    <form on:submit|preventDefault={submit} class="mt-10">
         <div class="grid grid-cols-1 xl:grid-cols-[20rem_1fr] gap-8 mb-8">
             <div>
                 <div class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-1">
