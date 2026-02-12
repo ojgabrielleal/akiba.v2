@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('songs_requests', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->boolean('is_played')->default(false);
             $table->boolean('is_canceled')->default(false);
             $table->foreignId('onair_id')->constrained('onair')->cascadeOnDelete();

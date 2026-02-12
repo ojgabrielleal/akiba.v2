@@ -3,10 +3,12 @@
     import Quill from "quill";
     import "quill/dist/quill.snow.css";
 
-    export let value = ""; 
+    export let value; 
     export let height = "50rem";
     export let name = "content";
     export let required = false;
+    export let disable = false;
+
 
     let quill;
     let editor;
@@ -35,24 +37,19 @@
             },
         });
 
-        if (value) {
-            quill.root.innerHTML = value;
-            textarea.value = value;
-        }
-
         quill.on("text-change", () => {
-            value = quill.root.innerHTML;  
-            textarea.value = value;
-        });
+            value = quill.root.innerHTML;
+            textarea.value = (value === "<p><br></p>") ? "" : value;
+        }) 
     });
 
-    $: if (quill && value !== quill.root.innerHTML) {
+    $: if(quill && value !== quill.root.innerHTML){
         quill.root.innerHTML = value;
-        textarea.value = value;
+        textarea.value = (value === "<p><br></p>") ? "" : value;
     }
 </script>
 
-<div class="bg-neutral-aurora rounded-xl overflow-hidden">
-    <div bind:this={editor} class="p-3 lg:min-h-[40rem]" style={`min-height: ${height};`}></div>
+<div class="bg-neutral-aurora rounded-xl overflow-hidden" class:opacity-70={disable}>
+    <div bind:this={editor} class="p-3 lg:min-h-[40rem]" class:min-height={height}></div>
 </div>
-<textarea name={name} class="sr-only" bind:this={textarea} required={required}></textarea>
+<textarea bind:this={textarea} name={name} required={required} class="sr-only"></textarea>

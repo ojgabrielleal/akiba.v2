@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('autodj_phrases', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->foreignId('autodj_id')->constrained('autodj')->cascadeOnDelete();
             $table->string('image')->nullable();
             $table->string('phrase');

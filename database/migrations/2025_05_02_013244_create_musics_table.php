@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('musics', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->string('type');
             $table->string('production');
             $table->string('image')->nullable();

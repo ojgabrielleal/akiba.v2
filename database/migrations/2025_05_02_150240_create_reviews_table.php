@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->boolean('is_active')->default(true);
             $table->string('slug');
             $table->string('cover')->nullable(); 

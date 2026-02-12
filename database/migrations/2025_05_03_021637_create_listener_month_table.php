@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('listener_month', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->string('name');
             $table->string('avatar');
             $table->string('address');

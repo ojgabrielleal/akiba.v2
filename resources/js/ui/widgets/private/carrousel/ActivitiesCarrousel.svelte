@@ -23,7 +23,7 @@
             {#each activities as item}  
                 {@const canParticipate = authorization.canParticipate && !item.confirmations.some(c => c.confirmer.id === user.id)}
                 {@const allowsConfirmations = item.allows_confirmations}
-                <article class={['w-100 h-50 lg:w-[29rem] flex-shrink-0 rounded-lg p-4 relative', 
+                <article class={['w-100 h-50 lg:w-[29rem] flex-shrink-0 rounded-lg p-4 relative bg-blue-skywave', 
                     {'bg-neutral-honeycream': allowsConfirmations},
                     {'bg-blue-skywave': !allowsConfirmations}
                 ]}>

@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-use App\Traits\FlashMessageTrait;
+use App\Traits\HasFlashMessages;
 use App\Services\Process\ImageService;
 
 use App\Models\Repository;
 
 class MarketingController extends Controller
 {
-    use FlashMessageTrait;
+    use HasFlashMessages;
 
     private ImageService $image;
     private $render = 'private/Marketing';

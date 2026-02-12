@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\HasUuid;
 
 class ActivityParticipants extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuid;
 
     protected $table = 'activities_participants';
     

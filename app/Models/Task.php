@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Traits\HasUuid;
 
 class Task extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuid;
 
     protected $table = 'tasks';
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->boolean('is_active')->default(true);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('image')->nullable();

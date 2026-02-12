@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-use App\Traits\FlashMessageTrait;
+use App\Traits\HasFlashMessages;
 use App\Services\Process\ImageService;
 
 use App\Models\Review;
 
+use function PHPSTORM_META\map;
+
 class ReviewsController extends Controller
 {
-    use FlashMessageTrait;
+    use HasFlashMessages;
 
     private ImageService $image;
     private $render = 'private/Reviews';
@@ -30,9 +32,25 @@ class ReviewsController extends Controller
 
     public function showReview(Review $review)
     {
+        $review = $review->load('reviews.author');
+
+        $response = [ 
+            'id' => $review->id,
+            'slug' => $review->slug,
+            'title' => $review->title,
+            'sinopse' => $review->sinopse,
+            'image' => $review->image,
+            'cover' => $review->cover, 
+            'authors' => $review->reviews.map(fn($item)=>[
+                'slug' => $item->author->slug,
+                'nickname' => $item->author->nickname,
+                'review_id' => $item->id,
+            ]),
+        ];
+
         return Inertia::render($this->render, [
             "reviews" => $this->indexReviews(),
-            'review' => $review->load('reviews.author'),
+            'review' => $response,
         ]);
     }
 

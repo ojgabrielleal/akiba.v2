@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('repositories', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->boolean('is_active')->default(true);
             $table->string('image')->nullable();
             $table->string('url');

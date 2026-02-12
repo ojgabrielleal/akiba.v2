@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('polls_options', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->foreignId('poll_id')->constrained('polls')->cascadeOnDelete();
             $table->string('option');
             $table->integer('votes')->default(0);

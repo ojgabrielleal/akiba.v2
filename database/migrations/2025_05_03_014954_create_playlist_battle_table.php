@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('playlist_battle', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->integer('day');
             $table->string('image')->nullable();
             $table->timestamps();

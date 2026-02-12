@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('polls', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->boolean('is_active')->default(true);
             $table->string('question');
             $table->timestamps();

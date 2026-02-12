@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('users_socials', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
             $table->string('url');

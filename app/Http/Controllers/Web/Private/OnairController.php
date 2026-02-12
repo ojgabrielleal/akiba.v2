@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-use App\Traits\FlashMessageTrait;
+use App\Traits\HasFlashMessages;
 
 use App\Models\Onair;
 use App\Models\Program;
@@ -17,7 +17,7 @@ use App\Services\External\DiscordWebhookService;
 
 class OnairController extends Controller
 {
-    use FlashMessageTrait;
+    use HasFlashMessages;
 
     private DiscordWebhookService $discord;
     private $render = 'private/Medias';

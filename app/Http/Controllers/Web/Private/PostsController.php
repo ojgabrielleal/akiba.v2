@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
-use App\Traits\FlashMessageTrait;
+use App\Traits\HasFlashMessages;
 use App\Services\Process\ImageService;
 
 use App\Models\Post;
 
 class PostsController extends Controller
 {
-    use FlashMessageTrait;
+    use HasFlashMessages;
 
     private ImageService $image;
     private $render = 'private/Posts';

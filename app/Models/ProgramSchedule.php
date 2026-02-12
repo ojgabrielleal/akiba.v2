@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\HasUuid;
 
 class ProgramSchedule extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuid;
 
     protected $table = 'programs_schedules';
     
@@ -24,6 +25,7 @@ class ProgramSchedule extends Model
     protected $hidden = [
         'program_id',
     ];
+
 
     /**
      * Define the relationships between this model and other models.

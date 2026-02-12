@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\HasUuid;
 
 class Poll extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuid;
 
     protected $table = 'polls';
     
@@ -19,7 +20,7 @@ class Poll extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
-
+    
     /**
      * Query scopes for this model.
      *

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts_references', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->foreignId('post_id')->constrained('posts')->cascadeOnDelete();
             $table->string('name');
             $table->string('url');

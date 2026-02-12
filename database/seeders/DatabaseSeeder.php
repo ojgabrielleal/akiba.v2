@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Poll;
-use App\Models\Users;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

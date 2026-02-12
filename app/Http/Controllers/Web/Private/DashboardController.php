@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Inertia\Inertia;
 
-use App\Traits\FlashMessageTrait;
+use App\Traits\HasFlashMessages;
 
 use App\Models\Activity;
 use App\Models\Post;
@@ -15,7 +15,7 @@ use App\Models\Calendar;
 
 class DashboardController extends Controller
 {
-    use FlashMessageTrait;
+    use HasFlashMessages;
 
     private $render = 'private/Dashboard';
 

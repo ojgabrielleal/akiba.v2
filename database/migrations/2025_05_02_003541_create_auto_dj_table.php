@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('autodj', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('name')->unique();
             $table->string('image')->nullable();

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-use App\Traits\FlashMessageTrait;
+use App\Traits\HasFlashMessages;
 
 use App\Models\Event;
 use App\Models\Poll;
@@ -14,7 +14,7 @@ use App\Models\PollOption;
 
 class MediasController extends Controller
 {
-    use FlashMessageTrait;
+    use HasFlashMessages;
 
     private $render = 'private/Medias';
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('onair', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->boolean('is_live')->default(false);
             $table->morphs('program');
             $table->string('image')->nullable();

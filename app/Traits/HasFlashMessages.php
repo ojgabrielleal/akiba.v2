@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait FlashMessageTrait
+trait HasFlashMessages
 {
     public function flashMessage(string $action)
     {

@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use App\Traits\HasUuid;
+
 
 class ListenerMonth extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuid;
 
     protected $table = 'listener_month';
 
