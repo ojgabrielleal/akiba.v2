@@ -8,70 +8,30 @@ trait HasFlashMessages
     {
         $messages = [
             'save' => [
-                'type' => 'success',
-                'message' => '💾 Salvo! Olha só, até que deu certo sem drama dessa vez 😎'
-            ],
-            'load' => [
-                'type' => 'info',
-                'message' => '📂 Carregado! Que milagre nada explodiu no processo 🔧'
+                'icon' => '🥳',
+                'message' => 'Salvo! Tá guardado com carinho.'
             ],
             'update' => [
-                'type' => 'success',
-                'message' => '⚡ Atualizado! Pequeno toque de perfeição… ou quase isso 😉'
+                'icon' => '🫡',
+                'message' => 'Atualizado! De cara nova.'
             ],
             'delete' => [
-                'type' => 'warning',
-                'message' => '🗑️ Apagado! Às vezes começar do zero é melhor que quebrar a cabeça 🤷‍♂️'
+                'icon' => '☠️',
+                'message' => 'Apagado! Nunca mais veremos.'
             ],
             'deactivate' => [
-                'type' => 'info',
-                'message' => '🌙 Desativado! Foi dormir, mas promete voltar… ou não 😴'
+                'icon' => '😴',
+                'message' => 'Desativado! Foi tirar um cochilo.'
             ],
             'activate' => [
-                'type' => 'success',
-                'message' => '☀️ Ativado! Preparado pra brilhar… e causar umas confusões ✨'
+                'icon' => '🥱',
+                'message' => 'Ativado! A lenda está de volta.'
             ],
-            'songRequestPlayed' => [
-                'type' => 'success',
-                'message' => '🎧 Pedido atendido! Sem drama, o que já é um pequeno milagre moderno 😌'
-            ],
-            'listener_request_canceled' => [
-                'type' => 'info',
-                'message' => '❌ Pedido cancelado! Melhor isso do que fingir que ia dar certo, né? 😏'
-            ],
-            'songRequestOpen' => [
-                'type' => 'success',
-                'message' => '📢 Pedidos abertos! Prepare-se para a avalanche… e tente não se perder 😅'
-            ],
-            'songRequestClose' => [
-                'type' => 'info',
-                'message' => '🔒 Pedidos fechados! Até o bom senso precisa tirar férias de vez em quando 😉'
-            ],
-            'startBroadcast' => [
-                'type' => 'success',
-                'message' => '📡 Programa iniciado! Vamos torcer para tudo sair do jeito certo… ou quase 😎'
-            ],
-            'finishBroadcast' => [
-                'type' => 'info',
-                'message' => '📡 Programa encerrado! E a gente finge que tudo saiu do jeito certo 😏'
-            ],
-            'vote' => [
-                'type' => 'success',
-                'message' => '🗳️ Voto computado! Seu poder de decisão foi registrado… e ninguém explodiu, ufa 😎'
-            ],
-            'confirmActivity' => [
-                'type' => 'success',
-                'message' => 'Presença marcada! Não se esquece, tá? 😬 Tá tudo registrado… até sua alma! 😇📌'
-            ],
-            'taskCompleted' => [
-                'type' => 'success',
-                'message' => 'Tarefa feita! ✅ Vou avisar a chefia… mesmo que estejam no mundo dos sonhos 🌙😎'
-            ]
         ];
 
         $default_message = [
-            'type' => 'info',
-            'message' => '✨ Oi! Tudo certo… ou pelo menos fingimos muito bem que está organizado 😂🎯'
+            'icon' => '🔔',
+            'message' => 'Alguma coisa aconteceu!'
         ];
 
         $base = $messages[$action] ?? $default_message;
