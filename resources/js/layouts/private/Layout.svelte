@@ -1,21 +1,28 @@
 <script>
     import { onMount } from "svelte";
     import { page } from "@inertiajs/svelte";
-    import { Notification } from "@/ui/components/private";
+    import toast, { Toaster } from "svelte-hot-french-toast"
     import { Navbar } from "@/ui/widgets/private/navbar";
     import { RadioMetrics } from "@/ui/widgets/private/metrics";
 
     $: ({ 
+        flash,
         user 
     } = $page.props);
 
+    if(flash){
+        toast(flash.message, {
+            icon: flash.icon
+        });
+    }
+    
     onMount(()=>{
         document.body.style.backgroundColor = "var(--color-blue-indigo)";
     });
 </script>
 
 
-<Notification/>
+<Toaster/>
 <header class="mb-15 lg:pt-10">
     <Navbar {user} />
 </header>

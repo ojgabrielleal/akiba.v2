@@ -14,32 +14,30 @@
     function confirmActivityParticipant(activity){
         router.post(`/painel/dashboard/activity/${activity}/confirm`);
     }
-
 </script>
 
 <Section {title}>
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" on:wheel={scrollx} role="group">
-        {#if activities.length > 0}
-            {#each activities as item}  
-                {@const canParticipate = authorization.canParticipate && !item.confirmations.some(c => c.confirmer.id === user.id)}
-                {@const allowsConfirmations = item.allows_confirmations}
+        {#if activities.data.length > 0}
+            {#each activities.data as item}  
+                {@const canParticipate = authorization.canParticipate && !item.is_participating}
                 <article class={['w-100 h-50 lg:w-[29rem] flex-shrink-0 rounded-lg p-4 relative bg-blue-skywave', 
-                    {'bg-neutral-honeycream': allowsConfirmations},
-                    {'bg-blue-skywave': !allowsConfirmations}
+                    {'bg-neutral-honeycream': item.allows_confirmations},
+                    {'bg-blue-skywave': !item.allows_confirmations}
                 ]}>
                     <div class={['font-noto-sans font-black italic uppercase text-xl', 
-                        {'text-blue-midnight': allowsConfirmations},
-                        {'text-neutral-aurora': !allowsConfirmations}
+                        {'text-blue-midnight': item.allows_confirmations},
+                        {'text-neutral-aurora': !item.allows_confirmations}
                     ]}>
                         {item.author.nickname}
                     </div>
                     <div class={['font-noto-sans text-sm line-clamp-5 mt-1', 
-                        {'text-blue-midnight': allowsConfirmations},
-                        {'text-neutral-aurora': !allowsConfirmations}
+                        {'text-blue-midnight': item.allows_confirmations},
+                        {'text-neutral-aurora': !item.allows_confirmations}
                     ]}>
                         {item.content}
                     </div>
-                    {#if allowsConfirmations}
+                    {#if item.allows_confirmations}
                         <div class="flex gap-2 absolute bottom-3 left-4">
                             {#each item.confirmations as confirmation}
                                 <img
@@ -55,7 +53,7 @@
                                 type="button"
                                 aria-label="Confirmar alerta"
                                 class="w-[2rem] h-[2rem] bg-neutral-aurora absolute bottom-3 right-4 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer disabled:opacity-50"
-                                on:click={() => confirmActivityParticipant(item.id)}
+                                on:click={() => confirmActivityParticipant(item.uuid)}
                             >
                                 <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                             </button>
@@ -76,3 +74,4 @@
         {/if}
     </div>
 </Section>
+-->

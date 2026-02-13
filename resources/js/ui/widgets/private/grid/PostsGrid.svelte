@@ -12,6 +12,8 @@
         canUpdate: hasPermissions(user, 'post.update'),
         canUpdateOwn: hasPermissions(user, 'post.update.own')
     }
+
+    $: console.log(posts)
 </script>
 
 <Section {title}>
@@ -19,7 +21,7 @@
         {#if posts.data.length > 0}
             {#each posts.data as item}
                 {@const canEditAdmin = authorization.canUpdate}
-                {@const canEditOwn = authorization.canUpdateOwn && user.id === item.author.id}
+                {@const canEditOwn = authorization.canUpdateOwn && item.is_author}
                 {@const isPublished = item.status === 'published'}
                 {@const isRevision = item.status === 'revision'}
                 {@const isSketch = item.status === 'sketch'}
@@ -31,11 +33,11 @@
                     <div class="font-noto-sans text-lg text-neutral-aurora line-clamp-5 uppercase">
                         {item.title}
                     </div>
-                    <dl class="flex justify-between gap-5 absolute bottom-2 left-4 w-[calc(100%-2rem)]">
-                        <dt class="font-noto-sans font-bold italic uppercase text-lg text-neutral-aurora">
+                    <dl class="grid grid-cols-2 absolute bottom-2 left-4 w-[calc(100%-2rem)]">
+                        <dt class="font-noto-sans font-bold italic uppercase text-lg text-neutral-aurora truncate">
                             {item.author.nickname}
                         </dt>
-                        <dd class="flex gap-3">
+                        <dd class="flex gap-3 justify-end mt-1">
                             <Link href={`/materias/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
                                 <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                             </Link>

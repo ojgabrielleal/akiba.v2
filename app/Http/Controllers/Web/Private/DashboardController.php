@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Web\Private;
 
 use App\Http\Controllers\Controller;
-
 use Inertia\Inertia;
 
 use App\Traits\HasFlashMessages;
@@ -13,6 +12,10 @@ use App\Models\Post;
 use App\Models\Task;
 use App\Models\Calendar;
 
+use App\Http\Resources\Web\Private\Dashboard\ActivityIndexResource;
+use App\Http\Resources\Web\Private\Dashboard\TaskIndexResource;
+use App\Http\Resources\Web\Private\Dashboard\PostIndexResource;
+
 class DashboardController extends Controller
 {
     use HasFlashMessages;
@@ -21,28 +24,34 @@ class DashboardController extends Controller
 
     public function indexActivities()
     {
-        return Activity::valid()
-            ->with(['author', 'confirmations.confirmer'])
-            ->limit(10)
-            ->get();
+        return ActivityIndexResource::collection(
+            Activity::valid()
+                ->with(['author', 'confirmations.confirmer'])
+                ->limit(10)
+                ->get()
+        );
     }
 
     public function indexTasks()
     {
-        return Task::active()
-            ->incompleted()
-            ->mine()
-            ->with(['responsible'])
-            ->get();
+        return TaskIndexResource::collection(
+            Task::active()
+                ->incompleted()
+                ->mine()
+                ->with(['responsible'])
+                ->get()
+        );
     }
 
     public function indexPosts()
     {
-        return Post::active()
-            ->published()
-            ->latest()
-            ->with(['author'])
-            ->paginate(10);
+        return PostIndexResource::collection(
+            Post::active()
+                ->published()
+                ->latest()
+                ->with(['author'])
+                ->paginate(10)
+        );
     }
 
     public function indexCalendar()

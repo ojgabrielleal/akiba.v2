@@ -1,12 +1,6 @@
-/*--------------------------------------
-  1. Imports
---------------------------------------*/
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
-/*--------------------------------------
-  2. CSS Variables (Root)
---------------------------------------*/
 :root {
     /* Neutral */
     --color-neutral-aurora: #fffaf3;
@@ -36,35 +30,25 @@
     --color-green-forest: #00a859;
 }
 
-/*--------------------------------------
-  3. Themes
---------------------------------------*/
 @theme theme {
-    /* Neutral */
     --color-neutral-aurora: var(--color-neutral-aurora);
     --color-neutral-sandstone: var(--color-neutral-sandstone);
     --color-neutral-honeycream: var(--color-neutral-honeycream);
     --color-neutral-gray: var(--color-neutral-gray);
 
-    /* Red */
     --color-red-crimson: var(--color-red-crimson);
 
-    /* Orange */
     --color-orange-sunset: var(--color-orange-sunset);
     --color-orange-amber: var(--color-orange-amber);
     --color-orange-copper: var(--color-orange-copper);
 
-    /* Blue */
     --color-blue-midnight: var(--color-blue-midnight);
     --color-blue-ocean: var(--color-blue-ocean);
     --color-blue-indigo: var(--color-blue-indigo);
     --color-blue-skywave: var(--color-blue-skywave);
     --color-blue-cerulean: var(--color-blue-cerulean);
 
-    /* Purple */
     --color-purple-mystic: var(--color-purple-mystic);
-
-    /* Green */
     --color-green-forest: var(--color-green-forest);
 }
 
@@ -72,169 +56,113 @@
     --font-noto-sans: "Noto Sans", sans-serif;
 }
 
-/*--------------------------------------
-  4. Keyframes
---------------------------------------*/
 @keyframes marquee {
-    from { transform: translateX(100%); }
-    to   { transform: translateX(-100%); }
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
 }
 
-/*--------------------------------------
-  5. Components
---------------------------------------*/
-@layer components {
-    /* Containers */
-    .container {
-        @apply w-full px-10 mx-auto sm:max-w-7xl lg:px-0;
-    }
-    .container-player {
-        @apply w-full px-10 mx-auto sm:max-w-6xl xl:px-0;
+@layer base {
+    * {
+        transition: 0.3s ease-in-out;
     }
 
-    /* Quill Editor */
     .ql-editor {
         font-family: var(--font-noto-sans);
     }
+}
 
-    /* Scroll X */
-    .scroll-x {
-        -ms-overflow-style: none; /* IE/Edge */
-        scrollbar-width: none;    /* Firefox */
-    }
-    .scroll-x::-webkit-scrollbar {
-        -webkit-appearance: none;
-        display: none; /* Chrome/Safari/Opera */
+@layer components {
+    .container {
+        @apply w-full px-10 mx-auto sm:max-w-7xl lg:px-0;
     }
 
-    /* Section Titles */
-    .title-layout {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
-    .title-layout h1 {
-        color: var(--color-orange-amber);
-        text-transform: uppercase;
-        font-family: var(--font-noto-sans);
-        font-weight: 900;
-        font-style: italic;
-        font-size: 1.3rem;
-        margin: 0;
-        white-space: nowrap;
-    }
-    .title-layout::after {
-        content: "";
-        flex: 1;
-        height: 0.1rem;
-        background-color: var(--color-orange-amber);
+    .container-player {
+        @apply w-full px-10 mx-auto sm:max-w-6xl xl:px-0;
     }
 }
 
-/*--------------------------------------
-  6. Inputs
---------------------------------------*/
-@layer inputs {
-    /* Select Inputs */
-    select {
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background-color: white;
-        border: 1px solid #ccc;
-        padding: 0.5rem 2rem 0.5rem 1rem;
-        border-radius: 0.5rem;
-        font-size: 1rem;
-        color: #000;
-        background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-        background-repeat: no-repeat;
-        background-position: right 0.5rem center;
-        background-size: 1rem 1rem;
-    }
-    select:focus {
-        outline: none;
-    }
-
-    /*Calendar Inputs*/ 
-    input[type="date"] {
-        position: relative;
-
-        /* Remove estilos do navegador */
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-
-        /* Ícone personalizado */
-        background-repeat: no-repeat;
-        background-position: right 10px center;
-        background-size: 20px;
-
-        /* Ajustes visuais */
-        font-family: "Noto Sans", sans-serif;
-    }
-
-    /* Chrome, Edge, Opera */
-    input[type="date"]::-webkit-calendar-picker-indicator {
-        opacity: 0;
-        cursor: pointer;
-    }
-}
-
-/*--------------------------------------
-  7. Color Filters
---------------------------------------*/
-@layer color-filters {
-    .filter-neutral-aurora {
-        filter: invert(100%) sepia(75%) saturate(292%) hue-rotate(322deg) brightness(106%) contrast(102%);
-    }
-    .filter-neutral-gray{
-        filter: invert(54%) sepia(12%) saturate(23%) hue-rotate(46deg) brightness(92%) contrast(88%);
-    }
-    .filter-neutral-honeycream{ 
-        filter: invert(92%) sepia(5%) saturate(2300%) hue-rotate(327deg) brightness(104%) contrast(101%);
-    }
-    .filter-blue-skywave {
-        filter: invert(53%) sepia(84%) saturate(4530%) hue-rotate(185deg) brightness(99%) contrast(112%);
-    }
-    .filter-blue-ocean{
-        filter: invert(10%) sepia(55%) saturate(5448%) hue-rotate(224deg) brightness(90%) contrast(109%);
-    }
-    .filter-blue-indigo{
-        filter: invert(8%) sepia(27%) saturate(5191%) hue-rotate(227deg) brightness(96%) contrast(124%);
-    }
-    .filter-blue-midnight{
-        filter: invert(5%) sepia(9%) saturate(7430%) hue-rotate(191deg) brightness(102%) contrast(108%);
-    }
-    .filter-red-crimson{
-        filter: invert(44%) sepia(59%) saturate(4904%) hue-rotate(335deg) brightness(88%) contrast(113%);
-    }
-}
-
-/*--------------------------------------
-  8. Utilities
---------------------------------------*/
 @layer utilities {
+    .scroll-x {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scroll-x::-webkit-scrollbar {
+        display: none;
+    }
+
     .marquee-container {
         z-index: 0;
     }
+
     .marquee-container::before,
     .marquee-container::after {
-        content: '';
+        content: "";
         position: absolute;
-        top: 0;
-        bottom: 0;
+        inset: 0 auto 0 auto;
         width: 5rem;
         z-index: 2;
     }
+
     .marquee-container::before {
         left: 0;
-        background: linear-gradient(to right, var(--color-blue-ocean), transparent);
+        background: linear-gradient(
+            to right,
+            var(--color-blue-ocean),
+            transparent
+        );
     }
+
     .marquee-container::after {
         right: 0;
-        background: linear-gradient(to left, var(--color-blue-ocean), transparent);
+        background: linear-gradient(
+            to left,
+            var(--color-blue-ocean),
+            transparent
+        );
+    }
+
+    .filter-neutral-aurora {
+        filter: invert(100%) sepia(75%) saturate(292%) hue-rotate(322deg)
+            brightness(106%) contrast(102%);
+    }
+
+    .filter-neutral-gray {
+        filter: invert(54%) sepia(12%) saturate(23%) hue-rotate(46deg)
+            brightness(92%) contrast(88%);
+    }
+
+    .filter-neutral-honeycream {
+        filter: invert(92%) sepia(5%) saturate(2300%) hue-rotate(327deg)
+            brightness(104%) contrast(101%);
+    }
+
+    .filter-blue-skywave {
+        filter: invert(53%) sepia(84%) saturate(4530%) hue-rotate(185deg)
+            brightness(99%) contrast(112%);
+    }
+
+    .filter-blue-ocean {
+        filter: invert(10%) sepia(55%) saturate(5448%) hue-rotate(224deg)
+            brightness(90%) contrast(109%);
+    }
+
+    .filter-blue-indigo {
+        filter: invert(8%) sepia(27%) saturate(5191%) hue-rotate(227deg)
+            brightness(96%) contrast(124%);
+    }
+
+    .filter-blue-midnight {
+        filter: invert(5%) sepia(9%) saturate(7430%) hue-rotate(191deg)
+            brightness(102%) contrast(108%);
+    }
+
+    .filter-red-crimson {
+        filter: invert(44%) sepia(59%) saturate(4904%) hue-rotate(335deg)
+            brightness(88%) contrast(113%);
     }
 }
-
-

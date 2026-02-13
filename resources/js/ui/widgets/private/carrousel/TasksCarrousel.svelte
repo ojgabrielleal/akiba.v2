@@ -5,7 +5,7 @@
         
     import { router } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
-    import { scrollx, hasPermissions, hasRoles } from "@/utils";
+    import { scrollx, hasPermissions } from "@/utils";
 
     $: authorization = {
         canComplete: hasPermissions(user, 'task.complete')
@@ -14,54 +14,52 @@
     function markTaskCompleted(task) {
         router.post(`/painel/dashboard/task/${task}/complete`);
     }
-
 </script>
 
 <Section {title}>
     <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" on:wheel={scrollx} role="group">
-        {#if tasks.length > 0}
-            {#each tasks as item}
-                {@const isDueOrOverdue = item.is_over || item.is_due}
+        {#if tasks.data.length > 0}
+            {#each tasks.data as item}
                 <article class={['w-100 h-50 lg:w-[40rem] bg-blue-skywave lg:h-43 shrink-0 rounded-lg p-4 relative',
-                    {'bg-orange-amber': isDueOrOverdue},
-                    {'bg-blue-skywave': !isDueOrOverdue}
+                    {'bg-orange-amber': item.is_due_or_over},
+                    {'bg-blue-skywave': !item.is_due_or_over}
                 ]}>
                     <div class={['w-3/4 uppercase font-noto-sans italic font-bold text-2xl truncate', 
-                        {'text-blue-midnight': isDueOrOverdue},
-                        {'text-neutral-aurora': !isDueOrOverdue}
+                        {'text-blue-midnight': item.is_due_or_over},
+                        {'text-neutral-aurora': !item.is_due_or_over}
                     ]}>
                         {item.title}
                     </div>
                     <div class={['w-60 lg:w-90 font-noto-sans text-sm line-clamp-4 mt-1', 
-                        {'text-blue-midnight': isDueOrOverdue},
-                        {'text-neutral-aurora': !isDueOrOverdue}
+                        {'text-blue-midnight': item.is_due_or_over},
+                        {'text-neutral-aurora': !item.is_due_or_over}
                     ]}>
                         {item.content}
                     </div>
                     <dl class="absolute top-5 right-5 rounded-xl shadow-lg w-[7rem] text-center overflow-hidden bg-neutral-aurora">
                         <dt class={['font-noto-sans italic font-black text-sm py-1 uppercase tracking-wide', 
-                            {'bg-red-crimson': isDueOrOverdue},
-                            {'bg-blue-midnight': !isDueOrOverdue},
-                            {'text-blue-midnight': isDueOrOverdue},
-                            {'text-neutral-aurora': !isDueOrOverdue}
+                            {'bg-red-crimson': item.is_due_or_over},
+                            {'bg-blue-midnight': !item.is_due_or_over},
+                            {'text-blue-midnight': item.is_due_or_over},
+                            {'text-neutral-aurora': !item.is_due_or_over}
                         ]}>
                             Data Limite
                         </dt>
                         <dd class={['font-noto-sans italic font-extrabold text-2xl py-1 tracking-widest', 
-                            {'bg-blue-midnight': isDueOrOverdue},
-                            {'bg-neutral-aurora': !isDueOrOverdue},
-                            {'text-orange-amber': isDueOrOverdue},
-                            {'text-blue-midnight': !isDueOrOverdue}
+                            {'bg-blue-midnight': item.is_due_or_over},
+                            {'bg-neutral-aurora': !item.is_due_or_over},
+                            {'text-orange-amber': item.is_due_or_over},
+                            {'text-blue-midnight': !item.is_due_or_over}
                         ]}>
                             {item.deadline}
                         </dd>
                     </dl>
                     {#if authorization.canComplete}
-                        <button type="button" aria-label="Concluir tarefa" on:click={() => markTaskCompleted(item.id)} class={['font-noto-sans italic font-bold cursor-pointer',
-                            {'bg-red-crimson rounded-xl text-neutral-aurora uppercase absolute right-5 bottom-3 py-2 px-6': isDueOrOverdue},
-                            {'bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center': !isDueOrOverdue}
+                        <button type="button" aria-label="Concluir tarefa" on:click={() => markTaskCompleted(item.uuid)} class={['font-noto-sans italic font-bold cursor-pointer',
+                            {'bg-red-crimson rounded-xl text-neutral-aurora uppercase absolute right-5 bottom-3 py-2 px-6': item.is_due_or_over},
+                            {'bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center': !item.is_due_or_over}
                         ]}>
-                            {#if isDueOrOverdue}
+                            {#if item.is_due_or_over}
                                 Solicitar conclusão
                             {:else}
                                 <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
