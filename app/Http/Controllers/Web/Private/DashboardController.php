@@ -15,6 +15,7 @@ use App\Models\Calendar;
 use App\Http\Resources\Web\Private\Dashboard\ActivityIndexResource;
 use App\Http\Resources\Web\Private\Dashboard\TaskIndexResource;
 use App\Http\Resources\Web\Private\Dashboard\PostIndexResource;
+use App\Http\Resources\Web\Private\Dashboard\CalendarIndexResource;
 
 class DashboardController extends Controller
 {
@@ -56,9 +57,11 @@ class DashboardController extends Controller
 
     public function indexCalendar()
     {
-        return Calendar::active()
-            ->with(['activity', 'responsible'])
-            ->get();
+        return CalendarIndexResource::collection(
+            Calendar::active()
+                ->with(['activity', 'responsible'])
+                ->get()
+        );
     }
 
     public function confirmActivityParticipant(Activity $activity)

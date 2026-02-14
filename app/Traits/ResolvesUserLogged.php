@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Traits;
+
+use Illuminate\Support\Facades\Auth;
+
+trait ResolvesUserLogged
+{
+    public function getUserLogged()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->load('roles.permissions');
+
+        return [
+            'id' => $user->id,
+            'slug' => $user->slug,
+            'name' => $user->name,
+            'nickname' => $user->nickname,
+            'avatar' => $user->avatar,
+            'roles' => $user->roles,
+            'permissions' => $user->roles
+                ->flatMap(fn($role) => $role->permissions)
+                ->pluck('name')
+                ->unique()
+                ->values(),
+        ];
+    }
+}
