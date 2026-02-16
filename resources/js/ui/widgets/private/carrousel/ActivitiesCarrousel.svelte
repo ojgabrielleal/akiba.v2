@@ -10,6 +10,7 @@
     function confirmActivityParticipant(activity){
         router.post(`/painel/dashboard/activity/${activity}/confirm`);
     }
+
 </script>
 
 {#if activities}

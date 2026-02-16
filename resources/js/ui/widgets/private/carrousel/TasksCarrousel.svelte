@@ -29,7 +29,7 @@
                                 Data Limite
                             </dt>
                             <dd class='{item.ui.deadline.body.background} {item.ui.deadline.body.text} font-noto-sans italic font-extrabold text-2xl py-1 tracking-widest'>
-                                {item.deadline}
+                                {item.deadline_formated}
                             </dd>
                         </dl>
                         {#if item.actions.can_complete}
