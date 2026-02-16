@@ -5,17 +5,17 @@
 
     $: ({ shows, verify } = $page.props);
 
-let form = useForm({
+    let form = useForm({
         show: null,
         phrase: null,
         image: null,
     });
     
-    function submit() {
+    const submit = () => {
         $form.post("/painel/locucao/set/start/broadcast");
     }
 
-    function endBroadcast() {
+    const endBroadcast = () => {
         router.post("/painel/locucao/set/finish/broadcast");
     }
 </script>

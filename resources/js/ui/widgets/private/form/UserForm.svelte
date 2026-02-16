@@ -12,7 +12,7 @@
        permission: null,
     });
 
-    function submit(){
+    const submit = () => {
         $form.post('/painel/adms/create/user', {
             onSuccess: () => close()
         });

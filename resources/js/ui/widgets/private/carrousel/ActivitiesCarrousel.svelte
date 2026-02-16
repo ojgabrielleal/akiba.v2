@@ -7,7 +7,9 @@
 
     $: ({ activities } = $page.props);
 
-    function confirmActivityParticipant(activity){
+    $: console.log(activities);
+
+    const confirmActivityParticipant = (activity) => {
         router.post(`/painel/dashboard/activity/${activity}/confirm`);
     }
 

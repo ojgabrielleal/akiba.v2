@@ -7,7 +7,7 @@
 
     $: ({ tasks } = $page.props);
 
-    function markTaskCompleted(task) {
+     const markTaskCompleted = (task) => {
         router.post(`/painel/dashboard/task/${task}/complete`);
     }
 </script>

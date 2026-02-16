@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
-class ImageService
+class ImageProcessService
 {
     public function store(string $subfolder, ?UploadedFile $file, string $disk = 'public', ?string $oldImagePath = null): string
     {

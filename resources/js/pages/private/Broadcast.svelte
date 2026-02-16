@@ -7,7 +7,7 @@
 
     $: ({ verify } = $page.props);
 
-    function redirectToDashboard(){
+     const redirectToDashboard = () => {
         router.get("/painel/dashboard/");
     }
 </script>

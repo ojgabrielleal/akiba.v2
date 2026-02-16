@@ -6,7 +6,7 @@
         password: null,
     });
 
-    function submit() {
+    const submit = () => {
         $form.post("/painel/auth");
     }
 </script>

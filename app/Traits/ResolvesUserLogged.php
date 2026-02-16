@@ -14,6 +14,7 @@ trait ResolvesUserLogged
 
         return [
             'id' => $user->id,
+            'uuid' => $user->uuid,
             'slug' => $user->slug,
             'name' => $user->name,
             'nickname' => $user->nickname,

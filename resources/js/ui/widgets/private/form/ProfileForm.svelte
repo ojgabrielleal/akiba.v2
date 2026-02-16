@@ -40,19 +40,20 @@
     })
 
     let selectedNewExternalLink = Default.social[0].name
-    function addExternalLink(){
+    
+    const addExternalLink = () => {
         $form.external_links = [
             ...$form.external_links,
             { name: selectedNewExternalLink, url: "" } 
         ];
     }
 
-    function removeExternalLink(index) {
+    const removeExternalLink = (index) => {
         $form.external_links.splice(index, 1);
         $form.external_links = $form.external_links
     }
     
-    function submit(){
+    const submit = () => {
         $form.post(`/painel/profile/update/${profile?.id}`);
     }
 </script>

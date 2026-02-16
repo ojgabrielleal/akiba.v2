@@ -55,7 +55,7 @@ class ActivityIndexResource extends ActivityBaseResource
         return array_merge(
             $this->base(['uuid', 'content', 'allows_confirmations']),
             $this->author(['uuid','nickname']),
-            $this->confirmations(['uuid', 'avatar']),
+            $this->confirmations(['uuid', 'confirmer.avatar']),
             $this->ui(),
             $this->actions(),
         );

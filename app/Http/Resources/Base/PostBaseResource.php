@@ -4,20 +4,13 @@ namespace App\Http\Resources\Base;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Arr;
 
 use App\Http\Resources\Base\UserBaseResource;
+use App\Traits\ResolvesResourcesFilters;
 
 class PostBaseResource extends JsonResource
 {
-    protected function filterFields(array $data, array $fields = []): array
-    {
-        if (empty($fields)) {
-            return $data;
-        }
-
-        return Arr::only($data, $fields);
-    }
+    use ResolvesResourcesFilters;
 
     public function base(array $fields = []): array
     {
@@ -46,8 +39,9 @@ class PostBaseResource extends JsonResource
         $user = new UserBaseResource($this->author);
 
         $authorData = $user->base();
+        
         if (!empty($fields)) {
-            $authorData = Arr::only($authorData, $fields);
+            $authorData = $this->filterFields($authorData, $fields);
         }
 
         return [
@@ -71,7 +65,7 @@ class PostBaseResource extends JsonResource
 
         if (!empty($fields)) {
             $data['references'] = $data['references']->map(function ($item) use ($fields) {
-                return Arr::only($item, $fields);
+                return $this->filterFields($item, $fields);
             });
         }
 
@@ -93,7 +87,7 @@ class PostBaseResource extends JsonResource
 
         if (!empty($fields)) {
             $data['reactions'] = $data['reactions']->map(function ($item) use ($fields) {
-                return Arr::only($item, $fields);
+                return $this->filterFields($item, $fields);
             });
         }
 
@@ -115,7 +109,7 @@ class PostBaseResource extends JsonResource
 
         if (!empty($fields)) {
             $data['categories'] = $data['categories']->map(function ($item) use ($fields) {
-                return Arr::only($item, $fields);
+                return $this->filterFields($item, $fields);
             });
         }
 

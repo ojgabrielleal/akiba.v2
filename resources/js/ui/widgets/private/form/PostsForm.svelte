@@ -5,15 +5,7 @@
     import { useForm, Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
-    import { hasPermissions } from "@/utils";
     import tags from "@/data/posts/tags.json";
-
-    $: authorization = {
-        canView: hasPermissions(user, 'post.view'),
-        canCreate: hasPermissions(user, 'post.create'),
-        canUpdate: hasPermissions(user, 'post.update'),
-        canUpdateOwn: hasPermissions(user, 'post.update.own'),
-    } 
 
     let form = useForm({
         _method: 'POST',
@@ -42,7 +34,7 @@
         $form.references = post.references.map(({id, name, url}) => ({ id, name, url }))
     }
     
-    function submit(event) {
+    const submit = (event) => {
         let url = post ? `/painel/materias/${post.id}` : '/painel/materias';
         
         $form.status = event.submitter.value;
@@ -67,7 +59,7 @@
             Eventos
         </Link>
     </div>
-    {#if authorization.canView}
+    <!-- TODO: COLOCAR PERMISSAO DE CAN VIEW-->
     <form on:submit|preventDefault={submit} class="mt-10 xl:mt-15">
         <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
             <div class="mb-3">
@@ -212,7 +204,7 @@
                 </div>
             </div>
         </div>
-        {#if (authorization.canCreate || authorization.canUpdate) || (authorization.canUpdateOwn && user.id === post?.author.id)}
+        <!-- TODO: COLOCAR PERMISSÕES DE CADASTRO DOS BOTOES-->
             <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
                 <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
                     {#if post?.status === 'sketch'}
@@ -232,7 +224,5 @@
                     {post && post.status === 'published' ? 'Atualizar matéria' : 'Publicar matéria'}
                 </button>
             </div>
-        {/if}
     </form>
-    {/if}
 </Section>

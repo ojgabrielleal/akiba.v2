@@ -6,7 +6,7 @@
 
     $: ({ users } = $page.props);
 
-    function deactivateUser(id){
+     const deactivateUser = (id) => {
         router.delete(`/painel/adms/deactivate/user/${id}`);
     }
 </script>

@@ -7,10 +7,10 @@
     import { PostsGrid, CalendarGrid } from "@/ui/widgets/private/grid";
 
     $: ({ 
-        user,
+        authenticated: { user },
     } = $page.props);
 
-    function phraseSwitchHero(nickname) {
+     const phraseSwitchHero = (nickname) => {
         const phrases = [
             `Oi, ${nickname}! Que bom te ver.`,
             `Bem-vindo(a) de volta, ${nickname}!`,

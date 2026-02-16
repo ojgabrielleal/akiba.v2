@@ -5,7 +5,7 @@
 
     $: ({ rankingMusics } = $page.props);
 
-    function updateImageRanking(event, id){
+     const updateImageRanking = (event, id) => {
         const formData = new FormData();
         formData.append('image_ranking', event.target.files[0]);
 
@@ -14,7 +14,7 @@
         });
     }
 
-    function setRanking(){
+    const setRanking = () => {
         router.post('/painel/radio/create/ranking');
     }
 </script>

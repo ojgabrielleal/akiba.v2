@@ -1,8 +1,8 @@
 <script>
     import { page, usePoll } from "@inertiajs/svelte";
 
-    usePoll(60*1000);
     $: ({ streaming } = $page.props);
+    usePoll(60*1000);
 </script>
 
 <section class="bg-blue-indigo">

@@ -4,7 +4,7 @@
 
     $: ({ podcasts } = $page.props);
 
-    function deactivatePodcast(id){
+     const deactivatePodcast = (id) => {
         router.delete(`/painel/podcasts/deactivate/${id}`);
     }
 </script>

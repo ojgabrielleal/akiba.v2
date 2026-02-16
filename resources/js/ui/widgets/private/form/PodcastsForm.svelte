@@ -30,7 +30,7 @@
         }
     })
 
-    function submit(){
+    const submit = () => {
         let url = podcast ? `/painel/podcasts/update/${podcast.id}` : '/painel/podcasts/create/'
         $form.post(url, {
             preserveState: podcast,

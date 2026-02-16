@@ -5,15 +5,15 @@
     usePoll(60*1000)
     $: ({ listenerRequests, verify } = $page.props);
 
-    function markToGranted(id){
+     const markToGranted = (id) => {
         router.put(`/painel/locucao/set/granted/listener/requests/${id}`)
     }
 
-    function markToCanceled(id){
+    const markToCanceled = (id) => {
         router.put(`/painel/locucao/set/cancel/listener/requests/${id}`)
     }
 
-    function changeStatus(){
+    const changeStatus = () => {
         router.put("/painel/locucao/set/status/listener/requests")
     }
 </script>

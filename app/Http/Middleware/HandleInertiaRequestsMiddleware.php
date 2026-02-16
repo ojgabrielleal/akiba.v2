@@ -7,6 +7,7 @@ use Inertia\Middleware;
 use Illuminate\Support\Facades\Auth;
 
 use App\Services\External\StreamingService;
+use App\Services\Inertia\AuthContextService;
 
 class HandleInertiaRequestsMiddleware extends Middleware
 {
@@ -31,50 +32,14 @@ class HandleInertiaRequestsMiddleware extends Middleware
 
     public function share(Request $request): array
     {
-        function loadUser()
-        {
-            if (!Auth::check()) {
-                return null;
-            }
-
-            /** @var \App\Models\User $user */
-            $user = Auth::user();
-
-            $user->load('roles.permissions');
-
-            return [
-                'id' => $user->id,
-                'slug' => $user->slug,
-                'name' => $user->name,
-                'nickname' => $user->nickname,
-                'avatar' => $user->avatar,
-                'roles' => $user->roles,
-                'permissions' => $user->roles
-                    ->flatMap(fn($role) => $role->permissions)
-                    ->unique('id')
-                    ->values(),
-            ];
-        }
-
-        function loadStreaming()
-        {
-            $streaming  = new StreamingService();
-            $data = $streaming->metadata();
-
-            return [
-                'status' => $data['status'] === 'Ligado' ? 'Online' : 'Offline',
-                'listeners' => $data['ouvintes_conectados'],
-                'bitrate' => $data['plano_bitrate']
-            ];
-        }
-
         return array_merge(parent::share($request), [
-            'user' => fn() => loadUser(),
-            'streaming' => fn() => loadStreaming(),
+            'authenticated' => fn() => (new AuthContextService())->data(),
+            'streaming' => fn() => (new StreamingService())->data(),
             'flash' => fn() => [
                 'type' => session('flash.type'),
                 'message' => session('flash.message'),
             ],
         ]);
     }
+
 }

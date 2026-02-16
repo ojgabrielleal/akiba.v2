@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class StreamingService
 {
-    public function metadata()
+    public function data()
     {
         try {
             $url = config('services.radio.metadata');
@@ -20,7 +20,13 @@ class StreamingService
                 return null;
             }
 
-            return $response->json();
+            $data = $response->json();
+
+            return [
+                'status' => $data['status'] === 'Ligado' ? 'Online' : 'Offline',
+                'listeners' => $data['ouvintes_conectados'],
+                'bitrate' => $data['plano_bitrate']
+            ];
         } catch (\Throwable $e) {
             Log::error('Radio API error: ' . $e->getMessage());
             return null;

@@ -4,20 +4,13 @@ namespace App\Http\Resources\Base;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Arr;
 
 use App\Http\Resources\Base\UserBaseResource;
+use App\Traits\ResolvesResourcesFilters;
 
 class TaskBaseResource extends JsonResource
 {
-    protected function filterFields(array $data, array $fields = []): array
-    {
-        if (empty($fields)) {
-            return $data;
-        }
-
-        return Arr::only($data, $fields);
-    }
+    use ResolvesResourcesFilters;
 
     public function base(array $fields = []): array
     {

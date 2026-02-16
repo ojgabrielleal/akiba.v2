@@ -7,7 +7,8 @@
     $: ({ screenPermissions, polls } = $page.props);
 
     let votedPolls = JSON.parse(localStorage.getItem('akiba-voted') || '[]');
-    function voteQuestion(event, item){
+
+     const voteQuestion = (event, item) => {
         const form = event.target;
         const formData = new FormData(form);
         const option = formData.get('option');
@@ -21,7 +22,7 @@
         });
     }
 
-    function deactivatePoll(id){
+     const deactivatePoll = (id) => {
         router.delete(`/painel/medias/deactivate/poll/${id}`);
     }
 

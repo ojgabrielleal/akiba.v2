@@ -26,7 +26,7 @@
         }
     });
 
-    function submit(){
+    const submit = () => {
         let url = repositoryId ? `/painel/marketing/update/repository/${repositoryId}` : '/painel/marketing/create/repository';
         $form.post(url, {
             onSuccess: ()=>close()

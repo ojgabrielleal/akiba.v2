@@ -3,7 +3,7 @@
 
     import { router } from "@inertiajs/svelte";
 
-    function pagination(page) {
+    const pagination = (page) => {
         router.get("", { page: page },{
             preserveScroll: true,
         });

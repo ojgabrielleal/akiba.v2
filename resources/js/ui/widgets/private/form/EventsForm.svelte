@@ -28,7 +28,7 @@
         }
     })
 
-    function submit() {
+     const submit = () => {
         let url = publication ? `/painel/eventos/update/${publication.id}` : '/painel/eventos/create';
         $form.post(url, {
             preserveState: publication,

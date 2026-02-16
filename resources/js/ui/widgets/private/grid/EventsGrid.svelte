@@ -4,7 +4,7 @@
 
     $: ({ events } = $page.props);
 
-    function deactivateEvent(slug){
+     const deactivateEvent = (slug) => {
         router.delete(`/painel/medias/deactivate/event/${slug}`);
     }
 </script>

@@ -26,7 +26,7 @@
         }
     })
     
-    function submit(){
+    const submit = () => {
         const method = pollId ? 'put' : 'post';
         let url = pollId ? `/painel/medias/update/poll/${pollId}` : '/painel/medias/create/poll';
         $form[method](url, {

@@ -23,7 +23,7 @@
         $form.cover = review.cover
     }
     
-    function submit() {
+    const submit = () => {
         let url = review ? `/painel/reviews/${review.id}` : `/painel/reviews`       
 
         $form.post(url, {
@@ -34,7 +34,7 @@
         });
     }
 
-    function list() {
+    const list = () => {
         const hasReview = review.reviews.some(item => item.author.id === user.id);
         
         if(hasReview){

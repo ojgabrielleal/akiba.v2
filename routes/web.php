@@ -30,10 +30,10 @@ Route::prefix('painel')->group(function () {
         Route::prefix('dashboard')->controller(DashboardController::class)->group(function () {
             Route::get('', 'render')->name('painel.dashboard');
             Route::prefix('activity')->group(function () {
-                Route::post('{activity}/confirm', 'confirmActivityParticipant');
+                Route::post('{activity:uuid}/confirm', 'confirmActivityParticipant');
             });
             Route::prefix('task')->group(function () {
-                Route::post('{task}/complete', 'markTaskCompleted');
+                Route::post('{task:uuid}/complete', 'markTaskCompleted');
             });
         });
         Route::prefix('materias')->controller(PostsController::class)->group(function () {

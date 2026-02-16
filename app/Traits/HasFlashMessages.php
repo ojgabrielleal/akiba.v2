@@ -38,7 +38,7 @@ trait HasFlashMessages
         $final = $base['message'];
 
         return redirect()->back()->withInput()->with('flash', [
-            'type' => $base['type'],
+            'icon' => $base['icon'],
             'message' => $final,
         ]);
     }

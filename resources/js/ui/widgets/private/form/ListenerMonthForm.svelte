@@ -24,7 +24,7 @@
         }
     })
 
-    function submit(){
+    const submit = () => {
         $form.post('/painel/radio/create/listener/month', {
             onSuccess: () => close()
         })

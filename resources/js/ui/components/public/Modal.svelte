@@ -4,15 +4,15 @@
 
     let visible = false;
 
-    export function show() {
+    export const show = () => {
         visible = true;
     }
 
-    export function close() {
+    export const close = () => {
         visible = false;
     }
 
-    function block(event) {
+    const block = (event) => {
         event.stopPropagation();
     }
 </script>

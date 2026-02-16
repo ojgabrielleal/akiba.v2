@@ -14,13 +14,13 @@
         permissions_keys: null
     });
 
-    function onSubmitPassword(){
+     const onSubmitPassword = () => {
         $formPassword.put(`/painel/adms/update/user/password/${userId}`, {
             onSuccess: () => close()
         });
     }
 
-    function onSubmitPermissions(){
+    const onSubmitPermissions = () => {
         $formPermissions.put(`/painel/adms/update/user/permissions/${userId}`, {
             onSuccess: () => close()
         });

@@ -4,20 +4,13 @@ namespace App\Http\Resources\Base;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Arr;
 
 use App\Http\Resources\Base\UserBaseResource;
+use App\Traits\ResolvesResourcesFilters;
 
 class ActivityBaseResource extends JsonResource
 {
-    protected function filterFields(array $data, array $fields = []): array
-    {
-        if (empty($fields)) {
-            return $data;
-        }
-
-        return Arr::only($data, $fields);
-    }
+    use ResolvesResourcesFilters;
 
     public function base(array $fields = []): array
     {
@@ -46,8 +39,9 @@ class ActivityBaseResource extends JsonResource
         $user = new UserBaseResource($this->author);
 
         $authorData = $user->base();
+        
         if (!empty($fields)) {
-            $authorData = Arr::only($authorData, $fields);
+            $authorData = $this->filterFields($authorData, $fields);
         }
 
         return [
@@ -60,7 +54,7 @@ class ActivityBaseResource extends JsonResource
         if (!$this->resource) {
             return [];
         }
-        
+
         $data = [
             'confirmations' => $this->confirmations->map(fn($item) => [
                 'uuid' => $item->uuid,
@@ -75,7 +69,7 @@ class ActivityBaseResource extends JsonResource
 
         if (!empty($fields)) {
             $data['confirmations'] = $data['confirmations']->map(function ($item) use ($fields) {
-                return Arr::only($item, $fields);
+                return $this->filterFields($item, $fields);
             });
         }
 

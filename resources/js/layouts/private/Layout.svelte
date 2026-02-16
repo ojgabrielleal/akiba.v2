@@ -10,6 +10,8 @@
         user 
     } = $page.props);
 
+    $: console.log(flash)
+
     if(flash){
         toast(flash.message, {
             icon: flash.icon
@@ -20,7 +22,6 @@
         document.body.style.backgroundColor = "var(--color-blue-indigo)";
     });
 </script>
-
 
 <Toaster/>
 <header class="mb-15 lg:pt-10">

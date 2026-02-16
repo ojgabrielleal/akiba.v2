@@ -7,10 +7,10 @@
     export let required = false;
 
     let preview = null;
-
+    
     $: imageToShow = preview ?? (src && src !== "#" ? src : null);
 
-    function previewImage(event) {
+    const previewImage = (event) => {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();

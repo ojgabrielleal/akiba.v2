@@ -19,11 +19,11 @@
         schedules: [{ time: null, day: null }],
     });
     
-    function addSchedule() {
+    const addSchedule = () => {
         $form.schedules = [...$form.schedules, { time: null, day: null }];
     }
     
-    function removeSchedule(index) {
+    const removeSchedule = (index) => {
         $form.schedules = $form.schedules.filter((_, i) => i !== index);
     }
 
@@ -41,7 +41,7 @@
         }
     })
 
-    function submit() {   
+    const submit = () => {   
         let url = showId ? `/painel/radio/update/show/${showId}` : '/painel/radio/create/show'
         $form.post(url, {
             onSuccess: () => close(),

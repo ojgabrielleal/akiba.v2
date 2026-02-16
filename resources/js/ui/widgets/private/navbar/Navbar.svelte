@@ -1,29 +1,24 @@
 <script>
-    export let user;
+    import { page, Link } from "@inertiajs/svelte";
 
-    import { Link } from "@inertiajs/svelte";
-    import { hasPermissions } from "@/utils";
-    import navbarJson from "@/data/navbar.json";
+    $: ({ authenticated: {user, navbar} } = $page.props);
 
     let mobilenavbar = false;
 </script>
 
-
 <nav class="w-full h-[3rem] bg-neutral-aurora hidden items-center justify-center lg:flex">
     <div class="container relative">
         <ul class="flex justify-center items-center gap-10">
-        {#each navbarJson as item}
-            {#if hasPermissions(user, item.permission)}
+            {#each navbar as item}
                 <li>
                     <Link href={item.address} aria-label={item.name} class="flex items-center gap-2 text-neutral-aurora">
                         <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>
                     </Link>
                 </li>
-            {/if}
-        {/each}
+            {/each}
         </ul>
         <div class="absolute -bottom-[1.45rem] right-0 flex items-center gap-2">
-            <Link href={`/painel/profile/${user.slug}`} aria-label={user.nickname}>
+            <Link href={`/painel/profile/${user.uuid}`} aria-label={user.nickname}>
                 <img src={user.avatar} alt={`Avatar de ${user.nickname}`} class="w-16 h-16 rounded-full object-cover object-top border-8 border-neutral-aurora" loading="lazy"/>
             </Link>
         </div>
@@ -55,15 +50,13 @@
     </div>
     
     <ul class="p-5 pt-3 space-y-4">
-        {#each navbarJson as item}
-            {#if hasPermissions(user, item.permission)}
-                <li>
-                    <Link href={item.address} aria-label={item.name} class="flex items-center gap-3 text-gray-800 hover:text-blue-600">
-                        <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>
-                        <span>{item.name}</span>
-                    </Link>
-                </li>
-            {/if}
+        {#each navbar as item}
+            <li>
+                <Link href={item.address} aria-label={item.name} class="flex items-center gap-3 text-gray-800 hover:text-blue-600">
+                    <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>
+                    <span>{item.name}</span>
+                </Link>
+            </li>
         {/each}
     </ul>
 </div>

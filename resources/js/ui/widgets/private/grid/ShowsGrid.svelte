@@ -6,7 +6,7 @@
 
     $: ({ shows } = $page.props);
 
-    function deactivateShow(id){
+     const deactivateShow = (id) => {
         router.delete(`/painel/radio/deactivate/show/${id}`);
     }
 </script>
