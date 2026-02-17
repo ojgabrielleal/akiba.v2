@@ -7,7 +7,6 @@
 
     $: ({ 
         flash,
-        user 
     } = $page.props);
 
     $: if(flash?.message){
@@ -23,7 +22,7 @@
 
 <Toaster/>
 <header class="mb-15 lg:pt-10">
-    <Navbar {user} />
+    <Navbar />
 </header>
 <main class="container">
     <slot />
