@@ -70,7 +70,7 @@ class DashboardController extends Controller
             'user_id' => request()->user()->id
         ]);
 
-        return $this->flashMessage('save');
+        return $this->flashMessage('participate');
     }
 
     public function markTaskCompleted(Task $task)
@@ -79,7 +79,7 @@ class DashboardController extends Controller
             'is_completed' => true,
         ]);
 
-        return $this->flashMessage('save');
+        return $this->flashMessage('complete');
     }
 
     public function render()

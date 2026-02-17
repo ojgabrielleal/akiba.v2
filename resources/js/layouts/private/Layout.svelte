@@ -10,9 +10,7 @@
         user 
     } = $page.props);
 
-    $: console.log(flash)
-
-    if(flash){
+    $: if(flash?.message){
         toast(flash.message, {
             icon: flash.icon
         });

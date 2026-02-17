@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+use Inertia\Inertia;
 
 trait HasFlashMessages
 {
@@ -9,23 +10,39 @@ trait HasFlashMessages
         $messages = [
             'save' => [
                 'icon' => '🥳',
-                'message' => 'Salvo! Tá guardado com carinho.'
+                'message' => 'Salvo, querido! Que feito, hein?'
             ],
             'update' => [
                 'icon' => '🫡',
-                'message' => 'Atualizado! De cara nova.'
+                'message' => 'Atualizado! Ficou maravi... perdão, impecável.'
             ],
             'delete' => [
                 'icon' => '☠️',
-                'message' => 'Apagado! Nunca mais veremos.'
+                'message' => 'Apagado! Já tava fazendo hora extra'
             ],
             'deactivate' => [
                 'icon' => '😴',
-                'message' => 'Desativado! Foi tirar um cochilo.'
+                'message' => 'Desativado! Bora dormir também.'
             ],
             'activate' => [
                 'icon' => '🥱',
-                'message' => 'Ativado! A lenda está de volta.'
+                'message' => 'Ativado! Saudades, confesso.'
+            ],
+            'complete' => [
+                'icon' => '🎯',
+                'message' => 'Completado! Finalmente, né.'
+            ],
+            'participate' => [
+                'icon' => '🙋',
+                'message' => 'Participando! Corajoso, você é!'
+            ],
+            'start' => [
+                'icon' => '🚀',
+                'message' => 'Iniciado! Se não explodir...'
+            ],
+            'finish' => [
+                'icon' => '🎊',
+                'message' => 'Finalizado! Nossa, que demora, hein?'
             ],
         ];
 

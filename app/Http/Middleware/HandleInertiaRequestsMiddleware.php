@@ -36,7 +36,7 @@ class HandleInertiaRequestsMiddleware extends Middleware
             'authenticated' => fn() => (new AuthContextService())->data(),
             'streaming' => fn() => (new StreamingService())->data(),
             'flash' => fn() => [
-                'type' => session('flash.type'),
+                'icon' => session('flash.icon'),
                 'message' => session('flash.message'),
             ],
         ]);
