@@ -6,7 +6,7 @@
 
     $: ({ flash } = $page.props);
 
-    $: if(flash){
+    $: if(flash?.message){
         toast(flash.message, {
             icon: flash.icon
         });
