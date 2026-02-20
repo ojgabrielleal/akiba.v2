@@ -17,20 +17,6 @@ class ActivityIndexResource extends ActivityBaseResource
         return $this->getUserLogged();
     }
 
-    protected function ui(): array
-    {
-        return [
-            'ui' => [
-                'background' => $this->allows_confirmations ? 
-                    'bg-neutral-honeycream' : 
-                    'bg-blue-skywave',
-                'texts' => $this->allows_confirmations ? 
-                    'text-blue-midnight' : 
-                    'text-neutral-aurora',
-            ]
-        ];
-    }
-
     protected function actions(): array
     {
         if (!$this->allows_confirmations) {
@@ -38,15 +24,23 @@ class ActivityIndexResource extends ActivityBaseResource
         }
 
         $user = $this->user();
-        $userCanParticipate =  $user['permissions']->contains('activity.participate');
-        $userAlreadyParticipates = $this->confirmations->contains(
-            fn($confirmation) => $confirmation->confirmer?->id === $user['id']
-        );
+        $canParticipate =  $user['permissions']->contains('activity.participate');
+        $alreadyParticipates = $this->confirmations->contains(fn($item) => $item->confirmer?->id === $user['id']);
 
         return [
-            'actions' => [
-                'participate' => $userCanParticipate && ! $userAlreadyParticipates,
-            ]
+            'show_button_participate' => $canParticipate && ! $alreadyParticipates,
+        ];
+    }
+
+    protected function ui(): array
+    {
+        return [
+            'background' => $this->allows_confirmations ?
+                'bg-neutral-honeycream' :
+                'bg-blue-skywave',
+            'texts' => $this->allows_confirmations ?
+                'text-blue-midnight' :
+                'text-neutral-aurora',
         ];
     }
 
@@ -54,10 +48,12 @@ class ActivityIndexResource extends ActivityBaseResource
     {
         return array_merge(
             $this->base(['uuid', 'content', 'allows_confirmations']),
-            $this->author(['uuid','nickname']),
-            $this->confirmations(['uuid', 'confirmer.avatar']),
-            $this->ui(),
-            $this->actions(),
+            [
+                'author' => $this->author(['uuid', 'nickname']),
+                'confirmations' => $this->confirmations(['uuid', 'confirmer.uuid', 'confirmer.avatar']),
+                'ui' => $this->ui(),
+                'actions' => $this->actions(),
+            ]
         );
     }
 }

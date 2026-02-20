@@ -4,11 +4,11 @@
         "label": "Selecione uma tag"
     },
     {
-        "value": "noticias",
+        "value": "news",
         "label": "Notícias"
     },
     {
-        "value": "novidades",
+        "value": "updates",
         "label": "Novidades"
     },
     {
@@ -16,7 +16,7 @@
         "label": "Anime"
     },
     {
-        "value": "eventos",
+        "value": "events",
         "label": "Eventos"
     },
     {
@@ -28,11 +28,11 @@
         "label": "Light Novel"
     },
     {
-        "value": "listas",
+        "value": "lists",
         "label": "Listas"
     },
     {
-        "value": "curiosidades",
+        "value": "curiosities",
         "label": "Curiosidades"
     },
     {
@@ -40,7 +40,7 @@
         "label": "Top’s"
     },
     {
-        "value": "primeira-impressao",
+        "value": "first-impression",
         "label": "1ª Impressão"
     }
 ]

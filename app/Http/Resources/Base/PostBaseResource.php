@@ -37,16 +37,7 @@ class PostBaseResource extends JsonResource
         }
 
         $user = new UserBaseResource($this->author);
-
-        $authorData = $user->base();
-        
-        if (!empty($fields)) {
-            $authorData = $this->filterFields($authorData, $fields);
-        }
-
-        return [
-            'author' => $authorData,
-        ];
+        return $this->filterFields($user->base(), $fields);
     }
 
     public function references(array $fields = []): array
@@ -55,21 +46,15 @@ class PostBaseResource extends JsonResource
             return [];
         }
 
-        $data = [
-            'references' => $this->references->map(fn($item) => [
-                'uuid' => $item->uuid,
-                'site' => $item->name,
-                'url' => $item->url
-            ])
-        ];
+        $data = $this->references->map(fn($item) => [
+            'uuid' => $item->uuid,
+            'site' => $item->name,
+            'url' => $item->url
+        ]);
 
-        if (!empty($fields)) {
-            $data['references'] = $data['references']->map(function ($item) use ($fields) {
-                return $this->filterFields($item, $fields);
-            });
-        }
-
-        return $data;
+        return $data->map(function ($item) use ($fields) {
+            return $this->filterFields($item, $fields);
+        })->toArray();
     }
 
     public function reactions(array $fields = []): array
@@ -78,20 +63,14 @@ class PostBaseResource extends JsonResource
             return [];
         }
 
-        $data = [
-            'reactions' => $this->reactions->map(fn($item) => [
-                'uuid' => $item->uuid,
-                'reaction' => $item->name
-            ])
-        ];
+        $data = $this->reactions->map(fn($item) => [
+            'uuid' => $item->uuid,
+            'reaction' => $item->name
+        ]);
 
-        if (!empty($fields)) {
-            $data['reactions'] = $data['reactions']->map(function ($item) use ($fields) {
-                return $this->filterFields($item, $fields);
-            });
-        }
-
-        return $data;
+        return $data->map(function ($item) use ($fields) {
+            return $this->filterFields($item, $fields);
+        })->toArray();
     }
 
     public function categories(array $fields = []): array
@@ -100,19 +79,13 @@ class PostBaseResource extends JsonResource
             return [];
         }
 
-        $data = [
-            'categories' => $this->categories->map(fn($item) => [
-                'uuid' => $item->uuid,
-                'category' => $item->category,
-            ])
-        ];
+        $data = $this->categories->map(fn($item) => [
+            'uuid' => $item->uuid,
+            'category' => $item->name,
+        ]);
 
-        if (!empty($fields)) {
-            $data['categories'] = $data['categories']->map(function ($item) use ($fields) {
-                return $this->filterFields($item, $fields);
-            });
-        }
-
-        return $data;
+        return $data->map(function ($item) use ($fields) {
+            return $this->filterFields($item, $fields);
+        })->toArray();
     }
 }

@@ -37,16 +37,7 @@ class ActivityBaseResource extends JsonResource
         }
 
         $user = new UserBaseResource($this->author);
-
-        $authorData = $user->base();
-        
-        if (!empty($fields)) {
-            $authorData = $this->filterFields($authorData, $fields);
-        }
-
-        return [
-            'author' => $authorData,
-        ];
+        return $this->filterFields($user->base(), $fields);
     }
 
     public function confirmations(array $fields = []): array
@@ -55,24 +46,18 @@ class ActivityBaseResource extends JsonResource
             return [];
         }
 
-        $data = [
-            'confirmations' => $this->confirmations->map(fn($item) => [
-                'uuid' => $item->uuid,
-                'confirmer' => [
-                    'uuid'     => $item->confirmer->uuid,
-                    'name'     => $item->confirmer->name,
-                    'nickname' => $item->confirmer->nickname,
-                    'avatar'   => $item->confirmer->avatar,
-                ],
-            ]),
-        ];
+        $data = $this->confirmations->map(fn($item) => [
+            'uuid' => $item->uuid,
+            'confirmer' => [
+                'uuid'     => $item->confirmer->uuid,
+                'name'     => $item->confirmer->name,
+                'nickname' => $item->confirmer->nickname,
+                'avatar'   => $item->confirmer->avatar,
+            ],
+        ]);
 
-        if (!empty($fields)) {
-            $data['confirmations'] = $data['confirmations']->map(function ($item) use ($fields) {
-                return $this->filterFields($item, $fields);
-            });
-        }
-
-        return $data;
+        return $data->map(function ($item) use ($fields) {
+            return $this->filterFields($item, $fields);
+        })->toArray();
     }
 }

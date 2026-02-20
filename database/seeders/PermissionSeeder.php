@@ -72,6 +72,7 @@ class PermissionSeeder extends Seeder
             |--------------------------------------------------------------------------
             */
             ['name' => 'post.list', 'label' => 'Listar posts'],
+            ['name' => 'post.list.own', 'label' => 'Listar próprios posts'],
             ['name' => 'post.view', 'label' => 'Visualizar post'],
             ['name' => 'post.create', 'label' => 'Criar post'],
             ['name' => 'post.update', 'label' => 'Atualizar post'],

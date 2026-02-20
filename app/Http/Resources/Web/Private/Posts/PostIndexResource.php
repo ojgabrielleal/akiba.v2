@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Web\Private\Dashboard;
+namespace App\Http\Resources\Web\Private\Posts;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,8 +19,14 @@ class PostIndexResource extends PostBaseResource
 
     protected function ui(): array
     {
+        $backgroundColors = [
+            'published' => 'bg-blue-skywave',
+            'revision' => 'bg-orange-amber',
+            'sketch' => 'bg-green-forest',
+        ];
+
         return [
-            'background' => 'bg-blue-skywave',
+            'background' => $backgroundColors[$this->status],
         ];
     }
 
@@ -28,15 +34,14 @@ class PostIndexResource extends PostBaseResource
     {
         $user = $this->user();
 
-        $isAuthor = $this->author->id === $user['id'];
-        
-        $canUpdate = $user['permissions']->contains('post.update');
-        $canUpdateOwn = $user['permissions']->contains('post.update.own');;
+        $userCanUpdate = $user['permissions']->contains('post.update');
+        $userCanUpdateOwn = $user['permissions']->contains('post.update.own');;
 
-        return  [
-            'show_button_update' => $canUpdate || ($canUpdateOwn && $isAuthor),
+        return [
+            'show_button_update' => $userCanUpdate || $userCanUpdateOwn,
         ];
     }
+
 
     public function toArray(Request $request): array
     {

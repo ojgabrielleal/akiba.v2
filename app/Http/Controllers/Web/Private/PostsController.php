@@ -8,20 +8,38 @@ use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 use App\Traits\HasFlashMessages;
-use App\Services\Process\ImageService;
+use App\Traits\ResolvesUserLogged;
+use App\Services\Process\ImageProcessService;
 
 use App\Models\Post;
 
+use App\Http\Resources\Web\Private\Posts\PostIndexResource;
+use App\Http\Resources\Web\Private\Posts\PostGetResource;
+
 class PostsController extends Controller
 {
-    use HasFlashMessages;
+    use HasFlashMessages, ResolvesUserLogged;
 
-    private ImageService $image;
+    private ImageProcessService $image;
     private $render = 'private/Posts';
 
-    public function __construct(ImageService $image)
+    public function __construct(ImageProcessService $image)
     {
         $this->image = $image;
+    }
+
+    protected function pageActions()
+    {
+        $user = $this->getUserLogged();
+
+        $canCreate = $user['permissions']->contains('post.create');
+        $canUpdate = $user['permissions']->contains('post.update');
+        $canUpdateOwn = $user['permissions']->contains('post.update.own');
+    
+        return [
+            'show_post_button_create' => $canCreate,
+            'show_post_button_update' => $canUpdate || $canUpdateOwn,
+        ];
     }
 
     public function indexPosts()
@@ -29,21 +47,34 @@ class PostsController extends Controller
         /**
          * TODO: Refactor when implementing policies, move permission logic into the policy. 
          */
-        $user = request()->user()->load('roles.permissions');
-        $canPermission = $user->roles->flatMap(fn($role) => $role->permissions)->contains('name', 'post.list');
+        $user = $this->getUserLogged();
+        $canListOwn = $user['permissions']->contains('name', 'post.list.own');
 
-        if($canPermission){
-            return Post::with('author')->latest()->paginate(10);
-        }else{
-            return Post::mine()->with('author')->latest()->paginate(10);
+        if ($canListOwn) {
+            return PostIndexResource::collection(
+                Post::mine()
+                    ->with('author')
+                    ->latest()
+                    ->paginate(10)
+            );
         }
+
+        return PostIndexResource::collection(
+            Post::with('author')
+                ->latest()
+                ->paginate(10)
+        );
     }
 
     public function showPost(Post $post)
     {
+
         return Inertia::render($this->render, [
-            'publication' => $post->load('categories', 'references', 'author'),
-            "publications" => $this->indexPosts()
+            'post' => new PostGetResource(
+                $post->load('categories', 'references', 'author')
+            ),
+            "posts" => $this->indexPosts(),
+            "page_actions" => $this->pageActions(),
         ]);
     }
 
@@ -68,16 +99,16 @@ class PostsController extends Controller
             'cover' => $this->image->store('posts', $request->file('cover'), 'public'),
         ]);
 
-        foreach($request->input('references') as $reference) {
-            $post->references()->create([
-                'name' => $reference['name'],
-                'url' => $reference['url'],
+        foreach ($request->input('categories') as $category) {
+            $post->categories()->create([
+                'name' => $category['category'],
             ]);
         }
 
-        foreach($request->input('categories') as $category){
-            $post->categories()->create([
-                'name' => $category['name'],
+        foreach ($request->input('references') as $reference) {
+            $post->references()->create([
+                'name' => $reference['site'],
+                'url' => $reference['url'],
             ]);
         }
 
@@ -85,7 +116,7 @@ class PostsController extends Controller
     }
 
     public function updatePost(Request $request, Post $post)
-    {        
+    {
         $post->fill([
             'status' => $request->input('status', $post->status),
             'title' => $request->input('title', $post->title),
@@ -94,19 +125,19 @@ class PostsController extends Controller
             'cover' => $this->image->store('posts', $request->file('cover'), 'public', $post->cover),
         ]);
 
-        if($post->isDirty()){
+        if ($post->isDirty()) {
             $post->save();
         }
 
-        foreach($request->input('categories') as $category) {
-            $post->categories()->where('id', $category['id'] )->update([
-                'name' => $category['name'],
+        foreach ($request->input('categories') as $category) {
+            $post->categories()->where('uuid', $category['uuid'])->update([
+                'name' => $category['category'],
             ]);
         }
 
-        foreach($request->input('references') as $reference) {
-            $post->references()->where('id', $reference['id'])->update([
-                'name' => $reference['name'],
+        foreach ($request->input('references') as $reference) {
+            $post->references()->where('uuid', $reference['uuid'])->update([
+                'name' => $reference['site'],
                 'url' => $reference['url'],
             ]);
         }
@@ -118,6 +149,7 @@ class PostsController extends Controller
     {
         return Inertia::render($this->render, [
             "posts" => $this->indexPosts(),
+            "page_actions" => $this->pageActions(),
         ]);
     }
 }

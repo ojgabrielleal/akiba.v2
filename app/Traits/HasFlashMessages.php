@@ -14,7 +14,7 @@ trait HasFlashMessages
             ],
             'update' => [
                 'icon' => '🫡',
-                'message' => 'Atualizado! Ficou maravi... perdão, impecável.'
+                'message' => 'Atualizado! Ficou maravi..., impecável.'
             ],
             'delete' => [
                 'icon' => '☠️',
@@ -46,12 +46,7 @@ trait HasFlashMessages
             ],
         ];
 
-        $default_message = [
-            'icon' => '🔔',
-            'message' => 'Alguma coisa aconteceu!'
-        ];
-
-        $base = $messages[$action] ?? $default_message;
+        $base = $messages[$action];
         $final = $base['message'];
 
         return redirect()->back()->withInput()->with('flash', [

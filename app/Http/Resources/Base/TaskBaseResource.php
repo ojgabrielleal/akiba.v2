@@ -36,13 +36,8 @@ class TaskBaseResource extends JsonResource
         if (!$this->resource) {
             return [];
         }
-        
+
         $user = new UserBaseResource($this->responsible);
-
-        $data = [
-            'responsible' => $user->base(),
-        ];
-
-        return $this->filterFields($data, $fields);
+        return $this->filterFields($user->base(), $fields);
     }
 }

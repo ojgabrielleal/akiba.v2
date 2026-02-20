@@ -57,7 +57,7 @@
                                 {item.has_activity ? item.activity.title : item.content}
                             </div>
                             <div class="flex justify-between flex-row">
-                                {#if item.actions.can_update}
+                                {#if item.actions.show_button_update}
                                     <button aria-label="Editar" class="cursor-pointer">
                                         <img src="/svg/default/edit.svg" alt="" aria-hidden="true" loading="lazy" class="{item.ui.filters} w-5">
                                     </button>

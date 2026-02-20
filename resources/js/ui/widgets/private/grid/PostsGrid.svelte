@@ -26,8 +26,8 @@
                                 <Link href={`/materias/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
                                     <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                                 </Link>
-                                {#if item.actions.can_update}
-                                    <Link href={`/painel/materias/${item.slug}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
+                                {#if item.actions.show_button_update}
+                                    <Link href={`/painel/materias/${item.uuid}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
                                         <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
                                     </Link>
                                 {/if}

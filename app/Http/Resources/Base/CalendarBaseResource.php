@@ -22,6 +22,7 @@ class CalendarBaseResource extends JsonResource
         $data = [
             'uuid' => $this->uuid,
             'has_activity' => $this->has_activity,
+            'title' => $this->title,
             'time' => $this->time->format('H:m'),
             'date' => $this->date->format('Y-m-d'),
             'content' => $this->content,
@@ -37,16 +38,7 @@ class CalendarBaseResource extends JsonResource
         }
 
         $user = new UserBaseResource($this->responsible);
-
-        $responsibleData = $user->base();
-        
-        if (!empty($fields)) {
-            $responsibleData = $this->filterFields($responsibleData, $fields);
-        }
-
-        return [
-            'responsible' => $responsibleData,
-        ];
+        return $this->filterFields($user->base(), $fields);
     }
 
     public function activity(array $fields = []): array
@@ -56,14 +48,6 @@ class CalendarBaseResource extends JsonResource
         }
 
         $activity = new ActivityBaseResource($this->activity);
-
-        $activityData = $activity->base();
-        if (!empty($fields)) {
-            $activityData = $this->filterFields($activityData, $fields);
-        }
-
-        return [
-            'activity' => $activityData,
-        ];
+        return $this->filterFields($activity->base(), $fields);
     }
 }

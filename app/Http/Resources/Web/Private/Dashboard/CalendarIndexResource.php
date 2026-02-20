@@ -20,6 +20,7 @@ class CalendarIndexResource extends CalendarBaseResource
     protected function ui()
     {
         $colorCategories = [
+            'show' => 'bg-blue-skywave',
             'live' => 'bg-purple-mystic',
             'youtube' => 'bg-red-crimson',
             'podcast' => 'bg-green-forest',
@@ -27,34 +28,36 @@ class CalendarIndexResource extends CalendarBaseResource
         ];
 
         return [
-            'ui' => [
-                'background' => $colorCategories[$this->category],
-                'texts' => $this->has_activity ? 'text-blue-midnight' : 'text-neutral-aurora',
-                'filters' => $this->has_activity ? 'filter-blue-midnight' : 'filter-neutral-aurora',
-            ]
+            'background' => $colorCategories[$this->category],
+            'texts' => $this->has_activity ?
+                'text-blue-midnight' :
+                'text-neutral-aurora',
+            'filters' => $this->has_activity ?
+                'filter-blue-midnight' :
+                'filter-neutral-aurora',
         ];
     }
 
     protected function actions()
     {
         $user = $this->user();
-        $userCanUpdate = $user['permissions']->contains('calendar.update');
+        $canUpdate = $user['permissions']->contains('calendar.update');
 
-        return [
-            'actions' => [
-                'can_update' => $userCanUpdate
-            ]
+        return  [
+            'show_button_update' => $canUpdate
         ];
     }
 
     public function toArray(Request $request): array
     {
         return array_merge(
-            $this->base(['uuid', 'title', 'has_activity', 'time', 'date', 'content']),
-            $this->responsible(['uuid', 'nickname']),
-            $this->activity(['uuid', 'title']),
-            $this->ui(),
-            $this->actions()
+            $this->base(['uuid', 'has_activity', 'time', 'date', 'content']),
+            [
+                'responsible' => $this->responsible(['uuid','uuid','nickname']),
+                'activity' => $this->activity(['uuid', 'title']),
+                'ui' => $this->ui(),
+                'actions' => $this->actions(),
+            ],
         );
     }
 }

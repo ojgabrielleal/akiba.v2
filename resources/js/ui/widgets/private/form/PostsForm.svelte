@@ -1,11 +1,11 @@
 <script>
-    export let post;
-    export let user;
 
-    import { useForm, Link } from "@inertiajs/svelte";
+    import { useForm, Link, page } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
     import tags from "@/data/posts/tags.json";
+
+    $: ({ post, page_actions } = $page.props);
 
     let form = useForm({
         _method: 'POST',
@@ -15,27 +15,28 @@
         cover: null,
         content: null,
         categories:  [
-            {name: null},
-            {name: null},
+            {uuid: null},
+            {category: null},
         ],
         references: [
-            {name: null, url: null},
-            {name: null, url: null}
+            {uuid: null, site: null, url: null},
+            {uuid: null, site: null, url: null}
         ]
     });
-
+    
     $: if(post){
         $form._method = 'PATCH';
-        $form.image = post.image;
-        $form.title = post.title;
-        $form.cover = post.cover;
-        $form.content = post.content;
-        $form.categories = post.categories.map(({id, name}) => ({ id, name }));
-        $form.references = post.references.map(({id, name, url}) => ({ id, name, url }))
+        $form.status = post.data.status;
+        $form.image = post.data.image;
+        $form.title = post.data.title;
+        $form.cover = post.data.cover;
+        $form.content = post.data.content;
+        $form.categories = post.data.categories.map(({uuid, category}) => ({ uuid, category }));
+        $form.references = post.data.references.map(({uuid, site, url}) => ({ uuid, site, url }))
     }
-    
+
     const submit = (event) => {
-        let url = post ? `/painel/materias/${post.id}` : '/painel/materias';
+        let url = post ? `/painel/materias/${post.data.uuid}` : '/painel/materias';
         
         $form.status = event.submitter.value;
         $form.post(url, {
@@ -120,7 +121,7 @@
                         id="first_category"
                         name="first_category"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
-                        bind:value={$form.categories[0].name}
+                        bind:value={$form.categories[0].category}
                     >
                         {#each tags as tag}
                             <option value={tag.value}>{tag.label}</option>
@@ -135,7 +136,7 @@
                         id="second_category"
                         name="second_category"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
-                        bind:value={$form.categories[1].name}
+                        bind:value={$form.categories[1].category}
                     >
                         {#each tags as tag}
                             <option value={tag.value}>{tag.label}</option>
@@ -157,7 +158,7 @@
                             type="text"
                             name="first_reference_name"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.references[0].name}
+                            bind:value={$form.references[0].site}
                         />
                     </div>
                     <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
@@ -186,7 +187,7 @@
                             type="text"
                             name="second_reference_name"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.references[1].name}
+                            bind:value={$form.references[1].site}
                         />
                     </div>
                     <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
@@ -204,25 +205,20 @@
                 </div>
             </div>
         </div>
-        <!-- TODO: COLOCAR PERMISSÕES DE CADASTRO DOS BOTOES-->
+        {#if (page_actions.show_post_button_create || page_actions.show_post_button_update) || (post?.data?.actions?.show_button_create || post?.data?.actions?.show_button_update)}
             <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
                 <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
-                    {#if post?.status === 'sketch'}
-                        Atualizar rascunho
-                    {:else if post?.status === 'revision' || post?.status === 'published'}
-                        Converter pra rascunho 
-                    {:else}
-                        Salvar como rascunho
-                    {/if}
+                    {post && post?.data?.status === 'sketch' ? 'Atualizar rascunho' : 'Salvar como rascunho'}
                 </button>
-                {#if post?.status !== 'revision' && post?.status !== 'published'}
-                    <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
-                        Mandar pra revisão
-                    </button>
+                {#if post?.data?.status !== 'revision' && post?.data?.status !== 'published'}
+                <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
+                    Mandar pra revisão
+                </button>
                 {/if}
                 <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                    {post && post.status === 'published' ? 'Atualizar matéria' : 'Publicar matéria'}
+                    {post?.data?.status === 'published' ? 'Atualizar matéria' : 'Publicar matéria'}
                 </button>
             </div>
+        {/if}
     </form>
 </Section>

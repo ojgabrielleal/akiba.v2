@@ -20,7 +20,7 @@ class OnairFactory extends Factory
             'is_live' => true,
             'phrase' => fake()->sentence(),
             'type' => 'human',
-            'image' => 'https://placehold.co/600x400?text=Akiba',
+            'image' => 'https://placehold.co/900x900?text=Akiba',
             'allows_songs_requests' => true,
             'song_request_count' => fake()->randomNumber()
         ];

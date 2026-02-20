@@ -39,8 +39,8 @@ Route::prefix('painel')->group(function () {
         Route::prefix('materias')->controller(PostsController::class)->group(function () {
             Route::get('', 'render')->name('painel.materias');
             Route::post('', 'createPost');
-            Route::patch('{post}', 'updatePost');
-            Route::get('{post:slug}', 'showPost');
+            Route::patch('{post:uuid}', 'updatePost');
+            Route::get('{post:uuid}', 'showPost');
             });
         Route::prefix('reviews')->controller(ReviewsController::class)->group(function () {
             Route::get('', 'render')->name('painel.reviews');

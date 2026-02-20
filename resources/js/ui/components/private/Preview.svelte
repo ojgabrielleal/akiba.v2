@@ -1,7 +1,7 @@
 <script>
     export let name = null;
     export let standard = "w-full h-[15rem] lg:h-[23rem] rounded-lg";
-    export let view = "w-full max-h-[15rem] lg:max-h-[23rem] object-contain object-top rounded-lg bg-neutral-aurora";
+    export let view = "w-full max-h-[15rem] lg:max-h-[23rem] object-cover object-top rounded-lg bg-neutral-aurora";
     export let src = null;
     export let oninput = null;
     export let required = false;

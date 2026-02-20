@@ -6,7 +6,7 @@
     import { scrollx } from "@/utils";
 
     $: ({ activities } = $page.props);
-
+        
     const confirmActivityParticipant = (activity) => {
         router.post(`/painel/dashboard/activity/${activity}/confirm`);
     }
@@ -27,16 +27,16 @@
                         </div>
                         {#if item.allows_confirmations}
                             <div class="flex gap-2 absolute bottom-3 left-4">
-                                {#each item.confirmations as confirmation}
+                                {#each item.confirmations as item}
                                     <img
-                                        src={confirmation.confirmer.avatar}
-                                        alt={confirmation.confirmer.nickname}
+                                        src={item.confirmer.avatar}
+                                        alt={item.confirmer.nickname}
                                         class="w-10 h-10 rounded-full bg-neutral-aurora object-cover object-top"
                                         loading="lazy"
                                     />
                                 {/each}
                             </div>
-                            {#if item.actions.participate}
+                            {#if item.actions.show_button_participate}
                                 <button
                                     type="button"
                                     aria-label="Confirmar alerta"

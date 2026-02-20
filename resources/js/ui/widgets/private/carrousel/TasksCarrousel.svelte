@@ -7,7 +7,7 @@
 
     $: ({ tasks } = $page.props);
 
-     const markTaskCompleted = (task) => {
+    const markTaskCompleted = (task) => {
         router.post(`/painel/dashboard/task/${task}/complete`);
     }
 </script>
@@ -32,7 +32,7 @@
                                 {item.deadline_formated}
                             </dd>
                         </dl>
-                        {#if item.actions.can_complete}
+                        {#if item.actions.show_button_complete}
                             <button 
                                 type="button" 
                                 class='{item.ui.confirmation.default} font-noto-sans italic font-bold cursor-pointer'

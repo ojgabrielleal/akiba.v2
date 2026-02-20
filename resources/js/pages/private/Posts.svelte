@@ -15,13 +15,6 @@
 
 <Meta meta={{ title: "Matérias" }} />
 <Layout>
-    <PostsForm 
-        {post}
-        {user}
-    />
-    <PostsGrid 
-        title="Todas as matérias" 
-        {posts}    
-        {user}
-    />
+    <PostsForm />
+    <PostsGrid title="Todas as matérias" />
 </Layout>
