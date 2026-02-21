@@ -3,13 +3,18 @@
         
     import { page, router } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
-    import { scrollx } from "@/utils";
+    import { scrollx, hasPermission } from "@/utils";
 
     $: ({ tasks } = $page.props);
 
-    const markTaskCompleted = (task) => {
+    let permissions = {
+        'show_button_complete': hasPermission('task.complete'),
+    }
+
+    const requestMarkTaskCompleted = (task) => {
         router.post(`/painel/dashboard/task/${task}/complete`);
     }
+
 </script>
 
 {#if tasks}
@@ -17,27 +22,45 @@
         <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" on:wheel={scrollx} role="group">
             {#if tasks.data.length > 0}
                 {#each tasks.data as item}
-                    <article class='{item.ui.background} w-100 h-50 lg:w-[40rem] bg-blue-skywave lg:h-43 shrink-0 rounded-lg p-4 relative'>
-                        <div class='{item.ui.title} w-3/4 uppercase font-noto-sans italic font-bold text-2xl truncate'>
+                    <article class={['w-100 h-50 lg:w-[40rem] bg-blue-skywave lg:h-43 shrink-0 rounded-lg p-4 relative',
+                        {'bg-orange-amber': item.is_due},
+                        {'bg-blue-skywave': !item.is_due}
+                    ]}>
+                        <div class={['w-3/4 uppercase font-noto-sans italic font-bold text-2xl truncate', 
+                            {'text-blue-midnight': item.is_due},
+                            {'text-neutral-aurora': !item.is_due}
+                        ]}>
                             {item.title}
                         </div>
-                        <div class='{item.ui.content} w-60 lg:w-90 font-noto-sans text-sm line-clamp-4 mt-1'>
+                        <div class={['w-60 lg:w-90 font-noto-sans text-sm line-clamp-4 mt-1',   
+                            {'text-blue-midnight': item.is_due},
+                            {'text-neutral-aurora': !item.is_due}
+                        ]}>
                             {item.content}
                         </div>
                         <dl class="absolute top-5 right-5 rounded-xl shadow-lg w-[7rem] text-center overflow-hidden bg-neutral-aurora">
-                            <dt class='{item.ui.deadline.header.background} {item.ui.deadline.header.title} font-noto-sans italic font-black text-sm py-1 uppercase tracking-wide'>
+                            <dt class={['font-noto-sans italic font-black text-sm py-1 uppercase tracking-wide',
+                                {'text-blue-midnight bg-red-crimson': item.is_due},
+                                {'text-neutral-aurora bg-blue-indigo': !item.is_due},
+                            ]}>
                                 Data Limite
                             </dt>
-                            <dd class='{item.ui.deadline.body.background} {item.ui.deadline.body.text} font-noto-sans italic font-extrabold text-2xl py-1 tracking-widest'>
-                                {item.deadline_formated}
+                            <dd class={['font-noto-sans italic font-extrabold text-2xl py-1 tracking-widest',
+                                {'text-orange-amber bg-blue-midnight': item.is_due},
+                                {'text-blue-midnight bg-neutral-aurora': !item.is_due}
+                            ]}>
+                                {item.deadline}
                             </dd>
                         </dl>
-                        {#if item.actions.show_button_complete}
+                        {#if permissions.show_button_complete}
                             <button 
                                 type="button" 
-                                class='{item.ui.confirmation.default} font-noto-sans italic font-bold cursor-pointer'
                                 aria-label="Concluir tarefa" 
-                                on:click={() => markTaskCompleted(item.uuid)}
+                                on:click={() => requestMarkTaskCompleted(item.uuid)}
+                                class={['font-noto-sans italic font-bold cursor-pointer',
+                                    {'bg-red-crimson rounded-xl text-neutral-aurora uppercase absolute right-5 bottom-3 py-2 px-6': item.is_due},
+                                    {'bg-neutral-aurora absolute right-5 bottom-3 py-2 px-2 rounded-md flex justify-center items-center': !item.is_due}
+                                ]}
                             >
                                 {#if item.is_due}
                                     Solicitar conclusão

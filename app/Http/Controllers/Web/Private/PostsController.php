@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Web\Private;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 use App\Traits\HasFlashMessages;
@@ -13,8 +12,8 @@ use App\Services\Process\ImageProcessService;
 
 use App\Models\Post;
 
-use App\Http\Resources\Web\Private\Posts\PostIndexResource;
-use App\Http\Resources\Web\Private\Posts\PostGetResource;
+use App\Http\Resources\PostIndexResource;
+use App\Http\Resources\PostGetResource;
 
 class PostsController extends Controller
 {
@@ -26,20 +25,6 @@ class PostsController extends Controller
     public function __construct(ImageProcessService $image)
     {
         $this->image = $image;
-    }
-
-    protected function pageActions()
-    {
-        $user = $this->getUserLogged();
-
-        $canCreate = $user['permissions']->contains('post.create');
-        $canUpdate = $user['permissions']->contains('post.update');
-        $canUpdateOwn = $user['permissions']->contains('post.update.own');
-    
-        return [
-            'show_post_button_create' => $canCreate,
-            'show_post_button_update' => $canUpdate || $canUpdateOwn,
-        ];
     }
 
     public function indexPosts()
@@ -74,7 +59,6 @@ class PostsController extends Controller
                 $post->load('categories', 'references', 'author')
             ),
             "posts" => $this->indexPosts(),
-            "page_actions" => $this->pageActions(),
         ]);
     }
 
@@ -101,13 +85,13 @@ class PostsController extends Controller
 
         foreach ($request->input('categories') as $category) {
             $post->categories()->create([
-                'name' => $category['category'],
+                'name' => $category['name'],
             ]);
         }
 
         foreach ($request->input('references') as $reference) {
             $post->references()->create([
-                'name' => $reference['site'],
+                'name' => $reference['name'],
                 'url' => $reference['url'],
             ]);
         }
@@ -131,13 +115,13 @@ class PostsController extends Controller
 
         foreach ($request->input('categories') as $category) {
             $post->categories()->where('uuid', $category['uuid'])->update([
-                'name' => $category['category'],
+                'name' => $category['name'],
             ]);
         }
 
         foreach ($request->input('references') as $reference) {
             $post->references()->where('uuid', $reference['uuid'])->update([
-                'name' => $reference['site'],
+                'name' => $reference['name'],
                 'url' => $reference['url'],
             ]);
         }
@@ -149,7 +133,6 @@ class PostsController extends Controller
     {
         return Inertia::render($this->render, [
             "posts" => $this->indexPosts(),
-            "page_actions" => $this->pageActions(),
         ]);
     }
 }

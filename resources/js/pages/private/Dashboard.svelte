@@ -7,7 +7,7 @@
     import { PostsGrid, CalendarGrid } from "@/ui/widgets/private/grid";
 
     $: ({ 
-        authenticated: { user },
+        user
     } = $page.props);
 
      const phraseSwitchHero = (nickname) => {

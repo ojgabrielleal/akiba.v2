@@ -4,13 +4,15 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
-use Illuminate\Support\Facades\Auth;
 
 use App\Services\External\StreamingService;
-use App\Services\Inertia\AuthContextService;
+
+use App\Traits\ResolvesUserLogged;
 
 class HandleInertiaRequestsMiddleware extends Middleware
 {
+    use ResolvesUserLogged;
+
     /**
      * The root template that is loaded on the first page visit.
      *
@@ -33,7 +35,7 @@ class HandleInertiaRequestsMiddleware extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            'authenticated' => fn() => (new AuthContextService())->data(),
+            'user' => fn() => $this->getUserLogged(),
             'streaming' => fn() => (new StreamingService())->data(),
             'flash' => fn() => [
                 'icon' => session('flash.icon'),

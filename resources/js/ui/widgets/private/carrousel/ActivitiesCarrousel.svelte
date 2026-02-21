@@ -3,11 +3,15 @@
 
     import { page, router } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
-    import { scrollx } from "@/utils";
+    import { scrollx, hasPermission } from "@/utils";
 
-    $: ({ activities } = $page.props);
-        
-    const confirmActivityParticipant = (activity) => {
+    $: ({ user, activities } = $page.props);
+    
+    let permissions = {
+        'show_button_participate': hasPermission('activity.participate'),
+    }
+
+    const requestConfirmActivityParticipant = (activity) => {
         router.post(`/painel/dashboard/activity/${activity}/confirm`);
     }
 
@@ -18,11 +22,21 @@
         <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" on:wheel={scrollx} role="group">
             {#if activities.data.length > 0}
                 {#each activities.data as item}  
-                    <article class='{item.ui.background} w-100 h-50 lg:w-[29rem] flex-shrink-0 rounded-lg p-4 relative'>
-                        <div class='{item.ui.texts} font-noto-sans font-black italic uppercase text-xl'>
+                    {@const showButtonParticipate = permissions.show_button_participate && !item.confirmations.some(conf => conf.confirmer.uuid === user.uuid)}
+                    <article class={['w-100 h-50 lg:w-[29rem] flex-shrink-0 rounded-lg p-4 relative',
+                        {'bg-neutral-honeycream': item.allows_confirmations},
+                        {'bg-blue-skywave': !item.allows_confirmations}
+                    ]}>
+                        <div class={['font-noto-sans font-black italic uppercase text-xl', 
+                            {'text-blue-midnight': item.allows_confirmations},
+                            {'text-neutral-aurora': !item.allows_confirmations}
+                        ]}>
                             {item.author.nickname}
                         </div>
-                        <div class='{item.ui.texts} font-noto-sans text-sm line-clamp-5 mt-1'>
+                        <div class={['font-noto-sans text-sm line-clamp-5 mt-1',
+                            {'text-blue-midnight': item.allows_confirmations},
+                            {'text-neutral-aurora': !item.allows_confirmations}
+                        ]}>
                             {item.content}
                         </div>
                         {#if item.allows_confirmations}
@@ -36,12 +50,12 @@
                                     />
                                 {/each}
                             </div>
-                            {#if item.actions.show_button_participate}
+                            {#if showButtonParticipate}
                                 <button
                                     type="button"
                                     aria-label="Confirmar alerta"
-                                    class="w-[2rem] h-[2rem] bg-neutral-aurora absolute bottom-3 right-4 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer disabled:opacity-50"
-                                    on:click={() => confirmActivityParticipant(item.uuid)}
+                                    class="w-[2rem] h-[2rem] bg-neutral-aurora absolute bottom-3 right-4 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer"
+                                    on:click={() => requestConfirmActivityParticipant(item.uuid)}
                                 >
                                     <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
                                 </button>

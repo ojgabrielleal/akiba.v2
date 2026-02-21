@@ -12,10 +12,10 @@ use App\Models\Post;
 use App\Models\Task;
 use App\Models\Calendar;
 
-use App\Http\Resources\Web\Private\Dashboard\ActivityIndexResource;
-use App\Http\Resources\Web\Private\Dashboard\TaskIndexResource;
-use App\Http\Resources\Web\Private\Dashboard\PostIndexResource;
-use App\Http\Resources\Web\Private\Dashboard\CalendarIndexResource;
+use App\Http\Resources\ActivityIndexResource;
+use App\Http\Resources\TaskIndexResource;
+use App\Http\Resources\PostIndexResource;
+use App\Http\Resources\CalendarIndexResource;
 
 class DashboardController extends Controller
 {
@@ -51,7 +51,7 @@ class DashboardController extends Controller
                 ->published()
                 ->latest()
                 ->with(['author'])
-                ->paginate(10)
+                ->paginate(5)
         );
     }
 

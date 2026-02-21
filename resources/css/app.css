@@ -70,6 +70,11 @@
         transition: 0.3s ease-in-out;
     }
 
+    button:disabled{
+        cursor: default !important;
+        filter: opacity(50%);
+    }
+
     select {
         appearance: none;
         -webkit-appearance: none;
@@ -86,14 +91,12 @@
         background-size: 1rem;
     }
 
-    /* foco */
     select:focus {
         outline: none;
         border-color: #2563eb;
         box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
     }
 
-    /* disabled */
     select:disabled {
         background-color: #f3f4f6;
         color: #9ca3af;

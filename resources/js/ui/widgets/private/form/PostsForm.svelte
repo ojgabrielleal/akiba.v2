@@ -3,9 +3,15 @@
     import { useForm, Link, page } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
+    import { hasPermission } from "@/utils";
     import tags from "@/data/posts/tags.json";
 
-    $: ({ post, page_actions } = $page.props);
+    $: ({ post } = $page.props);
+
+    let permissions = {
+        show_button_create: hasPermission('post.create'),
+        show_button_update: hasPermission('post.update') && hasPermission('post.update.own'),
+    }
 
     let form = useForm({
         _method: 'POST',
@@ -16,11 +22,11 @@
         content: null,
         categories:  [
             {uuid: null},
-            {category: null},
+            {name: null},
         ],
         references: [
-            {uuid: null, site: null, url: null},
-            {uuid: null, site: null, url: null}
+            {uuid: null, name: null, url: null},
+            {uuid: null, name: null, url: null}
         ]
     });
     
@@ -31,8 +37,8 @@
         $form.title = post.data.title;
         $form.cover = post.data.cover;
         $form.content = post.data.content;
-        $form.categories = post.data.categories.map(({uuid, category}) => ({ uuid, category }));
-        $form.references = post.data.references.map(({uuid, site, url}) => ({ uuid, site, url }))
+        $form.categories = post.data.categories.map(({uuid, name}) => ({ uuid, name }));
+        $form.references = post.data.references.map(({uuid, name, url}) => ({ uuid, name, url }))
     }
 
     const submit = (event) => {
@@ -60,7 +66,6 @@
             Eventos
         </Link>
     </div>
-    <!-- TODO: COLOCAR PERMISSAO DE CAN VIEW-->
     <form on:submit|preventDefault={submit} class="mt-10 xl:mt-15">
         <div class="grid grid-cols-1 xl:grid-cols-[22rem_1fr] gap-5">
             <div class="mb-3">
@@ -111,17 +116,17 @@
                 </div>
             </div>
         </div>
-        <div class="w-full xl:w-[85rem] ml-auto">
+        <div class="w-full xl:w-[80rem] 2xl:w-[85rem] ml-auto">
             <div class="gap-2 grid grid-cols-1 md:grid-cols-2 md:gap-10">
                 <div class="mb-8">
-                    <label class="text-blue-skywave font-bold italic text-lg text-center uppercase font-noto-sans block mb-1" for="first_category">
+                    <label class="text-blue-skywave font-bold italic text-lg text-center uppercase font-noto-sans block mb-1" for="categories">
                         Primeira Tag
                     </label>
                     <select
-                        id="first_category"
-                        name="first_category"
+                        id="categories"
+                        name="categories"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
-                        bind:value={$form.categories[0].category}
+                        bind:value={$form.categories[0].name}
                     >
                         {#each tags as tag}
                             <option value={tag.value}>{tag.label}</option>
@@ -129,14 +134,14 @@
                     </select>
                 </div>
                 <div class="mb-8">
-                    <label class="text-blue-skywave font-bold italic text-lg text-center uppercase font-noto-sans block mb-1" for="second_category">
+                    <label class="text-blue-skywave font-bold italic text-lg text-center uppercase font-noto-sans block mb-1" for="categories">
                         Segunda Tag
                     </label>
                     <select
-                        id="second_category"
-                        name="second_category"
+                        id="categories"
+                        name="categories"
                         class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
-                        bind:value={$form.categories[1].category}
+                        bind:value={$form.categories[1].name}
                     >
                         {#each tags as tag}
                             <option value={tag.value}>{tag.label}</option>
@@ -150,25 +155,25 @@
                         Primeira fonte de pesquisa
                     </div>
                     <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center mb-4">
-                        <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="first_reference_name">
+                        <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="references">
                             Nome:
                         </label>
                         <input
-                            id="first_reference_name"
+                            id="references"
                             type="text"
-                            name="first_reference_name"
+                            name="references"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.references[0].site}
+                            bind:value={$form.references[0].name}
                         />
                     </div>
                     <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
-                        <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="first_reference_url">
+                        <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="references">
                             Link:
                         </label>
                         <input
-                            id="first_reference_url"
+                            id="references"
                             type="text"
-                            name="first_reference_url"
+                            name="references"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             bind:value={$form.references[0].url}
                         />
@@ -179,25 +184,25 @@
                         Segunda fonte de pesquisa
                     </div>
                     <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center mb-4">
-                        <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="second_reference_name">
+                        <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="references">
                             Nome:
                         </label>
                         <input
-                            id="second_reference_name"
+                            id="references"
                             type="text"
-                            name="second_reference_name"
+                            name="references"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
-                            bind:value={$form.references[1].site}
+                            bind:value={$form.references[1].name}
                         />
                     </div>
                     <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
-                        <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="second_reference_url">
+                        <label class="text-orange-amber font-light text-xl uppercase font-noto-sans block mb-1" for="references">
                             Link:
                         </label>
                         <input
-                            id="second_reference_url"
+                            id="references"
                             type="text"
-                            name="second_reference_url"
+                            name="references"
                             class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             bind:value={$form.references[1].url}
                         />
@@ -205,18 +210,18 @@
                 </div>
             </div>
         </div>
-        {#if (page_actions.show_post_button_create || page_actions.show_post_button_update) || (post?.data?.actions?.show_button_create || post?.data?.actions?.show_button_update)}
+        {#if (permissions.show_button_create || permissions.show_button_update)}
             <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
                 <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
-                    {post && post?.data?.status === 'sketch' ? 'Atualizar rascunho' : 'Salvar como rascunho'}
+                    {post?.status === 'sketch' ? 'Atualizar rascunho' : 'Salvar como rascunho'}
                 </button>
-                {#if post?.data?.status !== 'revision' && post?.data?.status !== 'published'}
-                <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
-                    Mandar pra revisão
-                </button>
+                {#if post?.status !== 'revision' && post?.status !== 'published'}
+                    <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
+                        Mandar pra revisão
+                    </button>
                 {/if}
                 <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                    {post?.data?.status === 'published' ? 'Atualizar matéria' : 'Publicar matéria'}
+                    {post?.status === 'published' ? 'Atualizar matéria' : 'Publicar matéria'}
                 </button>
             </div>
         {/if}

@@ -5,8 +5,15 @@
     import { Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Pagination } from "@/ui/components/private"
+    import { hasPermission } from "@/utils";
 
-    $: ({ posts } = $page.props);
+    $: ({ user, posts } = $page.props);
+
+    let permissions ={
+        'show_button_update': hasPermission('post.update'),
+        'show_button_update_own': hasPermission('post.update.own'),
+    }
+
 </script>
 
 {#if posts}
@@ -14,7 +21,12 @@
         <div class="gap-6 grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5">
             {#if posts.data.length > 0}
                 {#each posts.data as item}
-                    <article class='{item.ui.background} w-full h-[14rem] rounded-lg p-4 relative'>
+                    {@const showButtonUpdate = permissions.show_button_update || (permissions.show_button_update_own && item.author.uuid === user.uuid)}
+                    <article class={["w-full h-[14rem] rounded-lg p-4 relative", 
+                        {'bg-blue-skywave': item.status === 'published'},
+                        {'bg-orange-amber': item.status === 'revision'},
+                        {'bg-green-forest': item.status === 'sketch'},
+                    ]}>
                         <div class="font-noto-sans text-lg text-neutral-aurora line-clamp-5 uppercase">
                             {item.title}
                         </div>
@@ -24,11 +36,11 @@
                             </dt>
                             <dd class="flex gap-3 justify-end mt-1">
                                 <Link href={`/materias/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
-                                    <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
+                                    <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter invert" loading="lazy"/>
                                 </Link>
-                                {#if item.actions.show_button_update}
-                                    <Link href={`/painel/materias/${item.uuid}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
-                                        <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
+                                {#if showButtonUpdate}
+                                    <Link href={`/painel/materias/${item.uuid}`} aria-label="Editar" class="cursor-pointer">
+                                        <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter invert" loading="lazy"/>
                                     </Link>
                                 {/if}
                             </dd>
@@ -48,6 +60,6 @@
                 </article>
             {/if}
         </div>
-        <Pagination pages={posts.data}/>
+        <Pagination pages={posts}/>
     </Section>
 {/if}

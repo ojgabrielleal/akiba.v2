@@ -3,13 +3,18 @@
 
     import { page } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
+    import { hasPermission } from "@/utils";
     import tags from "@/data/calendar/tags.json";
 
     $: ({ calendar } = $page.props);
     
+    let permissions = {
+        'show_button_update': hasPermission('calendar.update'),
+    }
+    
     let week = [];
     
-    $: if (calendar.data) {
+    $: if (calendar) {
         const today = new Date();
         const days = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
         
@@ -47,22 +52,40 @@
                         {day.day} - {day.date}
                     </div>
                     {#each day.events as item}
-                        <div class="{item.ui.background} w-full 2xl:w-[12.7rem] bg-blue-skywave rounded-lg pt-4 pl-4 pr-4 pb-3 mt-5">
+                        <div class={["w-full 2xl:w-[12.7rem] bg-blue-skywave rounded-lg pt-4 pl-4 pr-4 pb-3 mt-5", 
+                            {'bg-blue-skywave': item.category === 'show'},
+                            {'bg-purple-mystic': item.category === 'live'},
+                            {'bg-red-crimson': item.category === 'youtube'},
+                            {'bg-green-forest': item.category === 'podcast'},
+                            {'bg-neutral-honeycream': item.category === 'activity'},
+                        ]}>
                             <div class="flex events-center">
-                                <div class="{item.ui.texts} w-full font-noto-sans text-2xl text-center uppercase">
+                                <div class={["w-full font-noto-sans text-2xl text-center uppercase", 
+                                    {'text-blue-midnight': item.has_activity},
+                                    {'text-neutral-aurora': !item.has_activity}
+                                ]}>
                                     {item.time}
                                 </div>
                             </div>
-                            <div class="{item.ui.texts} w-full font-noto-sans font-bold text-2xl text-center italic mt-6 mb-6">
+                            <div class={["w-full font-noto-sans font-bold text-2xl text-center italic mt-6 mb-6", 
+                                {'text-blue-midnight': item.has_activity},
+                                {'text-neutral-aurora': !item.has_activity}
+                            ]}>
                                 {item.has_activity ? item.activity.title : item.content}
                             </div>
                             <div class="flex justify-between flex-row">
-                                {#if item.actions.show_button_update}
+                                {#if permissions.show_button_update}
                                     <button aria-label="Editar" class="cursor-pointer">
-                                        <img src="/svg/default/edit.svg" alt="" aria-hidden="true" loading="lazy" class="{item.ui.filters} w-5">
+                                        <img src="/svg/default/edit.svg" alt="" aria-hidden="true" loading="lazy" class={["w-5", 
+                                            {'filter sepia': item.has_activity},
+                                            {'filter invert': !item.has_activity}
+                                        ]} />
                                     </button>
                                 {/if}
-                                <div class="{item.ui.texts} w-full font-noto-sans text-md text-end">
+                                <div class={["w-full font-noto-sans text-md text-end", 
+                                    {'text-blue-midnight': item.has_activity},
+                                    {'text-neutral-aurora': !item.has_activity}
+                                ]}>
                                     {item.responsible.nickname}
                                 </div>
                             </div>
