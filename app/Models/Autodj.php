@@ -4,15 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class AutoDJ extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuids;
 
     protected $table = 'autodj';
-    
+
     protected $fillable = [
+        'uuid',
         'user_id',
         'name',
         'image',
@@ -21,6 +22,18 @@ class AutoDJ extends Model
     protected $hidden = [
         'user_id',
     ];
+
+    /**
+     * Determine the columns that should receive a unique identifier.
+     *
+     * This method specifies that the 'uuid' column should be automatically 
+     * generated as a sortable, unique identifier when the model is created.
+     *
+     */
+    public function uniqueIds(): array
+    {
+        return ['uuid'];
+    }
 
     /**
      * Define the relationships between this model and other models.
@@ -37,5 +50,4 @@ class AutoDJ extends Model
     {
         return $this->hasMany(AutoDJPhrase::class, 'autodj_id');
     }
-    
 }

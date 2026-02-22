@@ -4,15 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Calendar extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuids;
 
     protected $table = 'calendar';
-    
+
     protected $fillable = [
+        'uuid',
         'is_active',
         'has_activity',
         'user_id',
@@ -34,6 +35,18 @@ class Calendar extends Model
         'user_id',
         'activity_id',
     ];
+
+    /**
+     * Determine the columns that should receive a unique identifier.
+     *
+     * This method specifies that the 'uuid' column should be automatically 
+     * generated as a sortable, unique identifier when the model is created.
+     *
+     */
+    public function uniqueIds(): array
+    {
+        return ['uuid'];
+    }
 
     /**
      * Query scopes for this model.
@@ -61,5 +74,4 @@ class Calendar extends Model
     {
         return $this->belongsTo(Activity::class, 'activity_id');
     }
-
 }

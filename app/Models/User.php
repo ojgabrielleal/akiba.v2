@@ -7,15 +7,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
-use App\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasUuid;
+    use HasFactory, Notifiable, HasUuids;
 
     protected $table = 'users';
 
     protected $fillable = [
+        'uuid',
         'is_active',
         'slug',
         'username',
@@ -50,6 +51,18 @@ class User extends Authenticatable
                 'slug' => Str::slug($value),
             ],
         );
+    }
+
+    /**
+     * Determine the columns that should receive a unique identifier.
+     *
+     * This method specifies that the 'uuid' column should be automatically 
+     * generated as a sortable, unique identifier when the model is created.
+     *
+     */
+    public function uniqueIds(): array
+    {
+        return ['uuid'];
     }
 
     /**

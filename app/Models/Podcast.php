@@ -6,15 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
-use App\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Podcast extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuids;
 
     protected $table = 'podcasts';
-    
+
     protected $fillable = [
+        'uuid',
         'user_id',
         'is_active',
         'slug',
@@ -34,7 +35,7 @@ class Podcast extends Model
     protected $hidden = [
         'user_id'
     ];
-    
+
     protected function title(): Attribute
     {
         return Attribute::make(
@@ -43,6 +44,18 @@ class Podcast extends Model
                 'slug' => Str::slug($value),
             ],
         );
+    }
+
+    /**
+     * Determine the columns that should receive a unique identifier.
+     *
+     * This method specifies that the 'uuid' column should be automatically 
+     * generated as a sortable, unique identifier when the model is created.
+     *
+     */
+    public function uniqueIds(): array
+    {
+        return ['uuid'];
     }
 
     /**

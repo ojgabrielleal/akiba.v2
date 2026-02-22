@@ -10,8 +10,8 @@
     }
 </script>
 
-<div class="flex justify-center mt-10">
-    {#if pages.meta.per_page >= 10 && pages.meta.last_page > 1}
+{#if pages.meta.per_page >= 10 && pages.meta.last_page > 1}
+    <div class="flex justify-center mt-10">
         <div class="flex gap-5">
             {#if pages.meta.current_page > 1}
                 <button on:click={() => pagination(pages.meta.current_page - 1)} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl italic uppercase font-noto-sans font-bold">
@@ -24,5 +24,5 @@
                 </button>
             {/if}
         </div>
-    {/if}
-</div>
+    </div>
+{/if}

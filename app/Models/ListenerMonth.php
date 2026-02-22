@@ -6,22 +6,35 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use App\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 
 class ListenerMonth extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuids;
 
     protected $table = 'listener_month';
 
     protected $fillable = [
+        'uuid',
         'name',
         'avatar',
         'address',
         'favorite_program',
         'requests_count',
     ];
+
+    /**
+     * Determine the columns that should receive a unique identifier.
+     *
+     * This method specifies that the 'uuid' column should be automatically 
+     * generated as a sortable, unique identifier when the model is created.
+     *
+     */
+    public function uniqueIds(): array
+    {
+        return ['uuid'];
+    }
 
     /**
      * Static query methods for this model.

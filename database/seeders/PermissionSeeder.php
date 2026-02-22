@@ -17,23 +17,23 @@ class PermissionSeeder extends Seeder
         $permissions = [
             /*
             |--------------------------------------------------------------------------
-            | ⚙️ Accessos as páginas Gerais
+            | Accessos as páginas Gerais
             |--------------------------------------------------------------------------
             */
-            ['name' => 'access.page.dashboard', 'label' => 'Acessar página dashboard do painel'],
-            ['name' => 'access.page.warnings', 'label' => 'Acessar página avisos do sistema'],
-            ['name' => 'access.page.posts', 'label' => 'Acessar página matérias do sistema'],
-            ['name' => 'access.page.broadcast', 'label' => 'Acessar página locução do sistema'],
-            ['name' => 'access.page.radio', 'label' => 'Acessar página rádio do sistema'],
-            ['name' => 'access.page.podcasts', 'label' => 'Acessar página podcasts do sistema'],
-            ['name' => 'access.page.marketing', 'label' => 'Acessar página marketing do sistema'],
-            ['name' => 'access.page.media', 'label' => 'Acessar página mídias do sistema'],
-            ['name' => 'access.page.administration', 'label' => 'Acessar página administração do sistema'],
-            ['name' => 'access.page.logs', 'label' => 'Acessar página logs do sistema'],
+            ['name' => 'dashboard.view', 'label' => 'Acessar página dashboard do painel'],
+            ['name' => 'warning.view', 'label' => 'Acessar página avisos do sistema'],
+            ['name' => 'post.view', 'label' => 'Acessar página matérias do sistema'],
+            ['name' => 'broadcast.view', 'label' => 'Acessar página locução do sistema'],
+            ['name' => 'radio.view', 'label' => 'Acessar página rádio do sistema'],
+            ['name' => 'podcast.view', 'label' => 'Acessar página podcasts do sistema'],
+            ['name' => 'marketing.view', 'label' => 'Acessar página marketing do sistema'],
+            ['name' => 'media.view', 'label' => 'Acessar página mídias do sistema'],
+            ['name' => 'administration.view', 'label' => 'Acessar página administração do sistema'],
+            ['name' => 'log.view', 'label' => 'Acessar página logs do sistema'],
             
             /*
             |--------------------------------------------------------------------------
-            | ⚙️ Atividades e avisos
+            | Atividades e avisos
             |--------------------------------------------------------------------------
             */
             ['name' => 'activity.list', 'label' => 'Listar atividades e avisos'],
@@ -45,7 +45,7 @@ class PermissionSeeder extends Seeder
 
             /*
             |--------------------------------------------------------------------------
-            | ⚙️ Tarefas
+            | Tarefas
             |--------------------------------------------------------------------------
             */
             ['name' => 'task.list', 'label' => 'Listar tarefas'],
@@ -57,7 +57,7 @@ class PermissionSeeder extends Seeder
 
             /*
             |--------------------------------------------------------------------------
-            | 📅 Calendário
+            | Calendário
             |--------------------------------------------------------------------------
             */
             ['name' => 'calendar.list', 'label' => 'Listar eventos no calendário'],
@@ -68,7 +68,7 @@ class PermissionSeeder extends Seeder
 
             /*
             |--------------------------------------------------------------------------
-            | 📝 Posts
+            | Posts
             |--------------------------------------------------------------------------
             */
             ['name' => 'post.list', 'label' => 'Listar posts'],
@@ -79,74 +79,6 @@ class PermissionSeeder extends Seeder
             ['name' => 'post.update.own', 'label' => 'Atualiza próprio post'],
             ['name' => 'post.deactivate', 'label' => 'Desativar post'],
 
-            /*
-            |--------------------------------------------------------------------------
-            | ⭐ Reviews
-            |--------------------------------------------------------------------------
-            */
-            ['name' => 'review.list', 'label' => 'Listar reviews'],
-            ['name' => 'review.view', 'label' => 'Visualizar review'],
-            ['name' => 'review.create', 'label' => 'Criar review'],
-            ['name' => 'review.update', 'label' => 'Atualizar review'],
-            ['name' => 'review.delete', 'label' => 'Excluir review'],
-            ['name' => 'review.view.own', 'label' => 'Visualizar próprio review'],
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | 👤 Usuários
-            |--------------------------------------------------------------------------
-            */
-            ['name' => 'user.list', 'label' => 'Listar membros'],
-            ['name' => 'user.view', 'label' => 'Visualizar membro'],
-            ['name' => 'user.create', 'label' => 'Cadastrar membro'],
-            ['name' => 'user.update', 'label' => 'Atualizar membro'],
-            ['name' => 'user.deactivate', 'label' => 'Desativar membro'],
-            ['name' => 'user.update.password', 'label' => 'Atualizar senha de membro'],
-            ['name' => 'user.update.permissions', 'label' => 'Atualizar permissões de membro'],
-            ['name' => 'user.view.own', 'label' => 'Visualizar próprio perfil'],
-            ['name' => 'user.update.own', 'label' => 'Atualizar próprio perfil'],
-
-        
-            /*
-            |--------------------------------------------------------------------------
-            | 📺 Programas
-            |--------------------------------------------------------------------------
-            */
-            ['name' => 'show.list', 'label' => 'Listar programas'],
-            ['name' => 'show.view', 'label' => 'Visualizar programa'],
-            ['name' => 'show.create', 'label' => 'Criar programa'],
-            ['name' => 'show.update', 'label' => 'Atualizar programa'],
-            ['name' => 'show.delete', 'label' => 'Excluir programa'],
-            ['name' => 'show.view.own', 'label' => 'Visualizar próprios programas'],
-
-            /*
-            |--------------------------------------------------------------------------
-            | 🎵 Pedidos musicais
-            |--------------------------------------------------------------------------
-            */
-            ['name' => 'song-request.list', 'label' => 'Listar pedidos musicais'],
-            ['name' => 'song-request.view', 'label' => 'Visualizar pedido musical'],
-            ['name' => 'song-request.mark-played', 'label' => 'Marcar pedido como tocado'],
-
-            /*
-            |--------------------------------------------------------------------------
-            | 🧩 Cargos (Roles)
-            |--------------------------------------------------------------------------
-            */
-            ['name' => 'role.list', 'label' => 'Listar cargos'],
-            ['name' => 'role.view', 'label' => 'Visualizar cargo'],
-            ['name' => 'role.create', 'label' => 'Criar cargo'],
-            ['name' => 'role.update', 'label' => 'Atualizar cargo'],
-            ['name' => 'role.delete', 'label' => 'Excluir cargo'],
-
-            /*
-            |--------------------------------------------------------------------------
-            | 🔐 Permissões
-            |--------------------------------------------------------------------------
-            */
-            ['name' => 'permission.list', 'label' => 'Listar permissões'],
-            ['name' => 'permission.view', 'label' => 'Visualizar permissão'],
         ];
         
         foreach($permissions as $item){
