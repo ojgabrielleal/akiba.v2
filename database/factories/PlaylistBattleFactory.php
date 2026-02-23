@@ -18,7 +18,7 @@ class PlaylistBattleFactory extends Factory
     {
         return [
             'day' => fake()->randomElement([0, 1, 2, 3, 4, 5, 6]),
-            'image' => 'https://placehold.co/900x900?text=Akiba'
+            'image' => 'https://placehold.co/500x500?text=Rede%20Akiba%20Placeholder'
         ];
     }
 }

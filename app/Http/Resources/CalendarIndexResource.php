@@ -21,6 +21,7 @@ class CalendarIndexResource extends JsonResource
                 'uuid' => $this->responsible->uuid,
                 'name' => $this->responsible->name,
                 'nickname' => $this->responsible->nickname,
+                'avatar' => $this->responsible->avatar,
             ],
             'activity' => $this->has_activity ? [
                 'uuid' => $this->activity->uuid,

@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-use App\Traits\HasFlashMessages;
-use App\Services\Process\ImageService;
-
 use App\Models\Review;
+
+use App\Http\Resources\ReviewIndexResource;
+use App\Http\Resources\ReviewShowResource;
+
+use App\Services\Process\ImageProcessService;
+use App\Traits\HasFlashMessages;
 
 use function PHPSTORM_META\map;
 
@@ -17,40 +20,28 @@ class ReviewsController extends Controller
 {
     use HasFlashMessages;
 
-    private ImageService $image;
+    private ImageProcessService $image;
     private $render = 'private/Reviews';
 
-    public function __construct(ImageService $image)
+    public function __construct(ImageProcessService $image)
     {
         $this->image = $image;
     }
 
     public function indexReviews()
     {
-        return Review::with('reviews')->paginate(10);
+        return ReviewIndexResource::collection(
+             Review::with('reviews')->paginate(10)
+        );
     }
 
     public function showReview(Review $review)
     {
-        $review = $review->load('reviews.author');
-
-        $response = [ 
-            'id' => $review->id,
-            'slug' => $review->slug,
-            'title' => $review->title,
-            'sinopse' => $review->sinopse,
-            'image' => $review->image,
-            'cover' => $review->cover, 
-            'authors' => $review->reviews.map(fn($item)=>[
-                'slug' => $item->author->slug,
-                'nickname' => $item->author->nickname,
-                'review_id' => $item->id,
-            ]),
-        ];
-
         return Inertia::render($this->render, [
             "reviews" => $this->indexReviews(),
-            'review' => $response,
+            'review' => new ReviewShowResource(
+                $review->load('reviews.author')
+            ),
         ]);
     }
 

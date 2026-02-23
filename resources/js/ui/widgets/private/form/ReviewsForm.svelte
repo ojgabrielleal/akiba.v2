@@ -1,10 +1,9 @@
 <script>
-    export let review;
-    export let user;
-
-    import { useForm, Link } from "@inertiajs/svelte";
+    import { page, useForm, Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
+
+    $: ({ review } = $page.props);
 
     let form = useForm({
         _method: null,
@@ -12,19 +11,20 @@
         title: null,
         sinopse: null,
         cover: null,
-        content: { id: null, content: null},
+        review: {uuid: null, content: null},
     });
 
     $: if(review){
         $form._method = "patch",
-        $form.image = review.image,
-        $form.title = review.title,
-        $form.sinopse = review.sinopse,
-        $form.cover = review.cover
+        $form.image = review.data.image,
+        $form.title = review.data.title,
+        $form.sinopse = review.data.sinopse,
+        $form.cover = review.data.cover,
+        $form.review = { uuid: null, content: "" }
     }
     
     const submit = () => {
-        let url = review ? `/painel/reviews/${review.id}` : `/painel/reviews`       
+        let url = review ? `/painel/reviews/${review.data.id}` : `/painel/reviews`       
 
         $form.post(url, {
             preserveState: review,
@@ -33,27 +33,6 @@
             },
         });
     }
-
-    const list = () => {
-        const hasReview = review.reviews.some(item => item.author.id === user.id);
-        
-        if(hasReview){
-            const userReview = review.reviews.find(item => item.author.id === user.id);
-            const otherReviews = review.reviews.filter(item => item.author.id !== user.id);
-            const mesh = [userReview, ...otherReviews];
-            
-            $form.content = userReview;
-            return mesh;
-        }
-
-        let reviewsUnstructured = [{
-            author: user, 
-            content: "",
-        }, ...review.reviews];
-
-        $form.content = reviewsUnstructured[0];
-        return reviewsUnstructured;
-    };
 </script>
 
 <Section title={review ? "Editar review" : "Criar review"}>
@@ -122,33 +101,21 @@
                     <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-2" for="content">
                         Escreva sobre o anime
                     </label>
-                    {#if review}
-                        <div class="flex gap-2 mb-6">
-                            {#each list() as item}
+                    {#if review?.data.reviews && review?.data.has_user_review}
+                        <div class="flex gap-2 mb-4">
+                            {#each review.data.reviews as item}
                                 <div class="relative">
-                                    <button 
-                                        type="button" 
-                                        class={["py-2 px-6 rounded-md uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer",
-                                            {'bg-orange-amber text-neutral-aurora': item.author.slug === $form.content.author.slug},
-                                            {'bg-neutral-aurora': item.author.slug !== $form.content.author.slug},
-                                        ]}
-                                        on:click={() => $form.content = item} 
-                                    >
+                                    <button type="button" class={["bg-orange-amber text-neutral-aurora py-2 px-6 rounded-md uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer"]}>
                                         {item.author.nickname}
                                     </button>
-                                    <span class={["absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px]",
-                                        {'border-t-orange-amber': item.author.slug === $form.content.author.slug},
-                                        {'border-t-neutral-aurora': item.author.slug !== $form.content.author.slug}
-                                    ]}>
-                                    </span>
                                 </div>
                             {/each}
                         </div>
                     {/if}
                     <Wysiwyg 
                         name="content" 
-                        bind:value={$form.content.content} 
                         required
+                        bind:value={$form.review.content} 
                     />
                 </div>
             </div>

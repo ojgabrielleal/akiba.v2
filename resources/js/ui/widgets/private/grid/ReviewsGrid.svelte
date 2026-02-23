@@ -1,10 +1,11 @@
 <script>
     export let title;
-    export let reviews;
         
-    import { Link } from "@inertiajs/svelte";
+    import { page, Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Pagination } from "@/ui/components/private"
+
+    $: ({  reviews } = $page.props);
 </script>
 
 <Section {title}>
@@ -20,7 +21,7 @@
                             <Link href={`/reviews/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
                                 <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
                             </Link>
-                            <Link href={`/painel/reviews/${item.slug}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
+                            <Link href={`/painel/reviews/${item.uuid}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
                                 <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
                             </Link>
                         </div>

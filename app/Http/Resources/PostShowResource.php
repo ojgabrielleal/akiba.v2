@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 
-class PostGetResource extends JsonResource
+class PostShowResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
@@ -21,6 +21,7 @@ class PostGetResource extends JsonResource
                 'uuid' => $this->author->uuid,
                 'name' => $this->author->name,
                 'nickname' => $this->author->nickname,
+                'avatar' => $this->author->avatar,
             ],
             'references' => $this->references->map(fn($item) => [
                 'uuid' => $item->uuid,

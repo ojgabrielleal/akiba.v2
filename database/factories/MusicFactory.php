@@ -19,7 +19,7 @@ class MusicFactory extends Factory
         return [
             'type' => fake()->randomElement(['OP', 'ED']),
             'production' => fake()->word(),
-            'image' => 'https://placehold.co/900x900?text=Akiba',
+            'image' => 'https://placehold.co/500x500?text=Rede%20Akiba%20Placeholder',
             'artist' => fake()->name(),
             'name' => fake()->name(),
             'in_ranking' => fake()->boolean(0.5),

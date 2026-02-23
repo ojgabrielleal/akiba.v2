@@ -46,7 +46,7 @@ Route::prefix('painel')->group(function () {
             Route::get('', 'render')->name('painel.reviews');
             Route::post('', 'createReview');
             Route::patch('{review}', 'updateReview');
-            Route::get('{review:slug}', 'showReview');
+            Route::get('{review:uuid}', 'showReview');
         });
         Route::prefix('eventos')->controller(EventsController::class)->group(function () {
             Route::get('', 'render')->name('painel.eventos');

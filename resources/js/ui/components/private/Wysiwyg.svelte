@@ -50,6 +50,6 @@
 </script>
 
 <div class="bg-neutral-aurora rounded-xl overflow-hidden" class:opacity-70={disable}>
-    <div bind:this={editor} class="p-3 lg:min-h-[40rem]" class:min-height={height}></div>
+    <div bind:this={editor} class="p-3" style="min-height: {height};"></div>
 </div>
 <textarea bind:this={textarea} name={name} required={required} class="sr-only"></textarea>

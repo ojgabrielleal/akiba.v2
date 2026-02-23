@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web\Private;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 
-use App\Traits\HasFlashMessages;
 
 use App\Models\Activity;
 use App\Models\Post;
@@ -16,6 +15,8 @@ use App\Http\Resources\ActivityIndexResource;
 use App\Http\Resources\TaskIndexResource;
 use App\Http\Resources\PostIndexResource;
 use App\Http\Resources\CalendarIndexResource;
+
+use App\Traits\HasFlashMessages;
 
 class DashboardController extends Controller
 {

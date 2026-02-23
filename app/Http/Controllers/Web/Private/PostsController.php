@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-use App\Traits\HasFlashMessages;
-use App\Traits\ResolvesUserLogged;
-use App\Services\Process\ImageProcessService;
-
 use App\Models\Post;
 
 use App\Http\Resources\PostIndexResource;
-use App\Http\Resources\PostGetResource;
+use App\Http\Resources\PostShowResource;
+
+use App\Services\Process\ImageProcessService;
+
+use App\Traits\HasFlashMessages;
+use App\Traits\ResolvesUserLogged;
+
 
 class PostsController extends Controller
 {
@@ -55,7 +57,7 @@ class PostsController extends Controller
     {
 
         return Inertia::render($this->render, [
-            'post' => new PostGetResource(
+            'post' => new PostShowResource(
                 $post->load('categories', 'references', 'author')
             ),
             "posts" => $this->indexPosts(),

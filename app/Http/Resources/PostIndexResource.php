@@ -15,7 +15,8 @@ class PostIndexResource extends JsonResource
             'title' => $this->title,
             'author' => [
                 'uuid' => $this->author->uuid,
-                'nickname' => $this->author->nickname
+                'nickname' => $this->author->nickname,
+                'avatar' => $this->author->avatar,
             ],
         ];
     }
