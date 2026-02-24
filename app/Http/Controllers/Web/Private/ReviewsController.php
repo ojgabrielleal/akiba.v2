@@ -31,7 +31,7 @@ class ReviewsController extends Controller
     public function indexReviews()
     {
         return ReviewIndexResource::collection(
-             Review::with('reviews')->paginate(10)
+            Review::with('reviews')->paginate(10)
         );
     }
 
@@ -52,7 +52,7 @@ class ReviewsController extends Controller
             'sinopse' => 'required',
             'image' => 'required',
             'cover' => 'required',
-            'content' => 'required'
+            'review' => 'required'
         ]);
 
         $review = Review::create([
@@ -61,10 +61,10 @@ class ReviewsController extends Controller
             'image' => $this->image->store('reviews', $request->file('image'), 'public'),
             'cover' => $this->image->store('reviews', $request->file('cover'), 'public'),
         ]);
-       
+
         $review->reviews()->create([
             'user_id' => request()->user()->id,
-            'content' => $request->input('content'),
+            'content' => $request->input('review.content'),
         ]);
 
         return $this->flashMessage('save');
@@ -79,13 +79,17 @@ class ReviewsController extends Controller
             'cover' => $this->image->store('reviews', $request->file('cover'), 'public', $review->cover),
         ]);
 
-        if($review->isDirty()) {
+        if ($review->isDirty()) {
             $review->save();
-
-            $review->reviews()->update([
-                'content' => $request->input('content'),
-            ]);
         }
+
+        $review->reviews()->updateOrCreate(
+            ['uuid' => $request->input('review.uuid')],
+            [
+                'user_id' => $request->user()->id,
+                'content' => $request->input('review.content'),
+            ]
+        );
 
         return $this->flashMessage('update');
     }

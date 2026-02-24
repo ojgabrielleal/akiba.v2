@@ -1,6 +1,7 @@
 <script>
 
     import { useForm, Link, page } from "@inertiajs/svelte";
+    import { Meta } from "@/config/meta";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
     import { hasPermission } from "@/utils";
@@ -54,7 +55,8 @@
     }
 </script>
 
-<Section title={post ?  "Editar matéria" : "Criar matéria"}>
+<Meta meta={{ title: post?.data.title }} />
+<Section title={post ? `Atualizar matéria` : "Criar matéria"}>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         <Link preserveState={false} href="/painel/materias" class="cursor-pointer border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-center text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
             Matérias
@@ -213,15 +215,21 @@
         {#if (permissions.show_button_create || permissions.show_button_update)}
             <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
                 <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
-                    {post?.status === 'sketch' ? 'Atualizar rascunho' : 'Salvar como rascunho'}
+                    {#if post?.data.status === 'sketch'} 
+                        Atualizar rascunho
+                    {:else if post?.data.status === 'revision' ||  post?.data.status === 'published'}
+                        Converter para rascunho 
+                    {:else}
+                        Salvar como rascunho
+                    {/if}
                 </button>
-                {#if post?.status !== 'revision' && post?.status !== 'published'}
+                {#if post?.data.status !== 'revision' && post?.data.status !== 'published'}
                     <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
                         Mandar pra revisão
                     </button>
                 {/if}
                 <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                    {post?.status === 'published' ? 'Atualizar matéria' : 'Publicar matéria'}
+                    {post?.data.status === 'published' ? 'Atualizar matéria' : 'Publicar matéria'}
                 </button>
             </div>
         {/if}

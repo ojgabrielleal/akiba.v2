@@ -1,12 +1,13 @@
 <script>
     import { page, useForm, Link } from "@inertiajs/svelte";
+    import { Meta } from "@/config/meta";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
 
-    $: ({ review } = $page.props);
+    $: ({ user, review } = $page.props);
 
     let form = useForm({
-        _method: null,
+        _method: "POST",
         image: null,
         title: null,
         sinopse: null,
@@ -15,7 +16,7 @@
     });
 
     $: if(review){
-        $form._method = "patch",
+        $form._method = "PATCH",
         $form.image = review.data.image,
         $form.title = review.data.title,
         $form.sinopse = review.data.sinopse,
@@ -24,7 +25,7 @@
     }
     
     const submit = () => {
-        let url = review ? `/painel/reviews/${review.data.id}` : `/painel/reviews`       
+        let url = review ? `/painel/reviews/${review?.data.uuid}` : `/painel/reviews`       
 
         $form.post(url, {
             preserveState: review,
@@ -33,8 +34,37 @@
             },
         });
     }
+
+    const reviews = () => {
+        let verifyExistReview = review?.data.reviews.some((item) => item.author.uuid === user.uuid);
+
+        if(verifyExistReview){
+            let reviewExisting = review.data.reviews.find((item) => item.author.uuid === user.uuid);
+            let reviewRest = review.data.reviews.filter((item) => item.author.uuid !== user.uuid);
+
+            $form.review.uuid = reviewExisting.uuid;
+            $form.review.content = reviewExisting.content;
+            return [reviewExisting, ...reviewRest];
+        }
+
+        let reviewGhost = {
+            uuid: null,
+            content: 'Escreva o seu primeiro review',
+            author: {
+                uuid: user.uuid,
+                name: user.name,
+                nickname: user.nickname,
+                avatar: user.avatar,
+            }
+        }
+
+        $form.review.uuid = reviewGhost.uuid;
+        $form.review.content = reviewGhost.content;
+        return [reviewGhost, ...review?.data.reviews];
+    }
 </script>
 
+<Meta meta={{ title: review?.data.title }} />
 <Section title={review ? "Editar review" : "Criar review"}>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         <Link preserveState={false} href="/painel/materias" class="cursor-pointer border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-center text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
@@ -94,18 +124,28 @@
                         viewobject="object-cover"
                         src={$form.cover} 
                         oninput={event => $form.cover = event.target.files[0]} 
-                        required
+                        required={review ? false : true}
                     />   
                 </div>
                 <div>
                     <label class="text-orange-amber font-bold italic text-lg uppercase font-noto-sans block mb-2" for="content">
                         Escreva sobre o anime
                     </label>
-                    {#if review?.data.reviews && review?.data.has_user_review}
+                    {#if review && reviews()}
                         <div class="flex gap-2 mb-4">
-                            {#each review.data.reviews as item}
+                            {#each reviews() as item}
                                 <div class="relative">
-                                    <button type="button" class={["bg-orange-amber text-neutral-aurora py-2 px-6 rounded-md uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer"]}>
+                                    <button 
+                                        type="button" 
+                                        on:click={()=>{
+                                            $form.review.uuid = item.uuid
+                                            $form.review.content = item.content; 
+                                        }}
+                                        class={["py-2 px-6 rounded-md uppercase flex justify-center items-center font-noto-sans italic font-bold cursor-pointer", 
+                                            {'bg-orange-amber text-neutral-aurora' : item.uuid === $form.review.uuid},
+                                            {'bg-neutral-aurora text-orange-amber' : item.uuid !== $form.review.uuid}
+                                        ]}
+                                    >
                                         {item.author.nickname}
                                     </button>
                                 </div>
@@ -122,7 +162,7 @@
         </div>
         <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-10">
             <button type="submit" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                Salvar review
+                {$form.review.uuid ? 'Atualizar review' : 'Publicar review'} 
             </button>
         </div>
     </form>
