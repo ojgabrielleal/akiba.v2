@@ -2,7 +2,6 @@
     export let title;
     
     import { page } from "@inertiajs/svelte";
-    import { Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Pagination } from "@/ui/components/private"
     import { hasPermission } from "@/utils";
@@ -35,13 +34,13 @@
                                 {item.author.nickname}
                             </dt>
                             <dd class="flex gap-3 justify-end mt-1">
-                                <Link href={`/materias/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
+                                <a href={`/materias/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
                                     <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter invert" loading="lazy"/>
-                                </Link>
+                                </a>
                                 {#if showButtonUpdate}
-                                    <Link href={`/painel/materias/${item.uuid}`} aria-label="Editar" class="cursor-pointer">
+                                    <a href={`/painel/materias/${item.uuid}`} aria-label="Editar" class="cursor-pointer">
                                         <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter invert" loading="lazy"/>
-                                    </Link>
+                                    </a>
                                 {/if}
                             </dd>
                         </dl>

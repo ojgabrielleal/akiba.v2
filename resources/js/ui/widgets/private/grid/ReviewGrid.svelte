@@ -1,7 +1,7 @@
 <script>
     export let title;
         
-    import { page, Link } from "@inertiajs/svelte";
+    import { page } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Pagination } from "@/ui/components/private"
 
@@ -19,12 +19,12 @@
                         </div>
                         <div class="flex justify-end gap-5 absolute bottom-2 left-4 w-[calc(100%-2rem)]">
                             <div class="flex gap-3">
-                                <Link href={`/reviews/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
+                                <a href={`/reviews/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
                                     <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                                </Link>
-                                <Link href={`/painel/reviews/${item.uuid}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
+                                </a>
+                                <a href={`/painel/reviews/${item.uuid}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
                                     <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
-                                </Link>
+                                </a>
                             </div>
                         </div>
                     </article>

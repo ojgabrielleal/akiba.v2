@@ -2,7 +2,7 @@
     export let title;
     export let variant = false;
 
-    import { router, page, Link } from "@inertiajs/svelte";
+    import { router, page } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";    
     import { Pagination } from "@/ui/components/private"
 
@@ -28,12 +28,12 @@
                                     {item.author.nickname}
                                 </dt>
                                 <dd class="flex gap-3 justify-end mt-1">
-                                    <Link href={`/eventos/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
+                                    <a href={`/eventos/${item.slug}`} target="_blank" aria-label="Visualizar" class="cursor-pointer">
                                         <img src="/svg/default/eye.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                                    </Link>
-                                    <Link href={`/painel/eventos/${item.uuid}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
+                                    </a>
+                                    <a href={`/painel/eventos/${item.uuid}`} aria-label="Editar" class="cursor-pointer disabled:opacity-50">
                                         <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-neutral-aurora" loading="lazy"/>
-                                    </Link>
+                                    </a>
                                 </dd>
                             </dl>
                         </article>
@@ -65,9 +65,9 @@
                                 <img class="w-full h-65 object-cover aspect-square brightness-50" src={item.cover} alt={`Evento ${item.title}`}/>
                                 <div class="flex gap-4 absolute bottom-3 right-3">
                                     {#if item.actions.editable}
-                                        <Link href={`/painel/eventos/${item.slug}`} type="button" class="cursor-pointer" aria-label="Editar">
+                                        <a href={`/painel/eventos/${item.slug}`} type="button" class="cursor-pointer" aria-label="Editar">
                                             <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-5 filter-neutral-aurora" loading="lazy"/>
-                                        </Link>
+                                        </a>
                                     {/if}
                                     {#if item.actions.deactivate}
                                         <button on:click={()=>requestDeactivateEvent(item.uuid)} type="button" class="cursor-pointer" aria-label="Desativar">

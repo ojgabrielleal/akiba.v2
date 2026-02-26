@@ -1,5 +1,5 @@
 <script>
-    import { page, Link, router } from "@inertiajs/svelte";
+    import { page, router } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";   
     import { Offcanvas } from "@/ui/components/private";
     import { UserForm, UserSecurityForm } from "@/ui/widgets/private/form"
@@ -57,9 +57,9 @@
                                 <UserSecurityForm close={close} userId={item.id}/>
                             </div>
                         </Offcanvas>
-                        <Link href={`/painel/profile/${item.slug}`} aria-label="Editar perfil" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
+                        <a href={`/painel/profile/${item.slug}`} aria-label="Editar perfil" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
                             <img src="/svg/default/edit.svg" alt="" aria-hidden="true" class="w-4 filter-blue-indigo" loading="lazy"/>
-                        </Link>
+                        </a>
                         <button on:click={() => deactivateUser(item.id)} aria-label="Desativar perfil" class="w-[2rem] h-[2rem] bg-neutral-aurora rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer">
                             <img src="/svg/default/trash.svg" alt="" aria-hidden="true" class="w-4 filter-red-crimson" loading="lazy"/>
                         </button>

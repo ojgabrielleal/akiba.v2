@@ -1,5 +1,5 @@
 <script>
-    import { page, Link } from "@inertiajs/svelte";
+    import { page } from "@inertiajs/svelte";
     import { hasPermission } from "@/utils";
     import navbar from "@/data/default/navbar.json";
 
@@ -14,17 +14,17 @@
             {#each navbar as item}
                 {#if hasPermission(item.permission)}
                     <li>
-                        <Link href={item.address} aria-label={item.name} class="flex items-center gap-2 text-neutral-aurora">
+                        <a href={item.address} aria-label={item.name} class="flex items-center gap-2 text-neutral-aurora">
                             <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>
-                        </Link>
+                        </a>
                     </li>
                 {/if}
             {/each}
         </ul>
         <div class="absolute -bottom-[1.45rem] right-0 flex items-center gap-2">
-            <Link href={`/painel/profile/${user.uuid}`} aria-label={user.nickname}>
+            <a href={`/painel/profile/${user.uuid}`} aria-label={user.nickname}>
                 <img src={user.avatar} alt={`Avatar de ${user.nickname}`} class="w-16 h-16 rounded-full object-cover object-top border-8 border-neutral-aurora" loading="lazy"/>
-            </Link>
+            </a>
         </div>
     </div>
 </nav>
@@ -57,9 +57,9 @@
         {#each navbar as item}
             {#if hasPermission(item.permission)}
                 <li>
-                    <Link href={item.address} aria-label={item.name} class="flex items-center gap-2 text-neutral-aurora">
+                    <a href={item.address} aria-label={item.name} class="flex items-center gap-2 text-neutral-aurora">
                         <img src={item.icon} alt="" aria-hidden="true" class="w-5 h-5" loading="lazy"/>
-                    </Link>
+                    </a>
                 </li>
             {/if}
         {/each}

@@ -27,7 +27,7 @@ class ActivityIndexResource extends JsonResource
                     'uuid' => $item->confirmer->uuid,
                     'name' => $item->confirmer->name,
                     'nickname' => $item->confirmer->nickname,
-                    'avatar' => $this->confirmer->avatar,
+                    'avatar' => $item->confirmer->avatar,
                 ],
             ]),
         ];

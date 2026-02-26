@@ -2,6 +2,7 @@
     import { page, usePoll } from "@inertiajs/svelte";
 
     $: ({ streaming } = $page.props);
+
     usePoll(60*1000);
 </script>
 
