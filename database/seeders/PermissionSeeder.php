@@ -79,6 +79,28 @@ class PermissionSeeder extends Seeder
             ['name' => 'post.update.own', 'label' => 'Atualiza próprio post'],
             ['name' => 'post.deactivate', 'label' => 'Desativar post'],
 
+            /*
+            |--------------------------------------------------------------------------
+            | Reviews
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'review.list', 'label' => 'Listar reviews'],
+            ['name' => 'review.view', 'label' => 'Visualizar review'],
+            ['name' => 'review.create', 'label' => 'Criar review'],
+            ['name' => 'review.update', 'label' => 'Atualizar review'],
+            ['name' => 'review.deactivate', 'label' => 'Desativar review'],
+
+            /*
+            |--------------------------------------------------------------------------
+            | Eventos
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'event.list', 'label' => 'Listar events'],
+            ['name' => 'event.view', 'label' => 'Visualizar event'],
+            ['name' => 'event.create', 'label' => 'Criar event'],
+            ['name' => 'event.update', 'label' => 'Atualizar event'],
+            ['name' => 'event.deactivate', 'label' => 'Desativar event'],
+
         ];
         
         foreach($permissions as $item){

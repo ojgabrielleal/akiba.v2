@@ -1,10 +1,15 @@
 <script>
     import { page, useForm, Link } from "@inertiajs/svelte";
-    import { Meta } from "@/config/meta";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
+    import { hasPermission } from "@/utils";
 
     $: ({ user, review } = $page.props);
+
+    let permissions = {
+        show_button_create: hasPermission('review.create'),
+        show_button_update: hasPermission('review.update'),
+    }
 
     let form = useForm({
         _method: "POST",
@@ -64,8 +69,7 @@
     }
 </script>
 
-<Meta meta={{ title: review?.data.title }} />
-<Section title={review ? "Editar review" : "Criar review"}>
+<Section title={review ? "Atualizar review" : "Criar review"}>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         <Link preserveState={false} href="/painel/materias" class="cursor-pointer border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-center text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
             Matérias
@@ -161,9 +165,11 @@
             </div>
         </div>
         <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-10">
-            <button type="submit" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                {$form.review.uuid ? 'Atualizar review' : 'Publicar review'} 
-            </button>
+            {#if (permissions.show_button_create || permissions.show_button_update)}
+                <button type="submit" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+                    {$form.review.uuid ? 'Atualizar review' : 'Publicar review'} 
+                </button>
+            {/if}
         </div>
     </form>
 </Section>

@@ -6,9 +6,9 @@ use App\Http\Controllers\Web\Private\LoginController;
 use App\Http\Controllers\Web\Private\AdmsController;
 use App\Http\Controllers\Web\Private\OnairController;
 use App\Http\Controllers\Web\Private\DashboardController;
-use App\Http\Controllers\Web\Private\PostsController;
-use App\Http\Controllers\Web\Private\ReviewsController;
-use App\Http\Controllers\Web\Private\EventsController;
+use App\Http\Controllers\Web\Private\PostController;
+use App\Http\Controllers\Web\Private\ReviewController;
+use App\Http\Controllers\Web\Private\EventController;
 use App\Http\Controllers\Web\Private\RadioController;
 use App\Http\Controllers\Web\Private\PodcastsController;
 use App\Http\Controllers\Web\Private\MarketingController;
@@ -36,23 +36,23 @@ Route::prefix('painel')->group(function () {
                 Route::post('{task:uuid}/complete', 'markTaskCompleted');
             });
         });
-        Route::prefix('materias')->controller(PostsController::class)->group(function () {
+        Route::prefix('materias')->controller(PostController::class)->group(function () {
             Route::get('', 'render')->name('painel.materias');
             Route::post('', 'createPost');
             Route::patch('{post:uuid}', 'updatePost');
             Route::get('{post:uuid}', 'showPost');
             });
-        Route::prefix('reviews')->controller(ReviewsController::class)->group(function () {
+        Route::prefix('reviews')->controller(ReviewController::class)->group(function () {
             Route::get('', 'render')->name('painel.reviews');
             Route::post('', 'createReview');
             Route::patch('{review:uuid}', 'updateReview');
             Route::get('{review:uuid}', 'showReview');
         });
-        Route::prefix('eventos')->controller(EventsController::class)->group(function () {
+        Route::prefix('eventos')->controller(EventController::class)->group(function () {
             Route::get('', 'render')->name('painel.eventos');
             Route::post('', 'createEvent');
-            Route::patch('{event}', 'updateEvent');
-            Route::get('{event:slug}', 'showEvent');
+            Route::patch('{event:uuid}', 'updateEvent');
+            Route::get('{event:uuid}', 'showEvent');
         });
         Route::prefix('locucao')->controller(OnairController::class)->group(function () {
             Route::prefix('broadcast')->group(function () {

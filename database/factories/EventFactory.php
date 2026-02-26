@@ -22,7 +22,7 @@ class EventFactory extends Factory
             'image' => 'https://placehold.co/500x500?text=Rede%20Akiba%20Placeholder',
             'title' => fake()->word(),
             'content' => fake()->paragraph(),
-            'dates' => fake()->word(),
+            'dates' => fake()->date(),
             'address' => fake()->address(),
         ];
     }

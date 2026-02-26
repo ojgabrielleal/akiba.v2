@@ -1,7 +1,6 @@
 <script>
 
     import { useForm, Link, page } from "@inertiajs/svelte";
-    import { Meta } from "@/config/meta";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
     import { hasPermission } from "@/utils";
@@ -55,7 +54,6 @@
     }
 </script>
 
-<Meta meta={{ title: post?.data.title }} />
 <Section title={post ? `Atualizar matéria` : "Criar matéria"}>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         <Link preserveState={false} href="/painel/materias" class="cursor-pointer border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-center text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">

@@ -1,10 +1,15 @@
 <script>
-	import { onMount } from 'svelte';
     import { useForm, page, Link } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
+    import { hasPermission } from "@/utils";
 
-    $: ({ publication } = $page.props);
+    $: ({ event } = $page.props);
+
+    let permissions = {
+        show_button_create: hasPermission('event.create'),
+        show_button_update: hasPermission('event.update'),
+    }
 
     let form = useForm({
         _method: null,
@@ -16,31 +21,28 @@
         address: null,
     });
 
-    onMount(()=>{
-        if(publication){
-            $form._method = "PUT",
-            $form.image = publication.image,
-            $form.title = publication.title,
-            $form.cover = publication.cover,
-            $form.content = publication.content,
-            $form.dates = publication.dates,
-            $form.address = publication.address
-        }
-    })
+    $: if(event){
+        $form._method = "PATCH",
+        $form.image = event.data.image,
+        $form.title = event.data.title,
+        $form.cover = event.data.cover,
+        $form.content = event.data.content,
+        $form.dates = event.data.dates,
+        $form.address = event.data.address
+    }
 
-     const submit = () => {
-        let url = publication ? `/painel/eventos/update/${publication.id}` : '/painel/eventos/create';
+    const submit = () => {
+        let url = event ? `/painel/eventos/${event.data.uuid}` : '/painel/eventos';
         $form.post(url, {
-            preserveState: publication,
+            preserveState: event,
             onSuccess: () => {
-                publication ? null : $form.reset();
+                event ? null : $form.reset();
             },
         });
-        
     }
 </script>
 
-<Section title={publication ? "Editar evento" : "Criar evento"}>
+<Section title={event ? "Atualizar evento" : "Criar evento"}>
     <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap">
         <Link preserveState={false} href="/painel/materias" class="cursor-pointer border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-center text-xl uppercase italic font-noto-sans font-bold w-full lg:w-auto py-2 px-6">
             Matérias
@@ -62,7 +64,7 @@
                     name="image" 
                     src={$form.image} 
                     oninput={event => $form.image = event.target.files[0]} 
-                    required={publication ? false : true}
+                    required={event ? false : true}
                 />
             </div>
             <div class="mb-3">
@@ -88,7 +90,7 @@
                         viewobject="object-cover"
                         src={$form.cover}  
                         oninput={event => $form.cover = event.target.files[0]} 
-                        required={publication ? false : true}
+                        required={event ? false : true}
                     />
                 </div>
                 <div class="mb-8">
@@ -103,7 +105,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full xl:w-[85rem] ml-auto">
+        <div class="w-full xl:w-[80rem] 2xl:w-[85rem] ml-auto">
             <div class="gap-3 grid grid-cols-1 xl:grid-cols-2 xl:gap-10">
                 <div>
                     <div class="grid grid-cols-1 xl:grid-cols-[5rem_1fr] items-center">
@@ -138,13 +140,11 @@
             </div>
         </div>
         <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-10">
-            <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                {#if publication}
-                    Atualizar 
-                {:else}
-                    Publicar 
-                {/if}
-            </button>
+            {#if (permissions.show_button_create || permissions.show_button_update)}
+                <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
+                    {event ? 'Atualizar evento' : 'Publicar evento'}
+                </button>
+            {/if}
         </div>
     </form>
 </Section>

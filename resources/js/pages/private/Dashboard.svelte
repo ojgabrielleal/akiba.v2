@@ -3,8 +3,8 @@
     import { Meta } from "@/config/meta";
     import { Layout } from "@/layouts/private/";
     import { GreatingHero } from "@/ui/widgets/private/hero";
-    import { ActivitiesCarrousel, TasksCarrousel } from "@/ui/widgets/private/carrousel";
-    import { PostsGrid, CalendarGrid } from "@/ui/widgets/private/grid";
+    import { ActivityCarrousel, TaskCarrousel } from "@/ui/widgets/private/carrousel";
+    import { PostGrid, CalendarGrid } from "@/ui/widgets/private/grid";
 
     $: ({ 
         user
@@ -33,8 +33,8 @@
 <Meta meta={{ title: "Dashboard" }} />
 <Layout>
     <GreatingHero phrase={phraseSwitchHero(user.nickname)} icon="/img/default/avatar.webp"/>
-    <ActivitiesCarrousel title="Avisos e Atividades" />
-    <TasksCarrousel title="Minhas Tarefas"/>
-    <PostsGrid title="Últimas Matérias"  />
+    <ActivityCarrousel title="Avisos e Atividades" />
+    <TaskCarrousel title="Minhas Tarefas"/>
+    <PostGrid title="Últimas Matérias"  />
     <CalendarGrid title="Calendário" />
 </Layout>

@@ -6,34 +6,40 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-use App\Traits\HasFlashMessages;
-use App\Services\Process\ImageService;
-
 use App\Models\Event;
 
-class EventsController extends Controller
+use App\Http\Resources\EventIndexResource;
+use App\Http\Resources\EventShowResource;
+
+use App\Services\Process\ImageProcessService;
+use App\Traits\HasFlashMessages;
+
+class EventController extends Controller
 {
     use HasFlashMessages;
 
-    private ImageService $image;
-    private $render = 'private/Events';
+    private ImageProcessService $image;
+    private $render = 'private/Event';
 
-    public function __construct(ImageService $image)
+    public function __construct(ImageProcessService $image)
     {
         $this->image = $image;
     }
 
     public function indexEvents()
     {
-        return Event::active()
+        return EventIndexResource::collection(
+            Event::active()
                 ->with('author')
-                ->paginate(10);
+                ->paginate(10)
+        );
     }
 
     public function showEvent(Event $event)
     {
         return Inertia::render($this->render, [
-            'event' => $event->load('author'),
+            'event' => new EventShowResource($event->load('author')),
+            'events' => $this->indexEvents()
         ]);
     }
 
@@ -72,7 +78,7 @@ class EventsController extends Controller
             'address' => $request->input('address', $event->address),
         ]);
 
-        if($event->isDirty()){
+        if ($event->isDirty()) {
             $event->save();
         }
 
@@ -83,7 +89,7 @@ class EventsController extends Controller
     public function render()
     {
         return Inertia::render($this->render, [
-            "publications" => $this->indexEvents(),
+            "events" => $this->indexEvents(),
         ]);
     }
 }

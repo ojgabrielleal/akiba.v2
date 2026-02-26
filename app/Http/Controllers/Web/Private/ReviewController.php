@@ -14,14 +14,12 @@ use App\Http\Resources\ReviewShowResource;
 use App\Services\Process\ImageProcessService;
 use App\Traits\HasFlashMessages;
 
-use function PHPSTORM_META\map;
-
-class ReviewsController extends Controller
+class ReviewController extends Controller
 {
     use HasFlashMessages;
 
     private ImageProcessService $image;
-    private $render = 'private/Reviews';
+    private $render = 'private/Review';
 
     public function __construct(ImageProcessService $image)
     {

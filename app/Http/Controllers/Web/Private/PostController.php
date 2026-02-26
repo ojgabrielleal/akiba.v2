@@ -16,13 +16,12 @@ use App\Services\Process\ImageProcessService;
 use App\Traits\HasFlashMessages;
 use App\Traits\ResolvesUserLogged;
 
-
-class PostsController extends Controller
+class PostController extends Controller
 {
     use HasFlashMessages, ResolvesUserLogged;
 
     private ImageProcessService $image;
-    private $render = 'private/Posts';
+    private $render = 'private/Post';
 
     public function __construct(ImageProcessService $image)
     {

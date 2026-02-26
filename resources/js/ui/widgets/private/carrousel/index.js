@@ -1,2 +1,2 @@
-export { default as ActivitiesCarrousel } from "./ActivitiesCarrousel.svelte"
-export { default as TasksCarrousel } from "./TasksCarrousel.svelte"
+export { default as ActivityCarrousel } from "./ActivityCarrousel.svelte"
+export { default as TaskCarrousel } from "./TaskCarrousel.svelte"
