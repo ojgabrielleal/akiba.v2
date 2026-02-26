@@ -49,7 +49,7 @@
                                 {'text-orange-amber bg-blue-midnight': item.is_due},
                                 {'text-blue-midnight bg-neutral-aurora': !item.is_due}
                             ]}>
-                                {item.deadline}
+                                {item.dead_line}
                             </dd>
                         </dl>
                         {#if permissions.show_button_complete}

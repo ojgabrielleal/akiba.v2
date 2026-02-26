@@ -99,12 +99,12 @@ class TaskTest extends TestCase
         $user = User::factory()->create();
 
         $overTask = Task::factory()->for($user, 'responsible')->create([
-            'deadline' => '2026-01-15',
+            'dead_line' => '2026-01-15',
             'is_completed' => false
         ]);
 
         $farTask = Task::factory()->for($user, 'responsible')->create([
-            'deadline' => '2026-01-30',
+            'dead_line' => '2026-01-30',
             'is_completed' => false
         ]);
 
@@ -122,7 +122,7 @@ class TaskTest extends TestCase
         $user = User::factory()->create();
 
         $dueTask = Task::factory()->for($user, 'responsible')->create([
-            'deadline' => '2026-01-25',
+            'dead_line' => '2026-01-25',
             'is_completed' => false
         ]);
 

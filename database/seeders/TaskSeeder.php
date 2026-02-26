@@ -24,14 +24,14 @@ class TaskSeeder extends Seeder
             ->count(5)
             ->for(User::find(1), 'responsible')
             ->create([
-                'deadline' => fn() => fake()->dateTimeBetween(now()->startOfWeek(), now()->endOfWeek())->format('Y-m-d')
+                'dead_line' => fn() => fake()->dateTimeBetween(now()->startOfWeek(), now()->endOfWeek())->format('Y-m-d')
             ]);
 
         Task::factory()
             ->count(5)
             ->for(User::find(1), 'responsible')
             ->create([
-                'deadline' => fn() => fake()->dateTimeBetween(now(), now()->endOfYear())->format('Y-m-d')
+                'dead_line' => fn() => fake()->dateTimeBetween(now(), now()->endOfYear())->format('Y-m-d')
             ]);
     }
 }

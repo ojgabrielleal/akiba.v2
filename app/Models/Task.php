@@ -20,13 +20,13 @@ class Task extends Model
         'user_id',
         'is_completed',
         'title',
-        'deadline',
+        'dead_line',
         'content',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'deadline' => 'date:Y-m-d',
+        'dead_line' => 'date:Y-m-d',
         'is_completed' => 'boolean',
     ];
 
@@ -44,8 +44,8 @@ class Task extends Model
                     return false;
                 }
 
-                $deadline = $this->deadline;
-                return $deadline->isPast();
+                $dead_line = $this->dead_line;
+                return $dead_line->isPast();
             }
         );
     }
@@ -58,8 +58,8 @@ class Task extends Model
                     return false;
                 }
 
-                $deadline = $this->deadline;
-                return $deadline->between(today(), today()->addDays(7));
+                $dead_line = $this->dead_line;
+                return $dead_line->between(today(), today()->addDays(7));
             }
         );
     }

@@ -20,7 +20,7 @@ class TaskFactory extends Factory
         return [
             'is_active' => true,
             'is_completed' => false,
-            'deadline' => fake()->date(),
+            'dead_line' => fake()->date(),
             'title' => fake()->words(5, true),
             'content' => fake()->paragraph(),
         ];
