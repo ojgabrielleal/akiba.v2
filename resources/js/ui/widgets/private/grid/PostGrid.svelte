@@ -22,9 +22,9 @@
                 {#each posts.data as item}
                     {@const showButtonUpdate = permissions.show_button_update || (permissions.show_button_update_own && item.author.uuid === user.uuid)}
                     <article class={["w-full h-[14rem] rounded-lg p-4 relative", 
-                        {'bg-blue-skywave': item.status === 'published'},
-                        {'bg-orange-amber': item.status === 'revision'},
-                        {'bg-green-forest': item.status === 'sketch'},
+                        {'bg-blue-skywave': item.type === 'published'},
+                        {'bg-orange-amber': item.type === 'revision'},
+                        {'bg-green-forest': item.type === 'draft'},
                     ]}>
                         <div class="font-noto-sans text-lg text-neutral-aurora line-clamp-5 uppercase">
                             {item.title}

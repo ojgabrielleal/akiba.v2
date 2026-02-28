@@ -41,6 +41,12 @@ class AutoDJ extends Model
      * Use these methods to access related data via Eloquent relationships
      * (hasOne, hasMany, belongsTo, belongsToMany, etc.).
      */
+
+    public function onair()
+    {
+        return $this->morphMany(Onair::class, 'program');
+    }
+
     public function host()
     {
         return $this->belongsTo(User::class, 'user_id');

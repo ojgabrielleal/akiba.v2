@@ -16,22 +16,18 @@ class ReviewSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::find(1);
+        $adminContent = ReviewContent::factory()
+            ->for(User::find(1), 'author');
 
-        $reviewForUserAdmin = ReviewContent::factory()
-            ->for($user, 'author')
-            ->count(5);
-
-        $reviewsForAnotherUsers = ReviewContent::factory()
-            ->for(User::factory()->create(), 'author')
-            ->count(5);
+        $userContent = ReviewContent::factory()
+            ->for(User::factory()->create(), 'author');
 
         Review::factory()
-            ->has($reviewForUserAdmin, 'reviews')
+            ->has($adminContent, 'reviews')
             ->create();
             
         Review::factory()
-            ->has($reviewsForAnotherUsers, 'reviews')
+            ->has($userContent, 'reviews')
             ->create();
     }
 }

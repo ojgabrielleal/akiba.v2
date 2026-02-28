@@ -19,7 +19,7 @@ class ProgramFactory extends Factory
         return [
             'is_active' => true,
             'name' => fake()->name(),
-            'image' => '/img/onair/default/program.webp',
+            'image' => '/img/broadcast/default/program.webp',
             'allows_all' => fake()->boolean(),
         ];
     }

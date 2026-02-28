@@ -15,9 +15,12 @@
 <Meta meta={{ title: "Locução" }} />
 <Layout>
     <BroadcastForm/>
+    <!--
     <ListenerRequestGrid/>
+    -->
 </Layout>
 
+<!--
 {#if verify.onair === true && verify.streamer === false}
     <section transition:fade={{duration: 500}} class="fixed inset-0 flex items-center justify-center p-2 lg:p-0 z-50 bg-[#00000036]">
         <div class="w-full lg:w-[20.9rem] p-5 rounded-lg bg-neutral-aurora">
@@ -40,3 +43,4 @@
         </div>
     </section>
 {/if}
+    -->

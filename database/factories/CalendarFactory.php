@@ -19,7 +19,7 @@ class CalendarFactory extends Factory
         return [
             'time' => fake()->time(),
             'date' => fake()->dateTimeBetween(now()->startOfWeek(), now()->endOfWeek())->format('Y-m-d'),
-            'category' => fake()->randomElement(['show', 'live', 'youtube', 'podcast']),
+            'type' => fake()->randomElement(['show', 'live', 'video', 'podcast', 'activity']),
             'content' => fake()->word()
         ];
     }

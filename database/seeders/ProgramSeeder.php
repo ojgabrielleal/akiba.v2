@@ -17,8 +17,13 @@ class ProgramSeeder extends Seeder
     public function run(): void
     {
         Program::factory()
+            ->for(User::find(1), 'host')
+            ->has(ProgramSchedule::factory(), 'schedules')
+            ->create();        
+
+        Program::factory()
             ->for(User::factory()->create(), 'host')
-            ->has(ProgramSchedule::factory()->count(3), 'schedules')
+            ->has(ProgramSchedule::factory(), 'schedules')
             ->create();
     }
 }

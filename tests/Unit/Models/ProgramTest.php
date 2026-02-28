@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Models\User;
+use App\Models\Onair;
 use App\Models\Program;
 use App\Models\ProgramSchedule;
 
@@ -45,6 +46,21 @@ class ProgramTest extends TestCase
         );
     }
 
+    public function testOnairRelationshipReturnsOnair(): void
+    {
+        $user = User::factory()->create();
+
+        $program = Program::factory()
+            ->for($user, 'host')
+            ->create();
+
+        $onair = Onair::factory()
+            ->for($program, 'program')
+            ->create();
+
+        $this->assertTrue($program->onair->contains($onair));
+    }
+
     /**
      * Tests from Program model scopes.
      */
@@ -66,19 +82,21 @@ class ProgramTest extends TestCase
         $this->assertFalse($activePrograms->contains($inactiveProgram));
     }
 
-    /**
-     * Tests from Post model mutators.
-     */
-    public function testNameMutatorSetsSlugCorrectly(): void
+    public function testScopeAllowsAllReturnProgramas(): void
     {
         $user = User::factory()->create();
 
-        $program = Program::factory()
+        $allprograms = Program::factory()
             ->for($user, 'host')
-            ->create([
-                'name' => 'Sample Program Title'
-            ]);
+            ->create(['allows_all' => true]);
 
-        $this->assertEquals('sample-program-title', $program->slug);
+        $privateprograms = Program::factory()
+            ->for($user, 'host')
+            ->create(['allows_all' => false]);
+
+        $programs = Program::allowsAll()->get();
+
+        $this->assertTrue($programs->contains($allprograms));
+        $this->assertFalse($programs->contains($privateprograms));
     }
 }

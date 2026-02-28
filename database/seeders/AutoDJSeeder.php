@@ -16,12 +16,9 @@ class AutoDJSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::factory()->create();
-        $phrases = AutoDJPhrase::factory()->count(5);
-
         AutoDJ::factory()
-            ->for($user, 'host')
-            ->has($phrases, 'phrases')
+            ->for(User::factory()->create(), 'host')
+            ->has(AutoDJPhrase::factory(), 'phrases')
             ->create();
     }
 }

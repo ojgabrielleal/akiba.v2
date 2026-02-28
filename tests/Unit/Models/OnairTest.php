@@ -25,10 +25,9 @@ class OnairTest extends TestCase
             ->for($user, 'host')
             ->create();
 
-        $onair = Onair::factory()->create([
-            'program_id' => $program->id,
-            'program_type' => Program::class
-        ]);
+        $onair = Onair::factory()
+            ->for($program, 'program')
+            ->create();
 
         $this->assertTrue($onair->program->is($program));
     }
@@ -44,17 +43,17 @@ class OnairTest extends TestCase
             ->for($user, 'host')
             ->create();
 
-        $liveOnair = Onair::factory()->create([
-            'is_live' => true,
-            'program_id' => $program->id,
-            'program_type' => Program::class
-        ]);
+        $liveOnair = Onair::factory()
+            ->for($program, 'program')
+            ->create([
+                'is_live' => true,
+            ]);
 
-        $notLiveOnair = Onair::factory()->create([
-            'is_live' => false,
-            'program_id' => $program->id,
-            'program_type' => Program::class
-        ]);
+        $notLiveOnair = Onair::factory()
+            ->for($program, 'program')
+            ->create([
+                'is_live' => false,
+            ]);
 
         $onairs = Onair::live()->get();
 

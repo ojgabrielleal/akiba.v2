@@ -21,7 +21,7 @@ class Music extends Model
         'name',
         'in_ranking',
         'image_ranking',
-        'song_request_count',
+        'song_requests_total',
     ];
 
     /**

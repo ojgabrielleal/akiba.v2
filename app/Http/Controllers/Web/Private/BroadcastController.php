@@ -6,21 +6,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-use App\Traits\HasFlashMessages;
-
 use App\Models\Onair;
 use App\Models\Program;
 use App\Models\AutoDJ;
 use App\Models\SongRequest;
 
-use App\Services\External\DiscordWebhookService;
+use App\Http\Resources\ProgramIndexResource;
+use App\Http\Resources\OnairShowResource;
 
-class OnairController extends Controller
+use App\Services\External\DiscordWebhookService;
+use App\Traits\HasFlashMessages;
+
+class BroadcastController extends Controller
 {
     use HasFlashMessages;
 
     private DiscordWebhookService $discord;
-    private $render = 'private/Medias';
+    private $render = 'private/Broadcast';
 
     public function __construct(DiscordWebhookService $discord)
     {
@@ -29,52 +31,57 @@ class OnairController extends Controller
 
     public function indexPrograms()
     {
-        return Program::active()
-            ->where('user_id', request()->user()->id)
-            ->orWhere('allows_all', true)
-            ->get();
+        return ProgramIndexResource::collection(
+            Program::active()
+                ->where(function($q) {
+                    $q->where('user_id', request()->user()->id)
+                        ->orWhere('allows_all', true);
+                })
+                ->get()
+        );
     }
 
     public function indexSongRequests()
     {
-        $onair = Onair::live()->firstOrFail();
+        $onair = Onair::live()->get();
         return SongRequest::queued()
             ->where('onair_id', $onair->id)
             ->get();
     }
 
-    public function startBroadcast(Request $request)
+    public function showOnair()
+    {
+        return new OnairShowResource(Onair::live()->first());
+    }
+
+    public function startBroadcast(Request $request, Program $program)
     {
         $request ->validate([
-            'program' => 'required',
-            'phrase' => 'required',
+            'phrase' => 'required', 
             'image' => 'required'
         ]);
 
-        $onair = Onair::live()->firstOrFail();
-        $program = Program::findOrFail($request->input('program'));
-
-        $onair->update([
+        Onair::live()->first()->update([
             'is_live' => false,
-            'allows_songs_requests' => false,
+            'song_requests_total' => false,
         ]);
 
         $program->onair()->create([
             'phrase' => $request->input('phrase'),
             'image' => $request->input('image'),
-            'allows_songs_requests' => true,
+            'song_requests_total' => true,
             'type' => 'live',
         ]);
 
         $this->discord->sendHookMessage(request()->user(), $program);
-        return $this->flashMessage('startBroadcast');
+        return $this->flashMessage('start');
     }
 
     public function finishBroadcast()
     {
-        $onair = Onair::live()->firstOrFail();
+        $onair = Onair::live()->get();
         $songRequests = SongRequest::queued()->where('onair_id', $onair->id)->get();
-        $autoDJ = AutoDJ::with('phrases')->firstOrFail();
+        $autoDJ = AutoDJ::with('phrases')->get();
         $autoDJPhrase = $autoDJ->phrases->random();
 
         $songRequests->update([
@@ -83,7 +90,7 @@ class OnairController extends Controller
 
         $onair->update([
             'is_live' => false,
-            'allows_songs_requests' => false,
+            'song_requests_total' => false,
         ]);
 
         $autoDJ->onair()->create([
@@ -106,9 +113,9 @@ class OnairController extends Controller
 
     public function toggleSongRequestBoxEnabled()
     {
-        $onair = Onair::live()->firstOrFail();
+        $onair = Onair::live()->get();
         $onair->update([
-            'allows_songs_requests' => !$onair->allows_songs_requests,
+            'song_requests_total' => !$onair->song_requests_total,
         ]);
 
         return $this->flashMessage('save');
@@ -118,7 +125,8 @@ class OnairController extends Controller
     {
         return Inertia::render($this->render, [
             "programs" => $this->indexPrograms(),
-            "songRequests" => $this->indexSongRequests(),
+            "onair" => $this->showOnair(),
+            //"songRequests" => $this->indexSongRequests(),
         ]);
     }
 }

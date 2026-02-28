@@ -5,16 +5,19 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TaskIndexResource extends JsonResource
+class ProgramIndexResource extends JsonResource
 {
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
     public function toArray(Request $request): array
     {
         return [
             'uuid' => $this->uuid,
-            'is_due' => $this->is_due || $this->is_over,
-            'dead_line' => $this->dead_line?->format('d/m'),
-            'title' => $this->title,
-            'content' => $this->content,
+            'name' => $this->name, 
+            'image' => $this->image
         ];
     }
 }

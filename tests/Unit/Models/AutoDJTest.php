@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 use App\Models\User;
+use App\Models\Onair;
 use App\Models\AutoDJ;
 use App\Models\AutoDJPhrase;
 
@@ -17,6 +18,21 @@ class AutoDJTest extends TestCase
     /**
      * Tests from AutoDJ model relationships.
      */
+    public function testOnairRelationshipReturnsOnair(): void
+    {
+        $user = User::factory()->create();
+
+        $autoDJ = AutoDJ::factory()
+            ->for($user, 'host')
+            ->create();
+
+        $onair = Onair::factory()
+            ->for($autoDJ, 'program')
+            ->create();
+
+        $this->assertTrue($autoDJ->onair->contains($onair));
+    }
+
     public function testHostRelationshipReturnsUser(): void
     {
         $user = User::factory()->create();
@@ -40,10 +56,8 @@ class AutoDJTest extends TestCase
 
         $this->assertCount(5, $autoDJ->phrases);
         $this->assertContainsOnlyInstancesOf(
-            AutoDJPhrase::class, 
+            AutoDJPhrase::class,
             $autoDJ->phrases
         );
     }
-
 }
-

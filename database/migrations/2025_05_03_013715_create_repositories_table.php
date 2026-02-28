@@ -17,7 +17,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->string('image')->nullable();
             $table->string('url');
-            $table->string('type');
+            $table->enum('type', ['tutorial', 'package', 'software']);
             $table->string('name');
             $table->timestamps();
         });

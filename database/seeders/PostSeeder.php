@@ -19,7 +19,6 @@ class PostSeeder extends Seeder
     public function run(): void
     {
         Post::factory()
-            ->count(5)
             ->for(User::factory()->create(), 'author')
             ->has(PostReference::factory()->count(3), 'references')
             ->has(PostReaction::factory()->count(3), 'reactions')
@@ -27,7 +26,6 @@ class PostSeeder extends Seeder
             ->create();
 
         Post::factory()
-            ->count(5)
             ->for(User::find(1), 'author')
             ->has(PostReference::factory()->count(3), 'references')
             ->has(PostReaction::factory()->count(3), 'reactions')

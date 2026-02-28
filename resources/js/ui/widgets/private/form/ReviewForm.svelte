@@ -103,7 +103,7 @@
                         id="title"
                         type="text"
                         name="title"
-                        class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
+                        class="w-full h-12 bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                         bind:value={$form.title}
                         required
                     />

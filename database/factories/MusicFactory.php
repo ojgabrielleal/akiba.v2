@@ -24,7 +24,7 @@ class MusicFactory extends Factory
             'name' => fake()->name(),
             'in_ranking' => fake()->boolean(0.5),
             'image_ranking' => '/img/default/avatar.webp',
-            'song_request_count' => fake()->randomDigit(),
+            'song_requests_total' => fake()->randomDigit(),
         ];
     }
 }

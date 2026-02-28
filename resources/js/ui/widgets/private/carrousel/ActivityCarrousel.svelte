@@ -19,11 +19,11 @@
 
 {#if activities}
     <Section {title}>
-        <div class="scroll-x flex gap-5 overflow-x-auto flex-nowrap" on:wheel={scrollx} role="group">
+        <div class="scroll-x overflow-x-auto flex gap-5 flex-nowrap" on:wheel={scrollx} role="group">
             {#if activities.data.length > 0}
                 {#each activities.data as item}  
                     {@const showButtonParticipate = permissions.show_button_participate && !item.confirmations.some(conf => conf.confirmer.uuid === user.uuid)}
-                    <article class={['w-100 h-50 lg:w-[29rem] flex-shrink-0 rounded-lg p-4 relative',
+                    <article class={['w-100 h-50 lg:w-116 shrink-0 rounded-lg p-4 relative',
                         {'bg-neutral-honeycream': item.allows_confirmations},
                         {'bg-blue-skywave': !item.allows_confirmations}
                     ]}>

@@ -27,10 +27,9 @@ class ListenerMonthTest extends TestCase
             ->for($user, 'host')
             ->create();
 
-        $onair = Onair::factory()->create([
-            'program_id' => $program->id,
-            'program_type' => Program::class
-        ]);
+        $onair = Onair::factory()
+            ->for($program, 'program')
+            ->create();
 
         $music = Music::factory()->create();
 
@@ -60,10 +59,9 @@ class ListenerMonthTest extends TestCase
         $user = User::factory()->create();
         $program = Program::factory()->for($user, 'host')->create();
 
-        $onair = Onair::factory()->create([
-            'program_id' => $program->id,
-            'program_type' => Program::class
-        ]);
+        $onair = Onair::factory()
+            ->for($program, 'program')
+            ->create();
 
         $music = Music::factory()->create();
 

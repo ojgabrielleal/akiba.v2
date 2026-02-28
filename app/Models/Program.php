@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Program extends Model
@@ -18,7 +16,6 @@ class Program extends Model
         'uuid',
         'is_active',
         'user_id',
-        'slug',
         'name',
         'image',
         'allows_all',
@@ -32,16 +29,6 @@ class Program extends Model
     protected $hidden = [
         'user_id',
     ];
-
-    protected function name(): Attribute
-    {
-        return Attribute::make(
-            set: fn(string $value) => [
-                'name' => $value,
-                'slug' => Str::slug($value),
-            ],
-        );
-    }
 
     /**
      * Determine the columns that should receive a unique identifier.
@@ -66,12 +53,22 @@ class Program extends Model
         return $query->where('is_active', true);
     }
 
+    public function scopeAllowsAll($query)
+    {
+        return $query->where('allows_all', true);
+    }
+
     /**
      * Define the relationships between this model and other models.
      *
      * Use these methods to access related data via Eloquent relationships
      * (hasOne, hasMany, belongsTo, belongsToMany, etc.).
      */
+    public function onair()
+    {
+        return $this->morphMany(Onair::class, 'program');
+    }
+
     public function host()
     {
         return $this->belongsTo(User::class, 'user_id');

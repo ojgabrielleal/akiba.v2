@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('title');
             $table->longText('content');
             $table->string('cover')->nullable();
-            $table->string('status');
+            $table->enum('type', ['published', 'revision', 'draft']);
             $table->timestamps();
         });
     }

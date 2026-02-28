@@ -4,7 +4,7 @@
     import { page } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { hasPermission } from "@/utils";
-    import tags from "@/data/calendar/tags.json";
+    import tag from "@/data/calendar/tag.json";
 
     $: ({ calendar } = $page.props);
     
@@ -39,7 +39,7 @@
 {#if calendar}
     <Section {title}>
         <div  class="w-full grid gap-5 grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">
-            {#each tags as item}
+            {#each tag as item}
                 <span class={`h-10 text-lg font-noto-sans font-bold uppercase italic rounded-lg flex justify-center items-center ${item.color} ${item.textcolor}`}>
                     {item.label}
                 </span>
@@ -53,11 +53,11 @@
                     </div>
                     {#each day.events as item}
                         <div class={["w-full 2xl:w-[12.7rem] bg-blue-skywave rounded-lg pt-4 pl-4 pr-4 pb-3 mt-5", 
-                            {'bg-blue-skywave': item.category === 'show'},
-                            {'bg-purple-mystic': item.category === 'live'},
-                            {'bg-red-crimson': item.category === 'youtube'},
-                            {'bg-green-forest': item.category === 'podcast'},
-                            {'bg-neutral-honeycream': item.category === 'activity'},
+                            {'bg-blue-skywave': item.type === 'show'},
+                            {'bg-purple-mystic': item.type === 'live'},
+                            {'bg-red-crimson': item.type === 'video'},
+                            {'bg-green-forest': item.type === 'podcast'},
+                            {'bg-neutral-honeycream': item.type === 'activity'},
                         ]}>
                             <div class="flex events-center">
                                 <div class={["w-full font-noto-sans text-2xl text-center uppercase", 

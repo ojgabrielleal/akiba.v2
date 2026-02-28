@@ -18,16 +18,8 @@ class SongRequestSeeder extends Seeder
      */
     public function run(): void
     {
-        $program = Program::factory()
-            ->for(User::factory()->create(), 'host')
-            ->create();
-
-        $onair = Onair::factory()
-            ->for($program, 'program')
-            ->create();
-
-        $music = Music::factory()
-            ->create();
+        $onair = Onair::find(2);
+        $music = Music::factory()->create();
 
         SongRequest::factory()
             ->for($onair, 'onair')

@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('onair', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->boolean('is_live')->default(false);
+            $table->boolean('is_live')->default(true);
             $table->morphs('program');
             $table->string('image')->nullable();
             $table->string('phrase');
-            $table->string('type')->nullable();
-            $table->boolean('allows_songs_requests')->default(false);
-            $table->integer('song_request_count')->default(0);
+            $table->enum('type', ['auto', 'playlist', 'record', 'live']);
+            $table->boolean('allows_song_requests')->default(false);
+            $table->integer('song_requests_total')->default(0);
             $table->timestamps();
         });
     }

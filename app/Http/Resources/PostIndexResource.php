@@ -12,7 +12,7 @@ class PostIndexResource extends JsonResource
         return [
             'uuid' => $this->uuid,
             'slug' => $this->slug,
-            'status' => $this->status,
+            'type' => $this->type,
             'title' => $this->title,
             'author' => [
                 'uuid' => $this->author->uuid,

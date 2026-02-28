@@ -42,7 +42,7 @@ class RadioController extends Controller
     public function indexMusicRanking()
     {
         return Music::ranking()
-            ->orderBy('song_request_count', 'desc')
+            ->orderBy('song_requests_total', 'desc')
             ->limit(3)
             ->get();
     }
@@ -161,7 +161,7 @@ class RadioController extends Controller
             'in_ranking' => false
         ]);
 
-        $music = Music::orderBy('song_request_count', 'desc')->limit(10)->get();
+        $music = Music::orderBy('song_requests_total', 'desc')->limit(10)->get();
         $music->each(function ($music) {
             $music->update(['in_ranking' => true]);
         });

@@ -12,7 +12,7 @@ class PostShowResource extends JsonResource
     {
         return [
             'uuid' => $this->uuid,
-            'status' => $this->status,
+            'type' => $this->type,
             'title' => $this->title,
             'image' => $this->image,
             'cover' => $this->cover,

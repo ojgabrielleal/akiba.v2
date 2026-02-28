@@ -56,7 +56,7 @@
             id="password"
             type="password"
             name="password"
-            class="w-full h-[2.5rem] bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
+            class="w-full h-10 bg-white font-noto-sans text-md rounded-lg outline-none pl-4 border border-gray-400"
             bind:value={$formPassword.password}
         />
         <div class="text-sm font-noto-sans text-gray-400 mt-1">

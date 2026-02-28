@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             ProgramSeeder::class,
             RepositorySeeder::class,
             ReviewSeeder::class,
+            OnairSeeder::class,
             SongRequestSeeder::class,
             TaskSeeder::class,
         ]);

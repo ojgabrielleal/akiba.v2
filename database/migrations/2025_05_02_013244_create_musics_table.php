@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('musics', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->string('type');
+            $table->enum('type', ['OP', 'ED']);
             $table->string('production');
             $table->string('image')->nullable();
             $table->string('artist');
             $table->string('name');
             $table->boolean('in_ranking')->default(false);
             $table->string('image_ranking')->nullable();
-            $table->integer('song_request_count')->default('0');
+            $table->integer('song_requests_total')->default('0');
             $table->timestamps();
         });
     }

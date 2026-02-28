@@ -16,22 +16,17 @@ class TaskSeeder extends Seeder
     public function run(): void
     {
         Task::factory()
-            ->count(5)
+            ->for(User::factory()->create(), 'responsible')
+            ->create();
+
+        Task::factory()
             ->for(User::find(1), 'responsible')
             ->create();
 
         Task::factory()
-            ->count(5)
             ->for(User::find(1), 'responsible')
             ->create([
                 'dead_line' => fn() => fake()->dateTimeBetween(now()->startOfWeek(), now()->endOfWeek())->format('Y-m-d')
-            ]);
-
-        Task::factory()
-            ->count(5)
-            ->for(User::find(1), 'responsible')
-            ->create([
-                'dead_line' => fn() => fake()->dateTimeBetween(now(), now()->endOfYear())->format('Y-m-d')
             ]);
     }
 }

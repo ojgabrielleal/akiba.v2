@@ -66,7 +66,7 @@ class PostController extends Controller
     public function createPost(Request $request)
     {
         $request->validate([
-            "status" => 'required',
+            "type" => 'required',
             "title" => 'required',
             "content" => 'required',
             'image' => 'required',
@@ -77,7 +77,7 @@ class PostController extends Controller
 
         $post = Post::create([
             'user_id' => request()->user()->id,
-            'status' => $request->input('status'),
+            'type' => $request->input('type'),
             'title' => $request->input('title'),
             'content' => $request->input('content'),
             'image' => $this->image->store('posts', $request->file('image'), 'public'),
@@ -103,7 +103,7 @@ class PostController extends Controller
     public function updatePost(Request $request, Post $post)
     {
         $post->fill([
-            'status' => $request->input('status', $post->status),
+            'type' => $request->input('type', $post->type),
             'title' => $request->input('title', $post->title),
             'content' => $request->input('content', $post->content),
             'image' => $this->image->store('posts', $request->file('image'), 'public', $post->image),

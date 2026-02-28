@@ -15,16 +15,17 @@ class Onair extends Model
     protected $fillable = [
         'uuid',
         'is_live',
-        'show_id',
-        'show_type',
+        'program_id',
+        'program_type',
         'phrase',
         'type',
         'image',
-        'allows_songs_requests',
-        'song_request_count'
+        'allows_song_requests',
+        'song_requests_total'
     ];
 
     protected $casts = [
+        'allows_song_requests' => 'boolean',
         'is_live' => 'boolean'
     ];
 

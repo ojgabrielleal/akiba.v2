@@ -4,7 +4,7 @@
     import { Section } from "@/ui/components/private/";
     import { Preview, Wysiwyg } from "@/ui/components/private";
     import { hasPermission } from "@/utils";
-    import tags from "@/data/posts/tags.json";
+    import tag from "@/data/posts/tag.json";
 
     $: ({ post } = $page.props);
 
@@ -15,7 +15,7 @@
 
     let form = useForm({
         _method: 'POST',
-        status: null,
+        type: null,
         image: null,
         title: null,
         cover: null,
@@ -32,7 +32,7 @@
     
     $: if(post){
         $form._method = 'PATCH';
-        $form.status = post.data.status;
+        $form.type = post.data.type;
         $form.image = post.data.image;
         $form.title = post.data.title;
         $form.cover = post.data.cover;
@@ -44,7 +44,7 @@
     const submit = (event) => {
         let url = post ? `/painel/materias/${post.data.uuid}` : '/painel/materias';
         
-        $form.status = event.submitter.value;
+        $form.type = event.submitter.value;
         $form.post(url, {
             preserveState: post,
             onSuccess: () => {
@@ -88,7 +88,7 @@
                         id="title"
                         type="text"
                         name="title"
-                        class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
+                        class="w-full h-12 bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                         bind:value={$form.title}
                     />
                 </div>
@@ -116,7 +116,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full xl:w-[80rem] 2xl:w-[85rem] ml-auto">
+        <div class="w-full xl:w-7xl 2xl:w-340 ml-auto">
             <div class="gap-2 grid grid-cols-1 md:grid-cols-2 md:gap-10">
                 <div class="mb-8">
                     <label class="text-blue-skywave font-bold italic text-lg text-center uppercase font-noto-sans block mb-1" for="categories">
@@ -125,10 +125,10 @@
                     <select
                         id="categories"
                         name="categories"
-                        class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
+                        class="w-full h-12 bg-neutral-aurora font-noto-sans rounded-lg"
                         bind:value={$form.categories[0].name}
                     >
-                        {#each tags as tag}
+                        {#each tag as tag}
                             <option value={tag.value}>{tag.label}</option>
                         {/each}
                     </select>
@@ -140,11 +140,11 @@
                     <select
                         id="categories"
                         name="categories"
-                        class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg"
+                        class="w-full h-12 bg-neutral-aurora font-noto-sans rounded-lg"
                         bind:value={$form.categories[1].name}
                     >
-                        {#each tags as tag}
-                            <option value={tag.value}>{tag.label}</option>
+                        {#each tag as item}
+                            <option value={item.value}>{item.label}</option>
                         {/each}
                     </select>
                 </div>
@@ -162,7 +162,7 @@
                             id="references"
                             type="text"
                             name="references"
-                            class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
+                            class="w-full h-12 bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             bind:value={$form.references[0].name}
                         />
                     </div>
@@ -174,7 +174,7 @@
                             id="references"
                             type="text"
                             name="references"
-                            class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
+                            class="w-full h-12 bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             bind:value={$form.references[0].url}
                         />
                     </div>
@@ -191,7 +191,7 @@
                             id="references"
                             type="text"
                             name="references"
-                            class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
+                            class="w-full h-12 bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             bind:value={$form.references[1].name}
                         />
                     </div>
@@ -203,7 +203,7 @@
                             id="references"
                             type="text"
                             name="references"
-                            class="w-full h-[3rem] bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
+                            class="w-full h-12 bg-neutral-aurora font-noto-sans rounded-lg outline-none pl-4"
                             bind:value={$form.references[1].url}
                         />
                     </div>
@@ -212,22 +212,22 @@
         </div>
         {#if (permissions.show_button_create || permissions.show_button_update)}
             <div class="flex flex-wrap gap-4 justify-center lg:flex-nowrap mt-15">
-                <button type="submit" value="sketch" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
-                    {#if post?.data.status === 'sketch'} 
+                <button type="submit" value="draft" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
+                    {#if post?.data.type === 'draft'} 
                         Atualizar rascunho
-                    {:else if post?.data.status === 'revision' ||  post?.data.status === 'published'}
+                    {:else if post?.data.type === 'revision' ||  post?.data.type === 'published'}
                         Converter para rascunho 
                     {:else}
                         Salvar como rascunho
                     {/if}
                 </button>
-                {#if post?.data.status !== 'revision' && post?.data.status !== 'published'}
+                {#if post?.data.type !== 'revision' && post?.data.type !== 'published'}
                     <button type="submit" value="revision" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-orange-amber rounded-xl text-orange-amber text-xl font-bold font-noto-sans italic uppercase">
                         Mandar pra revisão
                     </button>
                 {/if}
                 <button type="submit" value="published" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-blue-skywave rounded-xl text-blue-skywave text-xl font-bold font-noto-sans italic uppercase">
-                    {post?.data.status === 'published' ? 'Atualizar matéria' : 'Publicar matéria'}
+                    {post?.data.type === 'published' ? 'Atualizar matéria' : 'Publicar matéria'}
                 </button>
             </div>
         {/if}
