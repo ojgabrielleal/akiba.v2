@@ -15,7 +15,7 @@ class ReviewShowResource extends JsonResource
             'image' => $this->image,
             'title' => $this->title,
             'sinopse' => $this->sinopse,
-            'reviews' => $this->reviews->map(fn ($item) => [
+            'reviews' => $this->reviews->map(fn($item) => [
                 'uuid' => $item->uuid,
                 'content' => $item->content,
                 'author' => [
@@ -23,6 +23,7 @@ class ReviewShowResource extends JsonResource
                     'name' => $item->author->name,
                     'nickname' => $item->author->nickname,
                     'avatar' => $item->author->avatar,
+                    'gender' => $this->author->gender
                 ],
             ]),
         ];

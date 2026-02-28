@@ -4,7 +4,7 @@
     import { hasPermission } from "@/utils";
     import avatarJson from "@/data/broadcast/avatar.json";
 
-    $: ({ programs } = $page.props);
+    $: ({ programs   } = $page.props);
 
     let form = useForm({
         program: null,
@@ -58,9 +58,9 @@
                 {/each}
             </div>
         </div>
-        <div class="flex justify-center">
+        <div class="flex justify-end">
             <button type="submit" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
-                Iniciar programa ao vivo
+                Iniciar
             </button>
         </div>
     </form>

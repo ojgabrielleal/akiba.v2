@@ -21,13 +21,14 @@ class EventShowResource extends JsonResource
             'image' => $this->image,
             'title' => $this->title,
             'content' => $this->content,
-            'dates' => $this->dates, 
+            'dates' => $this->dates,
             'address' => $this->address,
             'author' => [
                 'uuid' => $this->author->uuid,
                 'name' => $this->author->name,
                 'nickname' => $this->author->nickname,
                 'avatar' => $this->author->avatar,
+                'gender' => $this->author->gender
             ]
         ];
     }

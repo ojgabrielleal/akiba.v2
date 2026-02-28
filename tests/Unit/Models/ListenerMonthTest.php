@@ -38,7 +38,7 @@ class ListenerMonthTest extends TestCase
             'music_id' => $music->id,
             'name' => 'John Doe',
             'address' => '123 Main St',
-            'is_played' => true,
+            'was_reproduced' => true,
         ]);
 
         $mostActiveListenerArray = ListenerMonth::mostActiveListenerOfCurrentMonth();
@@ -70,7 +70,7 @@ class ListenerMonthTest extends TestCase
             'music_id'   => $music->id,
             'name'       => 'John Doe',
             'address'    => 'Rua das Flores, 123',
-            'is_played'  => true,
+            'was_reproduced'  => true,
             'created_at' => now(),
         ]);
 

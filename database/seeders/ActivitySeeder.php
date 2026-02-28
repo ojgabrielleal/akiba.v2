@@ -15,7 +15,6 @@ class ActivitySeeder extends Seeder
      */
     public function run(): void
     {
-
         Activity::factory()
             ->for(User::find(1), 'author')
             ->create();

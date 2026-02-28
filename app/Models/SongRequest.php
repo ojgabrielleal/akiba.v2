@@ -14,8 +14,8 @@ class SongRequest extends Model
 
     protected $fillable = [
         'uuid',
-        'is_played',
-        'is_canceled',
+        'was_reproduced',
+        'was_canceled',
         'onair_id',
         'music_id',
         'ip',
@@ -30,8 +30,8 @@ class SongRequest extends Model
     ];
 
     protected $casts = [
-        'is_played' => 'boolean',
-        'is_canceled' => 'boolean'
+        'was_reproduced' => 'boolean',
+        'was_canceled' => 'boolean'
     ];
 
     /**
@@ -44,22 +44,6 @@ class SongRequest extends Model
     public function uniqueIds(): array
     {
         return ['uuid'];
-    }
-
-    /**
-     * Query scopes for this model.
-     *
-     * These methods define reusable query filters that can be
-     * applied to Eloquent queries (e.g., active()).
-     */
-    public function scopePlayed($query)
-    {
-        return $query->where('is_played', true);
-    }
-
-    public function scopeQueued($query)
-    {
-        return $query->where('is_played', false);
     }
 
     /**

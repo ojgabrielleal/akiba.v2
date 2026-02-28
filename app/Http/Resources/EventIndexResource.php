@@ -19,13 +19,15 @@ class EventIndexResource extends JsonResource
             'slug' => $this->slug,
             'cover' => $this->cover,
             'title' => $this->title,
-            'dates' => $this->dates, 
+            'dates' => $this->dates,
             'address' => $this->address,
             'author' => [
                 'uuid' => $this->author->uuid,
                 'name' => $this->author->name,
                 'nickname' => $this->author->nickname,
                 'avatar' => $this->author->avatar,
+                'gender' => $this->author->gender
+
             ]
         ];
     }

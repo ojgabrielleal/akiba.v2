@@ -22,6 +22,7 @@ class PostShowResource extends JsonResource
                 'name' => $this->author->name,
                 'nickname' => $this->author->nickname,
                 'avatar' => $this->author->avatar,
+                'gender' => $this->author->gender
             ],
             'references' => $this->references->map(fn($item) => [
                 'uuid' => $item->uuid,
@@ -36,6 +37,6 @@ class PostShowResource extends JsonResource
                 'uuid' => $item->uuid,
                 'name' => $item->name,
             ])
-        ];        
+        ];
     }
 }

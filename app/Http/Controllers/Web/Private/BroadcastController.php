@@ -11,8 +11,9 @@ use App\Models\Program;
 use App\Models\AutoDJ;
 use App\Models\SongRequest;
 
-use App\Http\Resources\ProgramIndexResource;
 use App\Http\Resources\OnairShowResource;
+use App\Http\Resources\ProgramIndexResource;
+use App\Http\Resources\SongRequestIndexResource;
 
 use App\Services\External\DiscordWebhookService;
 use App\Traits\HasFlashMessages;
@@ -43,15 +44,16 @@ class BroadcastController extends Controller
 
     public function indexSongRequests()
     {
-        $onair = Onair::live()->get();
-        return SongRequest::queued()
-            ->where('onair_id', $onair->id)
-            ->get();
+        $onair = Onair::live()->first();
+
+        return SongRequestIndexResource::collection(
+            SongRequest::where('onair_id', $onair->id)->get()
+        );
     }
 
     public function showOnair()
     {
-        return new OnairShowResource(Onair::live()->first());
+        return new OnairShowResource(Onair::live()->with('program.host')->first());
     }
 
     public function startBroadcast(Request $request, Program $program)
@@ -67,10 +69,10 @@ class BroadcastController extends Controller
         ]);
 
         $program->onair()->create([
+            'type' => 'live',
             'phrase' => $request->input('phrase'),
             'image' => $request->input('image'),
-            'song_requests_total' => true,
-            'type' => 'live',
+            'allows_song_requests' => true,
         ]);
 
         $this->discord->sendHookMessage(request()->user(), $program);
@@ -85,7 +87,7 @@ class BroadcastController extends Controller
         $autoDJPhrase = $autoDJ->phrases->random();
 
         $songRequests->update([
-            'is_canceled' => true,
+            'was_canceled' => true,
         ]);
 
         $onair->update([
@@ -105,7 +107,7 @@ class BroadcastController extends Controller
     public function markSongRequestAsPlayed(SongRequest $songRequest)
     {
         $songRequest->update([
-            'is_played' => true,
+            'was_reproduced' => true,
         ]);
 
         return $this->flashMessage('songRequestPlayed');
@@ -126,7 +128,7 @@ class BroadcastController extends Controller
         return Inertia::render($this->render, [
             "programs" => $this->indexPrograms(),
             "onair" => $this->showOnair(),
-            //"songRequests" => $this->indexSongRequests(),
+            "requests" => $this->indexSongRequests(),
         ]);
     }
 }

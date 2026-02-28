@@ -17,8 +17,8 @@ class SongRequestFactory extends Factory
     public function definition(): array
     {
         return [
-            'is_played' => false,
-            'is_canceled' => false,
+            'was_reproduced' => false,
+            'was_canceled' => false,
             'ip' => fake()->ipv4(),
             'name' => fake()->userName(),
             'address' => fake()->address(),

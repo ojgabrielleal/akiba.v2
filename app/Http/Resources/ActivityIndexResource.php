@@ -19,6 +19,7 @@ class ActivityIndexResource extends JsonResource
                 'name' => $this->author->name,
                 'nickname' => $this->author->nickname,
                 'avatar' => $this->author->avatar,
+                'gender' => $this->author->gender
 
             ],
             'confirmations' => $this->confirmations->map(fn($item) => [
