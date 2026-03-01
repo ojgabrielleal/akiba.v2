@@ -54,7 +54,7 @@
                                 <button
                                     type="button"
                                     aria-label="Confirmar alerta"
-                                    class="w-[2rem] h-[2rem] bg-neutral-aurora absolute bottom-3 right-4 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer"
+                                    class="w-8 h-8 bg-neutral-aurora absolute bottom-3 right-4 rounded-md flex justify-center items-center font-noto-sans italic font-bold cursor-pointer"
                                     on:click={() => requestConfirmActivityParticipant(item.uuid)}
                                 >
                                     <img src="/svg/default/verify.svg" alt="" aria-hidden="true" class="w-5" loading="lazy"/>
@@ -64,7 +64,7 @@
                     </article>
                 {/each}
             {:else}
-                <article class="w-100 h-50 lg:w-[29rem] bg-blue-cerulean opacity-50 flex-shrink-0 rounded-lg p-4 relative">
+                <article class="w-100 h-50 lg:w-116 bg-blue-cerulean opacity-50 shrink-0 rounded-lg p-4 relative">
                     <div class="font-noto-sans font-black italic uppercase text-neutral-aurora text-xl">
                         Aki-chan
                     </div>

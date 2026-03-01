@@ -1,10 +1,15 @@
 <script>
-    import { useForm, page, router } from "@inertiajs/svelte";
+    import { useForm, page } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
     import { hasPermission } from "@/utils";
     import avatarJson from "@/data/broadcast/avatar.json";
 
-    $: ({ programs   } = $page.props);
+    $: ({ programs } = $page.props);
+
+    let permissions = {
+        show_button_start_broadcast: hasPermission('broadcast.start'),
+        show_carrousel_programs: hasPermission('program.list')
+    }
 
     let form = useForm({
         program: null,
@@ -19,7 +24,7 @@
 
 <Section title="Meus Programas">
     <form on:submit|preventDefault={submit}>
-        {#if programs.data.length > 0}
+        {#if permissions.show_carrousel_programs && programs.data.length > 0}
             <div class="flex flex-wrap justify-center gap-15 lg:gap-x-0 lg:gap-y-15 0 mt-10 mb-20">
                 {#each programs.data as item}
                     <button on:click={() => {$form.program = item.uuid}} type="button" aria-label={item.name} class="flex-none cursor-pointer lg:px-10 lg:border-r-2 lg:border-neutral-aurora/10 lg:last:border-0">
@@ -58,10 +63,12 @@
                 {/each}
             </div>
         </div>
-        <div class="flex justify-end">
-            <button type="submit" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
-                Iniciar
-            </button>
-        </div>
+        {#if permissions.show_button_start_broadcast}
+            <div class="flex justify-end">
+                <button type="submit" class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
+                    Iniciar
+                </button>
+            </div>
+        {/if}
     </form>
 </Section>

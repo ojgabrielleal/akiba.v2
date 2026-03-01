@@ -1,42 +1,59 @@
 <script>
     import { page, router, usePoll } from "@inertiajs/svelte";
     import { Section } from "@/ui/components/private/";
+    import { hasPermission } from "@/utils";
 
+    $: ({ onair, songrequests } = $page.props);
+    
+    let permissions = {
+        show_button_finish_broadcast: hasPermission('broadcast.finish'),
+        show_button_toggle_song_request: hasPermission('songrequest.toggle'),
+        show_button_reproduce_song_request: hasPermission('songrequest.reproduce'),
+        show_button_cancel_song_request: hasPermission('songrequest.cancel'),
+    }
+    
+    const requestToggleSongRequest = () => {
+        router.patch("/painel/locucao/songrequest/toggle")
+    }
+    
+    const markToReproduced = (songrequest) => {
+        router.patch(`/painel/locucao/songrequest/${songrequest}/played`)
+    }
+    
+    const markToCanceled = (songrequest) => {
+        router.patch(`/painel/locucao/songrequest/${songrequest}/canceled`)
+    }
+    
+    const requestFinishBroadcast = () => {
+        router.patch(`/painel/locucao/broadcast/finish`)
+    }
+    
     usePoll(60*1000)
-    $: ({ onair, requests } = $page.props);
-
-    const markToGranted = (id) => {
-        router.put(`/painel/locucao/set/granted/listener/requests/${id}`)
-    }
-
-    const markToCanceled = (id) => {
-        router.put(`/painel/locucao/set/cancel/listener/requests/${id}`)
-    }
-
-    const changeStatus = () => {
-        router.put("/painel/locucao/set/status/listener/requests")
-    }
 </script>
 
 <Section title="Pedidos musicais">
     <div id='requests' class="relative">
-        <button class="cursor-pointer absolute right-0 w-full lg:w-auto py-2 px-6 border-4 border-solid border-red-crimson rounded-xl text-red-crimson text-xl font-bold font-noto-sans italic uppercase">
-            Encerrar
-        </button>
-        <div class="flex justify-center">
-            {#if onair.data.allows_song_requests}
-                <button on:click={() => changeStatus()} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-neutral-honeycream rounded-xl text-neutral-honeycream text-xl font-bold font-noto-sans italic uppercase">
-                    Parar de receber
-                </button>
-            {:else}
-                <button on:click={() => changeStatus()} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
-                    Começar a receber
-                </button>
-            {/if}
-        </div>
+        {#if permissions.show_button_finish_broadcast}
+            <button on:click={()=>requestFinishBroadcast()} class="cursor-pointer absolute right-0 w-full lg:w-auto py-2 px-6 border-4 border-solid border-red-crimson rounded-xl text-red-crimson text-xl font-bold font-noto-sans italic uppercase">
+                Encerrar
+            </button>
+        {/if}
+        {#if permissions.show_button_toggle_song_request}
+            <div class="flex justify-center">
+                {#if onair.data.allows_song_requests}
+                    <button on:click={() => requestToggleSongRequest()} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-neutral-honeycream rounded-xl text-neutral-honeycream text-xl font-bold font-noto-sans italic uppercase">
+                        Parar de receber
+                    </button>
+                {:else}
+                    <button on:click={() => requestToggleSongRequest()} class="cursor-pointer w-full lg:w-auto py-2 px-6 border-4 border-solid border-green-forest rounded-xl text-green-forest text-xl font-bold font-noto-sans italic uppercase">
+                        Começar a receber
+                    </button>
+                {/if}
+            </div>
+        {/if}
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 gap-2 mt-10">
-        {#each requests.data as item}
+        {#each songrequests.data as item}
             <article class={['w-full 2xl:w-[23.6rem] rounded-lg p-3', 
                 {'bg-green-forest': item.was_reproduced},
                 {'bg-red-crimson': item.was_canceled},
@@ -96,12 +113,16 @@
                     </time>
                     <div class="flex gap-3">
                         {#if !item.was_reproduced && !item.was_canceled}
-                            <button on:click={() => markToCanceled(item.id)} aria-label="Marcar como cancelado" class="cursor-pointer">
-                                <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-6 filter-neutral-aurora" loading="lazy"/>
-                            </button>
-                            <button on:click={() => markToGranted(item.id)} aria-label="Marcar como atendido"class="cursor-pointer">
-                                <img src="/svg/default/like.svg" alt="" aria-hidden="true" class="w-6 filter-neutral-aurora" loading="lazy"/>
-                            </button>
+                            {#if permissions.show_button_cancel_song_request}
+                                <button on:click={() => markToCanceled(item.uuid)} aria-label="Marcar como cancelado" class="cursor-pointer">
+                                    <img src="/svg/default/close.svg" alt="" aria-hidden="true" class="w-6 filter-neutral-aurora" loading="lazy"/>
+                                </button>
+                            {/if}
+                            {#if permissions.show_button_reproduce_song_request}
+                                <button on:click={() => markToReproduced(item.uuid)} aria-label="Marcar como atendido"class="cursor-pointer">
+                                    <img src="/svg/default/like.svg" alt="" aria-hidden="true" class="w-6 filter-neutral-aurora" loading="lazy"/>
+                                </button>
+                            {/if}
                         {/if}
                     </div>
                 </div>

@@ -17,6 +17,7 @@ use App\Http\Resources\SongRequestIndexResource;
 
 use App\Services\External\DiscordWebhookService;
 use App\Traits\HasFlashMessages;
+use Illuminate\Support\Facades\Log;
 
 class BroadcastController extends Controller
 {
@@ -34,7 +35,7 @@ class BroadcastController extends Controller
     {
         return ProgramIndexResource::collection(
             Program::active()
-                ->where(function($q) {
+                ->where(function ($q) {
                     $q->where('user_id', request()->user()->id)
                         ->orWhere('allows_all', true);
                 })
@@ -58,8 +59,8 @@ class BroadcastController extends Controller
 
     public function startBroadcast(Request $request, Program $program)
     {
-        $request ->validate([
-            'phrase' => 'required', 
+        $request->validate([
+            'phrase' => 'required',
             'image' => 'required'
         ]);
 
@@ -67,6 +68,12 @@ class BroadcastController extends Controller
             'is_live' => false,
             'song_requests_total' => false,
         ]);
+
+        if($program->allows_all){
+            $program->update([
+                'user_id' => request()->user()->id
+            ]);
+        }
 
         $program->onair()->create([
             'type' => 'live',
@@ -81,27 +88,28 @@ class BroadcastController extends Controller
 
     public function finishBroadcast()
     {
-        $onair = Onair::live()->get();
-        $songRequests = SongRequest::queued()->where('onair_id', $onair->id)->get();
-        $autoDJ = AutoDJ::with('phrases')->get();
-        $autoDJPhrase = $autoDJ->phrases->random();
-
-        $songRequests->update([
-            'was_canceled' => true,
-        ]);
-
+        $onair = Onair::live()->first();
         $onair->update([
             'is_live' => false,
-            'song_requests_total' => false,
+            'allows_song_requests' => false,
         ]);
 
-        $autoDJ->onair()->create([
-            'type' => 'auto_dj',
-            'phrase' => $autoDJPhrase->phrase,
-            'image' => $autoDJPhrase->image,
+        $autodj = AutoDJ::with('phrases')->first();
+        $phrase = $autodj->phrases->random();
+        $autodj->onair()->create([
+            'type' => 'auto',
+            'phrase' => $phrase->phrase,
+            'image' => $phrase->image,
         ]);
 
-        return $this->flashMessage('finishBroadcast');
+        SongRequest::where('onair_id', $onair->id)
+            ->where('was_reproduced', false)
+            ->where('was_canceled', false)
+            ->update([
+                'was_canceled' => true,
+            ]);
+
+        return $this->flashMessage('finish');
     }
 
     public function markSongRequestAsPlayed(SongRequest $songRequest)
@@ -110,14 +118,26 @@ class BroadcastController extends Controller
             'was_reproduced' => true,
         ]);
 
-        return $this->flashMessage('songRequestPlayed');
+        $songRequest->onair()->increment('song_requests_total');
+        return $this->flashMessage('save');
     }
 
-    public function toggleSongRequestBoxEnabled()
+    public function markSongRequestAsCanceled(SongRequest $songRequest)
     {
-        $onair = Onair::live()->get();
+        $songRequest->update([
+            'was_canceled' => true,
+        ]);
+
+        $songRequest->onair()->decrement('song_requests_total');
+        return $this->flashMessage('save');
+    }
+
+
+    public function toggleSongRequestBoxStatus()
+    {
+        $onair = Onair::live()->first();
         $onair->update([
-            'song_requests_total' => !$onair->song_requests_total,
+            'allows_song_requests' => !$onair->allows_song_requests,
         ]);
 
         return $this->flashMessage('save');
@@ -128,7 +148,7 @@ class BroadcastController extends Controller
         return Inertia::render($this->render, [
             "programs" => $this->indexPrograms(),
             "onair" => $this->showOnair(),
-            "requests" => $this->indexSongRequests(),
+            "songrequests" => $this->indexSongRequests(),
         ]);
     }
 }

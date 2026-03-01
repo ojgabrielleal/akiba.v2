@@ -57,11 +57,12 @@ Route::prefix('painel')->group(function () {
         Route::prefix('locucao')->controller(BroadcastController::class)->group(function () {
             Route::prefix('broadcast')->group(function () {
                 Route::post('start/{program:uuid}', 'startBroadcast');
-                Route::post('finish', 'finishBroadcast');
+                Route::patch('finish', 'finishBroadcast');
             });
-            Route::prefix('song-request')->group(function () {
-                Route::post('{songRequest}/played', 'markSongRequestAsPlayed');
-                Route::post('status/toggle', 'toggleSongRequestBoxEnabled');
+            Route::prefix('songrequest')->group(function () {
+                Route::patch('{songRequest:uuid}/played', 'markSongRequestAsPlayed');
+                Route::patch('{songRequest:uuid}/canceled', 'markSongRequestAsCanceled');
+                Route::patch('toggle', 'toggleSongRequestBoxStatus');
             });
             Route::get('', 'render')->name('painel.locucao');
         });

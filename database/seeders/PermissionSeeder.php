@@ -95,11 +95,34 @@ class PermissionSeeder extends Seeder
             | Eventos
             |--------------------------------------------------------------------------
             */
-            ['name' => 'event.list', 'label' => 'Listar events'],
-            ['name' => 'event.view', 'label' => 'Visualizar event'],
-            ['name' => 'event.create', 'label' => 'Criar event'],
-            ['name' => 'event.update', 'label' => 'Atualizar event'],
-            ['name' => 'event.deactivate', 'label' => 'Desativar event'],
+            ['name' => 'event.list', 'label' => 'Listar eventos'],
+            ['name' => 'event.view', 'label' => 'Visualizar evento'],
+            ['name' => 'event.create', 'label' => 'Criar evento'],
+            ['name' => 'event.update', 'label' => 'Atualizar evento'],
+            ['name' => 'event.deactivate', 'label' => 'Desativar evento'],
+
+            
+            /*
+            |--------------------------------------------------------------------------
+            | Locução
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'broadcast.start', 'label' => 'Iniciar programa'],
+            ['name' => 'broadcast.finish', 'label' => 'Encerrar programa'],
+            ['name' => 'songrequest.reproduce', 'label' => 'Atender pedido musical'],
+            ['name' => 'songrequest.cancel', 'label' => 'Cancelar pedido musical'],
+            ['name' => 'songrequest.toggle', 'label' => 'Habilitar ou desabilitar pedidos musicais'],
+
+            /*
+            |--------------------------------------------------------------------------
+            | Programas
+            |--------------------------------------------------------------------------
+            */
+            ['name' => 'program.list', 'label' => 'Listar programas'],
+            ['name' => 'program.view', 'label' => 'Visualizar programa'],
+            ['name' => 'program.create', 'label' => 'Criar programa'],
+            ['name' => 'program.update', 'label' => 'Atualizar programa'],
+            ['name' => 'program.deactivate', 'label' => 'Desativar programa'],
 
         ];
         

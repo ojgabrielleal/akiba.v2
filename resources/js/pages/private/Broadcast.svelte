@@ -22,7 +22,7 @@
     {/if}
 </Layout>
 
-{#if (onair.data.type !== 'auto' || onair.data.type === 'live' || onair.data.type === 'record') && onair.data.program.host.uuid !== user.uuid}
+{#if (onair.data.type !== 'auto' && onair.data.type !== 'playlist') && onair.data.program.host.uuid !== user.uuid}
     <section transition:fade={{duration: 500}} class="fixed inset-0 flex items-center justify-center p-2 lg:p-0 z-50 bg-black/20 backdrop-blur-sm">
         <div class="w-full lg:w-92 p-5 rounded-lg bg-neutral-aurora">
             <div class="flex justify-center">
